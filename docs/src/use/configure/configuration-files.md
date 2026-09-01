@@ -45,7 +45,7 @@ export default defineConfig([
 
 In this example, the `defineConfig()` helper is used to define a configuration array with just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
-If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
+If your project specifies `"type": "commonjs"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
 
 ```js
 // eslint.config.js
@@ -70,7 +70,7 @@ Each configuration object contains all of the information ESLint needs to execut
 - `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 - `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignore-files-with-ignores) and it gets applied to every configuration object.
 - `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
-- `language` - A string specifying the [language](../../extend/languages) used for linting, in the format `"plugin/language"`, e.g. `"markdown/commonmark"`. (default: `"js/js"` for JavaScript)
+- `language` - A string specifying the [language](../../extend/languages) used for linting, in the format `"pluginName/languageName"`, e.g. `"markdown/commonmark"`. (default: `"js/js"` for JavaScript)
 - `languageOptions` - An object containing settings related to how the specified language is configured for linting. For JavaScript, the settings are:
     - `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     - `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
@@ -191,13 +191,13 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
 	{
-		files: [["src/*", "**/.js"]],
+		files: [["src/*", "**/*.js"]],
 	},
 	// ...other config
 ]);
 ```
 
-The pattern `["src/*", "**/.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
+The pattern `["src/*", "**/*.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
 
 #### Exclude files with `ignores`
 

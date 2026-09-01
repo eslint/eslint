@@ -86,8 +86,8 @@ You can view all the CLI options by running `npx eslint -h`.
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  --no-config-lookup               Disable look up for eslint.config.js
-  -c, --config path::String        Use this configuration instead of eslint.config.js, eslint.config.mjs, or eslint.config.cjs
+  --no-config-lookup               Disable look up for eslint.config.*
+  -c, --config path::String        Use this configuration instead of eslint.config.* look up
   --inspect-config                 Open the config inspector with the current configuration
   --ext [String]                   Specify additional file extensions to lint
   --global [String]                Define global variables
@@ -794,7 +794,7 @@ Suppresses violations for specific rules, so that they are not being reported in
 
 Specify the path to the suppressions location. Can be a file or a directory.
 
-- **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
+- **Argument Type**: String. Path to file or directory. If a directory is specified, a suppressions file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
 - **Multiple Arguments**: No
 - **Default Value**: If no location is specified, `eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
 

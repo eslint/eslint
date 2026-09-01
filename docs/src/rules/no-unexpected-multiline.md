@@ -1,10 +1,6 @@
 ---
 title: no-unexpected-multiline
 rule_type: problem
-related_rules:
-- func-call-spacing
-- semi
-- space-unary-ops
 ---
 
 

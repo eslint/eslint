@@ -1330,7 +1330,7 @@ describe("FlatConfigArray", () => {
 							processor: "foo",
 						},
 					],
-					"pluginName/objectName",
+					"pluginName/processorName",
 				);
 			});
 
@@ -1341,7 +1341,7 @@ describe("FlatConfigArray", () => {
 							processor: "",
 						},
 					],
-					"pluginName/objectName",
+					"pluginName/processorName",
 				);
 			});
 
@@ -1572,6 +1572,41 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					));
+			});
+		});
+
+		describe("language", () => {
+			it("should error when an invalid string is used", () => {
+				assertInvalidConfig(
+					[
+						{
+							language: "js",
+						},
+					],
+					"pluginName/languageName",
+				);
+			});
+
+			it("should error when an empty string is used", () => {
+				assertInvalidConfig(
+					[
+						{
+							language: "",
+						},
+					],
+					"pluginName/languageName",
+				);
+			});
+
+			it("should error when a language cannot be found in a plugin", () => {
+				assertInvalidConfig(
+					[
+						{
+							language: "foo/bar",
+						},
+					],
+					/Key "language": Could not find "bar" in plugin "foo"\./u,
+				);
 			});
 		});
 

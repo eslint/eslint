@@ -26,6 +26,10 @@ ruleTester.run("no-eq-null", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -34,6 +38,10 @@ ruleTester.run("no-eq-null", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -42,6 +50,10 @@ ruleTester.run("no-eq-null", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},

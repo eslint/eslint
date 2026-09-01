@@ -2,7 +2,6 @@
 title: id-length
 rule_type: suggestion
 related_rules:
-- max-len
 - new-cap
 - func-names
 - camelcase

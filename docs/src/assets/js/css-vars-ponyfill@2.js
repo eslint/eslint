@@ -341,7 +341,7 @@
 			u = r.indexOf(t, i + 1),
 			l = i;
 		if (i >= 0 && u > 0) {
-			for (n = [], s = r.length; l >= 0 && !c; )
+			for (n = [], s = r.length; l >= 0 && !c;)
 				(l == i
 					? (n.push(l), (i = r.indexOf(e, l + 1)))
 					: 1 == n.length
@@ -377,7 +377,7 @@
 		}
 		function u() {
 			if ((i(), "/" === t[0] && "*" === t[1])) {
-				for (var e = 2; t[e] && ("*" !== t[e] || "/" !== t[e + 1]); )
+				for (var e = 2; t[e] && ("*" !== t[e] || "/" !== t[e + 1]);)
 					e++;
 				if (!t[e]) return n("end of comment is missing");
 				var r = t.slice(2, e);
@@ -385,11 +385,11 @@
 			}
 		}
 		function l() {
-			for (var e, t = []; (e = u()); ) t.push(e);
+			for (var e, t = []; (e = u());) t.push(e);
 			return r.removeComments ? [] : t;
 		}
 		function f() {
-			for (i(); "}" === t[0]; ) n("extra closing bracket");
+			for (i(); "}" === t[0];) n("extra closing bracket");
 			var e = o(/^(("(?:\\"|[^"])*"|'(?:\\'|[^'])*'|[^{])+)/);
 			if (e)
 				return e[0]
@@ -426,15 +426,12 @@
 		}
 		function p() {
 			if (!a()) return n("missing '{'");
-			for (var e, t = l(); (e = d()); ) (t.push(e), (t = t.concat(l())));
+			for (var e, t = l(); (e = d());) (t.push(e), (t = t.concat(l())));
 			return c() ? t : n("missing '}'");
 		}
 		function m() {
 			i();
-			for (
-				var e, t = [];
-				(e = o(/^((\d+\.\d+|\.\d+|\d+)%?|[a-z]+)\s*/));
-			)
+			for (var e, t = []; (e = o(/^((\d+\.\d+|\.\d+|\d+)%?|[a-z]+)\s*/));)
 				(t.push(e[1]), o(/^,\s*/));
 			if (t.length)
 				return { type: "keyframe", values: t, declarations: p() };
@@ -451,7 +448,7 @@
 							var r,
 								s = e[1];
 							if (!a()) return n("@keyframes missing '{'");
-							for (var i = l(); (r = m()); )
+							for (var i = l(); (r = m());)
 								(i.push(r), (i = i.concat(l())));
 							return c()
 								? {

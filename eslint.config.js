@@ -11,6 +11,7 @@
 
 const path = require("node:path");
 const internalPlugin = require("./tools/internal-rules");
+const coreRules = require("./lib/rules");
 const eslintPluginESLint = require("eslint-plugin-eslint-plugin").default;
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
@@ -18,7 +19,11 @@ const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
 const expectType = require("eslint-plugin-expect-type");
 const tsParser = require("@typescript-eslint/parser");
-const { defineConfig, globalIgnores } = require("./lib/config-api.js");
+const {
+	defineConfig,
+	globalIgnores,
+	includeIgnoreFile,
+} = require("./lib/config-api.js");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -39,6 +44,9 @@ const INTERNAL_FILES = Object.fromEntries(
 
 const ALL_JS_FILES = "**/*.js";
 const ALL_YAML_FILES = "**/*.y?(a)ml";
+const DEPRECATED_CORE_RULE_FILES = Array.from(coreRules.entries())
+	.filter(([, rule]) => rule.meta.deprecated)
+	.map(([ruleId]) => `lib/rules/${ruleId}.js`);
 
 /**
  * Resolve an absolute path or glob pattern.
@@ -77,21 +85,18 @@ module.exports = defineConfig([
 		files: [ALL_JS_FILES],
 		extends: [eslintConfigESLintCJS],
 	},
+	includeIgnoreFile(path.join(__dirname, ".gitignore"), {
+		gitignoreResolution: true,
+	}),
 	globalIgnores(
 		[
-			"build/**",
-			"coverage/**",
 			"docs/!(src|tools)/",
 			"docs/src/!(_data)",
-			"jsdoc/**",
 			"lib/types/**/*.ts",
 			"templates/**",
 			"tests/bench/**",
 			"tests/fixtures/**",
 			"tests/performance/**",
-			"tmp/**",
-			"**/test.js",
-			".vscode",
 		],
 		"eslint/global-ignores",
 	),
@@ -135,9 +140,26 @@ module.exports = defineConfig([
 			"internal-rules/no-invalid-meta": "error",
 
 			"eslint-plugin/require-meta-schema-description": "off",
-
-			// TODO: Consider enabling these for non-deprecated rules
+		},
+	},
+	{
+		name: "eslint/deprecated-rules",
+		files: DEPRECATED_CORE_RULE_FILES,
+		rules: {
 			"eslint-plugin/no-meta-schema-default": "off",
+			"eslint-plugin/require-meta-default-options": "off",
+		},
+	},
+	{
+		name: "eslint/rules-without-default-options",
+		files: [
+			"lib/rules/no-param-reassign.js",
+			"lib/rules/no-restricted-globals.js",
+			"lib/rules/no-restricted-imports.js",
+			"lib/rules/prefer-destructuring.js",
+			"lib/rules/radix.js",
+		],
+		rules: {
 			"eslint-plugin/require-meta-default-options": "off",
 		},
 	},
@@ -211,7 +233,7 @@ module.exports = defineConfig([
 	// JSONC files
 	{
 		name: "eslint/jsonc",
-		files: ["knip.jsonc"],
+		files: ["**/tsconfig*.json", "knip.jsonc"],
 		plugins: { json },
 		language: "json/jsonc",
 		languageOptions: { allowTrailingCommas: true },
@@ -340,14 +362,14 @@ module.exports = defineConfig([
 	})),
 	{
 		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts,tsx}"],
+		files: ["**/*.{ts,mts,cts}"],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {
 				project: [
 					"tests/lib/types/tsconfig.json",
 					"packages/js/tests/types/tsconfig.json",
-					"packages/eslint-config-eslint/tsconfig.json",
+					"packages/eslint-config-eslint/tests/types/tsconfig.json",
 				],
 			},
 		},

@@ -22,6 +22,16 @@ ruleTester.run("no-async-promise-executor", rule, {
 		"new Promise((resolve, reject) => {})",
 		"new Promise((resolve, reject) => {}, async function unrelated() {})",
 		"new Foo(async (resolve, reject) => {})",
+		"/* global Promise:off */ new Promise(async (resolve, reject) => {})",
+		{
+			code: "new Promise(async (resolve, reject) => {})",
+			languageOptions: {
+				globals: { Promise: "off" },
+			},
+		},
+		"let Promise; new Promise(async (resolve, reject) => {})",
+		"function f() { new Promise(async (resolve, reject) => {}); var Promise; }",
+		"function f(Promise) { new Promise(async (resolve, reject) => {}); }",
 	],
 
 	invalid: [

@@ -4789,5 +4789,303 @@ try {
 				]),
 			],
 		},
+
+		// ASI hazard: Safe removal of function after BlockStatement
+		{
+			code: "if (true) {}\nfunction unused() {}\n(console.log)()",
+			errors: [
+				definedError("unused", [
+					{
+						output: "if (true) {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Safe removal of function after ClassBody
+		{
+			code: "export class A {}\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused", [
+					{
+						output: "export class A {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Safe removal of function after SwitchStatement
+		{
+			code: "switch (1) {}\nfunction unused() {}\n(console.log)()",
+			errors: [
+				definedError("unused", [
+					{
+						output: "switch (1) {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Unsafe removal of function after FunctionExpression
+		{
+			code: "export const f = function() {}\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [definedError("unused")],
+		},
+
+		// ASI hazard: Unsafe removal of function after ObjectExpression
+		{
+			code: "export const obj = { a: 1 }\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [definedError("unused")],
+		},
+
+		// ASI hazard: FunctionDeclaration removal followed by (
+		{
+			code: "const x = 1\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: FunctionDeclaration removal followed by /
+		{
+			code: "const x = 1\nfunction unused() {}\n/regex/.test('a')",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n/regex/.test('a')",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: ClassDeclaration removal followed by (
+		{
+			code: "const x = 1\nclass Unused {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nclass Unused {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("Unused"),
+			],
+		},
+
+		// ASI hazard: multi-declaration last declarator removal followed by (
+		{
+			code: "const x = 1,\n      y = () => {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// ASI hazard: multi-declaration last declarator removal followed by ( with destructuring
+		{
+			code: "const { x } = obj,\n      y = () => {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration after semicolon
+		{
+			code: "var x = 1;\nfunction unused() {}\nvar z = 3",
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\nvar z = 3",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused", [
+					{
+						output: "var x = 1;\n\nvar z = 3",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				assignedError("z", [
+					{
+						output: "var x = 1;\nfunction unused() {}\n",
+						messageId: "removeVar",
+						data: { varName: "z" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: ClassDeclaration inside block
+		{
+			code: "{ console.log(); class Unused {} }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				definedError("Unused", [
+					{
+						output: "{ console.log();  }",
+						messageId: "removeVar",
+						data: { varName: "Unused" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration is the last statement
+		{
+			code: "console.log();\nfunction unused() {}",
+			errors: [
+				definedError("unused", [
+					{
+						output: "console.log();\n",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: ClassDeclaration is the last statement
+		{
+			code: "console.log();\nclass Unused {}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				definedError("Unused", [
+					{
+						output: "console.log();\n",
+						messageId: "removeVar",
+						data: { varName: "Unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard abort: missing semicolon before function declaration (not strictly required but aborts to be safe)
+		{
+			code: "const before = true\nfunction unused() {}\nif (before) {}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [definedError("unused")],
+		},
+
+		// Safe removal: FunctionDeclaration with comment before
+		{
+			code: "/* comment */\nfunction unused() {}\n(a) => {}",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused", [
+					{
+						output: "/* comment */\n\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				definedError("a", [
+					{
+						output: "/* comment */\nfunction unused() {}\n() => {}",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration with comment after
+		{
+			code: "const x = 1;\nfunction unused() {}\n/* comment */\n(a) => {}",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n/* comment */\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused", [
+					{
+						output: "const x = 1;\n\n/* comment */\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				definedError("a", [
+					{
+						output: "const x = 1;\nfunction unused() {}\n/* comment */\n() => {}",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: removing last variable declarator without semicolon
+		{
+			code: "const x = 1,\n      y = () => {}\n() => {};",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n() => {};",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// Safe removal: last variable declarator with semicolon
+		{
+			code: "var a = 1, b = 2; console.log(a)",
+			options: ["all"],
+			errors: [
+				assignedError("b", [
+					{
+						output: "var a = 1; console.log(a)",
+						messageId: "removeVar",
+						data: { varName: "b" },
+					},
+				]),
+			],
+		},
 	],
 });

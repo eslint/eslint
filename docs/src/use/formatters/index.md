@@ -416,6 +416,17 @@ Example output (formatted for easier reading):
                         ]
                     }
                 ],
+                "defaultOptions": [
+                    {
+                        "vars": "all",
+                        "args": "after-used",
+                        "ignoreRestSiblings": false,
+                        "caughtErrors": "all",
+                        "ignoreClassWithStaticInitBlock": false,
+                        "ignoreUsingDeclarations": false,
+                        "reportUsedIgnorePattern": false
+                    }
+                ],
                 "messages": {
                     "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}.",
                     "usedIgnoredVar": "'{{varName}}' is marked as ignored but is used{{additional}}.",

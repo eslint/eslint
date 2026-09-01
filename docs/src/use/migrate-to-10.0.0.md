@@ -9,6 +9,25 @@ eleventyNavigation:
 
 ESLint v10.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
 
+To help with this migration, ESLint provides migration codemods to automate many of the changes described in this guide. All official ESLint codemods are available in the [eslint/codemods](https://github.com/eslint/codemods) repository and through the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
+
+## Use migration codemods
+
+The `@eslint/v9-to-v10` codemod upgrades ESLint projects from v9 to v10. It includes four individual codemods that can also be run independently:
+
+- `@eslint/v9-to-v10-config`: Remove legacy env vars and CLI flags
+- `@eslint/v9-to-v10-custom-rules`: Replace removed `context` and `SourceCode` methods
+- `@eslint/v9-to-v10-ruletester`: Clean up `RuleTester` test cases
+- `@eslint/v9-to-v10-linter-api`: Fix `Linter`/`ESLint` API usage
+
+```shell
+npx codemod @eslint/v9-to-v10
+```
+
+Learn more in the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
+
+Codemods are a starting point. Review the changes and consult the breaking changes below for anything the codemods do not cover.
+
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
 ## Table of Contents
@@ -82,9 +101,11 @@ Three new rules have been enabled in `eslint:recommended`:
 
 In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10.0.0, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
 
+**Codemod:** Use the [@eslint/v9-to-v10-config](#use-migration-codemods) codemod to remove legacy flags from your setup.
+
 **To address:**
 
-- Remove any usage of the flag in your setup:
+- Remove legacy flags manually:
     - CLI: remove `--flag v10_config_lookup_from_file`.
     - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
     - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
@@ -98,9 +119,11 @@ ESLint v9 introduced a [new default configuration format](./configure/configurat
 
 Starting with ESLint v10.0.0, the old configuration format is no longer supported.
 
+**Codemod:** Use the [@eslint/v9-to-v10](#use-migration-codemods) codemod to automate much of this migration. Use the [@eslint/v9-to-v10-linter-api](#use-migration-codemods) codemod to update deprecated `FlatESLint` and `LegacyESLint` usage.
+
 **To address:**
 
-- Follow the instructions in the [configuration migration guide](./configure/migration-guide).
+- Or follow the instructions in the [configuration migration guide](./configure/migration-guide).
 - Be aware that the deprecated APIs `FlatESLint` and `LegacyESLint` have been removed. Always use `ESLint` instead.
 - The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
 
@@ -267,7 +290,9 @@ This change should not require any action for most users. However, if you are us
 
 In ESLint v10.0.0, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
 
-**To address:** Remove the `type` property from error objects in invalid test cases.
+**Codemod:** Use the [@eslint/v9-to-v10-ruletester](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove the `type` property from error objects in invalid test cases manually.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
 
@@ -336,6 +361,8 @@ In ESLint v9.x, we deprecated the following [methods](https://eslint.org/blog/20
 
 In ESLint v10.0.0, all of these members have been removed.
 
+**Codemod:** Use the [@eslint/v9-to-v10-custom-rules](#use-migration-codemods) codemod to automate this change.
+
 **To address:** In your custom rules, make the following changes:
 
 | **Removed on `context`**        | **Replacement on `context`**                                         |
@@ -375,6 +402,8 @@ The following deprecated `SourceCode` methods have been removed in ESLint v10.0.
 
 These methods have been deprecated for multiple major versions and were primarily used by deprecated formatting rules and internal ESLint utilities. Custom rules using these methods must be updated to use their modern replacements.
 
+**Codemod:** Use the [@eslint/v9-to-v10-custom-rules](#use-migration-codemods) codemod to automate this change.
+
 **To address:** In your custom rules, make the following changes:
 
 | **Removed on `SourceCode`**                  | **Replacement**                                                |
@@ -412,7 +441,9 @@ const validTestCases = [
 ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
 ```
 
-**To address:** Remove any `errors`/`output` properties from valid test cases.
+**Codemod:** Use the [@eslint/v9-to-v10-ruletester](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove any `errors`/`output` properties from valid test cases manually.
 
 **Related issue(s):** [#18960](https://github.com/eslint/eslint/issues/18960)
 
@@ -420,6 +451,8 @@ ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
 
 In ESLint v10.0.0, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
 
-**To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
+**Codemod:** Use the [@eslint/v9-to-v10-linter-api](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove all usages of `message.nodeType` in your integrations and formatters manually.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)

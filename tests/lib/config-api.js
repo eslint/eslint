@@ -24,4 +24,8 @@ describe("config-api", () => {
 	it("should have globalIgnores exposed", () => {
 		assert.isFunction(api.globalIgnores);
 	});
+
+	it("should have includeIgnoreFile()` exposed", () => {
+		assert.isFunction(api.includeIgnoreFile);
+	});
 });

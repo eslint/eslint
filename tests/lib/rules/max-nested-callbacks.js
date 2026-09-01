@@ -64,6 +64,38 @@ ruleTester.run("max-nested-callbacks", rule, {
 			code: "foo(function() { bar(thing, function(data) {}); });",
 			options: [{ max: 3 }],
 		},
+
+		// callback detection
+		{
+			code: "(() => {})();",
+			options: [{ max: 0 }],
+		},
+		{
+			code: "(function() {})();",
+			options: [{ max: 0 }],
+		},
+
+		// Constructor calls
+		{
+			code: "new Promise(() => {});",
+			options: [0],
+		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0 }],
+		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0, checkConstructorCallCallbacks: false }],
+		},
+		{
+			code: "new (() => {})();",
+			options: [{ max: 0, checkConstructorCallCallbacks: true }],
+		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 1, checkConstructorCallCallbacks: true }],
+		},
 	],
 	invalid: [
 		{
@@ -73,6 +105,74 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 58,
+				},
+			],
+		},
+		{
+			code: "foo(function() { const helper = function() {}; bar(function() { baz(function() {}); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 69,
+					endLine: 1,
+					endColumn: 77,
+				},
+			],
+		},
+		{
+			code: "foo(function() { const helper = () => {}; bar(function() { baz(function() {}); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 72,
+				},
+			],
+		},
+		{
+			code: "foo(function() { bar(function() { baz(function() { qux(function() {}); }); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 39,
+					endLine: 1,
+					endColumn: 47,
+				},
+				{
+					messageId: "exceed",
+					data: { num: 4, max: 2 },
+					line: 1,
+					column: 56,
+					endLine: 1,
+					endColumn: 64,
+				},
+			],
+		},
+		{
+			code: "foo(function() { bar(function() { baz(function() { const qux = function() {}; }); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 39,
+					endLine: 1,
+					endColumn: 47,
 				},
 			],
 		},
@@ -84,6 +184,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 45,
+					endLine: 1,
+					endColumn: 53,
 				},
 			],
 		},
@@ -95,6 +199,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 44,
+					endLine: 1,
+					endColumn: 46,
 				},
 			],
 		},
@@ -105,6 +213,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 57,
+					endLine: 1,
+					endColumn: 65,
 				},
 			],
 		},
@@ -114,6 +226,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
+					line: 1,
+					column: 165,
+					endLine: 1,
+					endColumn: 173,
 				},
 			],
 		},
@@ -124,13 +240,26 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
+					line: 1,
+					column: 165,
+					endLine: 1,
+					endColumn: 173,
 				},
 			],
 		},
 		{
 			code: "foo(function() {})",
 			options: [{ max: 0 }],
-			errors: [{ messageId: "exceed", data: { num: 1, max: 0 } }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
 		},
 
 		// object property options
@@ -141,6 +270,112 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 58,
+				},
+			],
+		},
+
+		// callback detection
+		{
+			code: "fn('before', () => 'counted', 'after');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+		{
+			code: "object.method(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "(() => {})(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+
+		// Constructor calls
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0, checkConstructorCallCallbacks: true }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "fn(() => { new Promise(() => {}); });",
+			options: [{ max: 1, checkConstructorCallCallbacks: true }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "new Promise(() => { fn(() => {}); });",
+			options: [{ max: 1, checkConstructorCallCallbacks: true }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "new Promise(() => { new Promise(() => {}); });",
+			options: [{ max: 1, checkConstructorCallCallbacks: true }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 38,
 				},
 			],
 		},

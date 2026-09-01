@@ -181,6 +181,26 @@ ruleTester.run("prefer-arrow-callback", rule, {
 			errors,
 		},
 		{
+			code: "foo(async function /*\n*/ () { return 1; });",
+			output: null,
+			errors,
+		},
+		{
+			code: "foo(async function // c\n () { return 1; });",
+			output: null,
+			errors,
+		},
+		{
+			code: "foo(async function\n () { return 1; });",
+			output: null,
+			errors,
+		},
+		{
+			code: "foo(async function /* c */ () { return 1; });",
+			output: "foo(async  /* c */ () => { return 1; });",
+			errors,
+		},
+		{
 			code: "foo((bar || function() {}).bind(this))",
 			output: null,
 			errors,

@@ -21,6 +21,8 @@ const prismESLintHook = require("./tools/prism-eslint-hook");
 const preWrapperPlugin = require("./src/_plugins/pre-wrapper.js");
 const typescriptESLintParser = require("@typescript-eslint/parser");
 
+const markdownForFilter = markdownIt({ html: true });
+
 module.exports = function (eleventyConfig) {
 	/*
 	 * The docs stored in the eslint repo are loaded through eslint.org at
@@ -126,13 +128,9 @@ module.exports = function (eleventyConfig) {
 	 * parse markdown from includes, used for author bios
 	 * Source: https://github.com/11ty/eleventy/issues/658
 	 */
-	eleventyConfig.addFilter("markdown", value => {
-		const markdown = markdownIt({
-			html: true,
-		});
-
-		return markdown.render(value);
-	});
+	eleventyConfig.addFilter("markdown", value =>
+		markdownForFilter.render(value),
+	);
 
 	/*
 	 * Removes `.html` suffix from the given url.

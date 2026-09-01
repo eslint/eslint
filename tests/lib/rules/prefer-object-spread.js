@@ -377,6 +377,78 @@ ruleTester.run("prefer-object-spread", rule, {
 			],
 		},
 
+		{
+			code: "const result = doSomething()\nObject.assign({}, myData)",
+			output: "const result = doSomething()\n;({ ...myData})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "let a = foo + Object.assign({}, bar)",
+			output: "let a = foo + ({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "let foo = function() {};\nfoo\nObject.assign({}, bar)",
+			output: "let foo = function() {};\nfoo\n;({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({ foo: bar })",
+			output: "foo\n;({foo: bar})",
+			errors: [
+				{
+					messageId: "useLiteralMessage",
+				},
+			],
+		},
+		{
+			code: "foo();\nObject.assign({}, bar)",
+			output: "foo();\n({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "const x = [1]\nObject.assign({}, bar)",
+			output: "const x = [1]\n;({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({}, bar).doSomething()",
+			output: "foo\n;({ ...bar}).doSomething()",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({}, bar), 2",
+			output: "foo\n;({ ...bar}), 2",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
 		/*
 		 * This is a special case where Object.assign is called with a single argument
 		 * and that argument is an object expression. In this case we warn and display

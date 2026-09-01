@@ -68,9 +68,9 @@ The source file for a rule exports an object with the following properties. Both
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
-- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"pluginName/languageName"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
     - `"*"` — the rule works with any language.
-    - `"plugin/*"` — the rule works with any language provided by the given plugin.
+    - `"pluginName/*"` — the rule works with any language provided by the given plugin.
 
     If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
 
@@ -148,7 +148,7 @@ module.exports = {
 ```
 
 ::: tip
-You can view the complete AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view the complete AST for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 ## The Context Object
@@ -696,7 +696,7 @@ There are two formats for a rule's `schema`:
 - A full JSON Schema object that will validate the `context.options` array
     - The schema should assume an array of options to validate even if your rule only accepts one option.
     - The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.
-    - The supported version of JSON Schemas is [Draft-04](http://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
+    - The supported version of JSON Schemas is [Draft-04](https://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
         - At present, it is explicitly planned to not update schema support beyond this level due to ecosystem compatibility concerns. See [this comment](https://github.com/eslint/eslint/issues/13888#issuecomment-872591875) for further context.
 
 For example, the `yoda` rule accepts a primary mode argument of `"always"` or `"never"`, as well as an extra options object with an optional property `exceptRange`:
@@ -866,9 +866,7 @@ export default {
 	create(context) {
 		const [{ alias }] = context.options;
 
-		return {
-			/* ... */
-		};
+		return {/* ... */};
 	},
 };
 ```
@@ -896,7 +894,7 @@ ESLint may disable Ajv's `useDefaults` in a future major version.
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
 
 ::: tip
-You can view scope information for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view scope information for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 #### Scope types

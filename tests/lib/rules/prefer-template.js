@@ -408,5 +408,65 @@ ruleTester.run("prefer-template", rule, {
 			output: "`Hello ` + `'world' ${  test}`",
 			errors,
 		},
+
+		/*
+		 * Performance test for handling escape characters.
+		 * A quadratic-time regex would need several minutes,
+		 * thus exceeding the timeout for tests.
+		 */
+		{
+			code: `"${"\\".repeat(1_000_000)}" + test`,
+			output: `\`${"\\".repeat(1_000_000)}\${  test}\``,
+			errors,
+		},
+
+		// preceding semicolon needed
+		{
+			code: "foo\n'bar' + baz",
+			output: "foo\n;`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "foo()\n'bar' + baz",
+			output: "foo()\n;`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "foo[0]\n'bar' + baz",
+			output: "foo[0]\n;`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "`template`\n'bar' + baz",
+			output: "`template`\n;`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "'qux'\n'bar' + baz",
+			output: "'qux'\n;`bar${  baz}`",
+			errors,
+		},
+
+		// preceding semicolon not needed
+		{
+			code: "foo;\n'bar' + baz",
+			output: "foo;\n`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "if (foo) {}\n'bar' + baz",
+			output: "if (foo) {}\n`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "'bar' + baz",
+			output: "`bar${  baz}`",
+			errors,
+		},
+		{
+			code: "foo\nconsole.log('bar' + baz)", // not at the start of an expression statement
+			output: "foo\nconsole.log(`bar${  baz}`)",
+			errors,
+		},
 	],
 });
