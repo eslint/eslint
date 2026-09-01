@@ -49,6 +49,14 @@ ruleTester.run("no-control-regex", rule, {
 		String.raw`var regex = /\c1/`,
 		String.raw`var regex = /\c$/`,
 		String.raw`var regex = new RegExp('\\c1')`,
+		String.raw`var regex = /\cA/`,
+		String.raw`var regex = /\cz/`,
+		String.raw`var regex = new RegExp('\\cA')`,
+		{ code: String.raw`/\cA/u`, languageOptions: { ecmaVersion: 2015 } },
+		{
+			code: String.raw`/\cA/v`,
+			languageOptions: { ecmaVersion: 2024 },
+		},
 	],
 	invalid: [
 		{
@@ -241,58 +249,11 @@ ruleTester.run("no-control-regex", rule, {
 			],
 		},
 		{
-			code: String.raw`var regex = /\cA/`,
-			errors: [
-				{
-					messageId: "unexpected",
-					data: { controlChars: "\\x01" },
-				},
-			],
-		},
-		{
-			code: String.raw`var regex = /\cz/`,
-			errors: [
-				{
-					messageId: "unexpected",
-					data: { controlChars: "\\x1a" },
-				},
-			],
-		},
-		{
-			code: String.raw`var regex = new RegExp('\\cA')`,
-			errors: [
-				{
-					messageId: "unexpected",
-					data: { controlChars: "\\x01" },
-				},
-			],
-		},
-		{
 			code: String.raw`var regex = /\x1f\cA/`,
 			errors: [
 				{
 					messageId: "unexpected",
-					data: { controlChars: "\\x1f, \\x01" },
-				},
-			],
-		},
-		{
-			code: String.raw`/\cA/u`,
-			languageOptions: { ecmaVersion: 2015 },
-			errors: [
-				{
-					messageId: "unexpected",
-					data: { controlChars: "\\x01" },
-				},
-			],
-		},
-		{
-			code: String.raw`/\cA/v`,
-			languageOptions: { ecmaVersion: 2024 },
-			errors: [
-				{
-					messageId: "unexpected",
-					data: { controlChars: "\\x01" },
+					data: { controlChars: "\\x1f" },
 				},
 			],
 		},
