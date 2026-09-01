@@ -556,7 +556,7 @@ See Also:
 ESLint's code path analysis is an approximation of the actual runtime possibilities of a JavaScript program, not an exact model.
 
 For example, in modern JavaScript, almost anything can technically throw, including function calls, property access, and [even referencing a declared identifier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz).
-However, outside of a `try...catch` block, the code path analysis assumes all of these will succeed, rather than modeling every possible throw point. See the `TryStatement` examples below for details on how the control flow is modelled within `try...catch` constructs.
+However, outside of a `try` block, the code path analysis assumes all of these will succeed, rather than modeling every possible throw point. See the `TryStatement` examples below for details on how the control flow is modelled within `try...catch` constructs.
 
 Another example is that the code path analysis treats all function calls as opaque, even when it is clear which function is being called. See the examples with function calls below.
 
