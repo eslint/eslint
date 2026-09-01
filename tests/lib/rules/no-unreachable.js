@@ -28,6 +28,10 @@ ruleTester.run("no-unreachable", rule, {
 		"function foo() { function bar() { return 1; } return bar(); }",
 		"function foo() { return bar(); function bar() { return 1; } }",
 		"function foo() { return x; var x; }",
+		{
+			code: "throw new Error(); import foo from 'foo';",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+		},
 		"function foo() { var x = 1; var y = 2; }",
 		"function foo() { var x = 1; var y = 2; return; }",
 		"while (true) { switch (foo) { case 1: x = 1; x = 2;} }",
@@ -93,6 +97,39 @@ ruleTester.run("no-unreachable", rule, {
 		},
 	],
 	invalid: [
+		{
+			code: "throw new Error(); import foo from 'foo'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 43,
+					endLine: 1,
+					endColumn: 49,
+				},
+			],
+		},
+		{
+			code: "throw new Error(); foo(); import foo from 'foo'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 26,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 56,
+				},
+			],
+		},
 		{
 			code: "function foo() { return x; var x = 1; }",
 			errors: [

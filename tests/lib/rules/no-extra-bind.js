@@ -47,6 +47,20 @@ ruleTester.run("no-extra-bind", rule, {
 			code: "var a = function() { return () => this; }.bind(b)",
 			languageOptions: { ecmaVersion: 6 },
 		},
+
+		// Class fields and static blocks
+		{
+			code: "var a = function() { return class { [this.foo] = 5; }; }.bind(b);",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class C { field = function() { this; }.bind(b); }",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class C { static { var a = function() { this; }.bind(b); } }",
+			languageOptions: { ecmaVersion: 2022 },
+		},
 	],
 	invalid: [
 		{
@@ -252,6 +266,26 @@ ruleTester.run("no-extra-bind", rule, {
 			output: "var a = (function() { return 1; })",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [{ messageId: "unexpected" }],
+		},
+
+		// Class fields and static blocks
+		{
+			code: "var a = function() { class C { field = this.x; } }.bind(b)",
+			output: "var a = function() { class C { field = this.x; } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "var a = function() { class C { static field = this.x; } }.bind(b)",
+			output: "var a = function() { class C { static field = this.x; } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "var a = function() { class C { static { this.x = 1; } } }.bind(b)",
+			output: "var a = function() { class C { static { this.x = 1; } } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
 		},
 	],
 	fatal: [

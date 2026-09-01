@@ -45,6 +45,7 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 9007199254740991",
 		"var x = 0",
 		"var x = 0.0",
+		"var x = 0.",
 		"var x = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000",
 		"var x = -0",
 		"var x = 123.0000000000000000000000",
@@ -61,6 +62,7 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 00195",
 		"var x = 0008",
 		"var x = 0e5",
+		"var x = 5e-324",
 		"var x = .42",
 		"var x = 42.",
 
@@ -151,6 +153,10 @@ ruleTester.run("no-loss-of-precision", rule, {
 	invalid: [
 		{
 			code: "var x = 9007199254740993",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 9007199254740993.",
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 		{
@@ -338,6 +344,18 @@ ruleTester.run("no-loss-of-precision", rule, {
 		{
 			code: "var x = 0X200000_0000000_1",
 			languageOptions: { ecmaVersion: 2021 },
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 1e-350",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 1e-324",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = -1e-350",
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 	],
