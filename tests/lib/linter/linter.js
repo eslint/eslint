@@ -9818,6 +9818,65 @@ let c; // var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
+		it("does not emit a max-fix-pass warning when the last fix is applied on the 10th pass", () => {
+			const config = {
+				plugins: {
+					test: {
+						rules: {
+							"add-spaces-until-ten": {
+								meta: {
+									fixable: "whitespace",
+								},
+								create(context) {
+									return {
+										Program(node) {
+											const sourceCode =
+												context.sourceCode;
+											const text =
+												sourceCode.getText(node);
+
+											if (
+												!text.startsWith(" ".repeat(10))
+											) {
+												context.report({
+													node,
+													message:
+														"Add a space before this node.",
+													fix: fixer =>
+														fixer.insertTextBefore(
+															node,
+															" ",
+														),
+												});
+											}
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: {
+					"test/add-spaces-until-ten": "error",
+				},
+			};
+
+			const fixResult = linter.verifyAndFix("a", config);
+
+			assert.strictEqual(fixResult.fixed, true);
+			assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
+			assert.strictEqual(fixResult.messages.length, 0);
+
+			/*
+			 * The fix loop reached the pass limit, but no fixable problems
+			 * remain, so the warning should not be emitted.
+			 */
+			assert.strictEqual(
+				warningService.emitMaxAutoFixWarning.called,
+				false,
+			);
+		});
+
 		it("should throw an error if fix is passed but meta has no `fixable` property", () => {
 			const config = {
 				plugins: {
