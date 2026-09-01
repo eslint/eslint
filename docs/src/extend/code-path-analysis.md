@@ -140,13 +140,17 @@ export default {
 			},
 
 			/**
-			 * This is called when control flow loops back from `fromSegment`
-			 * to another segment `toSegment` that appears earlier in the source,
-			 * such as at the end of a loop body looping back to the loop condition.
+			 * This is called just before exiting a reachable segment (`fromSegment`), if
+             * control flow leaving the segment can loop back to a position earlier in the
+             * source (the start of `toSegment`), for example at the end of a loop body or
+             * at a `continue;` statement. Note that in some cases `fromSegment === toSegment`,
+             * such as in simple `do...while` loops or `for (;;)` loops with an empty
+             * test/update expression.
 			 *
-			 * Because `toSegment` will have already been visited, its
-			 * `onCodePathSegmentStart` and `onCodePathSegmentEnd` events will
-			 * have already both been called by the time this event fires.
+			 * This event always occurs between `fromSegment`'s `onCodePathSegmentStart` and
+             * `onCodePathSegmentEnd`. While `toSegment`'s `onCodePathStart` must already have 
+             * been called, and its `onCodePathSegmentEnd` will have been called if and only if
+             * `toSegment !== fromSegment`. 
 			 *
 			 * @param {CodePathSegment} fromSegment - The code path segment the loop starts from.
 			 * @param {CodePathSegment} toSegment - The code path segment the loop goes to.
@@ -270,7 +274,7 @@ onCodePathEnd                    s1
 
 ### About `onCodePathSegmentLoop`
 
-This event fires whenever the traversal reaches a point where control flow loops back to a segment that was already visited earlier. It fires mainly at the end of loops.
+This event fires whenever the traversal reaches a point where control flow loops back to a segment that was already entered earlier. It fires mainly at the end of loops.
 
 <!-- Is there a good reason to use this event anymore? -->
 
