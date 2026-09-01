@@ -173,6 +173,10 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["always", { ignoreConstructors: true }],
 		},
 		{
+			code: "var x = {𐐀Foo: function() {}}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
 			options: ["always", { ignoreConstructors: true }],
 		},
