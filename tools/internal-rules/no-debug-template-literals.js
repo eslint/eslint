@@ -1,5 +1,5 @@
 /**
- * @fileoverview Internal rule to disallow template literals in `debug` calls.
+ * @fileoverview Internal rule to disallow template literals as format strings in `debug` calls.
  * @author Francesco Trotta
  */
 
@@ -17,7 +17,7 @@
 //------------------------------------------------------------------------------
 
 /**
- * Determines whether a callee refers to a `debug` logger that formats its first argument.
+ * Determines whether a callee refers to a `debug` logger.
  * `debug()` is always matched, while `debug.someMethod()` is only matched if the method
  * name is listed in the `methods` option.
  * @param {ASTNode} callee The callee of a `CallExpression` node.
