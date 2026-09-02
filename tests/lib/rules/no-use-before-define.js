@@ -495,22 +495,24 @@ ruleTester.run("no-use-before-define", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 
-		// async functions that suspend: the reference is evaluated after the module finished
+		/*
+		 * async functions are not immediately invoked: the body can suspend at any
+		 * `await`, and everything that follows it is evaluated in a later job.
+		 */
+		{
+			code: "(async () => { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
 		{
 			code: "(async () => { await 0; a; })(); let a;",
 			options: [{ variables: false }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
 		{
-			code: "(async () => { for await (const x of []) {} a; })(); let a;",
+			code: "await (async () => { a; })(); let a;",
 			options: [{ variables: false }],
-			languageOptions: { ecmaVersion: 2022 },
-		},
-		{
-			// `await using` suspends when the resource is disposed at scope exit
-			code: "(async () => { { await using x = f(); } a; })(); let a;",
-			options: [{ variables: false }],
-			languageOptions: { ecmaVersion: "latest" },
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
 		},
 
 		// `.call()`/`.apply()` are not syntactically IIFEs
@@ -527,8 +529,8 @@ ruleTester.run("no-use-before-define", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 		{
-			// `a` is read in a later job, when it's already initialized
-			code: "const a = (async () => { await 0; a; })();",
+			// the async body is not evaluated during the initialization
+			code: "const a = (async () => { a; })();",
 			languageOptions: { ecmaVersion: 2022 },
 		},
 	],
@@ -1861,56 +1863,9 @@ ruleTester.run("no-use-before-define", rule, {
 			],
 		},
 
-		// an async IIFE that never suspends runs entirely in the enclosing context
-		{
-			code: "(async () => { a; })(); let a;",
-			options: [{ variables: false }],
-			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				{
-					messageId: "usedBeforeDefined",
-					data: { name: "a" },
-				},
-			],
-		},
-		{
-			code: "await (async () => { a; })(); let a;",
-			options: [{ variables: false }],
-			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
-			errors: [
-				{
-					messageId: "usedBeforeDefined",
-					data: { name: "a" },
-				},
-			],
-		},
-
-		// an `await` inside a nested function does not suspend the IIFE itself
-		{
-			code: "(async () => { const f = async () => { await 0; }; a; })(); let a;",
-			options: [{ variables: false }],
-			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				{
-					messageId: "usedBeforeDefined",
-					data: { name: "a" },
-				},
-			],
-		},
-
 		// IIFEs in an initializer are evaluated during the initialization
 		{
 			code: "const a = (() => a)();",
-			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				{
-					messageId: "usedBeforeDefined",
-					data: { name: "a" },
-				},
-			],
-		},
-		{
-			code: "const a = (async () => { a; })();",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{

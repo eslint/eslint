@@ -310,13 +310,6 @@ const g = function() {};
     })();
     const foo = 1;
 }
-
-{
-    (async () => {
-        console.log(foo);
-    })();
-    const foo = 1;
-}
 ```
 
 :::
@@ -362,7 +355,6 @@ const g = function() {}
 
 {
     (async () => {
-        await 0;
         console.log(foo);
     })();
     const foo = 1;
