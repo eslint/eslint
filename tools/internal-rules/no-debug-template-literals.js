@@ -85,6 +85,11 @@ module.exports = {
 		 */
 		function createFix(templateLiteral) {
 			return fixer => {
+				// No suggestion is provided when there are multiple arguments.
+				if (templateLiteral.parent.arguments.length > 1) {
+					return null;
+				}
+
 				// Comments inside the template literal would be lost or may break the code.
 				if (sourceCode.getCommentsInside(templateLiteral).length) {
 					return null;
@@ -132,21 +137,15 @@ module.exports = {
 					return;
 				}
 
-				// No suggestion is provided when there are multiple arguments.
-				const suggest =
-					node.arguments.length === 1
-						? [
-								{
-									messageId: "replaceWithFormatString",
-									fix: createFix(formatArgument),
-								},
-							]
-						: null;
-
 				context.report({
 					node: formatArgument,
 					messageId: "unexpectedTemplateLiteral",
-					suggest,
+					suggest: [
+						{
+							messageId: "replaceWithFormatString",
+							fix: createFix(formatArgument, node),
+						},
+					],
 				});
 			},
 		};
