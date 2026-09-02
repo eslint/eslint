@@ -96,9 +96,11 @@ export default {
 			},
 
 			/**
-			 * This is called when a reachable code path segment is entered.
+			 * This is called when a reachable code path segment is
+			 * entered.
 			 *
-			 * @param {CodePathSegment} segment - The new code path segment.
+			 * @param {CodePathSegment} segment - The new code path
+			 * 	 segment.
 			 * @param {ASTNode} node - The current node.
 			 * @returns {void}
 			 */
@@ -107,9 +109,11 @@ export default {
 			},
 
 			/**
-			 * This is called when a reachable code path segment is exited.
+			 * This is called when a reachable code path segment is
+			 * exited.
 			 *
-			 * @param {CodePathSegment} segment - The left code path segment.
+			 * @param {CodePathSegment} segment - The left code path
+			 *   segment.
 			 * @param {ASTNode} node - The current node.
 			 * @returns {void}
 			 */
@@ -118,9 +122,11 @@ export default {
 			},
 
 			/**
-			 * This is called when an unreachable code path segment is entered.
+			 * This is called when an unreachable code path segment
+			 * is entered.
 			 *
-			 * @param {CodePathSegment} segment - The new code path segment.
+			 * @param {CodePathSegment} segment - The entered code path
+			 *   segment.
 			 * @param {ASTNode} node - The current node.
 			 * @returns {void}
 			 */
@@ -129,9 +135,11 @@ export default {
 			},
 
 			/**
-			 * This is called when an unreachable code path segment is exited.
+			 * This is called when an unreachable code path segment
+			 * is exited.
 			 *
-			 * @param {CodePathSegment} segment - The left code path segment.
+			 * @param {CodePathSegment} segment - The exited code path
+			 *   segment.
 			 * @param {ASTNode} node - The current node.
 			 * @returns {void}
 			 */
@@ -140,20 +148,26 @@ export default {
 			},
 
 			/**
-			 * This is called just before exiting a reachable segment (`fromSegment`), if
-             * control flow leaving the segment can loop back to a position earlier in the
-             * source (the start of `toSegment`), for example at the end of a loop body or
-             * at a `continue;` statement. Note that in some cases `fromSegment === toSegment`,
-             * such as in simple `do...while` loops or `for (;;)` loops with an empty
-             * test/update expression.
+			 * This is called just before exiting a reachable segment
+			 * (`fromSegment`), if control flow leaving the segment
+			 * can loop back to a position earlier in the source
+			 * (the start of `toSegment`), for example at the end of
+			 * a loop body or at a `continue;` statement. Note that
+			 * in some cases `fromSegment === toSegment`, such as in
+			 * simple `do...while` loops or `for (;;)` loops with an
+			 * empty test/update expression.
 			 *
-			 * This event always occurs between `fromSegment`'s `onCodePathSegmentStart` and
-             * `onCodePathSegmentEnd`. While `toSegment`'s `onCodePathStart` must already have 
-             * been called, and its `onCodePathSegmentEnd` will have been called if and only if
-             * `toSegment !== fromSegment`. 
+			 * This event always occurs between `fromSegment`'s
+			 * `onCodePathSegmentStart` and `onCodePathSegmentEnd`.
+			 * While `toSegment`'s `onCodePathStart` must already
+			 * have been called, its `onCodePathSegmentEnd` will
+			 * have been called if and only if
+			 * `toSegment !== fromSegment`.
 			 *
-			 * @param {CodePathSegment} fromSegment - The code path segment the loop starts from.
-			 * @param {CodePathSegment} toSegment - The code path segment the loop goes to.
+			 * @param {CodePathSegment} fromSegment - The code path
+			 *   segment the loop starts from.
+			 * @param {CodePathSegment} toSegment - The code path
+			 *   segment the loop goes to.
 			 * @param {ASTNode} node - The current node.
 			 * @returns {void}
 			 */
@@ -308,6 +322,8 @@ onCodePathEnd             (program)
 ```
 
 Notice that `onCodePathSegmentLoop` fires _before_ `onCodePathSegmentEnd` for the `body` segment: it represents control flow looping back to `test` from a point at the end of `body`. Because `test` was already fully visited in an earlier step, its `onCodePathSegmentStart`/`onCodePathSegmentEnd` pair doesn't fire again.
+
+The `onCodePathSegmentLoop` event can be useful for analyzing control flow in loops. For example, see the implementation of [`no-unreachable-loop`](../rules/no-unreachable-loop).
 
 ## Usage Examples
 
@@ -817,15 +833,15 @@ This program is composed of two code paths:
 
 1. The global code path
 
-:::img-container
-![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-1.svg)
-:::
+    :::img-container
+    ![When there is a function — global code path](../assets/images/code-path-analysis/example-when-there-is-a-function-1.svg)
+    :::
 
-2. The function `foo()`'s code path.
+1. The function `foo()`'s code path
 
-:::img-container
-![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-2.svg)
-:::
+    :::img-container
+    ![When there is a function — function code path](../assets/images/code-path-analysis/example-when-there-is-a-function-2.svg)
+    :::
 
 Note that there is no link from the code path segment containing the call to `foo()` to the code path segment containing the implementation of `foo()`. This is because function calls are opaque for the purposes of code path analysis, even when it is unambiguous from the source code which function is being called.
 
