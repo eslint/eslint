@@ -13208,12 +13208,12 @@ describe("ESLint", () => {
 					{ availableParallelism: () => 4 },
 				);
 
-				const [newresult] = await eslint.lintFiles([filePath]);
+				const [newResult] = await eslint.lintFiles([filePath]);
 
 				// Assert that lint results are for the new content
-				assert.strictEqual(newresult.messages.length, 1);
+				assert.strictEqual(newResult.messages.length, 1);
 				assert.strictEqual(
-					newresult.messages[0].ruleId,
+					newResult.messages[0].ruleId,
 					"no-unused-vars",
 				);
 			});
