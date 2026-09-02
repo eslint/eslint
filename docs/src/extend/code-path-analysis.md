@@ -721,7 +721,8 @@ try {
 last();
 ```
 
-If there is no `catch` block, the `finally` block has two current segments: the normal path and the leaving path. Note that the leaving path exists here even though the `try` block contains no `throw` or `return`, because function calls such as `foo()` are treated as potentially throwing.```
+If there is no `catch` block, the `finally` block has two current segments: the normal path and the leaving path. Note that the leaving path exists here even though the `try` block contains no `throw` or `return`, because function calls such as `foo()` are treated as potentially throwing.
+
 If you ran the "Find an unreachable node" example above on this code, `currentSegments.size` would be `2` while traversing the `finally` block.
 
 :::img-container
