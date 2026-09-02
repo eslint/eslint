@@ -95,6 +95,20 @@ ruleTester.run("no-unreachable", rule, {
 			code: "class C extends B { static foo = reachable; constructor() {} }",
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// https://github.com/eslint/eslint/issues/21295
+		{
+			code: "throw new Error();\nexport function foo() {}\nexport { foo as bar };\nexport * from './other.js';\nexport var x;",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+		},
+		{
+			code: "throw new Error(); export default 1;",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+		},
+		{
+			code: "export default function foo() {} throw new Error(); export { foo };",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+		},
 	],
 	invalid: [
 		{
@@ -703,6 +717,21 @@ ruleTester.run("no-unreachable", rule, {
 					column: 34,
 					endLine: 1,
 					endColumn: 36,
+				},
+			],
+		},
+
+		{
+			// regression: regular statements after throw still flagged (https://github.com/eslint/eslint/issues/21295)
+			code: "throw new Error();\nfoo();",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 7,
 				},
 			],
 		},
