@@ -143,7 +143,7 @@ module.exports = {
 					suggest: [
 						{
 							messageId: "replaceWithFormatString",
-							fix: createFix(formatArgument, node),
+							fix: createFix(formatArgument),
 						},
 					],
 				});
