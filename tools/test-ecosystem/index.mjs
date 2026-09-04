@@ -74,6 +74,7 @@ async function runTests(pluginKey, pluginSettings) {
 			env: {
 				...process.env,
 				CI: "true",
+				npm_config_audit: "false",
 			},
 			maxBuffer: 100 * 1024 * 1024,
 		});
@@ -119,9 +120,6 @@ async function runTests(pluginKey, pluginSettings) {
 		 * globally (owned by root).
 		 */
 		runCommand(["npm", "install", "--no-save", relativeESLintPath]);
-		if (pluginKey === "eslint-plugin-vue") {
-			runCommand(["npm", "install", "--no-save", "espree@latest"]);
-		}
 	} else {
 		runCommand([packageManager, "link", relativeESLintPath]);
 	}
