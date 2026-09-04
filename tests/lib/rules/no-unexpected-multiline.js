@@ -359,6 +359,36 @@ ruleTester.run("no-unexpected-multiline", rule, {
 				},
 			],
 		},
+		{
+			code: `
+                foo
+                /bar/d.test(baz)
+            `,
+			errors: [
+				{
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 18,
+					messageId: "division",
+				},
+			],
+		},
+		{
+			code: `
+                foo
+                /bar/v.test(baz)
+            `,
+			errors: [
+				{
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 18,
+					messageId: "division",
+				},
+			],
+		},
 
 		// https://github.com/eslint/eslint/issues/11650
 		{
