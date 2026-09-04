@@ -25,7 +25,7 @@ ESLint creates a configuration for each file that is linted based on your config
 This outputs all of ESLint's debugging information onto the console. You should copy this output to a file and then search for `eslint.config.js` to see which file is loaded. Here's some example output:
 
 ```text
-eslint:eslint Using file patterns: bin/eslint.js +0ms
+eslint:eslint Using file patterns: [ 'bin/eslint.js' ] +0ms
 eslint:eslint Searching for eslint.config.js +0ms
 eslint:eslint Loading config from C:\Users\nzakas\projects\eslint\eslint\eslint.config.js +5ms
 eslint:eslint Config file URL is file:///C:/Users/nzakas/projects/eslint/eslint/eslint.config.js +0ms
