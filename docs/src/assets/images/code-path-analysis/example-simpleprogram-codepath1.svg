@@ -1,24 +1,32 @@
-<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 358.07 421.60">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 417.6)">
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 358.07 556.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 552)">
 <title>%0</title>
 <!-- initial -->
 <g id="node1" class="node">
 <title>initial</title>
-<ellipse fill="#98a2b3" stroke="#98a2b3" cx="175.0337" cy="-404.6" rx="9" ry="9"></ellipse>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="175.0337" cy="-539" rx="9" ry="9"></ellipse>
 </g>
-<!-- s4_1 -->
+<!-- s1_1 -->
 <g id="node3" class="node">
 <title>s1_1</title>
-<path fill="#ffffff" stroke="#e4e7ec" d="M219.7148,-359.8014C219.7148,-359.8014 130.3526,-359.8014 130.3526,-359.8014 124.3526,-359.8014 118.3526,-353.8014 118.3526,-347.8014 118.3526,-347.8014 118.3526,-312.9986 118.3526,-312.9986 118.3526,-306.9986 124.3526,-300.9986 130.3526,-300.9986 130.3526,-300.9986 219.7148,-300.9986 219.7148,-300.9986 225.7148,-300.9986 231.7148,-306.9986 231.7148,-312.9986 231.7148,-312.9986 231.7148,-347.8014 231.7148,-347.8014 231.7148,-353.8014 225.7148,-359.8014 219.7148,-359.8014"></path>
-<text text-anchor="middle" x="175.0337" y="-343" font-family="Times,serif" font-size="14.00" fill="#000000">Program:enter</text>
-<text text-anchor="middle" x="175.0337" y="-326.2" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
-<text text-anchor="middle" x="175.0337" y="-309.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (a)</text>
+<path fill="#ffffff" stroke="#e4e7ec" d="M241.5381,-493.9001C241.5381,-493.9001 108.5293,-493.9001 108.5293,-493.9001 102.5293,-493.9001 96.5293,-487.9001 96.5293,-481.9001 96.5293,-481.9001 96.5293,-313.2999 96.5293,-313.2999 96.5293,-307.2999 102.5293,-301.2999 108.5293,-301.2999 108.5293,-301.2999 241.5381,-301.2999 241.5381,-301.2999 247.5381,-301.2999 253.5381,-307.2999 253.5381,-313.2999 253.5381,-313.2999 253.5381,-481.9001 253.5381,-481.9001 253.5381,-487.9001 247.5381,-493.9001 241.5381,-493.9001"></path>
+<text text-anchor="middle" x="175.0337" y="-477.4" font-family="Times,serif" font-size="14.00" fill="#000000">Program:enter</text>
+<text text-anchor="middle" x="175.0337" y="-460.6" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
+<text text-anchor="middle" x="175.0337" y="-443.8" font-family="Times,serif" font-size="14.00" fill="#000000">BinaryExpression:enter</text>
+<text text-anchor="middle" x="175.0337" y="-427" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="175.0337" y="-410.2" font-family="Times,serif" font-size="14.00" fill="#000000">MemberExpression:enter</text>
+<text text-anchor="middle" x="175.0337" y="-393.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (Math)</text>
+<text text-anchor="middle" x="175.0337" y="-376.6" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (random)</text>
+<text text-anchor="middle" x="175.0337" y="-359.8" font-family="Times,serif" font-size="14.00" fill="#000000">MemberExpression:exit</text>
+<text text-anchor="middle" x="175.0337" y="-343" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="175.0337" y="-326.2" font-family="Times,serif" font-size="14.00" fill="#000000">Literal (0.5)</text>
+<text text-anchor="middle" x="175.0337" y="-309.4" font-family="Times,serif" font-size="14.00" fill="#000000">BinaryExpression:exit</text>
 </g>
-<!-- initial&#45;&gt;s4_1 -->
+<!-- initial&#45;&gt;s1_1 -->
 <g id="edge1" class="edge">
 <title>initial-&gt;s1_1</title>
-<path fill="none" stroke="#98a2b3" d="M175.0337,-395.5016C175.0337,-388.8957 175.0337,-379.4581 175.0337,-369.8112"></path>
-<polygon fill="#98a2b3" stroke="#98a2b3" points="178.5338,-369.7924 175.0337,-359.7924 171.5338,-369.7924 178.5338,-369.7924"></polygon>
+<path fill="none" stroke="#98a2b3" d="M175.0337,-529.7224C175.0337,-523.5298 175.0337,-514.6554 175.0337,-504.3949"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="178.5338,-504.1751 175.0337,-494.1752 171.5338,-504.1752 178.5338,-504.1751"></polygon>
 </g>
 <!-- final -->
 <g id="node2" class="node">
@@ -26,7 +34,7 @@
 <ellipse fill="#98a2b3" stroke="#98a2b3" cx="175.0337" cy="-13" rx="9" ry="9"></ellipse>
 <ellipse fill="none" stroke="#98a2b3" cx="175.0337" cy="-13" rx="13" ry="13"></ellipse>
 </g>
-<!-- s4_2 -->
+<!-- s1_2 -->
 <g id="node4" class="node">
 <title>s1_2</title>
 <path fill="#ffffff" stroke="#e4e7ec" d="M154.1011,-265.0006C154.1011,-265.0006 11.9663,-265.0006 11.9663,-265.0006 5.9663,-265.0006 -.0337,-259.0006 -.0337,-253.0006 -.0337,-253.0006 -.0337,-151.7994 -.0337,-151.7994 -.0337,-145.7994 5.9663,-139.7994 11.9663,-139.7994 11.9663,-139.7994 154.1011,-139.7994 154.1011,-139.7994 160.1011,-139.7994 166.1011,-145.7994 166.1011,-151.7994 166.1011,-151.7994 166.1011,-253.0006 166.1011,-253.0006 166.1011,-259.0006 160.1011,-265.0006 154.1011,-265.0006"></path>
@@ -41,8 +49,8 @@
 <!-- s1_1&#45;&gt;s1_2 -->
 <g id="edge2" class="edge">
 <title>s1_1-&gt;s1_2</title>
-<path fill="none" stroke="#98a2b3" d="M153.927,-301.0342C147.876,-292.6154 141.0027,-283.0525 133.9736,-273.2729"></path>
-<polygon fill="#98a2b3" stroke="#98a2b3" points="136.7257,-271.105 128.0472,-265.0275 131.0416,-275.1904 136.7257,-271.105"></polygon>
+<path fill="none" stroke="#98a2b3" d="M129.5728,-301.1437C125.3506,-292.1854 121.1224,-283.2143 117.0305,-274.5323"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="120.0798,-272.7926 112.6505,-265.2391 113.7479,-275.7769 120.0798,-272.7926"></polygon>
 </g>
 <!-- s1_3 -->
 <g id="node5" class="node">
@@ -59,8 +67,8 @@
 <!-- s1_1&#45;&gt;s1_3 -->
 <g id="edge4" class="edge">
 <title>s1_1-&gt;s1_3</title>
-<path fill="none" stroke="#98a2b3" d="M196.1404,-301.0342C202.1914,-292.6154 209.0647,-283.0525 216.0938,-273.2729"></path>
-<polygon fill="#98a2b3" stroke="#98a2b3" points="219.0258,-275.1904 222.0202,-265.0275 213.3417,-271.105 219.0258,-275.1904"></polygon>
+<path fill="none" stroke="#98a2b3" d="M220.4946,-301.1437C224.7168,-292.1854 228.945,-283.2143 233.0369,-274.5323"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="236.3195,-275.7769 237.4169,-265.2391 229.9876,-272.7926 236.3195,-275.7769"></polygon>
 </g>
 <!-- s1_4 -->
 <g id="node6" class="node">

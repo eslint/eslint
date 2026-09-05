@@ -1,0 +1,72 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 169.36 416.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 412)">
+<title>%0</title>
+<!-- initial -->
+<g id="node1" class="node">
+<title>initial</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="80.6803" cy="-399" rx="9" ry="9"></ellipse>
+</g>
+<!-- s1_1 -->
+<g id="node3" class="node">
+<title>s1_1</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M149.5413,-353.9002C149.5413,-353.9002 11.8193,-353.9002 11.8193,-353.9002 5.8193,-353.9002 -.1807,-347.9002 -.1807,-341.9002 -.1807,-341.9002 -.1807,-257.2998 -.1807,-257.2998 -.1807,-251.2998 5.8193,-245.2998 11.8193,-245.2998 11.8193,-245.2998 149.5413,-245.2998 149.5413,-245.2998 155.5413,-245.2998 161.5413,-251.2998 161.5413,-257.2998 161.5413,-257.2998 161.5413,-341.9002 161.5413,-341.9002 161.5413,-347.9002 155.5413,-353.9002 149.5413,-353.9002"></path>
+<text text-anchor="middle" x="80.6803" y="-337.4" font-family="Times,serif" font-size="14.00" fill="#000000">Program:enter</text>
+<text text-anchor="middle" x="80.6803" y="-320.6" font-family="Times,serif" font-size="14.00" fill="#000000">VariableDeclaration:enter</text>
+<text text-anchor="middle" x="80.6803" y="-303.8" font-family="Times,serif" font-size="14.00" fill="#000000">VariableDeclarator:enter</text>
+<text text-anchor="middle" x="80.6803" y="-287" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (foo)</text>
+<text text-anchor="middle" x="80.6803" y="-270.2" font-family="Times,serif" font-size="14.00" fill="#000000">LogicalExpression:enter</text>
+<text text-anchor="middle" x="80.6803" y="-253.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (a)</text>
+</g>
+<!-- initial&#45;&gt;s1_1 -->
+<g id="edge1" class="edge">
+<title>initial-&gt;s1_1</title>
+<path fill="none" stroke="#98a2b3" d="M80.6803,-389.8269C80.6803,-383.4828 80.6803,-374.4127 80.6803,-364.444"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="84.1804,-364.2433 80.6803,-354.2433 77.1804,-364.2433 84.1804,-364.2433"></polygon>
+</g>
+<!-- final -->
+<g id="node2" class="node">
+<title>final</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="80.6803" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="#98a2b3" cx="80.6803" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+<!-- s1_2 -->
+<g id="node4" class="node">
+<title>s1_2</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M76.5844,-209.2C76.5844,-209.2 12.7762,-209.2 12.7762,-209.2 6.7762,-209.2 .7762,-203.2 .7762,-197.2 .7762,-197.2 .7762,-185.2 .7762,-185.2 .7762,-179.2 6.7762,-173.2 12.7762,-173.2 12.7762,-173.2 76.5844,-173.2 76.5844,-173.2 82.5844,-173.2 88.5844,-179.2 88.5844,-185.2 88.5844,-185.2 88.5844,-197.2 88.5844,-197.2 88.5844,-203.2 82.5844,-209.2 76.5844,-209.2"></path>
+<text text-anchor="middle" x="44.6803" y="-187" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (b)</text>
+</g>
+<!-- s2_1&#45;&gt;final -->
+<g id="edge2" class="edge">
+<title>s1_1-&gt;s1_2</title>
+<path fill="none" stroke="#98a2b3" d="M62.5748,-245.0824C59.5709,-236.0373 56.5709,-227.0039 53.9095,-218.9901"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="57.218,-217.8475 50.7446,-209.4603 50.5748,-220.0537 57.218,-217.8475"></polygon>
+</g>
+<!-- s2_1&#45;&gt;thrown -->
+<g id="node5" class="node">
+<title>s1_3</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M146.0568,-137.3003C146.0568,-137.3003 15.3038,-137.3003 15.3038,-137.3003 9.3038,-137.3003 3.3038,-131.3003 3.3038,-125.3003 3.3038,-125.3003 3.3038,-73.8997 3.3038,-73.8997 3.3038,-67.8997 9.3038,-61.8997 15.3038,-61.8997 15.3038,-61.8997 146.0568,-61.8997 146.0568,-61.8997 152.0568,-61.8997 158.0568,-67.8997 158.0568,-73.8997 158.0568,-73.8997 158.0568,-125.3003 158.0568,-125.3003 158.0568,-131.3003 152.0568,-137.3003 146.0568,-137.3003"></path>
+<text text-anchor="middle" x="80.6803" y="-120.6" font-family="Times,serif" font-size="14.00" fill="#000000">LogicalExpression:exit</text>
+<text text-anchor="middle" x="80.6803" y="-103.8" font-family="Times,serif" font-size="14.00" fill="#000000">VariableDeclarator:exit</text>
+<text text-anchor="middle" x="80.6803" y="-87" font-family="Times,serif" font-size="14.00" fill="#000000">VariableDeclaration:exit</text>
+<text text-anchor="middle" x="80.6803" y="-70.2" font-family="Times,serif" font-size="14.00" fill="#000000">Program:exit</text>
+</g>
+<!-- s2_2 -->
+<g id="edge4" class="edge">
+<title>s1_1-&gt;s1_3</title>
+<path fill="none" stroke="#98a2b3" d="M93.9261,-245.2205C97.8101,-222.9258 100.3761,-196.8495 97.6803,-173.2 96.7195,-164.7713 95.1589,-155.9029 93.3628,-147.3551"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="96.7608,-146.5121 91.1681,-137.5137 89.9287,-148.0358 96.7608,-146.5121"></polygon>
+</g>
+<!-- s2_1&#45;&gt;s2_2 -->
+<g id="edge3" class="edge">
+<title>s1_2-&gt;s1_3</title>
+<path fill="none" stroke="#98a2b3" d="M51.7927,-173.1028C54.8049,-165.4384 58.4687,-156.1161 62.1617,-146.7196"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="65.4409,-147.9444 65.8413,-137.3571 58.926,-145.3839 65.4409,-147.9444"></polygon>
+</g>
+<!-- s2_3 -->
+<g id="edge5" class="edge">
+<title>s1_3-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M80.6803,-61.8679C80.6803,-53.1935 80.6803,-44.2159 80.6803,-36.359"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="84.1804,-36.1468 80.6803,-26.1468 77.1804,-36.1468 84.1804,-36.1468"></polygon>
+</g>
+</g>
+</svg>
