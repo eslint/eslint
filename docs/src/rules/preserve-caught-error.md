@@ -270,31 +270,31 @@ try {
 
 ## Known Limitations
 
-This rule identifies custom error classes strictly by their name in the AST. Because it does not trace scope or type information, local shadowing will cause false positives.
+This rule matches configured error classes by name in the AST. It does not resolve scope or type information, so a local declaration can shadow the original class name and trigger a false positive.
 
-If a configured error class is shadowed by a local declaration, the rule will still flag it, even if the local class has a different signature and does not accept a `cause` option.
+In other words, if a local class or variable has the same name as a configured error class, this rule may still report a violation even though the constructor being called is not the same symbol as the intended global or imported error class.
 
-Example of a false positive:
+For example:
 
 ```js
 /* eslint preserve-caught-error: ["error", { errorClassNames: ["AppError"] }] */
 
 function makeWrapped() {
-    // Local class shadows the intended global/imported "AppError"
     class AppError {
-        constructor(err) { 
-            this.original = err; 
+        constructor(err) {
+            this.original = err;
         }
     }
-    
+
     try {
         doSomething();
     } catch (err) {
-        // Falsely reported as "missingCause" despite the local signature not accepting options
         throw new AppError(err);
     }
 }
 ```
+
+In this case, the local `AppError` shadows the configured name. The rule cannot tell that this is a different symbol, so it may still warn even though the local class does not accept the same `cause` signature as the intended error class.
 
 ## When Not To Use It
 
