@@ -4286,6 +4286,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 */
 					allowNamedExports: boolean;
 					/**
+					 * @default false
+					 */
+					ignoreSelfReferentialInitializers: boolean;
+					/**
 					 * @default true
 					 */
 					enums: boolean;
