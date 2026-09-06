@@ -723,6 +723,18 @@ ruleTester.run("new-cap", rule, {
 			],
 		},
 		{
+			code: "const globalThis = {}; globalThis.String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 41,
+				},
+			],
+		},
+		{
 			code: "obj.String(42);",
 			options: [{ capIsNewExceptions: ["Foo"] }],
 			errors: [
