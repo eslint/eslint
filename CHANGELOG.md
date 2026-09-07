@@ -1,3 +1,28 @@
+v10.10.0 - September 4, 2026
+
+* [`bb47dc6`](https://github.com/eslint/eslint/commit/bb47dc6da2399a8f76c0c0c3273e6bc314c480e5) fix: update dependency file-entry-cache to v11 (#20801) (Milos Djermanovic)
+* [`427ac0a`](https://github.com/eslint/eslint/commit/427ac0a014066c36aa57fa8fa9af20fd9fb591e1) fix: use format strings in debug calls (#21247) (Francesco Trotta)
+* [`b3d876b`](https://github.com/eslint/eslint/commit/b3d876b46083d67899eb1d9613118c1c583632a2) chore: disable npm audit in ecosystem tests (#21306) (Francesco Trotta)
+* [`9d81532`](https://github.com/eslint/eslint/commit/9d8153223dbf47b9aecdc1474202aaee4845f146) fix: support `__proto__` in `/* exported */` comments (#21261) (sethamus)
+* [`264b434`](https://github.com/eslint/eslint/commit/264b4346d1963701df0c398b4aeb2f6e8b2af93e) feat: add `d` and `v` flags to `no-unexpected-multiline` (#21305) (Gihyeon Jeong / 정기현)
+* [`1696682`](https://github.com/eslint/eslint/commit/1696682791661c13167eb905da2f38d1b8f4a3bf) ci: restore EMFILE test on Node.js 26 (#21297) (Marry (Subin Yang))
+* [`2c7f5d6`](https://github.com/eslint/eslint/commit/2c7f5d6f47a92e8c0847af103e40fdb2f4dc61ef) chore: update github/codeql-action action to v4.37.9 (#21296) (renovate[bot])
+* [`87e0a08`](https://github.com/eslint/eslint/commit/87e0a082438264ad90b87fd74165ab4fd90f63ef) fix: prefer-object-has-own autofix breaks when Object is shadowed (#21282) (김채영)
+* [`3c753f1`](https://github.com/eslint/eslint/commit/3c753f18b461bfbf36d41a79a7863c093ef48489) chore: update eslint (#21289) (renovate[bot])
+* [`8e2cb14`](https://github.com/eslint/eslint/commit/8e2cb142217f2efee1d10dcc02bfb75145ae775d) fix: `new-cap` false positive for `UTC` calls with `properties: false` (#21275) (Pixel)
+* [`2417cad`](https://github.com/eslint/eslint/commit/2417cad57d7d1bc4cf3ecf0f0575cfb10ff2011c) docs: Update README (GitHub Actions Bot)
+* [`9f4a364`](https://github.com/eslint/eslint/commit/9f4a364ab0ade048dfce1f37792b1d461d866e55) fix: Ignore static imports in no-unreachable (#21276) (Taha Kotil)
+* [`9cecb8a`](https://github.com/eslint/eslint/commit/9cecb8a0a2348070abf72321965d41919c7cc626) docs: document `\c` control letter escapes in no-control-regex (#21286) (한국)
+* [`c6cc6c5`](https://github.com/eslint/eslint/commit/c6cc6c592f30901345d94ef75e0d42c1894fae6c) feat: check `Object.prototype` property names in `new-cap` (#21269) (crimsonjay0)
+* [`1c73469`](https://github.com/eslint/eslint/commit/1c734690bf6f4f9c542bec428d5a1a5c6cc4a19b) chore: update ecosystem plugins (#21280) (ESLint Bot)
+* [`08a02be`](https://github.com/eslint/eslint/commit/08a02be429e21fc93d86c8dd16cec6dc945ea2c1) test: add error locations to `no-extra-boolean-cast` (#21266) (lumir)
+* [`8724829`](https://github.com/eslint/eslint/commit/8724829f69f8ed80c876e3a5a017da199ce78739) docs: update compat table links (#21263) (fnx)
+* [`77bb1db`](https://github.com/eslint/eslint/commit/77bb1db8e730b7da2347c647d60f215706aa349a) chore: update github/codeql-action action to v4.37.8 (#21270) (renovate[bot])
+* [`5661fa6`](https://github.com/eslint/eslint/commit/5661fa65fde9fd4c14f0b730e3cee6a42fc657c1) feat: no-extra-bind false negatives with class fields and static blocks (#21260) (synthex-byte)
+* [`007e81a`](https://github.com/eslint/eslint/commit/007e81ac0ad66bd0be4887d88a276df292ae0bed) ci: skip EMFILE test on Node.js 26 (#21265) (lumir)
+* [`5634542`](https://github.com/eslint/eslint/commit/5634542be580750ffb1a5766470f9e9c72719696) docs: Clarify eqeqeq suggestion behavior (#21256) (Müslüm Yılmaz)
+* [`0430280`](https://github.com/eslint/eslint/commit/0430280e7cca9dc0fdbf0bc50464e98e84285c49) chore: improve ecosystem tests compatibility on Windows (#21178) (crimsonjay0)
+
 v10.9.1 - August 24, 2026
 
 * [`1e641c9`](https://github.com/eslint/eslint/commit/1e641c919fc1421493bf913feb607896982451a3) fix: no-loss-of-precision false positive with trailing decimal point (#21251) (Aleksandr Shoronov)

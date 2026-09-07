@@ -108,6 +108,9 @@ ruleTester.run("new-cap", rule, {
 			code: "var x = foo.Bar(42);",
 			options: [{ capIsNew: false, properties: false }],
 		},
+		{ code: "foo.UTC();", options: [{ properties: false }] },
+		{ code: "foo?.UTC();", options: [{ properties: false }] },
+		{ code: "const b = a.Date.UTC();", options: [{ properties: false }] },
 
 		// Optional chaining
 		{
@@ -139,6 +142,34 @@ ruleTester.run("new-cap", rule, {
 		{
 			code: "(Date?.UTC)();",
 			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "const x = new toString();",
+			options: [{ newIsCapExceptions: ["toString"] }],
+		},
+		{
+			code: "const x = new constructor();",
+			options: [{ newIsCapExceptions: ["constructor"] }],
+		},
+		{
+			code: "const x = new hasOwnProperty();",
+			options: [{ newIsCapExceptions: ["hasOwnProperty"] }],
+		},
+		{
+			code: "const x = new isPrototypeOf();",
+			options: [{ newIsCapExceptions: ["isPrototypeOf"] }],
+		},
+		{
+			code: "const x = new propertyIsEnumerable();",
+			options: [{ newIsCapExceptions: ["propertyIsEnumerable"] }],
+		},
+		{
+			code: "const x = new valueOf();",
+			options: [{ newIsCapExceptions: ["valueOf"] }],
+		},
+		{
+			code: "const x = new toLocaleString();",
+			options: [{ newIsCapExceptions: ["toLocaleString"] }],
 		},
 	],
 	invalid: [
@@ -404,6 +435,90 @@ ruleTester.run("new-cap", rule, {
 			code: "(foo?.Bar)();",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [{ messageId: "upper", column: 7, endColumn: 10 }],
+		},
+		{
+			code: "const x = new toString();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			code: "const x = new constructor();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "const x = new hasOwnProperty();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "const x = new isPrototypeOf();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "const x = new propertyIsEnumerable();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "const x = new valueOf();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "const x = new toLocaleString();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 	],
 });
