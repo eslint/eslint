@@ -249,6 +249,26 @@ ruleTester.run("no-shadow", rule, {
 			code: "function foo(A = foo || wrap(class A {})) {}",
 			languageOptions: { ecmaVersion: 6 },
 		},
+		{
+			code: "const a = wrap(function a() {}, deps);",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = wrap(deps, function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = wrap?.(function a() {});",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "const A = wrap?.(class A {});",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "const a = obj?.wrap(function a() {});",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		{ code: "{ var a; } var a;", languageOptions: { ecmaVersion: 6 } }, // this case reports `no-redeclare`, not shadowing.
 		{
@@ -1731,6 +1751,40 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 41,
+				},
+			],
+		},
+		{
+			// optional wrapper call whose inner name is referenced
+			code: "const a = wrap?.(function a() { a(); });",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 27,
+				},
+			],
+		},
+		{
+			// the initializer is a member access on the call result, not the call itself
+			code: "const a = wrap(function a() {})?.b;",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 25,
 				},
 			],
 		},
