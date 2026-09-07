@@ -294,7 +294,7 @@ function makeWrapped() {
 }
 ```
 
-Here, `AppError` is configured by name, but the local `AppError` is a different class. The rule still matches the name and may report a missing `cause`, even though this local class has a different constructor signature and does not accept an options object containing `cause`.
+Here, `AppError` is configured by name, but the local `AppError` class is different from the intended global/imported class. The rule still matches the name and may report a missing `cause`, even though this local class has a different constructor signature and does not accept an options object containing `cause`.
 
 ## When Not To Use It
 
