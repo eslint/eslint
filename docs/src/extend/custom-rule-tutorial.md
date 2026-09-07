@@ -122,7 +122,7 @@ Define the rule's `create` function, which accepts a `context` object and return
 You can choose any [ESTree node type](https://github.com/estree/estree) or [selector](selectors).
 
 ::: tip
-You can view the AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org). This is helpful in determining the type of nodes you'd like to target.
+You can view the AST for any JavaScript code using [Code Explorer](https://explorer.eslint.org). This is helpful in determining the type of nodes you'd like to target.
 :::
 
 Inside the `VariableDeclarator` visitor method, check if the node represents a `const` variable declaration, if its name is `foo`, and if it's not assigned to the string `"bar"`. You do this by evaluating the `node` passed to the `VariableDeclaration` method.

@@ -111,6 +111,7 @@ module.exports = defineConfig([
 		},
 		rules: {
 			"internal-rules/multiline-comment-style": "error",
+			"internal-rules/no-debug-template-literals": "error",
 		},
 	},
 	{
@@ -362,7 +363,7 @@ module.exports = defineConfig([
 	})),
 	{
 		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
+		files: ["**/*.{ts,mts,cts}"],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {

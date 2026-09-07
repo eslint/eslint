@@ -24,6 +24,7 @@ ruleTester.run("no-throw-literal", rule, {
 		"throw new Error('error');",
 		"throw Error('error');",
 		"var e = new Error(); throw e;",
+		"function foo(undefined) { throw undefined; }",
 		"try {throw new Error();} catch (e) {throw e;};",
 		"throw a;", // Identifier
 		"throw foo();", // CallExpression

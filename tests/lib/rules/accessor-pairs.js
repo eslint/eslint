@@ -333,6 +333,46 @@ ruleTester.run("accessor-pairs", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 
+		// wrong argument index (not in the property descriptor position)
+		"Object.defineProperty({ set: function(value) {} }, 'foo', { value: 1 });",
+		{
+			code: "Reflect.defineProperty({ get() {} }, 'foo', { value: 1 });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.defineProperties({ foo: { get() {} } }, { bar: { value: 1 } });",
+			options: [{ getWithoutSet: true }],
+		},
+		"Object.create({ foo: { set(value) {} } }, { bar: { value: 1 } });",
+
+		// global object is shadowed
+		{
+			code: "let Object; Object.defineProperty(foo, 'bar', { get() {} })",
+			options: [{ getWithoutSet: true }],
+		},
+		{
+			code: "function f() { Reflect.defineProperty(foo, 'bar', { set(value) {} }); var Reflect;}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		"function f(Object) { Object.defineProperties(foo, { bar: { set(value) {} } }) }",
+		{
+			code: "if (x) { const Object = getObject(); Object.create(foo, { bar: { get() {} } }) }",
+			options: [{ getWithoutSet: true }],
+		},
+
+		// global object doesn't exist
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { get() {} })",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { globals: { Reflect: "off" } },
+		},
+		"/* globals Object:off */ Object.defineProperty(foo, 'bar', { set(value) {} })",
+		{
+			code: "Object.defineProperties(foo, { bar: { set(value) {} } })",
+			languageOptions: { globals: { Object: "off" } },
+		},
+
 		//------------------------------------------------------------------------------
 		// Classes
 		//------------------------------------------------------------------------------

@@ -14,17 +14,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout neostandard
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: neostandard/neostandard
                   path: neostandard
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -46,17 +46,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout eslint-flat-config-utils
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: antfu/eslint-flat-config-utils
                   path: antfu
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -83,17 +83,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout eslint/js
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/js
                   path: eslint-js
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -121,17 +121,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout @eslint/json
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/json
                   path: json
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -155,17 +155,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout html-eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: yeonjuan/html-eslint
                   path: html-eslint
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -187,6 +187,74 @@ jobs:
               working-directory: html-eslint
               run: yarn check:ts --filter=@html-eslint/eslint-plugin
 
+    eslint_css:
+        name: Types (@eslint/css)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v7
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/css
+              uses: actions/checkout@v7
+              with:
+                  repository: eslint/css
+                  path: css
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/css)
+              working-directory: css
+              run: |
+                  npm install
+                  npm run build
+                  npm install ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: css
+              run: npm run test:types
+
+    eslint_markdown:
+        name: Types (@eslint/markdown)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v7
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/markdown
+              uses: actions/checkout@v7
+              with:
+                  repository: eslint/markdown
+                  path: markdown
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/markdown)
+              working-directory: markdown
+              run: |
+                  npm install
+                  npm run build
+                  npm install ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: markdown
+              run: npm run test:types
+
     are-the-types-wrong:
         name: Are the types wrong?
         runs-on: ubuntu-latest
@@ -204,9 +272,9 @@ jobs:
 
         steps:
             - name: Checkout ${{ matrix.package.name }}
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 

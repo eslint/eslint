@@ -279,12 +279,7 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 
 	switch (schema.type) {
 		case "string":
-			if (
-				schema.pattern ||
-				schema.not ||
-				schema.minLength ||
-				schema.format
-			) {
+			if (schema.pattern || schema.minLength || schema.format) {
 				return [];
 			}
 			return ["example"];

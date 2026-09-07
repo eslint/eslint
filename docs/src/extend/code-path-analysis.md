@@ -18,7 +18,7 @@ bar();
 :::
 
 ::: tip
-You can view code path diagrams for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view code path diagrams for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 ## Objects
@@ -752,4 +752,26 @@ It creates two code paths.
 
 :::img-container
 ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
+:::
+
+### `YieldExpression` in generator functions
+
+```js
+function* generator(flag) {
+	yield 1;
+	if (flag) {
+		foo();
+	}
+	bar();
+}
+```
+
+In generator functions `yield` can create three code paths:
+
+- To the next segment.
+- To the thrown path.
+- To the end of the function.
+
+:::img-container
+![`YieldExpression` in generator functions](../assets/images/code-path-analysis/example-yieldExpression-in-generator-functions.svg)
 :::

@@ -25,8 +25,9 @@ while (node) {
 This rule finds references which are inside of loop conditions, then checks the
 variables of those references are modified in the loop.
 
-If a reference is inside of a binary expression or a ternary expression, this rule checks the result of
-the expression instead.
+By default, if a reference is inside of a binary expression or a ternary expression, this rule checks
+the result of the expression instead. The `checkConditionalExpressions` option stops the rule from
+grouping references solely because they belong to the same ternary expression.
 If a reference is inside of a dynamic expression (e.g. `CallExpression`,
 `YieldExpression`, ...), this rule ignores it.
 
@@ -99,7 +100,27 @@ while (check(obj)) {
 
 ## Options
 
-This rule has no options.
+This rule has an object option:
+
+* `"checkConditionalExpressions": false` (default) checks the result of an entire ternary expression
+* `"checkConditionalExpressions": true` each branch in a ternary expression is checked independently
+
+Examples of **incorrect** code for this rule with the `{ "checkConditionalExpressions": true }` option:
+
+::: incorrect
+
+```js
+/* eslint no-unmodified-loop-condition: ["error", { "checkConditionalExpressions": true }] */
+
+let chunk = getInitialChunk();
+let done = false;
+
+while (chunk ? !done : false) {
+    chunk = nextOrNull();
+}
+```
+
+:::
 
 ## When Not To Use It
 

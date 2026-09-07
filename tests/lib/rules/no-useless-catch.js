@@ -127,6 +127,10 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
+					line: 2,
+					column: 17,
+					endLine: 6,
+					endColumn: 18,
 				},
 			],
 		},
@@ -143,6 +147,10 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
+					line: 4,
+					column: 19,
+					endLine: 6,
+					endColumn: 18,
 				},
 			],
 		},
@@ -158,6 +166,10 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
+					line: 2,
+					column: 17,
+					endLine: 7,
+					endColumn: 18,
 				},
 			],
 		},
@@ -175,6 +187,10 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
+					line: 4,
+					column: 19,
+					endLine: 7,
+					endColumn: 18,
 				},
 			],
 		},
@@ -192,6 +208,10 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
+					line: 3,
+					column: 21,
+					endLine: 7,
+					endColumn: 22,
 				},
 			],
 		},

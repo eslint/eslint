@@ -31,6 +31,10 @@ ruleTester.run("no-delete-var", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},

@@ -992,6 +992,17 @@ ruleTester.run("no-promise-executor-return", rule, {
 			],
 		},
 		{
+			// No suggestion since an unnamed ClassExpression inside braces is invalid syntax.
+			code: "() => new Promise(() => class {});",
+			errors: [
+				{
+					messageId: "returnsValue",
+					column: 25,
+					suggestions: [],
+				},
+			],
+		},
+		{
 			code: "() => new Promise(() => function foo() {});",
 			errors: [
 				{
@@ -1001,6 +1012,21 @@ ruleTester.run("no-promise-executor-return", rule, {
 						{
 							messageId: "wrapBraces",
 							output: "() => new Promise(() => {function foo() {}});",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "() => new Promise(() => class Foo {});",
+			errors: [
+				{
+					messageId: "returnsValue",
+					column: 25,
+					suggestions: [
+						{
+							messageId: "wrapBraces",
+							output: "() => new Promise(() => {class Foo {}});",
 						},
 					],
 				},

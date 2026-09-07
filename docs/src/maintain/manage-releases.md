@@ -161,6 +161,16 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v9.x Release Line column with concrete versions (e.g., v9.0.0-v9.39.2), update status to EOL, set Last Release date to the date of last released v9.x version, and update Commercial Support to HeroDevs. The PR should be reviewed and approved in time, but merged when the EOL date starts.
 - In the `eslint/eslint.org` repository, submit a PR to update the text in `src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should be reviewed and approved in time, but merged when the EOL date starts.
 - In the `eslint/eslint` repository, submit a PR to update the text in `docs/src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should target the `v9.x` branch (there is no need to also update the `v9.x-dev` branch since we will no longer be using it). The PR should be reviewed and approved in time, but merged when the EOL date starts.
+- Deprecate npm package versions associated with EOL releases. Log in to npm as the `eslintbot` user and run:
+    > ```shell
+    > npm deprecate "eslint@<10" "This version is no longer supported. Please see https://eslint.org/version-support for other options."
+    > ```
+- Share a social media post announcing that v9.x has reached EOL, for example:
+    > ```text
+    > The ESLint v9.x line reached end of life on [insert date]. The packages are now deprecated and we encourage everyone to upgrade to v10.x.
+    >
+    > https://eslint.org/version-support/
+    > ```
 
 #### Nine Months after the Final Release
 

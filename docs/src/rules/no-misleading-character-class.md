@@ -14,7 +14,7 @@ This rule reports regular expressions which include multiple code point characte
 
 **A character with combining characters:**
 
-The combining characters are characters which belong to one of `Mc`, `Me`, and `Mn` [Unicode general categories](http://www.unicode.org/L2/L1999/UnicodeData.html#General%20Category).
+The combining characters are characters which belong to one of `Mc`, `Me`, and `Mn` [Unicode general categories](https://www.unicode.org/L2/L1999/UnicodeData.html#General%20Category).
 
 ```js
 /^[Á]$/u.test("Á"); //→ false

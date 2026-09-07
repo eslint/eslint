@@ -191,13 +191,13 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
 	{
-		files: [["src/*", "**/.js"]],
+		files: [["src/*", "**/*.js"]],
 	},
 	// ...other config
 ]);
 ```
 
-The pattern `["src/*", "**/.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
+The pattern `["src/*", "**/*.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
 
 #### Exclude files with `ignores`
 

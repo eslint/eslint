@@ -33,7 +33,7 @@ const isEmpty = x === [];
 
 This rule identifies `==` and `===` comparisons which, based on the semantics of the JavaScript language, will always evaluate to `true` or `false`.
 
-It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit.
+It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit. Additionally, when configured with the `checkRelationalComparisons` option, it can identify constant relational comparisons (such as `<` or `>=`).
 
 Examples of **incorrect** code for this rule:
 
@@ -87,4 +87,42 @@ const arrIsEmpty = someArr.length === 0;
 
 ## Options
 
-This rule has no options.
+This rule has an object option:
+
+* `"checkRelationalComparisons": true` (default `false`) checks for relational comparisons (`<`, `<=`, `>`, `>=`) where both sides are literal values.
+
+### checkRelationalComparisons
+
+Examples of **incorrect** code for this rule with the `{ "checkRelationalComparisons": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-constant-binary-expression: ["error", { "checkRelationalComparisons": true } ]*/
+
+const value1 = 1 < 2;
+
+const value2 = "a" >= "b";
+
+const value3 = true > false;
+
+const hasStreak = profile.streak ?? 0 > 1;
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "checkRelationalComparisons": true }` option:
+
+::: correct
+
+```js
+/*eslint no-constant-binary-expression: ["error", { "checkRelationalComparisons": true } ]*/
+
+const value1 = 1 < x;
+
+const value2 = a >= b;
+
+const hasStreak = (profile.streak ?? 0) > 1;
+```
+
+:::

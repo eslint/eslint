@@ -160,6 +160,13 @@ module.exports = {
         "type": "string"
     }],
 
+    stringWithNotEnum: [{
+        "type": "string",
+        "not": {
+            "enum": ["always", "never"]
+        }
+    }],
+
     number: [{
         "type": "number"
     }],

@@ -26,6 +26,18 @@ const log = debug("test:ecosystem");
 //-----------------------------------------------------------------------------
 
 /**
+ * Generates a filesystem-safe name from a plugin key.
+ * @param {string} pluginKey
+ * @returns {string}
+ */
+function getSafePluginName(pluginKey) {
+	return pluginKey
+		.replaceAll(/[^a-z-]/g, " ")
+		.trim()
+		.replaceAll(" ", "-");
+}
+
+/**
  * Runs ecosystem tests for a single plugin. It will:
  * 1. Clone the plugin repository into a sandbox directory
  * 2. Check out the plugin's commit to test on
@@ -41,10 +53,7 @@ const log = debug("test:ecosystem");
 async function runTests(pluginKey, pluginSettings) {
 	const directory = path.join(
 		SANDBOX_DIRECTORY,
-		pluginKey
-			.replaceAll(/[^a-z-]/g, " ")
-			.trim()
-			.replaceAll(" ", "-"),
+		getSafePluginName(pluginKey),
 	);
 	console.log(styleText("bold", `Testing ${pluginKey} in ${directory}`));
 
@@ -62,11 +71,16 @@ async function runTests(pluginKey, pluginSettings) {
 		const result = spawn.sync(command, args, {
 			cwd: directory,
 			stdio: log.enabled ? "inherit" : undefined,
+			env: {
+				...process.env,
+				CI: "true",
+				npm_config_audit: "false",
+			},
 			maxBuffer: 100 * 1024 * 1024,
 		});
 
 		if (result.status || result.error) {
-			throw result.error ?? new Error(result.stderr.toString());
+			throw result.error ?? new Error(result.stderr?.toString());
 		}
 
 		return result;
@@ -81,6 +95,8 @@ async function runTests(pluginKey, pluginSettings) {
 		directory,
 		"--depth",
 		"1",
+		"--config",
+		"core.symlinks=true",
 	]);
 
 	// 2. Check out the plugin's commit to test on
@@ -94,6 +110,8 @@ async function runTests(pluginKey, pluginSettings) {
 	// 4. Link the local ESLint into the plugin
 	const packageManager = pluginSettings.commands.install[0];
 
+	const relativeESLintPath = path.relative(directory, process.cwd());
+
 	if (packageManager === "npm") {
 		/*
 		 * Use `npm install --no-save` instead of `npm link` to avoid
@@ -101,12 +119,9 @@ async function runTests(pluginKey, pluginSettings) {
 		 * which fails with EACCES on machines where npm is installed
 		 * globally (owned by root).
 		 */
-		runCommand(["npm", "install", "--no-save", process.cwd()]);
-		if (pluginKey === "eslint-plugin-vue") {
-			runCommand(["npm", "install", "--no-save", "espree@latest"]);
-		}
+		runCommand(["npm", "install", "--no-save", relativeESLintPath]);
 	} else {
-		runCommand([packageManager, "link", process.cwd()]);
+		runCommand([packageManager, "link", relativeESLintPath]);
 	}
 
 	// 5. Build, if the plugin defines a build script
@@ -146,6 +161,27 @@ for (const [pluginKey, pluginSettings] of pluginsSelected) {
 		errors.push({ error, pluginKey });
 		console.log(styleText("red", `Failed: ${pluginKey}\n`));
 	}
+}
+
+// Write summaries for CI reporting
+for (const [pluginKey] of pluginsSelected) {
+	const pluginError = errors.find(e => e.pluginKey === pluginKey);
+
+	const summary = pluginError
+		? {
+				pluginKey,
+				passed: false,
+				errorMessage: `${pluginError.error.stack || pluginError.error}`,
+			}
+		: { pluginKey, passed: true };
+
+	await fs.writeFile(
+		path.join(
+			SANDBOX_DIRECTORY,
+			`${getSafePluginName(pluginKey)}-results.json`,
+		),
+		JSON.stringify(summary, null, 2),
+	);
 }
 
 // If we had any errors, report them and exit as failed

@@ -3160,6 +3160,19 @@ describe("Linter with FlatConfigArray", () => {
 							{ name: "__defineSetter__", writeable: true },
 						);
 					});
+
+					it("should define a global named __proto__", () => {
+						assertGlobalVariable(
+							"/*global __proto__ */",
+							{},
+							{ name: "__proto__", writeable: false },
+						);
+						assertGlobalVariable(
+							"/*global __proto__:writeable */",
+							{},
+							{ name: "__proto__", writeable: true },
+						);
+					});
 				});
 
 				describe("when evaluating code containing a /*global */ block with sloppy whitespace", () => {
@@ -3807,6 +3820,47 @@ describe("Linter with FlatConfigArray", () => {
 
 					linter.verify(code, config);
 					assert(spy && spy.calledOnce);
+				});
+
+				it("variable named __proto__ should be exported", () => {
+					const code = "/* exported __proto__ */\nvar __proto__;";
+					let spy;
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create(context) {
+											spy = sinon.spy(node => {
+												const scope =
+														context.sourceCode.getScope(
+															node,
+														),
+													proto = getVariable(
+														scope,
+														"__proto__",
+													);
+
+												assert.isTrue(proto.eslintUsed);
+												assert.isTrue(
+													proto.eslintExported,
+												);
+											});
+
+											return { Program: spy };
+										},
+									},
+								},
+							},
+						},
+						languageOptions: {
+							sourceType: "script",
+						},
+						rules: { "test/checker": "error" },
+					};
+
+					linter.verify(code, config);
+					assert(spy.calledOnce);
 				});
 			});
 

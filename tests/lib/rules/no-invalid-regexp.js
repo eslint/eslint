@@ -27,6 +27,13 @@ ruleTester.run("no-invalid-regexp", rule, {
 		"new RegExp",
 		"new RegExp('.', 'im')",
 		"global.RegExp('\\\\')",
+		"function foo(RegExp) { RegExp('['); }",
+		"function foo(RegExp) { new RegExp('['); }",
+		"let RegExp; RegExp('.', 'z');",
+		{
+			code: "RegExp('[', 'z');",
+			languageOptions: { globals: { RegExp: "off" } },
+		},
 		"new RegExp('.', y)",
 		"new RegExp('.', 'y')",
 		"new RegExp('.', 'u')",

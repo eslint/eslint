@@ -1239,7 +1239,7 @@ var JSHINT;
 						 * Relicensing: https://jshint.com/relicensing-2020/
 						 * License-Url: https://github.com/jshint/jshint/blob/main/LICENSE
 						 *
-						 *	 Copyright 2012 Anton Kovalyov (http://jshint.com)
+						 *	 Copyright 2012 Anton Kovalyov (https://jshint.com)
 						 *
 						 *	 Permission is hereby granted, free of charge, to any person obtaining
 						 *	 a copy of this software and associated documentation files (the "Software"),
@@ -1363,7 +1363,7 @@ var JSHINT;
 									scripturl: true, // if script-targeted URLs should be tolerated
 									shadow: true, // if variable shadowing should be tolerated
 									smarttabs: true, // if smarttabs should be tolerated
-									// (http://www.emacswiki.org/emacs/SmartTabs)
+									// (https://www.emacswiki.org/emacs/SmartTabs)
 									strict: true, // require the "use strict"; pragma
 									sub: true, // if all forms of subscript notation are tolerated
 									supernew: true, // if `new function () { ... };` and `new Object;`
@@ -8264,12 +8264,12 @@ var JSHINT;
 
 						// This is auto generated from the unicode tables.
 						// The tables are at:
-						// http://www.fileformat.info/info/unicode/category/Lu/list.htm
-						// http://www.fileformat.info/info/unicode/category/Ll/list.htm
-						// http://www.fileformat.info/info/unicode/category/Lt/list.htm
-						// http://www.fileformat.info/info/unicode/category/Lm/list.htm
-						// http://www.fileformat.info/info/unicode/category/Lo/list.htm
-						// http://www.fileformat.info/info/unicode/category/Nl/list.htm
+						// https://www.fileformat.info/info/unicode/category/Lu/list.htm
+						// https://www.fileformat.info/info/unicode/category/Ll/list.htm
+						// https://www.fileformat.info/info/unicode/category/Lt/list.htm
+						// https://www.fileformat.info/info/unicode/category/Lm/list.htm
+						// https://www.fileformat.info/info/unicode/category/Lo/list.htm
+						// https://www.fileformat.info/info/unicode/category/Nl/list.htm
 
 						var unicodeLetterTable = [
 							170, 170, 181, 181, 186, 186, 192, 214, 216, 246,
@@ -10342,7 +10342,7 @@ var JSHINT;
 				function (require, module, exports) {
 					(function () {
 						//     Underscore.js 1.4.4
-						//     http://underscorejs.org
+						//     https://underscorejs.org
 						//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
 						//     Underscore may be freely distributed under the MIT license.
 
@@ -11203,7 +11203,7 @@ var JSHINT;
 
 							// Generate an integer Array containing an arithmetic progression. A port of
 							// the native Python `range()` function. See
-							// [the Python documentation](http://docs.python.org/library/functions.html#range).
+							// [the Python documentation](https://docs.python.org/3/library/functions.html#range).
 							_.range = function (start, stop, step) {
 								if (arguments.length <= 1) {
 									stop = start || 0;
@@ -11535,7 +11535,7 @@ var JSHINT;
 							// Internal recursive comparison function for `isEqual`.
 							var eq = function (a, b, aStack, bStack) {
 								// Identical objects are equal. `0 === -0`, but they aren't identical.
-								// See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
+								// See the Harmony `egal` proposal: https://wiki.ecmascript.org/doku.php?id=harmony:egal.
 								if (a === b) return a !== 0 || 1 / a == 1 / b;
 								// A strict comparison is necessary because `null == undefined`.
 								if (a == null || b == null) return a === b;
@@ -12109,7 +12109,7 @@ var JSHINT;
 						var seen = [];
 
 						var stylize = function (str, styleType) {
-							// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+							// https://en.wikipedia.org/wiki/ANSI_escape_code#graphics
 							var styles = {
 								bold: [1, 22],
 								italic: [3, 23],

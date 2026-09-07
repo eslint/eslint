@@ -11,7 +11,7 @@ related_rules:
 further_reading:
 - https://en.wikipedia.org/wiki/Cyclomatic_complexity
 - https://ariya.io/2012/12/complexity-analysis-of-javascript-code
-- https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/
+- https://web.archive.org/web/20231210222710/https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/
 - https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity
 - https://github.com/eslint/eslint/issues/4808#issuecomment-167795140
 ---
