@@ -568,7 +568,7 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-- `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
+- `getText(node)`: Returns the source code for the given node. If `node` is omitted or falsy (such as `undefined`, `null`, or an empty string), the entire source text is returned (see the [dedicated section](#accessing-the-source-text)).
 - `getAllComments()`: Returns an array of all comments in the source (see the [dedicated section](#accessing-comments)).
 - `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
