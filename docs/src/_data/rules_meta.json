@@ -3437,7 +3437,12 @@
             "description": "Disallow unmodified loop conditions",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-unmodified-loop-condition"
-        }
+        },
+        "defaultOptions": [
+            {
+                "checkConditionalExpressions": false
+            }
+        ]
     },
     "no-unneeded-ternary": {
         "type": "suggestion",

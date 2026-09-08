@@ -335,13 +335,6 @@
     "title": "Iterators and generators - JavaScript | MDN",
     "description": "Iterators and Generators bring the concept of iteration directly into the core language and provide a mechanism for customizing the behavior of for...of loops."
   },
-  "https://kangax.github.io/es5-compat-table/es6/#Iterators": {
-    "domain": "kangax.github.io",
-    "url": "https://kangax.github.io/es5-compat-table/es6/#Iterators",
-    "logo": "https://github.io/favicon.ico",
-    "title": null,
-    "description": null
-  },
   "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods": {
     "domain": "developer.mozilla.org",
     "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods",
@@ -417,13 +410,6 @@
     "url": "https://johnresig.com/blog/objectgetprototypeof/",
     "logo": "https://johnresig.com/wp-content/uploads/2017/04/cropped-jeresig-2016.1024-270x270.jpg",
     "title": "John Resig - Object.getPrototypeOf",
-    "description": null
-  },
-  "https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names": {
-    "domain": "kangax.github.io",
-    "url": "https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names",
-    "logo": "https://kangax.github.io/compat-table/favicon.ico",
-    "title": "ECMAScript 5 compatibility table",
     "description": null
   },
   "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function": {
@@ -852,5 +838,26 @@
     "logo": "https://github.com/fluidicon.png",
     "title": "bluebird/docs/docs/warning-explanations.md at master · petkaantonov/bluebird",
     "description": ":bird: :zap: Bluebird is a full featured promise library with unmatched performance. - petkaantonov/bluebird"
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness": {
+    "domain": "developer.mozilla.org",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+    "logo": "https://developer.mozilla.org/favicon.ico",
+    "title": "Equality comparisons and sameness - JavaScript | MDN",
+    "description": "JavaScript provides three different value-comparison operations:"
+  },
+  "https://compat-table.github.io/compat-table/es5/#test-Object/array_literal_extensions_Reserved_words_as_property_names": {
+    "domain": "compat-table.github.io",
+    "url": "https://compat-table.github.io/compat-table/es5/#test-Object/array_literal_extensions_Reserved_words_as_property_names",
+    "logo": "https://compat-table.github.io/compat-table/favicon.ico",
+    "title": "ECMAScript 5 compatibility table",
+    "description": null
+  },
+  "https://compat-table.github.io/compat-table/non-standard/#test-__iterator__": {
+    "domain": "compat-table.github.io",
+    "url": "https://compat-table.github.io/compat-table/non-standard/#test-__iterator__",
+    "logo": "https://compat-table.github.io/compat-table/favicon.ico",
+    "title": "ECMAScript extensions compatibility table",
+    "description": null
   }
 }

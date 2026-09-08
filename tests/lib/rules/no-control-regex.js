@@ -46,6 +46,17 @@ ruleTester.run("no-control-regex", rule, {
 			code: String.raw`/[\u{20}--B]/v`,
 			languageOptions: { ecmaVersion: 2024 },
 		},
+		String.raw`var regex = /\c1/`,
+		String.raw`var regex = /\c$/`,
+		String.raw`var regex = new RegExp('\\c1')`,
+		String.raw`var regex = /\cA/`,
+		String.raw`var regex = /\cz/`,
+		String.raw`var regex = new RegExp('\\cA')`,
+		{ code: String.raw`/\cA/u`, languageOptions: { ecmaVersion: 2015 } },
+		{
+			code: String.raw`/\cA/v`,
+			languageOptions: { ecmaVersion: 2024 },
+		},
 	],
 	invalid: [
 		{
@@ -234,6 +245,15 @@ ruleTester.run("no-control-regex", rule, {
 					messageId: "unexpected",
 					data: { controlChars: "\\x11" },
 					column: 1,
+				},
+			],
+		},
+		{
+			code: String.raw`var regex = /\x1f\cA/`,
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { controlChars: "\\x1f" },
 				},
 			],
 		},
