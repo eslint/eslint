@@ -710,6 +710,18 @@ ruleTester.run("new-cap", rule, {
 			],
 		},
 		{
+			code: "globalThis.Foo();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
 			code: "const window = {}; window.String(42);",
 			languageOptions: { globals: { window: "readonly" } },
 			errors: [
