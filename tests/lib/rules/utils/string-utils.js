@@ -28,6 +28,10 @@ describe("string-utils", () => {
 			assert.strictEqual(containsLetter("Я"), true);
 		});
 
+		it("should return true for an astral Unicode letter", () => {
+			assert.strictEqual(containsLetter("𐐷"), true);
+		});
+
 		it("should return false for a digit", () => {
 			assert.strictEqual(containsLetter("1"), false);
 		});
