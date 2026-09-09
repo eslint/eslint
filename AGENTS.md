@@ -69,7 +69,7 @@ The layering is strict, and each layer is forbidden from doing what the layer be
 - Define helper functions at module scope, not inside `create`, so they aren't rebuilt per file. Factor common checks into helpers rather than recomputing them across visitors.
 - Fixable rules implement a fixer function that returns the corrections to apply.
 - Shared AST helpers live in `lib/rules/utils/ast-utils.js`.
-- `RuleTester` uses flat config (`languageOptions`, not `parserOptions`).
+- `RuleTester` uses flat config (`languageOptions.ecmaVersion`, not `parserOptions.ecmaVersion`).
 
 ### Rule documentation
 
