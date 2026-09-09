@@ -483,6 +483,30 @@ ruleTester.run("object-shorthand", rule, {
 		"({ val: /**\n  *  @type   {Object} options\n  */ (val) })",
 		"({ val: /**\n\t *\t@type\t{Array}\n\t */ (val) })",
 		"({ val: /**\n   *\n   * @type {Function}\n   * @param {string} name\n   */ (val) })",
+		"const obj = { __proto__: function () {} };",
+		"const obj = { '__proto__': function () {} };",
+		"const obj = { __proto__: __proto__ };",
+		"const obj = { '__proto__': __proto__ };",
+		{
+			code: "const obj = { '__proto__'() {} };",
+			options: ["always", { avoidQuotes: true }],
+		},
+		{
+			code: "const obj = { __proto__() {} };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { __proto__ };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { __proto__: __proto__ };",
+			options: ["consistent-as-needed"],
+		},
+		{
+			code: "const obj = { __proto__: function () {} };",
+			options: ["consistent-as-needed"],
+		},
 	],
 	invalid: [
 		{
@@ -1406,6 +1430,22 @@ ruleTester.run("object-shorthand", rule, {
 		{
 			code: "({ val: /**\n   *\n   * @param {string} name\n   * @returns {number}\n   */ (val) })",
 			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "const obj = { ['__proto__']: function () {} };",
+			output: "const obj = { ['__proto__'] () {} };",
+			errors: [METHOD_ERROR],
+		},
+		{
+			code: "const obj = { ['__proto__']() {} };",
+			output: "const obj = { ['__proto__']: function() {} };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { __proto__: __proto__, a };",
+			options: ["consistent"],
+			errors: [MIXED_SHORTHAND_ERROR],
 		},
 	],
 });
