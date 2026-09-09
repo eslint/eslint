@@ -28,6 +28,7 @@ ruleTester.run("no-unsafe-finally", rule, {
 		"var foo = function() { try { return 1 } catch(err) { return 2 } finally { var a = function(x) { label: while(true) { if(x) { break label; } else { continue } } } } }",
 		"var foo = function() { try {} finally { while (true) break; } }",
 		"var foo = function() { try {} finally { while (true) continue; } }",
+		"var foo = function() { try { return 1; } finally { a: while (true) { while (true) continue a; } } }",
 		"var foo = function() { try {} finally { switch (true) { case true: break; } } }",
 		"var foo = function() { try {} finally { do { break; } while (true) } }",
 		{
@@ -168,6 +169,19 @@ ruleTester.run("no-unsafe-finally", rule, {
 					data: { nodeType: "ContinueStatement" },
 					line: 1,
 					column: 54,
+				},
+			],
+		},
+		{
+			code: "var foo = function() { a: while (true) try {} finally { while (true) continue a; } }",
+			errors: [
+				{
+					messageId: "unsafeUsage",
+					data: { nodeType: "ContinueStatement" },
+					line: 1,
+					column: 70,
+					endLine: 1,
+					endColumn: 81,
 				},
 			],
 		},
