@@ -104,6 +104,7 @@ ruleTester.run("prefer-object-spread", rule, {
 		'Object.assign({}, { "__proto__": proto })',
 		'Object.assign({}, { ["__proto__"]: proto })',
 		"Object.assign({}, { __proto__() {} })",
+		"Object.assign({}, { __proto__ })",
 		"Object.assign({ __proto__: proto }, foo)",
 		'Object.assign({}, foo, { ["__proto__"]: proto })',
 	],
