@@ -737,5 +737,972 @@ ruleTester.run("no-redeclare", rule, {
 				},
 			],
 		},
+
+		// destructuring patterns
+		{
+			code: "var [a] = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var {a} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [...a] = foo; var [...a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "var [a = 1] = foo; var [a = 2] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [a] = foo; var a = 1;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "var {a: {b}} = foo; var {a: [b]} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "b" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "var [a] = foo; var [a] = bar; var [a] = baz;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+		parserOptions: {
+			sourceType: "script",
+		},
+	},
+});
+
+ruleTesterTypeScript.run("no-redeclare", rule, {
+	valid: [
+		`
+  var a = 3;
+  var b = function () {
+	var a = 10;
+  };
+	  `,
+		`
+  var a = 3;
+  a = 10;
+	  `,
+		{
+			code: `
+  if (true) {
+	let b = 2;
+  } else {
+	let b = 3;
+  }
+		`,
+			languageOptions: {
+				parserOptions: {
+					ecmaVersion: 6,
+				},
+			},
+		},
+		{ code: "var Object = 0;", options: [{ builtinGlobals: false }] },
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { sourceType: "module" } },
+		},
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaFeatures: { globalReturn: true } },
+			},
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: false }],
+		},
+		{ code: "var top = 0;", options: [{ builtinGlobals: true }] },
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaFeatures: { globalReturn: true } },
+			},
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { sourceType: "module" } },
+		},
+		{
+			code: "var self = 1;",
+			options: [{ builtinGlobals: true }],
+		},
+		// https://github.com/eslint/typescript-eslint-parser/issues/535
+		`
+  function foo({ bar }: { bar: string }) {
+	console.log(bar);
+  }
+	  `,
+		`
+  type AST<T extends ParserOptions> = TSESTree.Program &
+	(T['range'] extends true ? { range: [number, number] } : {}) &
+	(T['tokens'] extends true ? { tokens: TSESTree.Token[] } : {}) &
+	(T['comment'] extends true ? { comments: TSESTree.Comment[] } : {});
+  interface ParseAndGenerateServicesResult<T extends ParserOptions> {
+	ast: AST<T>;
+	services: ParserServices;
+  }
+	  `,
+		`
+  function A<T>() {}
+  interface B<T> {}
+  type C<T> = Array<T>;
+  class D<T> {}
+	  `,
+		// Valid TypeScript declaration combinations
+		`
+  interface A {}
+  interface A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+	  `,
+		`
+  class A {}
+  namespace A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  function A() {}
+  namespace A {}
+	  `,
+		`
+  function A() {}
+  class A {}
+	  `,
+		`
+  function A() {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  type something = string;
+  const something = 2;
+	  `,
+		`
+  declare function a(): void;
+  declare function a(): void;
+
+  declare function b(): void;
+  declare class b { }
+
+  enum c { }
+  namespace c { }
+
+  declare enum d { }
+  interface e { }
+	`,
+		`
+  type T = 1;
+  type T = 2;
+		`,
+		{
+			code: `
+  type NodeListOf = 1;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: {
+					lib: ["dom"],
+					sourceType: "script",
+				},
+			},
+		},
+		// var + type-only (non-instantiated) namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		export type T = string;
+	}
+	`,
+		// var + deeply nested non-instantiated namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+			}
+		}
+	}
+	`,
+		// globals + type-only namespace is valid
+		{
+			code: `
+		namespace Foo {
+			export type T = string;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+		},
+		// comment + type-only namespace is valid
+		`
+		/* global Foo */
+		namespace Foo {
+			export type T = string;
+		}
+		`,
+
+		// an enum merges with a namespace, in either order
+		`
+	enum Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+		`
+	namespace Foo {
+		export const a = 1;
+	}
+	enum Foo {}
+	`,
+
+		/*
+		 * Ambient declarations emit nothing, so they are never redeclarations.
+		 * The `declare` keyword sits on the `VariableDeclaration` rather than on
+		 * the `VariableDeclarator`, so variables need it read from the parent.
+		 */
+		`
+	declare var A: string;
+	declare var A: string;
+	`,
+		`
+	declare let A: string;
+	declare let A: string;
+	`,
+		`
+	declare const A: string;
+	declare const A: string;
+	`,
+		`
+	declare var A: string;
+	var A: string;
+	`,
+		`
+	var A: string;
+	declare var A: string;
+	`,
+		`
+	declare enum A {}
+	declare enum A {}
+	`,
+		`
+	declare namespace A {}
+	declare namespace A {}
+	`,
+	],
+	invalid: [
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  switch (foo) {
+		case a:
+		  var b = 3;
+		case b:
+		  var b = 4;
+	  }
+			`,
+			errors: [
+				{
+					data: {
+						id: "b",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = {};
+	  var a = [];
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  function a() {}
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  function a() {}
+	  function a() {}
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = function () {};
+	  var a = function () {};
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = function () {};
+	  var a = new Date();
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+	  var a = 15;
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var a;
+			`,
+			languageOptions: { parserOptions: { sourceType: "module" } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  export var a;
+	  var a;
+			`,
+			languageOptions: { parserOptions: { sourceType: "module" } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			errors: [
+				{
+					data: {
+						id: "Object",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: { top: "readonly" },
+			},
+			errors: [
+				{
+					data: {
+						id: "top",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "Object",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaVersion: 6, sourceType: "module" },
+			},
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+					ecmaVersion: 6,
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: false }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+
+		// Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
+		{
+			code: "/*global b:false*/ var b = 1;",
+			options: [{ builtinGlobals: true }],
+			errors: [
+				{
+					data: {
+						id: "b",
+					},
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+
+		// var + instantiated namespace
+		{
+			code: `
+	var Foo;
+	namespace Foo {
+		export const a = 2;
+	}
+	namespace Foo {
+		export const b = 4;
+	}
+	`,
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclared" },
+				{ data: { id: "Foo" }, messageId: "redeclared" },
+			],
+		},
+		// globals + instantiated namespace
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+					Bar: "readonly",
+				},
+			},
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredAsBuiltin" },
+			],
+		},
+		// comments + instantiated namespace
+		{
+			code: `
+		/* global Foo */
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredBySyntax" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
+			],
+		},
+		// mixed globals/comments + instantiated namespace
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
+			],
+		},
+		// var + deeply nested instantiated namespace
+		{
+			code: `
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+				export const qux = 1;
+			}
+		}
+	}
+	`,
+			errors: [{ data: { id: "Foo" }, messageId: "redeclared" }],
+		},
+
+		// destructuring patterns are never mergeable
+		{
+			code: "var [a] = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var {a} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [...a] = foo; var [...a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "var [a = 1] = foo; var [a = 2] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+
+		// a destructured binding is a value, so it can't merge with an interface either
+		{
+			code: `
+	var [Foo] = bar;
+	interface Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 4,
+					column: 12,
+					endLine: 4,
+					endColumn: 15,
+				},
+			],
+		},
+
+		// enums merge with namespaces, but not with each other
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+			],
+		},
+		{
+			code: `
+	enum Foo {
+		A,
+	}
+	enum Foo {
+		B = 1,
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 5,
+					column: 7,
+					endLine: 5,
+					endColumn: 10,
+				},
+			],
+		},
+		{
+			code: `
+	const enum Foo {}
+	const enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 16,
+				},
+			],
+		},
+
+		// a namespace can't rescue two enums
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 4,
+					column: 12,
+					endLine: 4,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: `
+	namespace Foo {
+		export const a = 1;
+	}
+	enum Foo {}
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 5,
+					column: 7,
+					endLine: 5,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 6,
+					column: 7,
+					endLine: 6,
+					endColumn: 10,
+				},
+			],
+		},
+
+		// enum + enum with a global of the same name
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{
+					messageId: "redeclaredAsBuiltin",
+					data: { id: "Foo" },
+					line: 2,
+					column: 7,
+					endLine: 2,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclaredAsBuiltin",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+			],
+		},
 	],
 });
