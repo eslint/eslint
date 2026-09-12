@@ -348,4 +348,11 @@ ruleTester.run("no-case-declarations", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

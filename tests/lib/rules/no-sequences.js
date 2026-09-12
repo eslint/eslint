@@ -169,4 +169,11 @@ ruleTester.run("no-sequences", rule, {
 			errors: errors(21),
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

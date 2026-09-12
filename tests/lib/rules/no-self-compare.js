@@ -156,4 +156,11 @@ ruleTester.run("no-self-compare", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
