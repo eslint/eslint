@@ -1,0 +1,47 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 204.39 367.20">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 363.2)">
+<title>%0</title>
+<!-- initial -->
+<g id="node1" class="node">
+<title>initial</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="98.1957" cy="-350.2" rx="9" ry="9"></ellipse>
+</g>
+<!-- s1_1 -->
+<g id="node3" class="node">
+<title>s3_1</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M184.5875,-305.3001C184.5875,-305.3001 11.8039,-305.3001 11.8039,-305.3001 5.8039,-305.3001 -.1961,-299.3001 -.1961,-293.3001 -.1961,-293.3001 -.1961,-73.8999 -.1961,-73.8999 -.1961,-67.8999 5.8039,-61.8999 11.8039,-61.8999 11.8039,-61.8999 184.5875,-61.8999 184.5875,-61.8999 190.5875,-61.8999 196.5875,-67.8999 196.5875,-73.8999 196.5875,-73.8999 196.5875,-293.3001 196.5875,-293.3001 196.5875,-299.3001 190.5875,-305.3001 184.5875,-305.3001"></path>
+<text text-anchor="middle" x="98.1957" y="-288.6" font-family="Times,serif" font-size="14.00" fill="#000000">ArrowFunctionExpression:enter</text>
+<text text-anchor="middle" x="98.1957" y="-271.8" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="98.1957" y="-255" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="98.1957" y="-238.2" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="98.1957" y="-221.4" font-family="Times,serif" font-size="14.00" fill="#000000">MemberExpression:enter</text>
+<text text-anchor="middle" x="98.1957" y="-204.6" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (console)</text>
+<text text-anchor="middle" x="98.1957" y="-187.8" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (log)</text>
+<text text-anchor="middle" x="98.1957" y="-171" font-family="Times,serif" font-size="14.00" fill="#000000">MemberExpression:exit</text>
+<text text-anchor="middle" x="98.1957" y="-154.2" font-family="Times,serif" font-size="14.00" fill="#000000">Literal (logging x after 100 ms)</text>
+<text text-anchor="middle" x="98.1957" y="-137.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (x)</text>
+<text text-anchor="middle" x="98.1957" y="-120.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="98.1957" y="-103.8" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="98.1957" y="-87" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+<text text-anchor="middle" x="98.1957" y="-70.2" font-family="Times,serif" font-size="14.00" fill="#000000">ArrowFunctionExpression:exit</text>
+</g>
+<!-- initial&#45;&gt;s1_1 -->
+<g id="edge1" class="edge">
+<title>initial-&gt;s3_1</title>
+<path fill="none" stroke="#98a2b3" d="M98.1957,-340.7655C98.1957,-334.6624 98.1957,-325.9599 98.1957,-315.7413"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="101.6958,-315.5149 98.1957,-305.5149 94.6958,-315.5149 101.6958,-315.5149"></polygon>
+</g>
+<!-- final -->
+<g id="node2" class="node">
+<title>final</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="98.1957" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="#98a2b3" cx="98.1957" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+<!-- s1_2 -->
+<g id="edge2" class="edge">
+<title>s3_1-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M98.1957,-61.8871C98.1957,-52.4481 98.1957,-43.7414 98.1957,-36.3722"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="101.6958,-36.2934 98.1957,-26.2935 94.6958,-36.2935 101.6958,-36.2934"></polygon>
+</g>
+</g>
+</svg>
