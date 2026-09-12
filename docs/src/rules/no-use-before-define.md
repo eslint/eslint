@@ -131,6 +131,7 @@ export { foo };
         "classes": true,
         "variables": true,
         "allowNamedExports": false,
+        "ignoreSelfReferentialInitializers": false,
         "enums": true,
         "typedefs": true,
         "ignoreTypeReferences": true
@@ -159,6 +160,9 @@ export { foo };
   If this flag is set to `true`, the rule always allows references in `export {};` declarations.
   These references are safe even if the variables are declared later in the code.
   Default is `false`.
+* `ignoreSelfReferentialInitializers` (`boolean`) -
+  If this flag is set to `true`, the rule allows a variable to reference itself in its own initializer.
+  Otherwise, the rule reports variable references that occur during the evaluation of the variable's own initializer (`CallExpression` only) and would cause a TDZ error.
 
 This rule additionally supports TypeScript type syntax. The following options enable checking for the references to `type`, `interface` and `enum` declarations:
 
@@ -173,7 +177,7 @@ This rule additionally supports TypeScript type syntax. The following options en
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "ignoreSelfReferentialInitializers": false, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
 
 ### functions
 
@@ -365,6 +369,60 @@ const d = 1;
 ```
 
 :::
+
+### ignoreSelfReferentialInitializers
+
+Examples of **incorrect** code for the `{ "ignoreSelfReferentialInitializers": false }` option:
+
+::: incorrect { "sourceType": "script" }
+
+```js
+/*eslint no-use-before-define: ["error", { "ignoreSelfReferentialInitializers": false }]*/
+
+const a = test((t) => { console.log(`foo: ${a}`); return t; });
+
+const b = (() => b)();
+
+const c = await (async () => c)();
+
+const d = array.map(x => d.length);
+
+const E = class { foo() { return E; } }.prototype.foo();
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreSelfReferentialInitializers": false }` option:
+
+::: correct { "sourceType": "script" }
+
+```js
+/*eslint no-use-before-define: ["error", { "ignoreSelfReferentialInitializers": false }]*/
+
+const a = () => a;
+
+const b = await (async () => "foo")();
+
+const c = array.map(x => y.length);
+
+const D = class { foo() { return D; } bar() {} }.prototype.bar();
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreSelfReferentialInitializers": true }` option:
+
+::: correct
+
+```js
+/*eslint no-use-before-define: ["error", { "ignoreSelfReferentialInitializers": true }]*/
+
+const a = test((t) => { console.log(`foo: ${a}`); return t; });
+```
+
+:::
+
+Here, whether the reference to `a` inside the callback causes a TDZ error depends on when the `test` function calls its callback argument. However, the rule cannot know whether the callback will actually be executed during initialization, so it still reports this case. To prevent the rule from reporting such cases, you can enable the `ignoreSelfReferentialInitializers` option
 
 ### enums (TypeScript only)
 
