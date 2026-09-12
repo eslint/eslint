@@ -216,10 +216,16 @@ ruleTester.run("one-var", rule, {
 		{
 			code: "var bar = 'bar'; var foo = require('foo');",
 			options: [{ separateRequires: true, var: "always" }],
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "var foo = require('foo'); var bar = 'bar';",
 			options: [{ separateRequires: true, var: "always" }],
+			languageOptions: { sourceType: "commonjs" },
+		},
+		{
+			code: "function foo(require) { const bar = require('bar'), baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
 		},
 
 		// https://github.com/eslint/eslint/issues/4680
@@ -275,7 +281,7 @@ ruleTester.run("one-var", rule, {
 		{
 			code: "const foo = require('foo'); const bar = 'bar';",
 			options: [{ const: "consecutive", separateRequires: true }],
-			languageOptions: { ecmaVersion: 6 },
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "var a = 0, b = 1; var c, d;",
@@ -1343,9 +1349,40 @@ ruleTester.run("one-var", rule, {
 			],
 		},
 		{
+			code: "const bar = 'bar'; const foo = require('foo');",
+			output: "const bar = 'bar',  foo = require('foo');",
+			options: [{ separateRequires: true, const: "always" }],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
+		},
+		{
+			code: "const foo = require('foo'); const bar = 'bar';",
+			output: "const foo = require('foo'),  bar = 'bar';",
+			options: [{ separateRequires: true, const: "always" }],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
+		},
+		{
 			code: "var foo = require('foo'), bar;",
 			output: null,
 			options: [{ separateRequires: true, var: "always" }],
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "splitRequires",
@@ -1358,6 +1395,7 @@ ruleTester.run("one-var", rule, {
 			code: "var foo, bar = require('bar');",
 			output: null,
 			options: [{ separateRequires: true, var: "always" }],
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "splitRequires",
@@ -1370,6 +1408,7 @@ ruleTester.run("one-var", rule, {
 			code: "let foo, bar = require('bar');",
 			output: null,
 			options: [{ separateRequires: true, let: "always" }],
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "splitRequires",
@@ -1382,6 +1421,7 @@ ruleTester.run("one-var", rule, {
 			code: "const foo = 0, bar = require('bar');",
 			output: null,
 			options: [{ separateRequires: true, const: "always" }],
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "splitRequires",
@@ -1400,6 +1440,21 @@ ruleTester.run("one-var", rule, {
 					data: { type: "const" },
 					line: 1,
 					column: 29,
+				},
+			],
+		},
+		{
+			code: "function foo(require) { const bar = require('bar'); const baz = 'baz'; }",
+			output: "function foo(require) { const bar = require('bar'),  baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+					line: 1,
+					column: 53,
+					endLine: 1,
+					endColumn: 71,
 				},
 			],
 		},
