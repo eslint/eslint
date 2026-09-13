@@ -141,6 +141,25 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["never"],
 		},
 
+		// https://github.com/eslint/eslint/issues/21320
+		{
+			code: "const obj = { describe() { return super.toString(); } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { describe() { return () => super.toString(); } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { 'describe'() { return super.toString(); } };",
+			options: ["always", { avoidQuotes: true }],
+		},
+		{
+			code: "const obj = { outer() { return class { [super.key] = 1; }; } };",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
 		// ignoreConstructors
 		{
 			code: "var x = {ConstructorFunction: function(){}, a: b}",
@@ -917,6 +936,31 @@ ruleTester.run("object-shorthand", rule, {
 		{
 			code: "var x = {ConstructorFunction(){}, a: b}",
 			output: "var x = {ConstructorFunction: function(){}, a: b}",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return { inner() { return super.value; } }; } };",
+			output: "const obj = { outer: function() { return { inner() { return super.value; } }; } };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return class extends Base { inner() { return super.value; } }; } };",
+			output: "const obj = { outer: function() { return class extends Base { inner() { return super.value; } }; } };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return class extends Base { field = super.value; static { super.value; } }; } };",
+			output: "const obj = { outer: function() { return class extends Base { field = super.value; static { super.value; } }; } };",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return { [super.key]() {} }; } };",
+			output: "const obj = { outer() { return { [super.key]: function() {} }; } };",
 			options: ["never"],
 			errors: [LONGFORM_METHOD_ERROR],
 		},
