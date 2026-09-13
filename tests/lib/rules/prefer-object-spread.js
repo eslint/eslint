@@ -99,14 +99,14 @@ ruleTester.run("prefer-object-spread", rule, {
 		"Object.assign({}, { foo: 'bar', get a() {} }, {})",
 		"Object.assign({ foo }, bar, {}, { baz: 'quux', set a(val) {}, quuux }, {})",
 
-		// ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a `__proto__` property
+		// ignore Object.assign() with > 1 arguments if any of the source arguments is an object expression with a `__proto__` property
 		"Object.assign({}, { __proto__: proto })",
 		'Object.assign({}, { "__proto__": proto })',
 		'Object.assign({}, { ["__proto__"]: proto })',
 		"Object.assign({}, { __proto__() {} })",
 		"Object.assign({}, { __proto__ })",
-		"Object.assign({ __proto__: proto }, foo)",
 		'Object.assign({}, foo, { ["__proto__"]: proto })',
+		"Object.assign({ __proto__: proto }, { __proto__: other })",
 	],
 
 	invalid: [
@@ -1014,6 +1014,63 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+
+		// report Object.assign() with a `__proto__` property in the first argument (the target), as its meaning doesn't change
+		{
+			code: "Object.assign({ __proto__: proto }, foo)",
+			output: "({__proto__: proto, ...foo})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: 'Object.assign({ "__proto__": proto }, foo)',
+			output: '({"__proto__": proto, ...foo})',
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: 'Object.assign({ ["__proto__"]: proto }, { a: 1 })',
+			output: '({["__proto__"]: proto, a: 1})',
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "Object.assign({ __proto__ }, foo)",
+			output: "({__proto__, ...foo})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "Object.assign({ __proto__() {} }, { a: 1 })",
+			output: "({__proto__() {}, a: 1})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
 					line: 1,
 					column: 1,
 				},
