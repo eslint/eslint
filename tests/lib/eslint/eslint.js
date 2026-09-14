@@ -10644,6 +10644,47 @@ describe("ESLint", () => {
 				true,
 			);
 		});
+
+		it("Should omit parse stats when a processor returns no code blocks", async () => {
+			const engine = new ESLint({
+				overrideConfigFile: true,
+				stats: true,
+				overrideConfig: {
+					files: ["**/*.txt"],
+					processor: {
+						preprocess() {
+							return [];
+						},
+						postprocess() {
+							return [];
+						},
+					},
+				},
+			});
+			const results = await engine.lintText("plain text", {
+				filePath: "empty.txt",
+			});
+
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.strictEqual(results[0].stats.fixPasses, 0);
+			assert.strictEqual(results[0].stats.times.passes.length, 1);
+			assert.strictEqual(
+				Object.hasOwn(results[0].stats.times.passes[0], "parse"),
+				false,
+			);
+			assert.strictEqual(
+				Object.hasOwn(results[0].stats.times.passes[0], "rules"),
+				false,
+			);
+			assert.deepStrictEqual(results[0].stats.times.passes[0].fix, {
+				total: 0,
+			});
+			assert.strictEqual(
+				isNumber(results[0].stats.times.passes[0].total),
+				true,
+			);
+			assert.ok(results[0].stats.times.passes[0].total >= 0);
+		});
 	});
 
 	describe("getRulesMetaForResults()", () => {
