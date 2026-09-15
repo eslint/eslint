@@ -108,18 +108,6 @@ for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 
 :::
 
-::: correct
-
-```js
-/*eslint no-const-assign: "error"*/
-
-for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
-    console.log(a);
-}
-```
-
-:::
-
 ## Options
 
 This rule has no options.
