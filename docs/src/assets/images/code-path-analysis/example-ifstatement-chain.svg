@@ -1,1 +1,171 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="371pt" height="562pt" viewBox="0 0 371 562"><g class="graph"><circle cx="114" cy="-545" r="9" stroke="#000" class="node" transform="translate(4 558)"/><g class="node"><path fill="#fff" stroke="#fff" d="M149.339 57.599H86.661l-12 12v34.802l12 12h62.678l12-12V69.599z"/><path fill="#fff" stroke="#fff" d="M86.661 57.599c-6 0-12 6-12 12m0 34.802c0 6 6 12 12 12m62.678 0c6 0 12-6 12-12m0-34.802c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M149.339 57.599H86.661m0 0c-6 0-12 6-12 12m0 0v34.802m0 0c0 6 6 12 12 12m0 0h62.678m0 0c6 0 12-6 12-12m0 0V69.599m0 0c0-6-6-12-12-12"/><text x="114" y="-483.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Program</text><text x="114" y="-466.8" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">IfStatement</text><text x="114" y="-450" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (a)</text></g><g stroke="#000" class="edge"><path fill="none" d="M118 22.259v25.126"/><path d="m121.5 47.676-3.5 10-3.5-10z"/></g><g stroke="#000" class="node" transform="translate(4 558)"><circle cx="181" cy="-13" r="9"/><circle cx="181" cy="-13" r="13" fill="none"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M126.147 342.3H15.853l-12 12v51.4l12 12h110.294l12-12v-51.4z"/><path fill="#fff" stroke="#fff" d="M15.853 342.3c-6 0-12 6-12 12m0 51.4c0 6 6 12 12 12m110.294 0c6 0 12-6 12-12m0-51.4c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M126.147 342.3H15.853m0 0c-6 0-12 6-12 12m0 0v51.4m0 0c0 6 6 12 12 12m0 0h110.294m0 0c6 0 12-6 12-12m0 0v-51.4m0 0c0-6-6-12-12-12"/><text x="67" y="-199" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">BlockStatement</text><text x="67" y="-182.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">ExpressionStatement</text><text x="67" y="-165.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">CallExpression</text><text x="67" y="-148.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (foo)</text></g><g stroke="#000" class="edge"><path fill="none" d="M111.798 116.456C105.706 145.052 96.415 190.438 90 230c-5.526 34.079-10.418 72.759-13.854 102.168"/><path d="m79.617 332.627-4.624 9.533-2.33-10.335z"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M197.429 152.398h-62.858l-12 12v17.204l12 12h62.858l12-12v-17.204z"/><path fill="#fff" stroke="#fff" d="M134.571 152.398c-6 0-12 6-12 12m0 17.204c0 6 6 12 12 12m62.858 0c6 0 12-6 12-12m0-17.204c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M197.429 152.398h-62.858m0 0c-6 0-12 6-12 12m0 0v17.204m0 0c0 6 6 12 12 12m0 0h62.858m0 0c6 0 12-6 12-12m0 0v-17.204m0 0c0-6-6-12-12-12"/><text x="162" y="-389.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">IfStatement</text><text x="162" y="-372.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (b)</text></g><g stroke="#000" class="edge"><path fill="none" d="m134.251 116.439 15.52 27.161"/><path d="m152.839 141.913 1.922 10.419-8-6.946z"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M226.147 454.398h-82.294l-12 12v17.204l12 12h82.294l12-12v-17.204z"/><path fill="#fff" stroke="#fff" d="M143.853 454.398c-6 0-12 6-12 12m0 17.204c0 6 6 12 12 12m82.294 0c6 0 12-6 12-12m0-17.204c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M226.147 454.398h-82.294m0 0c-6 0-12 6-12 12m0 0v17.204m0 0c0 6 6 12 12 12m0 0h82.294m0 0c6 0 12-6 12-12m0 0v-17.204m0 0c0-6-6-12-12-12"/><text x="181" y="-87.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">IfStatement:exit</text><text x="181" y="-70.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Program:exit</text></g><g stroke="#000" class="edge"><path fill="none" d="m116.056 417.756 36.853 30.065"/><path d="m155.37 445.311 5.536 9.034-9.961-3.61z"/></g><g stroke="#000" class="edge"><path fill="none" d="M185 495.668v25.812"/><path d="m188.5 521.651-3.5 10-3.5-10z"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M221.147 230.3H110.853l-12 12v51.4l12 12h110.294l12-12v-51.4z"/><path fill="#fff" stroke="#fff" d="M110.853 230.3c-6 0-12 6-12 12m0 51.4c0 6 6 12 12 12m110.294 0c6 0 12-6 12-12m0-51.4c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M221.147 230.3H110.853m0 0c-6 0-12 6-12 12m0 0v51.4m0 0c0 6 6 12 12 12m0 0h110.294m0 0c6 0 12-6 12-12m0 0v-51.4m0 0c0-6-6-12-12-12"/><text x="162" y="-311" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">BlockStatement</text><text x="162" y="-294.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">ExpressionStatement</text><text x="162" y="-277.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">CallExpression</text><text x="162" y="-260.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (bar)</text></g><g stroke="#000" class="edge"><path fill="none" d="M166 193.723v26.297"/><path d="m169.5 220.035-3.5 10-3.5-10z"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M326.339 247.398h-62.678l-12 12v17.204l12 12h62.678l12-12v-17.204z"/><path fill="#fff" stroke="#fff" d="M263.661 247.398c-6 0-12 6-12 12m0 17.204c0 6 6 12 12 12m62.678 0c6 0 12-6 12-12m0-17.204c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M326.339 247.398h-62.678m0 0c-6 0-12 6-12 12m0 0v17.204m0 0c0 6 6 12 12 12m0 0h62.678m0 0c6 0 12-6 12-12m0 0v-17.204m0 0c0-6-6-12-12-12"/><text x="291" y="-294.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">IfStatement</text><text x="291" y="-277.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (c)</text></g><g stroke="#000" class="edge"><path fill="none" d="m193.358 193.723 66.024 47.599"/><path d="m261.617 238.618 6.065 8.688-10.159-3.009z"/></g><g stroke="#000" class="edge"><path fill="none" d="m169.397 305.65 12.853 138.677"/><path d="m185.744 444.107-2.562 10.28-4.408-9.634z"/></g><g stroke="#000" class="edge"><path fill="none" d="M270.084 288.608C254.495 302.092 235.136 321.258 223 342c-18.795 32.122-28.797 74.136-33.741 102.043"/><path d="m192.697 444.707-5.093 9.291-1.813-10.439z"/></g><g class="node"><path fill="#fff" stroke="#fff" d="M354.147 342.3H243.853l-12 12v51.4l12 12h110.294l12-12v-51.4z"/><path fill="#fff" stroke="#fff" d="M243.853 342.3c-6 0-12 6-12 12m0 51.4c0 6 6 12 12 12m110.294 0c6 0 12-6 12-12m0-51.4c0-6-6-12-12-12"/><path fill="none" stroke="#000" d="M354.147 342.3H243.853m0 0c-6 0-12 6-12 12m0 0v51.4m0 0c0 6 6 12 12 12m0 0h110.294m0 0c6 0 12-6 12-12m0 0v-51.4m0 0c0-6-6-12-12-12"/><text x="295" y="-199" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">BlockStatement</text><text x="295" y="-182.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">ExpressionStatement</text><text x="295" y="-165.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">CallExpression</text><text x="295" y="-148.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 558)">Identifier (hoge)</text></g><g stroke="#000" class="edge"><path fill="none" d="m295.715 288.666 1.571 43.187"/><path d="m300.795 332.041-3.135 10.12-3.861-9.866z"/></g><g stroke="#000" class="edge"><path fill="none" d="m253.944 417.756-36.853 30.065"/><path d="m219.055 450.735-9.961 3.61 5.536-9.034z"/></g></g></svg>
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 419.28 810.40">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 806.4)">
+<title>%0</title>
+<!-- initial -->
+<g id="node1" class="node">
+<title>initial</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="138.0337" cy="-793.4" rx="9" ry="9"></ellipse>
+</g>
+<!-- s4_1 -->
+<g id="node3" class="node">
+<title>s1_1</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M182.7148,-748.6014C182.7148,-748.6014 93.3526,-748.6014 93.3526,-748.6014 87.3526,-748.6014 81.3526,-742.6014 81.3526,-736.6014 81.3526,-736.6014 81.3526,-701.7986 81.3526,-701.7986 81.3526,-695.7986 87.3526,-689.7986 93.3526,-689.7986 93.3526,-689.7986 182.7148,-689.7986 182.7148,-689.7986 188.7148,-689.7986 194.7148,-695.7986 194.7148,-701.7986 194.7148,-701.7986 194.7148,-736.6014 194.7148,-736.6014 194.7148,-742.6014 188.7148,-748.6014 182.7148,-748.6014"></path>
+<text text-anchor="middle" x="138.0337" y="-731.8" font-family="Times,serif" font-size="14.00" fill="#000000">Program:enter</text>
+<text text-anchor="middle" x="138.0337" y="-715" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
+<text text-anchor="middle" x="138.0337" y="-698.2" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (a)</text>
+</g>
+<!-- initial&#45;&gt;s4_1 -->
+<g id="edge1" class="edge">
+<title>initial-&gt;s1_1</title>
+<path fill="none" stroke="#98a2b3" d="M138.0337,-784.3016C138.0337,-777.6957 138.0337,-768.2581 138.0337,-758.6112"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="141.5338,-758.5924 138.0337,-748.5924 134.5338,-758.5924 141.5338,-758.5924"></polygon>
+</g>
+<!-- final -->
+<g id="node2" class="node">
+<title>final</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="138.0337" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="#98a2b3" cx="138.0337" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+<!-- s4_2 -->
+<g id="node4" class="node">
+<title>s1_2</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M154.1011,-498.6006C154.1011,-498.6006 11.9663,-498.6006 11.9663,-498.6006 5.9663,-498.6006 -.0337,-492.6006 -.0337,-486.6006 -.0337,-486.6006 -.0337,-385.3994 -.0337,-385.3994 -.0337,-379.3994 5.9663,-373.3994 11.9663,-373.3994 11.9663,-373.3994 154.1011,-373.3994 154.1011,-373.3994 160.1011,-373.3994 166.1011,-379.3994 166.1011,-385.3994 166.1011,-385.3994 166.1011,-486.6006 166.1011,-486.6006 166.1011,-492.6006 160.1011,-498.6006 154.1011,-498.6006"></path>
+<text text-anchor="middle" x="83.0337" y="-482.2" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="83.0337" y="-465.4" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="83.0337" y="-448.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="83.0337" y="-431.8" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (foo)</text>
+<text text-anchor="middle" x="83.0337" y="-415" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="83.0337" y="-398.2" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="83.0337" y="-381.4" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+</g>
+<!-- s1_1&#45;&gt;s1_2 -->
+<g id="edge2" class="edge">
+<title>s1_1-&gt;s1_2</title>
+<path fill="none" stroke="#98a2b3" d="M132.3549,-689.9593C124.1173,-647.5432 108.589,-567.5866 97.1484,-508.6781"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="100.5485,-507.8262 95.2061,-498.6769 93.6769,-509.1608 100.5485,-507.8262"></polygon>
+</g>
+<!-- s1_3 -->
+<g id="node5" class="node">
+<title>s1_3</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M238.7148,-653.8019C238.7148,-653.8019 149.3526,-653.8019 149.3526,-653.8019 143.3526,-653.8019 137.3526,-647.8019 137.3526,-641.8019 137.3526,-641.8019 137.3526,-624.5981 137.3526,-624.5981 137.3526,-618.5981 143.3526,-612.5981 149.3526,-612.5981 149.3526,-612.5981 238.7148,-612.5981 238.7148,-612.5981 244.7148,-612.5981 250.7148,-618.5981 250.7148,-624.5981 250.7148,-624.5981 250.7148,-641.8019 250.7148,-641.8019 250.7148,-647.8019 244.7148,-653.8019 238.7148,-653.8019"></path>
+<text text-anchor="middle" x="194.0337" y="-637.4" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
+<text text-anchor="middle" x="194.0337" y="-620.6" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (b)</text>
+</g>
+<!-- s1_1&#45;&gt;s1_3 -->
+<g id="edge4" class="edge">
+<title>s1_1-&gt;s1_3</title>
+<path fill="none" stroke="#98a2b3" d="M157.3057,-689.6037C163.0481,-680.7851 169.3346,-671.1308 175.0579,-662.3414"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="178.0286,-664.1933 180.5524,-653.9034 172.1626,-660.3736 178.0286,-664.1933"></polygon>
+</g>
+<!-- s1_4 -->
+<g id="node6" class="node">
+<title>s1_4</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M265.1011,-337.0006C265.1011,-337.0006 122.9663,-337.0006 122.9663,-337.0006 116.9663,-337.0006 110.9663,-331.0006 110.9663,-325.0006 110.9663,-325.0006 110.9663,-223.7994 110.9663,-223.7994 110.9663,-217.7994 116.9663,-211.7994 122.9663,-211.7994 122.9663,-211.7994 265.1011,-211.7994 265.1011,-211.7994 271.1011,-211.7994 277.1011,-217.7994 277.1011,-223.7994 277.1011,-223.7994 277.1011,-325.0006 277.1011,-325.0006 277.1011,-331.0006 271.1011,-337.0006 265.1011,-337.0006"></path>
+<text text-anchor="middle" x="194.0337" y="-320.6" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="194.0337" y="-303.8" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="194.0337" y="-287" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="194.0337" y="-270.2" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (bar)</text>
+<text text-anchor="middle" x="194.0337" y="-253.4" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="194.0337" y="-236.6" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="194.0337" y="-219.8" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+</g><g id="node11" class="node">
+<title>s1_9</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M179.2303,-103.4019C179.2303,-103.4019 96.8371,-103.4019 96.8371,-103.4019 90.8371,-103.4019 84.8371,-97.4019 84.8371,-91.4019 84.8371,-91.4019 84.8371,-74.1981 84.8371,-74.1981 84.8371,-68.1981 90.8371,-62.1981 96.8371,-62.1981 96.8371,-62.1981 179.2303,-62.1981 179.2303,-62.1981 185.2303,-62.1981 191.2303,-68.1981 191.2303,-74.1981 191.2303,-74.1981 191.2303,-91.4019 191.2303,-91.4019 191.2303,-97.4019 185.2303,-103.4019 179.2303,-103.4019"></path>
+<text text-anchor="middle" x="138.0337" y="-87" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:exit</text>
+<text text-anchor="middle" x="138.0337" y="-70.2" font-family="Times,serif" font-size="14.00" fill="#000000">Program:exit</text>
+</g>
+<!-- s1_2&#45;&gt;s1_4 -->
+<g id="edge3" class="edge">
+<title>s1_2-&gt;s1_9</title>
+<path fill="none" stroke="#98a2b3" d="M85.1901,-373.1957C87.5093,-327.9722 92.2798,-265.6594 102.0337,-211.6 108.2209,-177.3084 119.5262,-138.9571 127.8223,-113.0915"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="131.1806,-114.082 130.9479,-103.4897 124.5243,-111.9151 131.1806,-114.082"></polygon>
+</g>
+<!-- s1_3&#45;&gt;s1_4 -->
+<g id="edge5" class="edge">
+<title>s1_3-&gt;s1_4</title>
+<path fill="none" stroke="#98a2b3" d="M194.0337,-612.3585C194.0337,-561.7482 194.0337,-430.4144 194.0337,-347.1659"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="197.5338,-347.0095 194.0337,-337.0096 190.5338,-347.0096 197.5338,-347.0095"></polygon>
+</g>
+<!-- s1_4&#45;&gt;final -->
+
+<!-- s1_5 -->
+<g id="node7" class="node">
+<title>s1_5</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M349.7148,-576.2019C349.7148,-576.2019 260.3526,-576.2019 260.3526,-576.2019 254.3526,-576.2019 248.3526,-570.2019 248.3526,-564.2019 248.3526,-564.2019 248.3526,-546.9981 248.3526,-546.9981 248.3526,-540.9981 254.3526,-534.9981 260.3526,-534.9981 260.3526,-534.9981 349.7148,-534.9981 349.7148,-534.9981 355.7148,-534.9981 361.7148,-540.9981 361.7148,-546.9981 361.7148,-546.9981 361.7148,-564.2019 361.7148,-564.2019 361.7148,-570.2019 355.7148,-576.2019 349.7148,-576.2019"></path>
+<text text-anchor="middle" x="305.0337" y="-559.8" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
+<text text-anchor="middle" x="305.0337" y="-543" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (c)</text>
+</g>
+<!-- s1_3&#45;&gt;s1_5 -->
+<g id="edge8" class="edge">
+<title>s1_3-&gt;s1_5</title>
+<path fill="none" stroke="#98a2b3" d="M223.7797,-612.4046C236.9684,-603.1844 252.6503,-592.2212 266.7031,-582.3969"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="269.0152,-585.051 275.2056,-576.4528 265.0044,-579.314 269.0152,-585.051"></polygon>
+</g>
+<!-- s1_8 -->
+<g id="node10" class="node">
+<title>s1_8</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M235.2303,-175.6C235.2303,-175.6 152.8371,-175.6 152.8371,-175.6 146.8371,-175.6 140.8371,-169.6 140.8371,-163.6 140.8371,-163.6 140.8371,-151.6 140.8371,-151.6 140.8371,-145.6 146.8371,-139.6 152.8371,-139.6 152.8371,-139.6 235.2303,-139.6 235.2303,-139.6 241.2303,-139.6 247.2303,-145.6 247.2303,-151.6 247.2303,-151.6 247.2303,-163.6 247.2303,-163.6 247.2303,-169.6 241.2303,-175.6 235.2303,-175.6"></path>
+<text text-anchor="middle" x="194.0337" y="-153.4" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:exit</text>
+</g>
+<!-- s1_4&#45;&gt;s1_8 -->
+<g id="edge6" class="edge">
+<title>s1_4-&gt;s1_8</title>
+<path fill="none" stroke="#98a2b3" d="M194.0337,-211.5554C194.0337,-202.4976 194.0337,-193.5833 194.0337,-185.6907"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="197.5338,-185.6439 194.0337,-175.6439 190.5338,-185.644 197.5338,-185.6439"></polygon>
+</g>
+<!-- s1_6 -->
+<g id="node8" class="node">
+<title>s1_6</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M376.1011,-498.6006C376.1011,-498.6006 233.9663,-498.6006 233.9663,-498.6006 227.9663,-498.6006 221.9663,-492.6006 221.9663,-486.6006 221.9663,-486.6006 221.9663,-385.3994 221.9663,-385.3994 221.9663,-379.3994 227.9663,-373.3994 233.9663,-373.3994 233.9663,-373.3994 376.1011,-373.3994 376.1011,-373.3994 382.1011,-373.3994 388.1011,-379.3994 388.1011,-385.3994 388.1011,-385.3994 388.1011,-486.6006 388.1011,-486.6006 388.1011,-492.6006 382.1011,-498.6006 376.1011,-498.6006"></path>
+<text text-anchor="middle" x="305.0337" y="-482.2" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="305.0337" y="-465.4" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="305.0337" y="-448.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="305.0337" y="-431.8" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (baz)</text>
+<text text-anchor="middle" x="305.0337" y="-415" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="305.0337" y="-398.2" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="305.0337" y="-381.4" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+</g>
+<!-- s1_5&#45;&gt;s1_6 -->
+<g id="edge9" class="edge">
+<title>s1_5-&gt;s1_6</title>
+<path fill="none" stroke="#98a2b3" d="M305.0337,-534.7673C305.0337,-527.2966 305.0337,-518.3889 305.0337,-509.0258"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="308.5338,-508.7334 305.0337,-498.7335 301.5338,-508.7335 308.5338,-508.7334"></polygon>
+</g>
+<!-- s1_7 -->
+<g id="node9" class="node">
+<title>s1_7</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M389.2303,-292.4C389.2303,-292.4 306.8371,-292.4 306.8371,-292.4 300.8371,-292.4 294.8371,-286.4 294.8371,-280.4 294.8371,-280.4 294.8371,-268.4 294.8371,-268.4 294.8371,-262.4 300.8371,-256.4 306.8371,-256.4 306.8371,-256.4 389.2303,-256.4 389.2303,-256.4 395.2303,-256.4 401.2303,-262.4 401.2303,-268.4 401.2303,-268.4 401.2303,-280.4 401.2303,-280.4 401.2303,-286.4 395.2303,-292.4 389.2303,-292.4"></path>
+<text text-anchor="middle" x="348.0337" y="-270.2" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:exit</text>
+</g>
+<!-- s1_5&#45;&gt;s1_7 -->
+<g id="edge12" class="edge">
+<title>s1_5-&gt;s1_7</title>
+<path fill="none" stroke="#98a2b3" d="M358.1204,-534.9393C373.4372,-526.2102 388.3463,-514.3733 397.0337,-498.8 433.1252,-434.1016 391.0248,-345.1238 365.2154,-301.1818"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="368.1499,-299.2703 359.9892,-292.5135 362.1551,-302.8846 368.1499,-299.2703"></polygon>
+</g>
+<!-- s1_6&#45;&gt;s1_7 -->
+<g id="edge10" class="edge">
+<title>s1_6-&gt;s1_7</title>
+<path fill="none" stroke="#98a2b3" d="M321.7817,-373.0585C328.2981,-348.569 335.4276,-321.7755 340.6101,-302.2988"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="344.0117,-303.1261 343.2009,-292.5623 337.2471,-301.3261 344.0117,-303.1261"></polygon>
+</g>
+<!-- s1_7&#45;&gt;s1_8 -->
+<g id="edge11" class="edge">
+<title>s1_7-&gt;s1_8</title>
+<path fill="none" stroke="#98a2b3" d="M332.5646,-256.359C320.6437,-243.0736 303.3243,-225.0551 286.0337,-211.6 271.494,-200.2855 254.3624,-189.6105 238.8488,-180.7864"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="240.3717,-177.6283 229.9333,-175.814 236.962,-183.7417 240.3717,-177.6283"></polygon>
+</g>
+<!-- s1_8&#45;&gt;s1_9 -->
+<g id="edge7" class="edge">
+<title>s1_8-&gt;s1_9</title>
+<path fill="none" stroke="#98a2b3" d="M180.4777,-139.493C174.2819,-131.2172 166.7867,-121.2058 159.8296,-111.9132"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="162.4394,-109.559 153.6445,-103.6515 156.8358,-113.7543 162.4394,-109.559"></polygon>
+</g>
+<!-- s1_9&#45;&gt;final -->
+<g id="edge13" class="edge">
+<title>s1_9-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M138.0337,-61.8577C138.0337,-53.8164 138.0337,-44.5915 138.0337,-36.3389"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="141.5338,-36.2314 138.0337,-26.2314 134.5338,-36.2315 141.5338,-36.2314"></polygon>
+</g>
+</g>
+</svg>
