@@ -796,11 +796,6 @@ In this case, ESLint does not search for configuration files and instead uses `s
 
 For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.2.0 or later in your project (this dependency is not automatically installed by ESLint):
 
-{{ npm_tabs({
-    command: "install",
-    packages: ["jiti"],
-    args: ["--save-dev"]
-}) }}
 
 You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects).
 
