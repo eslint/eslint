@@ -179,9 +179,70 @@
 
 			select.addEventListener("change", function () {
 				var selected = this.options[this.selectedIndex];
-				url = selected.getAttribute("data-url");
+				var newBasePath = selected.getAttribute("data-url");
 
-				window.location.href = url;
+				if (!newBasePath) {
+					return;
+				}
+
+				newBasePath = newBasePath.trim();
+
+				if (!newBasePath) {
+					return;
+				}
+
+				// External absolute URLs (e.g. "Previous Versions" link)
+				if (/^https?:\/\//i.test(newBasePath)) {
+					try {
+						var absoluteUrl = new URL(newBasePath);
+
+						if (
+							absoluteUrl.protocol === "http:" ||
+							absoluteUrl.protocol === "https:"
+						) {
+							window.location.href = absoluteUrl.href;
+						}
+					} catch (e) {
+						if (e instanceof TypeError) {
+							// invalid URL; ignore navigation
+						} else {
+							throw e;
+						}
+					}
+					return;
+				}
+
+				try {
+					var match =
+						window.location.pathname.match(/^\/docs\/[^/]+\/(.*)/);
+
+					var targetUrl = new URL(
+						newBasePath,
+						window.location.origin,
+					);
+
+					if (match && match[1]) {
+						targetUrl.pathname =
+							targetUrl.pathname.replace(/\/?$/, "/") + match[1];
+					}
+
+					targetUrl.search = window.location.search;
+					targetUrl.hash = window.location.hash;
+
+					if (
+						targetUrl.origin === window.location.origin &&
+						(targetUrl.protocol === "http:" ||
+							targetUrl.protocol === "https:")
+					) {
+						window.location.href = targetUrl.href;
+					}
+				} catch (e) {
+					if (e instanceof TypeError) {
+						// invalid base path; ignore navigation
+					} else {
+						throw e;
+					}
+				}
 			});
 		});
 	}
