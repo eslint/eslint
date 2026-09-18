@@ -439,4 +439,11 @@ ruleTester.run("no-unexpected-multiline", rule, {
 
 		// "class C { field1 = obj\n*gen() {} }" is syntax error: Unexpected token '{'
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
