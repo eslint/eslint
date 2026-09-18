@@ -712,13 +712,9 @@ If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.es
 
 Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
-::: warning
-
 ESLint determines whether a cached result is still valid from the file itself (its contents or metadata, depending on `--cache-strategy`) and the configuration. It does not track dependencies between files, so a file's cached results are reused even when another file it depends on has changed. Rules whose results depend on other files can therefore report stale results. This includes type-aware rules, such as those in [`@typescript-eslint/eslint-plugin`](https://typescript-eslint.io/packages/eslint-plugin), and rules that resolve imports across modules, such as those in [`eslint-plugin-import`](https://github.com/import-js/eslint-plugin-import) and [`eslint-plugin-import-x`](https://github.com/un-ts/eslint-plugin-import-x).
 
 For example, if a module is changed in a way that introduces a problem in an unchanged file that imports it, `--cache` does not report that problem until the importing file or the configuration changes. The opposite can also happen: a problem that has already been fixed in another file continues to be reported. Run ESLint without `--cache` when you need accurate results from such rules. See [Can I use ESLint's `--cache` with typescript-eslint?](https://typescript-eslint.io/troubleshooting/faqs/eslint/#can-i-use-eslints---cache-with-typescript-eslint) for more details.
-
-:::
 
 ##### `--cache` example
 
