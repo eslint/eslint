@@ -2609,7 +2609,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					/Value "bar" should be equal to one of the allowed values/u,
+					/Value "bar" must be equal to one of the allowed values/u,
 				);
 			});
 
@@ -2622,7 +2622,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					/Value \[\] should NOT have fewer than 1 items/u,
+					/Value \[\] must NOT have fewer than 1 items/u,
 				);
 			});
 
@@ -2672,7 +2672,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					"Error while processing options validation schema of rule 'foo/bar': minItems must be number",
+					"Error while processing options validation schema of rule 'foo/bar': minItems value must be [\"number\"]",
 				);
 			});
 
@@ -2808,7 +2808,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					/should NOT have more than 0 items/u,
+					/must NOT have more than 0 items/u,
 				);
 			});
 
@@ -2835,7 +2835,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					/should NOT have more than 0 items/u,
+					/must NOT have more than 0 items/u,
 				);
 			});
 
