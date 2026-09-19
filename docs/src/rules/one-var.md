@@ -453,7 +453,7 @@ async function foo() {
 
 Examples of **incorrect** code for this rule with the `{ separateRequires: true }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "commonjs" }
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
@@ -466,7 +466,7 @@ var foo = require("foo"),
 
 Examples of **correct** code for this rule with the `{ separateRequires: true }` option:
 
-::: correct
+::: correct { "sourceType": "commonjs" }
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
@@ -477,7 +477,7 @@ var bar = "bar";
 
 :::
 
-::: correct
+::: correct { "sourceType": "commonjs" }
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
