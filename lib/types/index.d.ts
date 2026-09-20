@@ -28,6 +28,7 @@
 import * as ESTree from "estree";
 import type {
 	DeprecatedInfo,
+	Language,
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
@@ -1183,7 +1184,9 @@ export class ESLint {
 
 	hasFlag(flag: string): boolean;
 
-	calculateConfigForFile(filePath: string): Promise<any>;
+	calculateConfigForFile(
+		filePath: string,
+	): Promise<ESLint.CalculatedConfig | undefined>;
 
 	findConfigFile(filePath?: string): Promise<string | undefined>;
 
@@ -1201,6 +1204,24 @@ export namespace ESLint {
 		Linter.LegacyConfig<Rules>,
 		"$schema"
 	>;
+
+	/**
+	 * A calculated configuration object for a specific file.
+	 */
+	interface CalculatedConfig extends Omit<
+		Linter.Config,
+		"basePath" | "files" | "ignores" | "language" | "name" | "processor"
+	> {
+		/**
+		 * The language object used for linting.
+		 */
+		language?: Language | undefined;
+
+		/**
+		 * A processor object to use for preprocessing and postprocessing files.
+		 */
+		processor?: Linter.Processor | undefined;
+	}
 
 	type Environment = EnvironmentConfig;
 	type ObjectMetaProperties = CoreObjectMetaProperties;

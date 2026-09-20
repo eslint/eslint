@@ -1691,7 +1691,13 @@ linterWithEslintrcConfig.verify(
 
 	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
 
-	eslint.calculateConfigForFile("./config.json");
+	let calculatedConfigPromise: Promise<ESLint.CalculatedConfig | undefined>;
+
+	calculatedConfigPromise = eslint.calculateConfigForFile("./config.json");
+
+	// @ts-expect-error `calculateConfigForFile` does not return `Promise<string>`
+	const invalidConfigPromise: Promise<string> =
+		eslint.calculateConfigForFile("./config.json");
 
 	eslint.findConfigFile("src/index.js");
 	eslint.findConfigFile();
@@ -1747,6 +1753,23 @@ linterWithEslintrcConfig.verify(
 	(async () => {
 		const results: ESLint.LintResult[] = await resultsPromise;
 		const formatter = await formatterPromise;
+		const calculatedConfig = await calculatedConfigPromise;
+
+		if (calculatedConfig) {
+			const rules: Partial<Linter.RulesRecord> | undefined =
+				calculatedConfig.rules;
+			const ruleEntry: Linter.RuleEntry | undefined =
+				calculatedConfig.rules?.["semi"];
+			const language: Language | undefined = calculatedConfig.language;
+			const languageOptions: Linter.LanguageOptions | undefined =
+				calculatedConfig.languageOptions;
+			const processor: Linter.Processor | undefined =
+				calculatedConfig.processor;
+			const plugins: Record<string, ESLint.Plugin> | undefined =
+				calculatedConfig.plugins;
+			const settings: Record<string, unknown> | undefined =
+				calculatedConfig.settings;
+		}
 
 		const output: string = await formatter.format(results, resultsMeta);
 
