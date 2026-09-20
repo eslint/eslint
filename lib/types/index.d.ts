@@ -32,7 +32,6 @@ import type {
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
 	SourceRange,
-	TextSourceCode,
 	TraversalStep,
 	RulesConfig,
 	GlobalAccess,
@@ -70,10 +69,11 @@ import type {
 	ViolationReport,
 	MessagePlaceholderData,
 } from "@eslint/core";
-import type {
-	CustomRuleDefinitionType,
-	CustomRuleTypeDefinitions,
-	CustomRuleVisitorWithExit,
+import {
+	type CustomRuleDefinitionType,
+	type CustomRuleTypeDefinitions,
+	type CustomRuleVisitorWithExit,
+	TextSourceCodeBase,
 } from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
@@ -237,15 +237,14 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode implements TextSourceCode<{
+export class SourceCode extends TextSourceCodeBase<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
 	ConfigNode: ESTree.Comment;
 }> {
 	text: string;
 	ast: AST.Program;
-	lines: string[];
 	hasBOM: boolean;
 	parserServices: SourceCode.ParserServices;
 	scopeManager: Scope.ScopeManager;
@@ -259,15 +258,11 @@ export class SourceCode implements TextSourceCode<{
 	getLoc(syntaxElement: AST.Token | ESTree.Node): ESTree.SourceLocation;
 	getRange(syntaxElement: AST.Token | ESTree.Node): SourceRange;
 
-	getText(
-		node?: ESTree.Node,
-		beforeCount?: number,
-		afterCount?: number,
-	): string;
-
 	getLines(): string[];
 
 	getAllComments(): ESTree.Comment[];
+
+	getParent: never;
 
 	getAncestors(node: ESTree.Node): ESTree.Node[];
 

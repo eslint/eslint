@@ -145,8 +145,12 @@ SourceCode.splitLines(SOURCE);
 
 sourceCode.getText();
 sourceCode.getText(AST);
+sourceCode.getText(TOKEN);
+sourceCode.getText(COMMENT);
 sourceCode.getText(AST, 0);
 sourceCode.getText(AST, 0, 0);
+
+sourceCode.getParent satisfies never;
 
 sourceCode.getLines();
 
