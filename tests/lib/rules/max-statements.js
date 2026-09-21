@@ -112,6 +112,92 @@ ruleTester.run("max-statements", rule, {
 			options: [2],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// statements are counted whether or not they are wrapped in a block
+		{
+			code: "function foo() { if (true) { bar(); } }",
+			options: [2],
+		},
+		{
+			code: "function foo() { if (true) bar(); }",
+			options: [2],
+		},
+		{
+			code: "function foo() { if (true) bar(); else baz(); }",
+			options: [3],
+		},
+		{
+			code: "function foo() { if (true) bar(); else { baz(); } }",
+			options: [3],
+		},
+		{
+			code: "function foo() { if (bar) if (baz) qux(); }",
+			options: [3],
+		},
+		{
+			code: "function foo() { while (true) bar(); }",
+			options: [2],
+		},
+		{
+			code: "function foo() { do bar(); while (true); }",
+			options: [2],
+		},
+		{
+			code: "function foo() { for (;;) bar(); }",
+			options: [2],
+		},
+		{
+			code: "function foo() { for (const foo of bar) baz(); }",
+			options: [2],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo() { for (const foo in bar) baz(); }",
+			options: [2],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo() { label: bar(); }",
+			options: [2],
+		},
+		{
+			code: "function foo() { switch (bar) { case 1: baz(); break; } }",
+			options: [3],
+		},
+
+		// statements in nested functions do not count toward the enclosing function
+		{
+			code: "function foo() { if (bar) baz(); function qux() { 1; 2; 3; } }",
+			options: [3],
+		},
+		{
+			code: "function foo() { if (bar) baz(); const qux = () => { 1; 2; 3; }; }",
+			options: [3],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo() { class C { static { if (bar) baz(); } } }",
+			options: [1],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// empty statements are not counted
+		{
+			code: "function foo() { if (true); }",
+			options: [1],
+		},
+		{
+			code: "function foo() { if (true) {}; }",
+			options: [1],
+		},
+		{
+			code: "function foo() { while (true); }",
+			options: [1],
+		},
+		{
+			code: "function foo() { ; ; }",
+			options: [0],
+		},
 	],
 	invalid: [
 		{
@@ -458,6 +544,203 @@ ruleTester.run("max-statements", rule, {
 					column: 47,
 					endLine: 1,
 					endColumn: 69,
+				},
+			],
+		},
+
+		// statements are counted whether or not they are wrapped in a block
+		{
+			code: "function foo() { if (true) { bar(); } }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (true) bar(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (true) bar(); else baz(); }",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 3, max: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (true) { bar(); } else baz(); }",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 3, max: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (bar) if (baz) qux(); }",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 3, max: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { while (true) bar(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { do bar(); while (true); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (;;) bar(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (const foo of bar) baz(); }",
+			options: [1],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (const foo in bar) baz(); }",
+			options: [1],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo(bar) { with (bar) baz(); }",
+			options: [1],
+			languageOptions: { ecmaVersion: 5, sourceType: "script" },
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+				},
+			],
+		},
+		{
+			code: "function foo() { label: bar(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { switch (bar) { case 1: a(); b(); c(); break; } }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 5, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { switch (bar) { case 1: a(); break; default: b(); c(); } }",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 5, max: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},

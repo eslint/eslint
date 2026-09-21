@@ -25,6 +25,58 @@ function foo() {
 
 This rule enforces a maximum number of statements allowed in function blocks.
 
+Statements are counted whether or not they are wrapped in a block. This means that statements which are the body of a statement that allows a block, like `if`, `for`, `while`, `do`, `with`, and labeled statements, count toward the maximum even when they are not wrapped in a block, and that statements in `switch` cases are counted as well. Empty statements (`;`) are not counted.
+
+Examples of **incorrect** code for this rule with the `{ "max": 2 }` option:
+
+::: incorrect
+
+```js
+/*eslint max-statements: ["error", 2]*/
+
+function foo() {
+  if (bar) { // 1 statement: `if`
+    baz(); // 2 statements
+  }
+}
+
+function qux() {
+  if (bar) baz(); // 2 statements: `if` and `baz()`
+}
+
+function quux() {
+  switch (bar) { // 1 statement: `switch`
+    case 1:
+      baz(); // 2 statements
+      break; // 3 statements
+  }
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "max": 2 }` option:
+
+::: correct
+
+```js
+/*eslint max-statements: ["error", 2]*/
+
+function foo() {
+  if (bar) baz(); // 2 statements
+}
+
+function qux() {
+  while (bar) baz(); // 2 statements
+}
+
+function quux() {
+  ;; // empty statements are not counted
+}
+```
+
+:::
+
 ## Options
 
 This rule has a number or object option:
