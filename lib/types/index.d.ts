@@ -32,7 +32,6 @@ import type {
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
 	SourceRange,
-	TraversalStep,
 	RulesConfig,
 	GlobalAccess,
 	GlobalsConfig,
@@ -243,8 +242,6 @@ export class SourceCode extends TextSourceCodeBase<{
 	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
 	ConfigNode: ESTree.Comment;
 }> {
-	text: string;
-	ast: AST.Program;
 	hasBOM: boolean;
 	parserServices: SourceCode.ParserServices;
 	scopeManager: Scope.ScopeManager;
@@ -254,9 +251,6 @@ export class SourceCode extends TextSourceCodeBase<{
 	constructor(config: SourceCode.Config);
 
 	static splitLines(text: string): string[];
-
-	getLoc(syntaxElement: AST.Token | ESTree.Node): ESTree.SourceLocation;
-	getRange(syntaxElement: AST.Token | ESTree.Node): SourceRange;
 
 	getLines(): string[];
 
@@ -269,10 +263,6 @@ export class SourceCode extends TextSourceCodeBase<{
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
-
-	getLocFromIndex(index: number): ESTree.Position;
-
-	getIndexFromLoc(location: ESTree.Position): number;
 
 	// Inherited methods from TokenStore
 	// ---------------------------------
@@ -340,8 +330,6 @@ export class SourceCode extends TextSourceCodeBase<{
 	isGlobalReference(node: ESTree.Identifier): boolean;
 
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
-
-	traverse(): Iterable<TraversalStep>;
 }
 
 export namespace SourceCode {
