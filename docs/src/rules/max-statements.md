@@ -37,11 +37,13 @@ Examples of **incorrect** code for this rule with the `{ "max": 2 }` option:
 function foo() {
   if (bar) { // 1 statement: `if`
     baz(); // 2 statements
+    quux(); // 3 statements
   }
 }
 
 function qux() {
   if (bar) baz(); // 2 statements: `if` and `baz()`
+  foo(); // 3 statements
 }
 
 function quux() {
