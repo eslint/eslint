@@ -42,8 +42,8 @@ A basic `SourceCode` object must implement the following:
 
 - `ast` - a property containing the AST or CST for the source code.
 - `text` - the text of the source code.
-- `getLoc(nodeOrToken)` - a method that returns the location of a given node or token. This must match the `loc` structure that ESTree uses.
-- `getRange(nodeOrToken)` - a method that returns the range of a given node or token. This must return an array where the first item is the start index and the second is the end index.
+- `getLoc(nodeOrToken)` - a method that returns the location of a given node, token, or comment. This must match the `loc` structure that ESTree uses.
+- `getRange(nodeOrToken)` - a method that returns the range of a given node, token, or comment. This must return an array where the first item is the start index and the second is the end index.
 - `traverse()` - a method that returns an iterable for traversing the AST or CST. The iterator must return objects that implement either `VisitTraversalStep` or `CallTraversalStep` from `@eslint/core`.
 
 The following optional members allow you to customize how ESLint interacts with the object:
