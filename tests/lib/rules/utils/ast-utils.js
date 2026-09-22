@@ -1257,6 +1257,44 @@ describe("ast-utils", () => {
 				);
 			});
 		});
+
+		it('should return the location of the `=>` token for "type F = (a, b) => void".', () => {
+			const expectedLoc = {
+				start: { line: 1, column: 16 },
+				end: { line: 1, column: 18 },
+			};
+
+			linter.verify(
+				"type F = (a, b) => void",
+				{
+					files: ["**/*.ts"],
+					languageOptions: {
+						parser: require("@typescript-eslint/parser"),
+					},
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: mustCall(() => ({
+										TSFunctionType: mustCall(node => {
+											assert.deepStrictEqual(
+												astUtils.getFunctionHeadLoc(
+													node,
+													linter.getSourceCode(),
+												),
+												expectedLoc,
+											);
+										}),
+									})),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				},
+				"test.ts",
+			);
+		});
 	});
 
 	describe("isEmptyBlock", () => {
