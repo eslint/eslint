@@ -159,7 +159,7 @@ export default {
 			 *
 			 * This event always occurs between `fromSegment`'s
 			 * `onCodePathSegmentStart` and `onCodePathSegmentEnd`.
-			 * While `toSegment`'s `onCodePathStart` must already
+			 * While `toSegment`'s `onCodePathSegmentStart` must already
 			 * have been called, its `onCodePathSegmentEnd` will
 			 * have been called if and only if
 			 * `toSegment !== fromSegment`.
@@ -289,8 +289,6 @@ onCodePathEnd                    s1
 ### About `onCodePathSegmentLoop`
 
 This event fires whenever the traversal reaches a point where control flow loops back to a segment that was already entered earlier. It fires mainly at the end of loops.
-
-<!-- Is there a good reason to use this event anymore? -->
 
 Consider the code path of the following `while` loop:
 
