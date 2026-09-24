@@ -141,6 +141,10 @@ const es2025 = {
 
 const es2026 = {
 	...es2025,
+};
+
+const es2027 = {
+	...es2026,
 	AsyncDisposableStack: false,
 	DisposableStack: false,
 	SuppressedError: false,
@@ -167,4 +171,5 @@ module.exports = {
 	es2024,
 	es2025,
 	es2026,
+	es2027,
 };

@@ -222,8 +222,8 @@ ruleTester.run("no-undef", rule, {
 			languageOptions: { ecmaVersion: 2025 },
 		},
 		{
-			code: "AsyncDisposableStack; DisposableStack; SuppressedError; Temporal",
-			languageOptions: { ecmaVersion: 2026 },
+			code: "AsyncDisposableStack; DisposableStack; SuppressedError;",
+			languageOptions: { ecmaVersion: 2027 },
 		},
 		{
 			code: "/*global App*/ <App />;",
