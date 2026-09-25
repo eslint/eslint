@@ -1349,6 +1349,28 @@ ruleTester.run("curly", rule, {
 			],
 		},
 		{
+			code: "if (foo) bar(); else{baz();}",
+			output: "if (foo) bar(); else baz();",
+			options: ["multi"],
+			errors: [
+				{
+					messageId: "unexpectedCurlyAfter",
+					data: { name: "else" },
+				},
+			],
+		},
+		{
+			code: "if (foo) bar(); else{if (baz) qux();}",
+			output: "if (foo) bar(); else if (baz) qux();",
+			options: ["multi"],
+			errors: [
+				{
+					messageId: "unexpectedCurlyAfter",
+					data: { name: "else" },
+				},
+			],
+		},
+		{
 			code: "if (foo) {bar()} baz()",
 			output: null,
 			options: ["multi"],
