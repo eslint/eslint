@@ -453,6 +453,86 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+
+		// IIFEs: deferred code inside an IIFE is still a separate execution context
+		{
+			code: "(() => () => a)(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "(() => { function f() { a; } })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "(() => { class C { m() { a; } } })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// not immediately invoked: the function expression is not the callee
+		{
+			code: "const f = () => { a; }; let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "foo(() => { a; }); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// generators are not immediately invoked: the body is suspended before the first statement
+		{
+			code: "(function* () { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "(async function* () { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		/*
+		 * async functions are not immediately invoked: the body can suspend at any
+		 * `await`, and everything that follows it is evaluated in a later job.
+		 */
+		{
+			code: "(async () => { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "(async () => { await 0; a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "await (async () => { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+		},
+
+		// `.call()`/`.apply()` are not syntactically IIFEs
+		{
+			code: "(function () { a; }).call(null); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// IIFEs in an initializer, with the default options
+		{
+			// the generator body isn't evaluated, so `a` is already initialized
+			code: "const a = (function* () { a; })();",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			// the async body is not evaluated during the initialization
+			code: "const a = (async () => { a; })();",
+			languageOptions: { ecmaVersion: 2022 },
+		},
 	],
 	invalid: [
 		{
@@ -1711,6 +1791,86 @@ ruleTester.run("no-use-before-define", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
+				},
+			],
+		},
+
+		// IIFE bodies run in the enclosing execution context
+		{
+			code: "(() => { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "(function () { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "(function f() { a; })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "(() => { (() => { a; })(); })(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "(() => { new C(); })(); class C {}",
+			options: [{ classes: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "C" },
+				},
+			],
+		},
+		{
+			code: "(() => { a; })?.(); let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+
+		// IIFEs in an initializer are evaluated during the initialization
+		{
+			code: "const a = (() => a)();",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
 				},
 			],
 		},
