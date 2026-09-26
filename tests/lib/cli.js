@@ -1535,6 +1535,177 @@ describe("cli", () => {
 			});
 		});
 
+		describe("when passed --fix or --fix-dry-run and a suppressions file exists", () => {
+			const { suppressionsSnapshot } = require("../../lib/eslint/eslint");
+			const suppressions = {
+				"foo.js": { "no-var": { count: 1 } },
+			};
+			let localCLI;
+			const suppressionsFile = path.join(
+				os.tmpdir(),
+				"eslint-suppressions-autofix.json",
+			);
+
+			/**
+			 * Creates a fake ESLint class.
+			 * @returns {Function} The fake ESLint class.
+			 */
+			function createFakeESLint() {
+				const fakeESLint = sinon.stub();
+
+				Object.defineProperties(
+					fakeESLint.prototype,
+					Object.getOwnPropertyDescriptors(ESLint.prototype),
+				);
+				sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+				sinon
+					.stub(fakeESLint.prototype, "loadFormatter")
+					.returns({ format: () => "done" });
+				fakeESLint.outputFixes = sinon.stub();
+
+				return fakeESLint;
+			}
+
+			beforeEach(() => {
+				fs.writeFileSync(
+					suppressionsFile,
+					JSON.stringify(suppressions),
+				);
+			});
+
+			afterEach(() => {
+				fs.rmSync(suppressionsFile, { force: true });
+			});
+
+			["--fix", "--fix-dry-run"].forEach(flag => {
+				it(`should pass the contents of the suppressions file to ESLint when ${flag} is used`, async () => {
+					const fakeESLint = createFakeESLint();
+
+					localCLI = proxyquire("../../lib/cli", {
+						"./eslint/eslint": {
+							ESLint: fakeESLint,
+							suppressionsSnapshot,
+						},
+						"./shared/logging": log,
+					});
+
+					const exitCode = await localCLI.execute([
+						"argv0",
+						"argv1",
+						flag,
+						`--suppressions-location=${suppressionsFile}`,
+						".",
+					]);
+
+					assert.strictEqual(exitCode, 0);
+					assert.strictEqual(fakeESLint.callCount, 1);
+					assert.deepStrictEqual(
+						fakeESLint.firstCall.args[0][suppressionsSnapshot],
+						suppressions,
+					);
+				});
+			});
+
+			it("should not pass the contents of the suppressions file to ESLint when neither --fix nor --fix-dry-run is used", async () => {
+				const fakeESLint = createFakeESLint();
+
+				localCLI = proxyquire("../../lib/cli", {
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
+					"./shared/logging": log,
+				});
+
+				const exitCode = await localCLI.execute([
+					"argv0",
+					"argv1",
+					`--suppressions-location=${suppressionsFile}`,
+					".",
+				]);
+
+				assert.strictEqual(exitCode, 0);
+				assert.strictEqual(fakeESLint.callCount, 1);
+				assert.isFalse(
+					Object.hasOwn(
+						fakeESLint.firstCall.args[0],
+						suppressionsSnapshot,
+					),
+				);
+			});
+
+			it("should pass the contents of the suppressions file to ESLint.fromOptionsModule() when concurrency is enabled", async () => {
+				const fakeESLint = createFakeESLint();
+
+				fakeESLint.fromOptionsModule = sinon
+					.stub()
+					.resolves(Object.create(fakeESLint.prototype));
+
+				localCLI = proxyquire("../../lib/cli", {
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
+					"./shared/logging": log,
+				});
+
+				const exitCode = await localCLI.execute([
+					"argv0",
+					"argv1",
+					"--fix-dry-run",
+					"--concurrency=2",
+					`--suppressions-location=${suppressionsFile}`,
+					".",
+				]);
+
+				assert.strictEqual(exitCode, 0);
+				assert.strictEqual(fakeESLint.callCount, 0);
+				assert.strictEqual(fakeESLint.fromOptionsModule.callCount, 1);
+				assert.deepStrictEqual(
+					fakeESLint.fromOptionsModule.firstCall.args[1][
+						suppressionsSnapshot
+					],
+					suppressions,
+				);
+			});
+
+			it("should not apply fixes for rules that are suppressed for the file", async () => {
+				const filePath =
+					"tests/fixtures/suppressions-autofix/suppressed.js";
+				const source = fs.readFileSync(filePath, "utf8");
+
+				fs.writeFileSync(
+					suppressionsFile,
+					JSON.stringify({ [filePath]: { "no-var": { count: 1 } } }),
+				);
+
+				const exitCode = await cli.execute([
+					"argv0",
+					"argv1",
+					"--no-config-lookup",
+					"--no-ignore",
+					"--fix-dry-run",
+					"--format=json",
+					`--suppressions-location=${suppressionsFile}`,
+					filePath,
+				]);
+
+				assert.strictEqual(exitCode, 0);
+
+				const [result] = JSON.parse(log.info.args[0][0]);
+
+				assert.strictEqual(
+					result.output,
+					source.replace("!!foo", "foo"),
+				);
+				assert.deepStrictEqual(result.messages, []);
+				assert.deepStrictEqual(
+					result.suppressedMessages.map(message => message.ruleId),
+					["no-var"],
+				);
+			});
+		});
+
 		describe("when passing --print-config", () => {
 			const originalCwd = process.cwd;
 
