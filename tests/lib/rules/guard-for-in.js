@@ -44,4 +44,11 @@ ruleTester.run("guard-for-in", rule, {
 		{ code: "for (var x in o) { foo() }", errors: [error] },
 		{ code: "for (var x in o) foo();", errors: [error] },
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

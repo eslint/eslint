@@ -112,4 +112,11 @@ ruleTester.run("no-func-assign", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
