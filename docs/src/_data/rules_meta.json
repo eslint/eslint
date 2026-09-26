@@ -1504,19 +1504,7 @@
         "defaultOptions": [
             {
                 "capIsNew": true,
-                "capIsNewExceptions": [
-                    "Array",
-                    "Boolean",
-                    "Date",
-                    "Error",
-                    "Function",
-                    "Number",
-                    "Object",
-                    "RegExp",
-                    "String",
-                    "Symbol",
-                    "BigInt"
-                ],
+                "capIsNewExceptions": [],
                 "newIsCap": true,
                 "newIsCapExceptions": [],
                 "properties": true

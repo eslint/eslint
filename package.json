@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.10.0",
+  "version": "10.11.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -211,7 +211,7 @@
     "mocha": "^11.7.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
-    "prettier": "3.9.6",
+    "prettier": "3.9.8",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "regenerator-runtime": "^0.14.0",

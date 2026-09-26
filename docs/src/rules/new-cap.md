@@ -26,6 +26,8 @@ This rule requires constructor names to begin with a capital letter. Certain bui
 * `Symbol`
 * `BigInt`
 
+These identifiers are exempt only when they reference the global built-in, either directly or as a property of the global object (`global`, `globalThis`, `self`, or `window`). `Date.UTC()` is exempt under the same condition.
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -36,6 +38,34 @@ Examples of **correct** code for this rule:
 function foo(arg) {
     return Boolean(arg);
 }
+
+function bar(arg) {
+    return globalThis.Boolean(arg);
+}
+
+const time = Date.UTC(2000, 0);
+
+const otherTime = globalThis.Date.UTC(2000, 0);
+```
+
+:::
+
+Examples of **incorrect** code for this rule:
+
+::: incorrect
+
+```js
+/*eslint new-cap: "error"*/
+
+function String(value) {
+    return value + "";
+}
+
+const foo = String(42);
+
+const Date = { UTC() { return 0; } };
+
+const time = Date.UTC(2000, 0);
 ```
 
 :::

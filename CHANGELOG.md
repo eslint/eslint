@@ -1,3 +1,24 @@
+v10.11.0 - September 18, 2026
+
+* [`520dd77`](https://github.com/eslint/eslint/commit/520dd77a35922fb537e2dbfb3c839d047acbdd68) perf: Implement fast paths in critical areas (#21210) (Nicholas C. Zakas)
+* [`9ecfdc5`](https://github.com/eslint/eslint/commit/9ecfdc5319f83580cf3b81beab7e936015fef2fa) docs: note that --cache can serve stale results for cross-file rules (#21312) (bytedoe)
+* [`92086c8`](https://github.com/eslint/eslint/commit/92086c87e042413a3d0363d8fc3fbb11db98d06a) test: update `EMFILE` error generation for Node.js 26.9.0 compatibility (#21330) (Francesco Trotta)
+* [`9ac7eb6`](https://github.com/eslint/eslint/commit/9ac7eb60525ec768c2fdc6699e5a292aa913ce9e) chore: update github/codeql-action action to v4.38.0 (#21331) (renovate[bot])
+* [`22b09f5`](https://github.com/eslint/eslint/commit/22b09f54f67a9512d4cea39ddbab9b6973d5c476) fix: ignore `__proto__` properties in `prefer-object-spread` (#21311) (xbinaryx)
+* [`24310e3`](https://github.com/eslint/eslint/commit/24310e3a0e22b3c086ca402f88448676f2e1cfcd) chore: update ecosystem plugins (#21324) (ESLint Bot)
+* [`d136fa4`](https://github.com/eslint/eslint/commit/d136fa4b0d2dd4a9e738ca1c012cc674d1441127) feat: object-shorthand handle quoted properties for `ignoreConstructors` (#21271) (Pavel)
+* [`45ad79e`](https://github.com/eslint/eslint/commit/45ad79e54a39b54b4ce8eb47e612bd2f72a7a651) ci: bump pnpm/action-setup from 6.0.10 to 6.1.0 (#21318) (dependabot[bot])
+* [`397b3b8`](https://github.com/eslint/eslint/commit/397b3b8134b8ce1a61cbf414d4c29c945ba25690) feat: report unsafe labeled `continue` in `no-unsafe-finally` rule (#21316) (electrohyun)
+* [`b684bb1`](https://github.com/eslint/eslint/commit/b684bb1cd7e6be03ad1b7a951baead936d9c2166) fix: make TimePass.parse optional in types and docs (#21313) (ntnyq)
+* [`ac74e37`](https://github.com/eslint/eslint/commit/ac74e37322ebf122ada676f153dc55c81f3caab0) chore: Add AGENTS.md with AI disclosure requirements (#21221) (Nicholas C. Zakas)
+* [`26d11bc`](https://github.com/eslint/eslint/commit/26d11bce3e0e21f223613d4bb4be3423839b229e) fix: don't report `__proto__` properties in `object-shorthand` (#21310) (xbinaryx)
+* [`6c789ff`](https://github.com/eslint/eslint/commit/6c789ff39bc5420e94e8dafeb328bf2b7e3d35ab) docs: Update README (GitHub Actions Bot)
+* [`d3dd47f`](https://github.com/eslint/eslint/commit/d3dd47f42e4cb5f9da27e3a2e741aa21e02ea1a4) feat: only exempt `new-cap` built-ins that reference the global (#21290) (sethamus)
+* [`5997825`](https://github.com/eslint/eslint/commit/5997825635dc9c4e81434894607ef2e3887e0ea3) docs: clarify preserve-caught-error known limitation (#21294) (Akinyemi Toluwalase)
+* [`c832660`](https://github.com/eslint/eslint/commit/c8326608e710e670beaf982501aed80ea104919a) chore: Upgrade Stylelint to the latest version in docs (#21245) (Jung Hyeon Jun)
+* [`f9f88fc`](https://github.com/eslint/eslint/commit/f9f88fcccd965fdc162b89c4615dd4018e3cabdf) chore: update ecosystem plugins (#21308) (ESLint Bot)
+* [`fc81076`](https://github.com/eslint/eslint/commit/fc81076a5b8145360654d81cbc130cf7d25dca77) ci: add more types integration tests (#20395) (Nitin Kumar)
+
 v10.10.0 - September 4, 2026
 
 * [`bb47dc6`](https://github.com/eslint/eslint/commit/bb47dc6da2399a8f76c0c0c3273e6bc314c480e5) fix: update dependency file-entry-cache to v11 (#20801) (Milos Djermanovic)

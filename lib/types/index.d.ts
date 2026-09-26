@@ -1125,8 +1125,9 @@ export namespace Linter {
 	interface TimePass {
 		/**
 		 * The parse object containing all parse time information.
+		 * If no parsing was performed, the property is omitted.
 		 */
-		parse: { total: number };
+		parse?: { total: number };
 
 		/**
 		 * The rules object containing all lint time information for each rule.
