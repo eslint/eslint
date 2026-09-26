@@ -451,9 +451,11 @@ async function foo() {
 
 :::
 
+The `separateRequires` option applies to any variable whose initializer is a `require()` call. It does not check whether `require` refers to the CommonJS global or to a local binding with the same name, such as a function parameter.
+
 Examples of **incorrect** code for this rule with the `{ separateRequires: true }` option:
 
-::: incorrect { "sourceType": "commonjs" }
+::: incorrect
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
@@ -466,7 +468,7 @@ var foo = require("foo"),
 
 Examples of **correct** code for this rule with the `{ separateRequires: true }` option:
 
-::: correct { "sourceType": "commonjs" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
@@ -477,7 +479,7 @@ var bar = "bar";
 
 :::
 
-::: correct { "sourceType": "commonjs" }
+::: correct
 
 ```js
 /*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
