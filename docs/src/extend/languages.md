@@ -42,8 +42,8 @@ A basic `SourceCode` object must implement the following:
 
 - `ast` - a property containing the AST or CST for the source code.
 - `text` - the text of the source code.
-- `getLoc(nodeOrToken)` - a method that returns the location of a given node or token. This must match the `loc` structure that ESTree uses.
-- `getRange(nodeOrToken)` - a method that returns the range of a given node or token. This must return an array where the first item is the start index and the second is the end index.
+- `getLoc(nodeOrToken)` - a method that returns the location of a given node, token, or comment. This must match the `loc` structure that ESTree uses.
+- `getRange(nodeOrToken)` - a method that returns the range of a given node, token, or comment. This must return an array where the first item is the start index and the second is the end index.
 - `traverse()` - a method that returns an iterable for traversing the AST or CST. The iterator must return objects that implement either `VisitTraversalStep` or `CallTraversalStep` from `@eslint/core`.
 
 The following optional members allow you to customize how ESLint interacts with the object:
@@ -60,7 +60,7 @@ Additionally, the following members are common on `SourceCode` objects and are r
 - `lines` - the individual lines of the source code as an array of strings.
 - `getParent(node)` - returns the parent of the given node or `undefined` if the node is the root.
 - `getAncestors(node)` - returns an array of the ancestry of the node with the first item as the root of the tree and each subsequent item as the descendants of the root that lead to `node`.
-- `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, and optionally, a specified number of characters before and after the node's range.
+- `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, token, or comment, and optionally, a specified number of characters before and after its range.
 
 See [`JSONSourceCode`](https://github.com/eslint/json/blob/main/src/languages/json-source-code.js) as an example of a basic `SourceCode` class.
 

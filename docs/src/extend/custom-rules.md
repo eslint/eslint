@@ -568,7 +568,7 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-- `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
+- `getText(node)`: Returns the source code for the given node, token, or comment. Omit the argument to get the whole source (see the [dedicated section](#accessing-the-source-text)).
 - `getAllComments()`: Returns an array of all comments in the source (see the [dedicated section](#accessing-comments)).
 - `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
@@ -646,6 +646,12 @@ var source = sourceCode.getText();
 
 // get source for just this AST node
 var nodeSource = sourceCode.getText(node);
+
+// get source for just this token
+var tokenSource = sourceCode.getText(token);
+
+// get source for just this comment
+var commentSource = sourceCode.getText(comment);
 
 // get source for AST node plus previous two characters
 var nodeSourceWithPrev = sourceCode.getText(node, 2);
