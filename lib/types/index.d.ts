@@ -32,6 +32,8 @@ import type {
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
 	SourceRange,
+	TextSourceCode,
+	TraversalStep,
 	RulesConfig,
 	GlobalAccess,
 	GlobalsConfig,
@@ -68,11 +70,10 @@ import type {
 	ViolationReport,
 	MessagePlaceholderData,
 } from "@eslint/core";
-import {
-	type CustomRuleDefinitionType,
-	type CustomRuleTypeDefinitions,
-	type CustomRuleVisitorWithExit,
-	TextSourceCodeBase,
+import type {
+	CustomRuleDefinitionType,
+	CustomRuleTypeDefinitions,
+	CustomRuleVisitorWithExit,
 } from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
@@ -236,12 +237,15 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode extends TextSourceCodeBase<{
+export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
 	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
 	ConfigNode: ESTree.Comment;
 }> {
+	text: string;
+	ast: AST.Program;
+	lines: string[];
 	hasBOM: boolean;
 	parserServices: SourceCode.ParserServices;
 	scopeManager: Scope.ScopeManager;
@@ -252,17 +256,32 @@ export class SourceCode extends TextSourceCodeBase<{
 
 	static splitLines(text: string): string[];
 
+	getLoc(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): ESTree.SourceLocation;
+	getRange(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): SourceRange;
+
+	getText(
+		node?: ESTree.Node | AST.Token | ESTree.Comment,
+		beforeCount?: number,
+		afterCount?: number,
+	): string;
+
 	getLines(): string[];
 
 	getAllComments(): ESTree.Comment[];
-
-	getParent: never;
 
 	getAncestors(node: ESTree.Node): ESTree.Node[];
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
+
+	getLocFromIndex(index: number): ESTree.Position;
+
+	getIndexFromLoc(location: ESTree.Position): number;
 
 	// Inherited methods from TokenStore
 	// ---------------------------------
@@ -330,6 +349,8 @@ export class SourceCode extends TextSourceCodeBase<{
 	isGlobalReference(node: ESTree.Identifier): boolean;
 
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
+
+	traverse(): Iterable<TraversalStep>;
 }
 
 export namespace SourceCode {
