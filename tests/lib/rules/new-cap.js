@@ -29,6 +29,8 @@ ruleTester.run("new-cap", rule, {
 		"var x = new _;",
 		"var x = new $;",
 		"var x = new Σ;",
+		"var x = new 𐐀;",
+		"var x = 𐐨();",
 		"var x = new _x;",
 		"var x = new $x;",
 		"var x = new this;",
@@ -260,6 +262,54 @@ ruleTester.run("new-cap", rule, {
 					column: 13,
 					endLine: 1,
 					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "var x = new 𐐨;",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "var x = 𐐀();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "var x = new a.𐐨();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "var x = a.𐐀();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
