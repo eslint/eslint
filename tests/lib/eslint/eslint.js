@@ -33,6 +33,7 @@ const { unIndent, createCustomTeardown } = require("../../_utils");
 const {
 	calculateWorkerCount,
 	shouldUseFlatConfig,
+	suppressionsSnapshot,
 } = require("../../../lib/eslint/eslint");
 const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
@@ -2039,6 +2040,78 @@ describe("ESLint", () => {
 				3,
 				"no-undef errors should not be suppressed without filePath",
 			);
+		});
+
+		it("should not apply fixes for rules that are suppressed for the file when 'applySuppressions' and 'fix' are enabled and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const code = fs.readFileSync(
+				path.join(cwd, "suppressed.js"),
+				"utf8",
+			);
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				fix: true,
+			});
+			const results = await eslint.lintText(code, {
+				filePath: path.join(cwd, "suppressed.js"),
+			});
+
+			assert.strictEqual(results[0].output, code.replace("!!foo", "foo"));
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(
+				results[0].suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+		});
+
+		it("should apply fixes for suppressed rules when 'applySuppressions' is true but 'filePath' is omitted", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const code = fs.readFileSync(
+				path.join(cwd, "suppressed.js"),
+				"utf8",
+			);
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				fix: true,
+			});
+			const results = await eslint.lintText(code);
+
+			assert.strictEqual(
+				results[0].output,
+				code.replace("!!foo", "foo").replace("var foo", "let foo"),
+			);
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(results[0].suppressedMessages, []);
+		});
+
+		it("should apply fixes for suppressed rules when 'applySuppressions' is false and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const code = fs.readFileSync(
+				path.join(cwd, "suppressed.js"),
+				"utf8",
+			);
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				fix: true,
+			});
+			const results = await eslint.lintText(code, {
+				filePath: path.join(cwd, "suppressed.js"),
+			});
+
+			assert.strictEqual(
+				results[0].output,
+				code.replace("!!foo", "foo").replace("var foo", "let foo"),
+			);
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(results[0].suppressedMessages, []);
 		});
 	});
 
@@ -15040,6 +15113,372 @@ describe("ESLint", () => {
 
 	describe("cache with multithreading", () => {
 		testCacheWithConcurrency(2);
+	});
+
+	/**
+	 * Tests autofix with suppressions, with or without multithreading.
+	 * @param {number|undefined} concurrency The `concurrency` option, or `undefined` to lint in the calling thread.
+	 * @returns {void}
+	 */
+	function testAutofixWithSuppressions(concurrency) {
+		/** @type {InstanceType<ESLint>} */
+		let eslint;
+		const filePaths = [
+			"suppressed.js",
+			"unsuppressed.js",
+			"nested/count-exceeded.js",
+		];
+		let cwd;
+		let sources;
+
+		/**
+		 * Returns the result for a fixture file.
+		 * @param {Object[]} results The lint results.
+		 * @param {string} filePath The path of the fixture file, relative to the fixture directory.
+		 * @returns {Object|undefined} The result for the fixture file.
+		 */
+		function getResult(results, filePath) {
+			const absolutePath = path.resolve(cwd, filePath);
+
+			return results.find(result => result.filePath === absolutePath);
+		}
+
+		/**
+		 * Returns the fully fixed source of a fixture file.
+		 * @param {string} filePath The path of the fixture file, relative to the fixture directory.
+		 * @returns {string} The fixed source.
+		 */
+		function getFullyFixedSource(filePath) {
+			return sources[filePath]
+				.replace("!!foo", "foo")
+				.replace("var foo", "let foo")
+				.replace("var bar", "let bar");
+		}
+
+		/**
+		 * Creates the URL of an options module with the specified options.
+		 * @param {string} optionsSrc The source code of the options object.
+		 * @returns {URL} The URL of the options module.
+		 */
+		function createOptionsURL(optionsSrc) {
+			return new URL(
+				`data:text/javascript,${encodeURIComponent(`export default ${optionsSrc};`)}`,
+			);
+		}
+
+		before(() => {
+			cwd = getFixturePath("suppressions-autofix");
+			sources = Object.fromEntries(
+				filePaths.map(filePath => [
+					filePath,
+					fs.readFileSync(path.resolve(cwd, filePath), "utf8"),
+				]),
+			);
+		});
+
+		beforeEach(() => {
+			if (concurrency) {
+				sinon
+					.stub(
+						require("../../../lib/eslint/eslint"),
+						"calculateWorkerCount",
+					)
+					.callsFake(() => concurrency);
+
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+			}
+		});
+
+		afterEach(() => {
+			sinon.restore();
+		});
+
+		it("should not apply fixes for rules that are suppressed for the file", async () => {
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				applySuppressions: true,
+				fix: true,
+			});
+			const results = await eslint.lintFiles(filePaths);
+
+			assert.strictEqual(results.length, 3);
+
+			const resultA = getResult(results, "suppressed.js");
+
+			assert.strictEqual(
+				resultA.output,
+				sources["suppressed.js"].replace("!!foo", "foo"),
+			);
+			assert.deepStrictEqual(resultA.messages, []);
+			assert.deepStrictEqual(
+				resultA.suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(
+				resultB.output,
+				getFullyFixedSource("unsuppressed.js"),
+			);
+			assert.deepStrictEqual(resultB.messages, []);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+
+			const resultC = getResult(results, "nested/count-exceeded.js");
+
+			assert.strictEqual(
+				resultC.output,
+				sources["nested/count-exceeded.js"].replace("!!foo", "foo"),
+			);
+			assert.deepStrictEqual(
+				resultC.messages.map(message => message.ruleId),
+				["no-var", "no-var"],
+			);
+			assert.deepStrictEqual(resultC.suppressedMessages, []);
+		});
+
+		it("should apply fixes for suppressed rules when 'applySuppressions' is false", async () => {
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				fix: true,
+			});
+			const results = await eslint.lintFiles(filePaths);
+
+			assert.strictEqual(results.length, 3);
+
+			for (const filePath of filePaths) {
+				const result = getResult(results, filePath);
+
+				assert.strictEqual(
+					result.output,
+					getFullyFixedSource(filePath),
+					`${filePath} should be fully fixed`,
+				);
+				assert.deepStrictEqual(result.messages, []);
+				assert.deepStrictEqual(result.suppressedMessages, []);
+			}
+		});
+
+		it("should keep filtering fixes by 'fixTypes' when suppressions are applied", async () => {
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				applySuppressions: true,
+				fix: true,
+				fixTypes: ["layout"],
+			});
+			const results = await eslint.lintFiles([
+				"suppressed.js",
+				"unsuppressed.js",
+			]);
+
+			assert.strictEqual(results.length, 2);
+
+			const resultA = getResult(results, "suppressed.js");
+
+			assert.strictEqual(resultA.output, void 0);
+			assert.deepStrictEqual(
+				resultA.messages.map(message => message.ruleId),
+				["no-extra-boolean-cast"],
+			);
+			assert.deepStrictEqual(
+				resultA.suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(resultB.output, void 0);
+			assert.deepStrictEqual(
+				resultB.messages.map(message => message.ruleId),
+				["no-var", "no-extra-boolean-cast"],
+			);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+
+		it("should skip fixes for suppressed rules whose type is included in 'fixTypes'", async () => {
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				applySuppressions: true,
+				fix: true,
+				fixTypes: ["suggestion"],
+			});
+			const results = await eslint.lintFiles([
+				"suppressed.js",
+				"unsuppressed.js",
+			]);
+
+			assert.strictEqual(results.length, 2);
+
+			const resultA = getResult(results, "suppressed.js");
+
+			assert.strictEqual(
+				resultA.output,
+				sources["suppressed.js"].replace("!!foo", "foo"),
+			);
+			assert.deepStrictEqual(resultA.messages, []);
+			assert.deepStrictEqual(
+				resultA.suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(
+				resultB.output,
+				getFullyFixedSource("unsuppressed.js"),
+			);
+			assert.deepStrictEqual(resultB.messages, []);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+
+		it("should skip fixes for suppressed rules in addition to applying a 'fix' predicate", async () => {
+			const optionsURL = createOptionsURL(`{
+				concurrency: ${JSON.stringify(concurrency ?? "off")},
+				cwd: ${JSON.stringify(cwd)},
+				overrideConfigFile: true,
+				applySuppressions: true,
+				fix: message => message.ruleId !== "no-extra-boolean-cast",
+			}`);
+
+			eslint = await ESLint.fromOptionsModule(optionsURL);
+			const results = await eslint.lintFiles([
+				"suppressed.js",
+				"unsuppressed.js",
+			]);
+
+			assert.strictEqual(results.length, 2);
+
+			const resultA = getResult(results, "suppressed.js");
+
+			assert.strictEqual(resultA.output, void 0);
+			assert.deepStrictEqual(
+				resultA.messages.map(message => message.ruleId),
+				["no-extra-boolean-cast"],
+			);
+			assert.deepStrictEqual(
+				resultA.suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(
+				resultB.output,
+				sources["unsuppressed.js"].replace("var foo", "let foo"),
+			);
+			assert.deepStrictEqual(
+				resultB.messages.map(message => message.ruleId),
+				["no-extra-boolean-cast"],
+			);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+
+		it("should skip fixes for rules in the suppressions snapshot passed to the constructor without suppressing the reported problems", async () => {
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				fix: true,
+				[suppressionsSnapshot]: {
+					"unsuppressed.js": {
+						"no-extra-boolean-cast": { count: 1 },
+					},
+				},
+			});
+			const results = await eslint.lintFiles(filePaths);
+
+			assert.strictEqual(results.length, 3);
+
+			for (const filePath of [
+				"suppressed.js",
+				"nested/count-exceeded.js",
+			]) {
+				const result = getResult(results, filePath);
+
+				assert.strictEqual(
+					result.output,
+					getFullyFixedSource(filePath),
+					`${filePath} should be fully fixed`,
+				);
+				assert.deepStrictEqual(result.messages, []);
+				assert.deepStrictEqual(result.suppressedMessages, []);
+			}
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(
+				resultB.output,
+				sources["unsuppressed.js"].replace("var foo", "let foo"),
+			);
+			assert.deepStrictEqual(
+				resultB.messages.map(message => message.ruleId),
+				["no-extra-boolean-cast"],
+			);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+
+		it("should skip fixes for rules in the suppressions snapshot passed to 'fromOptionsModule()'", async () => {
+			const optionsURL = createOptionsURL(`{
+				concurrency: ${JSON.stringify(concurrency ?? "off")},
+				cwd: ${JSON.stringify(cwd)},
+				overrideConfigFile: true,
+				fix: true,
+			}`);
+
+			eslint = await ESLint.fromOptionsModule(optionsURL, {
+				[suppressionsSnapshot]: {
+					"unsuppressed.js": { "no-var": { count: 1 } },
+				},
+			});
+			const results = await eslint.lintFiles(filePaths);
+
+			assert.strictEqual(results.length, 3);
+
+			for (const filePath of [
+				"suppressed.js",
+				"nested/count-exceeded.js",
+			]) {
+				const result = getResult(results, filePath);
+
+				assert.strictEqual(
+					result.output,
+					getFullyFixedSource(filePath),
+					`${filePath} should be fully fixed`,
+				);
+				assert.deepStrictEqual(result.messages, []);
+			}
+
+			const resultB = getResult(results, "unsuppressed.js");
+
+			assert.strictEqual(
+				resultB.output,
+				sources["unsuppressed.js"].replace("!!foo", "foo"),
+			);
+			assert.deepStrictEqual(
+				resultB.messages.map(message => message.ruleId),
+				["no-var"],
+			);
+			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+	}
+
+	describe("autofix with suppressions", () => {
+		testAutofixWithSuppressions(void 0);
+	});
+
+	describe("autofix with suppressions with multithreading", () => {
+		testAutofixWithSuppressions(2);
 	});
 
 	describe("config lookup from file", () => {

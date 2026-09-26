@@ -1,0 +1,12 @@
+{
+  "nested/count-exceeded.js": {
+    "no-var": {
+      "count": 1
+    }
+  },
+  "suppressed.js": {
+    "no-var": {
+      "count": 1
+    }
+  }
+}

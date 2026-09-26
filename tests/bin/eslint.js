@@ -1319,6 +1319,105 @@ describe("bin/eslint.js", () => {
 					);
 				});
 			});
+
+			it("doesn't fix violations of rules that are suppressed for the file, when the --fix flag is used", () => {
+				const tempFilePath = "tests/fixtures/suppressions/temp.js";
+
+				fs.copyFileSync(SOURCE_PATH, tempFilePath);
+				fs.writeFileSync(
+					SUPPRESSIONS_PATH,
+					JSON.stringify(
+						{ [tempFilePath]: { indent: { count: 1 } } },
+						null,
+						2,
+					),
+				);
+
+				const child = runESLint([
+					"--no-config-lookup",
+					"--no-ignore",
+					tempFilePath,
+					"--suppressions-location",
+					SUPPRESSIONS_PATH,
+					"--fix",
+				]);
+
+				const exitCodeAssertion = assertExitCode(child, 1).then(() => {
+					assert.strictEqual(
+						fs.readFileSync(tempFilePath, "utf8"),
+						fs.readFileSync(SOURCE_PATH, "utf8"),
+						"The suppressed indent violation should not be fixed",
+					);
+				});
+				const outputAssertion = getOutput(child).then(output => {
+					assert.include(output.stdout, "is not defined");
+					assert.include(
+						output.stdout,
+						"Unexpected comma in middle of array",
+					);
+
+					assert.notInclude(
+						output.stdout,
+						"Expected indentation of 2 spaces but found 4",
+					);
+				});
+
+				return Promise.all([
+					exitCodeAssertion,
+					outputAssertion,
+				]).finally(() => {
+					fs.rmSync(tempFilePath, { force: true });
+				});
+			});
+
+			it("keeps the suppressions of rules whose fixes are skipped, when the --suppress-all and --fix flags are used", () => {
+				const tempFilePath = "tests/fixtures/suppressions/temp.js";
+
+				fs.copyFileSync(SOURCE_PATH, tempFilePath);
+				fs.writeFileSync(
+					SUPPRESSIONS_PATH,
+					JSON.stringify(
+						{ [tempFilePath]: { indent: { count: 1 } } },
+						null,
+						2,
+					),
+				);
+
+				const child = runESLint([
+					"--no-config-lookup",
+					"--no-ignore",
+					tempFilePath,
+					"--suppressions-location",
+					SUPPRESSIONS_PATH,
+					"--suppress-all",
+					"--fix",
+				]);
+
+				return assertExitCode(child, 0)
+					.then(() => {
+						assert.strictEqual(
+							fs.readFileSync(tempFilePath, "utf8"),
+							fs.readFileSync(SOURCE_PATH, "utf8"),
+							"The suppressed indent violation should not be fixed",
+						);
+						assert.deepStrictEqual(
+							JSON.parse(
+								fs.readFileSync(SUPPRESSIONS_PATH, "utf8"),
+							),
+							{
+								[tempFilePath]: {
+									indent: { count: 1 },
+									"no-sparse-arrays": { count: 2 },
+									"no-undef": { count: 3 },
+								},
+							},
+							"Suppressions file should contain the expected contents",
+						);
+					})
+					.finally(() => {
+						fs.rmSync(tempFilePath, { force: true });
+					});
+			});
 		});
 	});
 
