@@ -239,6 +239,26 @@ ruleTester.run("no-eval", rule, {
 				globals: { window: "readonly" },
 			},
 		},
+
+		// Constructor assignments with Unicode uppercase letters.
+		"Φ = function() { this.eval('foo'); };",
+		{
+			code: "𐐀 = function() { this.eval('foo'); };",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function f(Φ = function() { this.eval('foo'); }) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function f(𐐀 = function() { this.eval('foo'); }) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		"var Φ = function() { this.eval('foo'); };",
+		{
+			code: "var 𐐀 = function() { this.eval('foo'); };",
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 
 	invalid: [
