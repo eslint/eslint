@@ -395,6 +395,42 @@ describe("SourceCode", () => {
 			assert.strictEqual(text, TEST_CODE);
 		});
 
+		it("should retrieve all text when node is `undefined`", () => {
+			const text = sourceCode.getText(void 0);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
+		it("should retrieve all text when node is `null`", () => {
+			const text = sourceCode.getText(null);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
+		it("should retrieve all text when node is an empty string", () => {
+			const text = sourceCode.getText("");
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
+		it("should retrieve all text when node is `false`", () => {
+			const text = sourceCode.getText(false);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
+		it("should retrieve all text when node is `0`", () => {
+			const text = sourceCode.getText(0);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
+		it("should retrieve all text when node is `NaN`", () => {
+			const text = sourceCode.getText(NaN);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
 		it("should retrieve all text for root node", () => {
 			const text = sourceCode.getText(ast);
 
