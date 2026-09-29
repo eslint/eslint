@@ -311,6 +311,18 @@ const patterns = [
 		invalid: [],
 	},
 	{
+		code: "function Φ() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function 𐐀() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
 		code: "Φ = function() { this.x = 1; };",
 		languageOptions: { ecmaVersion: 6 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
@@ -323,18 +335,6 @@ const patterns = [
 		invalid: [],
 	},
 	{
-		code: "function f(Φ = function() { this.x = 1; }) {}",
-		languageOptions: { ecmaVersion: 6 },
-		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-		invalid: [],
-	},
-	{
-		code: "function f(𐐀 = function() { this.x = 1; }) {}",
-		languageOptions: { ecmaVersion: 6 },
-		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-		invalid: [],
-	},
-	{
 		code: "var Φ = function() { this.x = 1; };",
 		languageOptions: { ecmaVersion: 6 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
@@ -342,6 +342,18 @@ const patterns = [
 	},
 	{
 		code: "var 𐐀 = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(Φ = function() { this.x = 1; }) {}",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(𐐀 = function() { this.x = 1; }) {}",
 		languageOptions: { ecmaVersion: 6 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
