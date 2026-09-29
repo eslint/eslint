@@ -104,7 +104,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 The ESLint team provides ongoing support for the current version and six months of limited support for the previous version. Limited support includes critical bug fixes, security issues, and compatibility issues only.
 
-ESLint offers commercial support for both current and previous versions through our partners, [Tidelift][tidelift] and [HeroDevs][herodevs].
+ESLint offers commercial support for both current and previous versions through our partner, [HeroDevs][herodevs].
 
 See [Version Support](https://eslint.org/version-support) for more details.
 
@@ -362,5 +362,4 @@ Technology sponsors allow us to use their products and services for free as part
 
 <!--sponsorsend-->
 
-[tidelift]: https://tidelift.com/funding/github/npm/eslint
 [herodevs]: https://www.herodevs.com/support/eslint-nes?utm_source=ESLintWebsite&utm_medium=ESLintWebsite&utm_campaign=ESLintNES&utm_id=ESLintNES
