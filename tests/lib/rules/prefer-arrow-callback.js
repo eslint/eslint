@@ -28,6 +28,10 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("prefer-arrow-callback", rule, {
 	valid: [
+		"foo(function() {} ? a : b);",
+		"foo(bar ? function() {} ? a : b : c);",
+		"new Foo(function() {} ? a : b);",
+		"foo(function() { this; }.bind(this) ? a : b);",
 		"foo(a => a);",
 		"foo(function*() {});",
 		"foo(function() { this; });",
