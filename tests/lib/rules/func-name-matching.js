@@ -53,6 +53,19 @@ ruleTester.run("func-name-matching", rule, {
 		"obj['foo'] = function foo() {};",
 		{ code: "obj['foo'] = function foo() {};", options: ["always"] },
 		{ code: "obj['foo'] = function bar() {};", options: ["never"] },
+		{
+			code: "obj.𐐨 = function 𐐨() {};",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "obj['𐐨'] = function 𐐨() {};",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "obj.𐐨 = function 𐐩() {};",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 6 },
+		},
 		"obj['foo//bar'] = function foo() {};",
 		{ code: "obj['foo//bar'] = function foo() {};", options: ["always"] },
 		{ code: "obj['foo//bar'] = function foo() {};", options: ["never"] },
@@ -629,6 +642,37 @@ ruleTester.run("func-name-matching", rule, {
 				{
 					messageId: "matchProperty",
 					data: { funcName: "bar", name: "foo" },
+				},
+			],
+		},
+		{
+			code: "obj.𐐨 = function 𐐩() {};",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "𐐩", name: "𐐨" },
+				},
+			],
+		},
+		{
+			code: "obj['𐐨'] = function 𐐩() {};",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "𐐩", name: "𐐨" },
+				},
+			],
+		},
+		{
+			code: "obj.𐐨 = function 𐐨() {};",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "notMatchProperty",
+					data: { funcName: "𐐨", name: "𐐨" },
 				},
 			],
 		},
