@@ -1070,5 +1070,25 @@ ruleTester.run("func-name-matching", rule, {
 				},
 			],
 		},
+		{
+			code: "obj.\u{10428} = function \u{10429}() {};",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "\u{10429}", name: "\u{10428}" },
+				},
+			],
+		},
+		{
+			code: "obj['\u{10428}'] = function \u{10429}() {};",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "\u{10429}", name: "\u{10428}" },
+				},
+			],
+		},
 	],
 });
