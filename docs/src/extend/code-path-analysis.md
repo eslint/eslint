@@ -462,13 +462,11 @@ function hasCb(node, context) {
 	if (node.type.includes("Function")) {
 		return context.sourceCode
 			.getDeclaredVariables(node)
-			.some(v => v.type === "Parameter" && v.name === "cb");
+			.some(v =>
+				v.defs.some(d => d.type === "Parameter" && v.name === "cb"),
+			);
 	}
 	return false;
-}
-
-function isCbCalled(info) {
-	return info.cbCalled;
 }
 
 export default {
@@ -493,7 +491,13 @@ export default {
 			},
 
 			onCodePathEnd(codePath, node) {
+				const endedCodePathInfo = codePathInfo;
 				codePathInfo = codePathInfoStack.pop();
+
+				// Ignores if `cb` doesn't exist on the path that just ended.
+				if (!endedCodePathInfo.hasCb) {
+					return;
+				}
 
 				// Checks `cb` was called in every path.
 				const cbCalled = codePath.finalSegments.every(segment => {
@@ -525,7 +529,10 @@ export default {
 				// If there are previous segments, merge their state.
 				// Checks `cb` was called in every previous path.
 				if (segment.prevSegments.length > 0) {
-					info.cbCalled = segment.prevSegments.every(isCbCalled);
+					info.cbCalled = segment.prevSegments.every(
+						prevSegment =>
+							segmentInfoMap.get(prevSegment.id).cbCalled,
+					);
 				}
 			},
 
