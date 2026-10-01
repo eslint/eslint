@@ -566,6 +566,7 @@ const { loadESLint } = require("eslint");
 
 const DefaultESLint = await loadESLint();
 ```
+
 In ESLint v9 and earlier, `loadESLint()` accepted a `useFlatConfig` option to choose between the flat config and eslintrc implementations. Because eslintrc support was removed in ESLint v10.0.0, this option is now ignored.
 
 You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
