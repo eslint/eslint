@@ -559,33 +559,25 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ## loadESLint()
 
-The `loadESLint()` function is used for integrations that wish to support different ESLint versions. This function returns the correct `ESLint` class implementation based on the arguments provided:
+The `loadESLint()` function is used for integrations that wish to support different ESLint versions. In ESLint v10.0.0 and later, it always returns the `ESLint` class, which uses the flat config system:
 
 ```js
 const { loadESLint } = require("eslint");
 
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
-
-// loads the flat config version specifically
-const FlatESLint = await loadESLint({ useFlatConfig: true });
-
-// loads the legacy version specifically if possible, otherwise falls back to flat config version
-const LegacyESLint = await loadESLint({ useFlatConfig: false });
 ```
+In ESLint v9 and earlier, `loadESLint()` accepted a `useFlatConfig` option to choose between the flat config and eslintrc implementations. Because eslintrc support was removed in ESLint v10.0.0, this option is now ignored.
 
 You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
 
 ```js
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
 const eslint = new DefaultESLint();
 ```
 
-If you're ever unsure which config system the returned constructor uses, check the `configType` property, which is either `"flat"` or `"eslintrc"`:
+If your integration also supports earlier ESLint versions, check the `configType` property to determine which config system the returned constructor uses. In ESLint v10.0.0 and later, it is always `"flat"`, while earlier versions may return `"eslintrc"`:
 
 ```js
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
 
 if (DefaultESLint.configType === "flat") {
@@ -593,7 +585,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-**If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.**
+**If your integration only needs to support ESLint v10.0.0 and later, then it's recommended to just use the `ESLint` constructor directly.**
 
 ## SourceCode
 
