@@ -86,8 +86,14 @@ describe("ast-utils", () => {
 			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { WeakRef: false });
 		});
 
-		it("should contain es2026 globals", () => {
-			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Temporal: false });
+		it("should contain es2025 globals", () => {
+			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Iterator: false });
+		});
+
+		it("should contain es2027 globals", () => {
+			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, {
+				AsyncDisposableStack: false,
+			});
 		});
 	});
 
