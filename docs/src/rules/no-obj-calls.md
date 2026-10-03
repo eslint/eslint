@@ -30,9 +30,11 @@ The [Temporal proposal specification](https://tc39.es/proposal-temporal/#sec-tem
 
 > The Temporal object does not have a `[[Call]]` internal method; it cannot be invoked as a function.
 
+The [ECMAScript 2020 specification](https://tc39.es/ecma262/2020/#sec-globalthis) defines `globalThis` as a value property of the global object; the [global object](https://tc39.es/ecma262/2020/#sec-global-object) cannot be called or constructed.
+
 ## Rule Details
 
-This rule disallows calling the `Math`, `JSON`, `Reflect`, `Atomics`, `Intl`, and `Temporal` objects as functions.
+This rule disallows calling `Math`, `JSON`, `Reflect`, `Atomics`, `Intl`, `Temporal`, and `globalThis` as functions.
 
 This rule also disallows using these objects as constructors with the `new` operator.
 
