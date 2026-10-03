@@ -320,6 +320,14 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		"foo((function() { this.bar(); }).bind(obj).bind(this))",
 		"test('clean', function (this: any) { this.foo = 'Cleaned!';});",
 		"obj.test('clean', function (foo) { this.foo = 'Cleaned!'; });",
+		"test('foo', function (this: any) {});",
+		"acceptsCb(function (this: Foo) {});",
+		"acceptsCb(function (this: Foo, x: number) { return x; });",
+		"foo(function (this: void) { return 1; });",
+		{
+			code: "test('foo', function (this: any) {});",
+			options: [{ allowUnboundThis: false }],
+		},
 	],
 	invalid: [
 		{
@@ -526,11 +534,6 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		{
 			code: "foo(function():string { return 'foo' });",
 			output: "foo(():string => { return 'foo' });",
-			errors,
-		},
-		{
-			code: "test('foo', function (this: any) {});",
-			output: null,
 			errors,
 		},
 	],

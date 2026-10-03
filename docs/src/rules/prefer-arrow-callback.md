@@ -74,8 +74,6 @@ Examples of **incorrect** TypeScript code for this rule:
 /*eslint prefer-arrow-callback: "error"*/
 
 foo(function bar(a: string) { a; });
-
-test('foo', function (this: any) {});
 ```
 
 :::
@@ -90,6 +88,8 @@ Examples of **correct** TypeScript code for this rule:
 foo((a: string) => a);
 
 const foo = function foo(bar: any) {};
+
+test('foo', function (this: any) {});
 ```
 
 :::
