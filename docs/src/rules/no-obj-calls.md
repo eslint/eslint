@@ -8,7 +8,7 @@ further_reading:
 
 
 
-ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due to their capitalization (such as `Math`, `JSON`, and `Temporal`) but will throw an error if you try to execute them as functions.
+ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due to their capitalization (such as `Math`, `JSON`, `Temporal`, and `globalThis`) but will throw an error if you try to execute them as functions.
 
 The [ECMAScript 5 specification](https://es5.github.io/#x15.8) makes it clear that both `Math` and `JSON` cannot be invoked:
 
@@ -30,9 +30,11 @@ The [Temporal proposal specification](https://tc39.es/proposal-temporal/#sec-tem
 
 > The Temporal object does not have a `[[Call]]` internal method; it cannot be invoked as a function.
 
+The `globalThis` property of the global object is not a function either, so calling it, or using it as a constructor, always throws a `TypeError`.
+
 ## Rule Details
 
-This rule disallows calling the `Math`, `JSON`, `Reflect`, `Atomics`, `Intl`, and `Temporal` objects as functions.
+This rule disallows calling the `Math`, `JSON`, `Reflect`, `Atomics`, `Intl`, `Temporal`, and `globalThis` objects as functions.
 
 This rule also disallows using these objects as constructors with the `new` operator.
 
@@ -66,6 +68,10 @@ const newIntl = new Intl();
 const temporal = Temporal();
 
 const newTemporal = new Temporal();
+
+const result = globalThis();
+
+const newResult = new globalThis();
 ```
 
 :::
@@ -90,6 +96,8 @@ const first = Atomics.load(foo, 0);
 const segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
 
 const instant = Temporal.Now.instant();
+
+const copy = globalThis.structuredClone({});
 ```
 
 :::

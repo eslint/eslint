@@ -122,6 +122,18 @@ ruleTester.run("no-obj-calls", rule, {
 				globals: { Temporal: false },
 			},
 		},
+		{
+			code: "globalThis.structuredClone({});",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "var x = globalThis.structuredClone();",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "globalThis.Math.max(1, 2);",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		// non-existing variables
 		"/*globals Math: off*/ Math();",
@@ -212,6 +224,22 @@ ruleTester.run("no-obj-calls", rule, {
 		{
 			code: "if (foo) { const Temporal = 1; new Temporal(); }",
 			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "var globalThis; globalThis();",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "function foo(globalThis) { globalThis(); }",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "if (foo) { const globalThis = 1; globalThis(); }",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "if (foo) { const globalThis = 1; new globalThis(); }",
+			languageOptions: { ecmaVersion: 2020 },
 		},
 	],
 	invalid: [
@@ -924,6 +952,56 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
+				},
+			],
+		},
+
+		// `globalThis`
+		{
+			code: "globalThis();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "globalThis" },
+				},
+			],
+		},
+		{
+			code: "new globalThis();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "globalThis" },
+				},
+			],
+		},
+		{
+			code: "const foo = globalThis; foo();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "globalThis" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
+		},
+		{
+			code: "const foo = globalThis; new foo();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "globalThis" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 34,
 				},
 			],
 		},
