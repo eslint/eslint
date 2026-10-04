@@ -3279,6 +3279,117 @@ describe("Linter with FlatConfigArray", () => {
 					});
 				});
 
+				describe("when evaluating multiple files that share a config", () => {
+					it("should not leak inline globals into later files", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							rules: { "no-undef": "error" },
+						});
+
+						configs.normalizeSync();
+
+						const first = linter.verify(
+							"/* global foo */ foo;",
+							configs,
+							"a.js",
+						);
+						const second = linter.verify("foo;", configs, "b.js");
+
+						assert.strictEqual(first.length, 0);
+						assert.strictEqual(second.length, 1);
+						assert.strictEqual(second[0].ruleId, "no-undef");
+					});
+
+					it("should not let an inline global change a configured global in later files", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							languageOptions: { globals: { foo: "writable" } },
+							rules: { "no-global-assign": "error" },
+						});
+
+						configs.normalizeSync();
+
+						const readonlyInline =
+							"/* global foo:readonly */ foo = 1;";
+						const first = linter.verify(
+							readonlyInline,
+							configs,
+							"a.js",
+						);
+						const second = linter.verify(
+							"foo = 1;",
+							configs,
+							"b.js",
+						);
+						const third = linter.verify(
+							readonlyInline,
+							configs,
+							"c.js",
+						);
+
+						assert.strictEqual(first.length, 1);
+						assert.strictEqual(first[0].ruleId, "no-global-assign");
+						assert.strictEqual(second.length, 0);
+						assert.strictEqual(third.length, 1);
+					});
+
+					it("should keep configured globals that are off excluded in every file", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							languageOptions: {
+								globals: { foo: "readonly", bar: "off" },
+							},
+							rules: { "no-undef": "error" },
+						});
+
+						configs.normalizeSync();
+
+						for (const [code, file] of [
+							["foo; bar;", "a.js"],
+							["/* global baz */ foo; bar; baz;", "b.js"],
+							["foo; bar;", "c.js"],
+						]) {
+							const messages = linter.verify(code, configs, file);
+
+							assert.strictEqual(messages.length, 1, file);
+							assert.strictEqual(
+								messages[0].message,
+								"'bar' is not defined.",
+							);
+						}
+					});
+
+					it("should give files matching different configs their own globals", () => {
+						const configs = createFlatConfigArray([
+							{
+								files: ["**/*.cjs"],
+								languageOptions: { sourceType: "commonjs" },
+							},
+							{
+								files: ["**/*.js", "**/*.cjs"],
+								rules: { "no-undef": "error" },
+							},
+						]);
+
+						configs.normalizeSync();
+
+						const code = "module.exports = {};";
+
+						assert.strictEqual(
+							linter.verify(code, configs, "a.cjs").length,
+							0,
+						);
+						assert.strictEqual(
+							linter.verify(code, configs, "b.js").length,
+							1,
+						);
+						assert.strictEqual(
+							linter.verify(code, configs, "c.cjs").length,
+							0,
+						);
+					});
+				});
+
 				describe("when evaluating code containing a /*global */ block with sloppy whitespace", () => {
 					const code = "/* global  a b  : true   c:  false*/";
 

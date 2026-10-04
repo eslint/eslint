@@ -1,3 +1,31 @@
+v10.12.0 - October 2, 2026
+
+* [`bc51eee`](https://github.com/eslint/eslint/commit/bc51eee6e3e816622b2dd1bc08acb9cfb2d3a6a7) fix: `prefer-arrow-callback` false positive in conditional test (#21373) (Daniel Pinto)
+* [`bbff86c`](https://github.com/eslint/eslint/commit/bbff86c41521cc435e20754e26007f657a843038) fix: skip lines with multiple comments in `max-lines-per-function` (#21332) (xbinaryx)
+* [`152067f`](https://github.com/eslint/eslint/commit/152067f0f81f08b6cce9cf8eeaddb8558731b4f6) chore: update ecosystem plugins (#21362) (ESLint Bot)
+* [`b56d58e`](https://github.com/eslint/eslint/commit/b56d58e0b1f3c919a6b7661254af760cdd909d6e) chore: update github/codeql-action action to v4.38.2 (#21376) (renovate[bot])
+* [`67eb586`](https://github.com/eslint/eslint/commit/67eb586e2eda290813b329d4f40e605ad696bc4f) docs: Update README (GitHub Actions Bot)
+* [`bfaea12`](https://github.com/eslint/eslint/commit/bfaea12ddc30b458fe4cfbb6c306a62b5299c177) perf: cache normalized config globals per languageOptions (#21364) (James Ross)
+* [`322209e`](https://github.com/eslint/eslint/commit/322209ef164e8a00a25ec7ca166969ddc853355c) ci: avoid Nx cache in ecosystem tests and disable failing test (#21369) (Francesco Trotta)
+* [`d166567`](https://github.com/eslint/eslint/commit/d166567901e09940c1de4ad0e95d572eeab5c927) chore: update dependency prettier to v3.9.9 (#21371) (renovate[bot])
+* [`efc4d6b`](https://github.com/eslint/eslint/commit/efc4d6bdc4c4d1dfba8bdab6a8f44f27a1b1d00a) fix: astral letters in `consistent-return`, `no-eval`, `no-invalid-this` (#21360) (lumir)
+* [`4618052`](https://github.com/eslint/eslint/commit/4618052eed6bb3ef420cf0db0490bbda2fd835a5) feat: handle astral letters in `new-cap` (#21357) (sary)
+* [`4ec5168`](https://github.com/eslint/eslint/commit/4ec5168d6d6888e3f7b163eb82963d40e45a75fa) feat: allow `SourceCode#getText()` to accept tokens and comments (#21340) (electrohyun)
+* [`5370d7e`](https://github.com/eslint/eslint/commit/5370d7ee35a6523873f798e87f3ccc73779d5d21) docs: clarify `one-var` `separateRequires` matches any `require()` call (#21192) (sethamus)
+* [`93de066`](https://github.com/eslint/eslint/commit/93de066d4125f8df013d40305e8009f4634a5cba) fix: prefer-exponentiation-operator autofix for async function base (#21322) (Vladimir Babin)
+* [`02e34ff`](https://github.com/eslint/eslint/commit/02e34ffba6adbed72365177c7caee71d950834e5) fix: add missing space after `else` in `curly` autofix (#21355) (Pixel)
+* [`29585ce`](https://github.com/eslint/eslint/commit/29585ceba7ad35368d1b763bd1e80d899f28842c) chore: update dependency eslint-plugin-expect-type to ^0.7.0 (#21359) (renovate[bot])
+* [`39d79ba`](https://github.com/eslint/eslint/commit/39d79ba9650542ac66d585d1899304abd630c07d) chore: update github/codeql-action action to v4.38.1 (#21354) (renovate[bot])
+* [`182a6e9`](https://github.com/eslint/eslint/commit/182a6e993a8a5dbdad5a628b69ad7382d48bf24f) chore: update dependency prettier to v3.9.8 (#21352) (renovate[bot])
+* [`b14b8bc`](https://github.com/eslint/eslint/commit/b14b8bc213ccfc19d3edcfa9ce6af62622661160) fix: correct `id-length` message for long private names (#21348) (Pixel)
+* [`f995127`](https://github.com/eslint/eslint/commit/f995127230dad258069c29b7f51971681bd53f00) chore: remove CLAUDE.md in favor of AGENTS.md (#21339) (Jarren)
+* [`b95fb6c`](https://github.com/eslint/eslint/commit/b95fb6cb335f82a0ccabb0944ac3b89c703bd947) chore: update dependency prettier to v3.9.7 (#21347) (renovate[bot])
+* [`8816c1d`](https://github.com/eslint/eslint/commit/8816c1ddfcfa31318ad17cddcfb68acffa30940f) docs: Update README (GitHub Actions Bot)
+* [`3d2e7ce`](https://github.com/eslint/eslint/commit/3d2e7cedb7409d8a2c5f2c2fafb14fa22790e40e) docs: fix typo in no-unused-expressions documentation (#21346) (bytedoe)
+* [`69aac01`](https://github.com/eslint/eslint/commit/69aac01d898837a934c9e735e0b7881cc1df09e8) fix: support `TSFunctionType` in `getFunctionHeadLoc` (#21335) (xbinaryx)
+* [`686630e`](https://github.com/eslint/eslint/commit/686630eb34ec1cddf399a4e6eaeebb080116a532) fix: `no-loss-of-precision` false positive with `0.e5` (#21337) (sethamus)
+* [`3782dd4`](https://github.com/eslint/eslint/commit/3782dd458fdfbe492e600d9a54b295a9721ed815) chore: update ecosystem plugins (#21342) (ESLint Bot)
+
 v10.11.0 - September 18, 2026
 
 * [`520dd77`](https://github.com/eslint/eslint/commit/520dd77a35922fb537e2dbfb3c839d047acbdd68) perf: Implement fast paths in critical areas (#21210) (Nicholas C. Zakas)
