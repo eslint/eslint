@@ -1587,6 +1587,40 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 			],
 		},
 
+		// enums merge with namespaces, but not with variables or functions
+		{
+			code: `
+	var Foo;
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+			],
+		},
+		{
+			code: `
+	function Foo() {}
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+			],
+		},
+
 		// enums merge with namespaces, but not with each other
 		{
 			code: `
