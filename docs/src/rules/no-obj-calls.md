@@ -68,6 +68,11 @@ const newIntl = new Intl();
 const temporal = Temporal();
 
 const newTemporal = new Temporal();
+
+const globalObject = globalThis();
+
+const newGlobalObject = new globalThis();
+
 ```
 
 :::
@@ -92,6 +97,8 @@ const first = Atomics.load(foo, 0);
 const segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
 
 const instant = Temporal.Now.instant();
+
+const parsed = globalThis.parseInt("42", 10);
 ```
 
 :::
