@@ -147,6 +147,18 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["never"],
 		},
 		{
+			code: "const obj = { async *f() { yield super.x; } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { f(a = super.x) {} };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { outer() { super.x; return { inner() { return super.y; } }; } };",
+			options: ["never"],
+		},
+		{
 			code: "const obj = { describe() { return () => super.toString(); } };",
 			options: ["never"],
 		},
