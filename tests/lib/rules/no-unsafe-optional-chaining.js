@@ -31,6 +31,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 		"(obj?.foo ?? bar?.baz)?.()",
 		"(obj.foo)?.();",
 		"function* foo() { yield foo?.bar; }",
+		"function* foo() { yield* (yield obj?.foo); }",
 		"function* foo() { yield* (obj?.foo ?? bar); }",
 		"obj?.foo.bar;",
 		"obj?.foo?.bar;",
@@ -262,6 +263,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 
 			// yield*
 			"function* foo() { yield* obj?.bar; }",
+			"function* foo() { yield* (yield* obj?.bar); }",
+			"function* foo() { (yield* obj?.bar)(); }",
+			"function* foo() { (yield* obj?.bar).baz; }",
+			"function* foo() { yield* (obj?.bar && baz); }",
+			"async function* foo() { yield* await obj?.bar; }",
 
 			// sequence expression
 			"(foo, obj?.foo)();",
@@ -290,6 +296,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 				},
 			],
 		})),
+		{
+			code: "function* foo() { 1 + (yield* obj?.bar); }",
+			options: [{ disallowArithmeticOperators: true }],
+			errors: [{ messageId: "unsafeOptionalChain" }],
+		},
 		{
 			code: "(obj?.foo && obj?.baz).bar",
 			errors: [
