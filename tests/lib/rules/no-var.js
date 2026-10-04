@@ -588,6 +588,15 @@ ruleTester.run("no-var", rule, {
 			output: "function wrap() { function foo() {} foo(); if (bar) { let a = 1; function foo() { console.log(a); } foo (); } }",
 			errors: [{ messageId: "unexpectedVar" }],
 		},
+
+		// https://github.com/eslint/eslint/issues/21387
+		// Retain the whole declaration so one-var cannot merge a redeclared
+		// parameter into a declaration that no-var already turned into let.
+		{
+			code: "/*eslint one-var:error*/ function f(a) { var b = 1; var a; }",
+			output: "/*eslint one-var:error*/ function f(a) { let b = 1; var a; }",
+			errors: 3,
+		},
 	],
 });
 
