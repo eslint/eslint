@@ -1016,6 +1016,16 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		export type T = string;
 	}
 	`,
+		// var + namespace with non-exported import alias is valid
+		`
+	namespace Outer {
+		export namespace Inner {}
+	}
+	var Foo;
+	namespace Foo {
+		import Alias = Outer.Inner;
+	}
+	`,
 		// var + deeply nested non-instantiated namespace is valid
 		`
 	var Foo;
@@ -1398,6 +1408,19 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 				{ data: { id: "Foo" }, messageId: "redeclared" },
 				{ data: { id: "Foo" }, messageId: "redeclared" },
 			],
+		},
+		// var + namespace with export import alias is invalid
+		{
+			code: `
+	namespace Outer {
+		export namespace Inner {}
+	}
+	var Foo;
+	namespace Foo {
+		export import Alias = Outer.Inner;
+	}
+	`,
+			errors: [{ data: { id: "Foo" }, messageId: "redeclared" }],
 		},
 		// globals + instantiated namespace
 		{
