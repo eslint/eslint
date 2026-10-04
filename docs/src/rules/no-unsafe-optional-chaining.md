@@ -69,6 +69,10 @@ bar instanceof obj?.foo;
 
 for (bar of obj?.foo);
 
+function* gen(obj) {
+    yield* obj?.items;  // TypeError
+}
+
 const { bar } = obj?.foo;
 
 [{ bar } = obj?.foo] = [];
@@ -112,6 +116,10 @@ foo?.()?.bar;
 new (obj?.foo ?? bar)();
 
 const baz = {...obj?.foo};
+
+function* gen(obj) {
+  yield obj?.items;  // undefined is a valid value to yield
+}
 
 const { bar } = obj?.foo || baz;
 
