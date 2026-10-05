@@ -27,7 +27,8 @@ jobs:
                     - "@eslint/json"
                     - "@eslint/markdown"
                     - "@eslint-community/eslint-plugin-eslint-comments"
-                    - "@typescript-eslint/typescript-eslint"
+                    # Disabled until typescript-eslint updates its tests for the `getFunctionHeadLoc` change in #21335
+                    # - "@typescript-eslint/typescript-eslint"
                     - "eslint-plugin-unicorn"
                     - "eslint-plugin-vue"
 

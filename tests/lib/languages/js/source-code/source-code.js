@@ -2442,6 +2442,16 @@ describe("SourceCode", () => {
 					assert.notOk(variable.eslintExported);
 				});
 			});
+
+			it("should mark exported variable named __proto__", () => {
+				const code = "/*exported __proto__ */ var __proto__;";
+				const globalScope = loadGlobalScope(code);
+				const variable = globalScope.get("__proto__");
+
+				assert.isDefined(variable);
+				assert.isTrue(variable.eslintUsed);
+				assert.isTrue(variable.eslintExported);
+			});
 		});
 
 		it("should extract rule configuration", () => {

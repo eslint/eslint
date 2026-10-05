@@ -91,10 +91,6 @@ jobs:
             - name: Fuzz Test
               run: node Makefile fuzz
             - name: Test EMFILE Handling
-              # Node.js 26.8+ no longer reliably triggers `EMFILE` for small-file reads.
-              # See: https://github.com/nodejs/node/pull/65327
-              # TODO: Re-enable after replacing this with deterministic error injection.
-              if: matrix.node != '26.x'
               run: npm run test:emfile
 
     test_on_browser:
@@ -160,7 +156,7 @@ jobs:
         steps:
             - uses: actions/checkout@v7
 
-            - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+            - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
               with:
                   version: latest
 

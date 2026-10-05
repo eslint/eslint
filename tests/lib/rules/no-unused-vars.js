@@ -306,6 +306,7 @@ ruleTester.run("no-unused-vars", rule, {
 		// exported variables should work
 		"/*exported toaster*/ var toaster = 'great'",
 		"/*exported toaster, poster*/ var toaster = 1; poster = 0;",
+		"/*exported __proto__*/ var __proto__ = 1;",
 		{
 			code: "/*exported x*/ var { x } = y",
 			languageOptions: { ecmaVersion: 6 },

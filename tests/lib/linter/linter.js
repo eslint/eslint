@@ -2048,6 +2048,110 @@ describe("Linter with FlatConfigArray", () => {
 				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
 			});
 
+			it("should attribute an error to the correct rule when two rules share the same listener function object", () => {
+				/**
+				 * A single listener function object shared by two rules.
+				 * @returns {void}
+				 * @throws {Error} Always.
+				 */
+				function sharedListener() {
+					throw new Error("Intentional error.");
+				}
+
+				const plugin = {
+					rules: {
+						"rule-a": {
+							create: () => ({ Program: sharedListener }),
+						},
+						"rule-b": {
+							create: () => ({ Program: sharedListener }),
+						},
+					},
+				};
+				const config = {
+					plugins: { test: plugin },
+					rules: {
+						"test/rule-a": "error",
+						"test/rule-b": "error",
+					},
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/rule-a"`);
+			});
+
+			it("should attribute an error to the correct rule when the listener is a frozen function", () => {
+				const frozenListener = Object.freeze(() => {
+					throw new Error("Intentional error.");
+				});
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({
+										Program: frozenListener,
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+			});
+
+			it("should attribute an error to the correct rule when the listener is not a function", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({ Program: null }),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, /Rule: "test\/checker"$/u);
+			});
+
+			it("should overwrite an existing `ruleId` on a thrown error with the rule that threw it", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({
+										Program() {
+											const error = new Error(
+												"Intentional error.",
+											);
+
+											error.ruleId = "some/other-rule";
+											throw error;
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+			});
+
 			it("should not call rule visitor with a `this` value", () => {
 				const spy = sinon.spy();
 				const config = {
@@ -3160,6 +3264,130 @@ describe("Linter with FlatConfigArray", () => {
 							{ name: "__defineSetter__", writeable: true },
 						);
 					});
+
+					it("should define a global named __proto__", () => {
+						assertGlobalVariable(
+							"/*global __proto__ */",
+							{},
+							{ name: "__proto__", writeable: false },
+						);
+						assertGlobalVariable(
+							"/*global __proto__:writeable */",
+							{},
+							{ name: "__proto__", writeable: true },
+						);
+					});
+				});
+
+				describe("when evaluating multiple files that share a config", () => {
+					it("should not leak inline globals into later files", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							rules: { "no-undef": "error" },
+						});
+
+						configs.normalizeSync();
+
+						const first = linter.verify(
+							"/* global foo */ foo;",
+							configs,
+							"a.js",
+						);
+						const second = linter.verify("foo;", configs, "b.js");
+
+						assert.strictEqual(first.length, 0);
+						assert.strictEqual(second.length, 1);
+						assert.strictEqual(second[0].ruleId, "no-undef");
+					});
+
+					it("should not let an inline global change a configured global in later files", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							languageOptions: { globals: { foo: "writable" } },
+							rules: { "no-global-assign": "error" },
+						});
+
+						configs.normalizeSync();
+
+						const readonlyInline =
+							"/* global foo:readonly */ foo = 1;";
+						const first = linter.verify(
+							readonlyInline,
+							configs,
+							"a.js",
+						);
+						const second = linter.verify(
+							"foo = 1;",
+							configs,
+							"b.js",
+						);
+						const third = linter.verify(
+							readonlyInline,
+							configs,
+							"c.js",
+						);
+
+						assert.strictEqual(first.length, 1);
+						assert.strictEqual(first[0].ruleId, "no-global-assign");
+						assert.strictEqual(second.length, 0);
+						assert.strictEqual(third.length, 1);
+					});
+
+					it("should keep configured globals that are off excluded in every file", () => {
+						const configs = createFlatConfigArray({
+							files: ["**/*.js"],
+							languageOptions: {
+								globals: { foo: "readonly", bar: "off" },
+							},
+							rules: { "no-undef": "error" },
+						});
+
+						configs.normalizeSync();
+
+						for (const [code, file] of [
+							["foo; bar;", "a.js"],
+							["/* global baz */ foo; bar; baz;", "b.js"],
+							["foo; bar;", "c.js"],
+						]) {
+							const messages = linter.verify(code, configs, file);
+
+							assert.strictEqual(messages.length, 1, file);
+							assert.strictEqual(
+								messages[0].message,
+								"'bar' is not defined.",
+							);
+						}
+					});
+
+					it("should give files matching different configs their own globals", () => {
+						const configs = createFlatConfigArray([
+							{
+								files: ["**/*.cjs"],
+								languageOptions: { sourceType: "commonjs" },
+							},
+							{
+								files: ["**/*.js", "**/*.cjs"],
+								rules: { "no-undef": "error" },
+							},
+						]);
+
+						configs.normalizeSync();
+
+						const code = "module.exports = {};";
+
+						assert.strictEqual(
+							linter.verify(code, configs, "a.cjs").length,
+							0,
+						);
+						assert.strictEqual(
+							linter.verify(code, configs, "b.js").length,
+							1,
+						);
+						assert.strictEqual(
+							linter.verify(code, configs, "c.cjs").length,
+							0,
+						);
+					});
 				});
 
 				describe("when evaluating code containing a /*global */ block with sloppy whitespace", () => {
@@ -3807,6 +4035,47 @@ describe("Linter with FlatConfigArray", () => {
 
 					linter.verify(code, config);
 					assert(spy && spy.calledOnce);
+				});
+
+				it("variable named __proto__ should be exported", () => {
+					const code = "/* exported __proto__ */\nvar __proto__;";
+					let spy;
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create(context) {
+											spy = sinon.spy(node => {
+												const scope =
+														context.sourceCode.getScope(
+															node,
+														),
+													proto = getVariable(
+														scope,
+														"__proto__",
+													);
+
+												assert.isTrue(proto.eslintUsed);
+												assert.isTrue(
+													proto.eslintExported,
+												);
+											});
+
+											return { Program: spy };
+										},
+									},
+								},
+							},
+						},
+						languageOptions: {
+							sourceType: "script",
+						},
+						rules: { "test/checker": "error" },
+					};
+
+					linter.verify(code, config);
+					assert(spy.calledOnce);
 				});
 			});
 

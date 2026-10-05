@@ -111,6 +111,7 @@ module.exports = defineConfig([
 		},
 		rules: {
 			"internal-rules/multiline-comment-style": "error",
+			"internal-rules/no-debug-template-literals": "error",
 		},
 	},
 	{

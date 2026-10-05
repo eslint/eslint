@@ -170,6 +170,40 @@ const foo = {
 
 :::
 
+```json
+{
+    "object-shorthand": ["error", "methods", { "ignoreConstructors": false }]
+}
+```
+
+Example of **incorrect** code for this rule with the `"methods", { "ignoreConstructors": false }` option:
+
+::: incorrect
+
+```js
+/*eslint object-shorthand: ["error", "methods", { "ignoreConstructors": false }]*/
+
+const foo = {
+	"ConstructorFunction": function() {}
+};
+```
+
+:::
+
+Example of **correct** code for this rule with the `"methods", { "ignoreConstructors": false }` option:
+
+::: correct
+
+```js
+/*eslint object-shorthand: ["error", "methods", { "ignoreConstructors": false }]*/
+
+const foo = {
+	"ConstructorFunction"() {}
+};
+```
+
+:::
+
 ### methodsIgnorePattern
 
 Example of **correct** code for this rule with the `"always", { "methodsIgnorePattern": "^bar$" }` option:
