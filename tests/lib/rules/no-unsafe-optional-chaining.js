@@ -45,6 +45,10 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 		"foo = obj?.bar",
 		"foo.bar = obj?.bar",
 		"bar(...obj?.foo ?? []);",
+		"function* foo() { yield obj?.bar; }",
+		"function* foo() { yield* obj.bar; }",
+		"function* foo() { yield* obj?.bar ?? []; }",
+		"function* foo() { yield* obj?.bar || []; }",
 		"var bar = {...foo?.bar};",
 		"foo?.bar in {};",
 		"foo?.bar < foo?.baz;",
@@ -257,6 +261,12 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			// for...of
 			"for (foo of obj?.bar);",
 			"async function foo() { for (foo of await obj?.bar);}",
+
+			// yield*
+			"function* foo() { yield* obj?.bar; }",
+			"function* foo() { yield* obj?.bar?.baz; }",
+			"async function* foo() { yield* await obj?.bar; }",
+			"function* foo() { yield* (a ? obj?.foo : b); }",
 
 			// sequence expression
 			"(foo, obj?.foo)();",

@@ -69,6 +69,10 @@ bar instanceof obj?.foo;
 
 for (bar of obj?.foo);
 
+function* gen() {
+    yield* obj?.foo;
+}
+
 const { bar } = obj?.foo;
 
 [{ bar } = obj?.foo] = [];
