@@ -179,13 +179,9 @@
 
 			select.addEventListener("change", function () {
 				var selected = this.options[this.selectedIndex];
-				var newBasePath = selected.getAttribute("data-url");
-
-				if (!newBasePath) {
-					return;
-				}
-
-				newBasePath = newBasePath.trim();
+				var newBasePath = (
+					selected.getAttribute("data-url") || ""
+				).trim();
 
 				if (!newBasePath) {
 					return;
@@ -194,14 +190,7 @@
 				// External absolute URLs (e.g. "Previous Versions" link)
 				if (/^https?:\/\//i.test(newBasePath)) {
 					try {
-						var absoluteUrl = new URL(newBasePath);
-
-						if (
-							absoluteUrl.protocol === "http:" ||
-							absoluteUrl.protocol === "https:"
-						) {
-							window.location.href = absoluteUrl.href;
-						}
+						window.location.href = new URL(newBasePath).href;
 					} catch (e) {
 						if (e instanceof TypeError) {
 							// invalid URL; ignore navigation
