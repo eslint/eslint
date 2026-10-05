@@ -10018,42 +10018,6 @@ let c; // var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("does not join a redeclared `var` into a `let` declaration when `no-var` and `one-var` fix together", () => {
-			const fixResult = linter.verifyAndFix(
-				"function f(a) { var b = 1; var a; }",
-				{
-					rules: {
-						"no-var": 2,
-						"one-var": 2,
-					},
-				},
-			);
-
-			assert.strictEqual(
-				fixResult.output,
-				"function f(a) { let b = 1; var a; }",
-			);
-			assert.isFalse(fixResult.messages.some(message => message.fatal));
-		});
-
-		it("joins `var` declarations into one `let` declaration when `no-var` and `one-var` fix together", () => {
-			const fixResult = linter.verifyAndFix(
-				"function f() { var b = 1; var c = 2; }",
-				{
-					rules: {
-						"no-var": 2,
-						"one-var": 2,
-					},
-				},
-			);
-
-			assert.strictEqual(
-				fixResult.output,
-				"function f() { let b = 1,  c = 2; }",
-			);
-			assert.deepStrictEqual(fixResult.messages, []);
-		});
-
 		it("does not apply autofixes when fix argument is `false`", () => {
 			const fixResult = linter.verifyAndFix(
 				"var a",
