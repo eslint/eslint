@@ -127,20 +127,13 @@ function adjustSearchResultUrl(url) {
  * @returns {void}
  */
 function setSafeHref(anchor, url) {
-	const adjusted = adjustSearchResultUrl(url);
+	const href = window.getSafeHref(
+		adjustSearchResultUrl(url),
+		window.location.href,
+	);
 
-	try {
-		const parsed = new URL(adjusted, window.location.href);
-
-		if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-			anchor.href = parsed.href;
-		}
-	} catch (e) {
-		if (e instanceof TypeError) {
-			// Invalid URL: leave href unset
-		} else {
-			throw e;
-		}
+	if (href) {
+		anchor.href = href;
 	}
 }
 

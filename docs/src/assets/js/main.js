@@ -189,48 +189,39 @@
 
 				// External absolute URLs (e.g. "Previous Versions" link)
 				if (/^https?:\/\//i.test(newBasePath)) {
-					try {
-						window.location.href = new URL(newBasePath).href;
-					} catch (e) {
-						if (e instanceof TypeError) {
-							// invalid URL; ignore navigation
-						} else {
-							throw e;
-						}
+					var absoluteHref = getSafeHref(newBasePath);
+
+					if (absoluteHref) {
+						window.location.href = absoluteHref;
 					}
 					return;
 				}
 
-				try {
-					var match =
-						window.location.pathname.match(/^\/docs\/[^/]+\/(.*)/);
+				var match = window.location.pathname.match(
+					/^\/docs\/[^/]+\/(?<rest>.*)/,
+				);
+				var relativeHref = getSafeHref(
+					newBasePath,
+					window.location.origin,
+				);
 
-					var targetUrl = new URL(
-						newBasePath,
-						window.location.origin,
-					);
+				if (!relativeHref) {
+					return;
+				}
 
-					if (match && match[1]) {
-						targetUrl.pathname =
-							targetUrl.pathname.replace(/\/?$/, "/") + match[1];
-					}
+				var targetUrl = new URL(relativeHref);
 
-					targetUrl.search = window.location.search;
-					targetUrl.hash = window.location.hash;
+				if (match && match.groups.rest) {
+					targetUrl.pathname =
+						targetUrl.pathname.replace(/\/?$/, "/") +
+						match.groups.rest;
+				}
 
-					if (
-						targetUrl.origin === window.location.origin &&
-						(targetUrl.protocol === "http:" ||
-							targetUrl.protocol === "https:")
-					) {
-						window.location.href = targetUrl.href;
-					}
-				} catch (e) {
-					if (e instanceof TypeError) {
-						// invalid base path; ignore navigation
-					} else {
-						throw e;
-					}
+				targetUrl.search = window.location.search;
+				targetUrl.hash = window.location.hash;
+
+				if (targetUrl.origin === window.location.origin) {
+					window.location.href = targetUrl.href;
 				}
 			});
 		});
