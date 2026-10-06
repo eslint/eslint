@@ -77,6 +77,77 @@ import type {
 } from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
+// ESTree Types
+//------------------------------------------------------------------------------
+
+/*
+ * ESLint-owned names for the ESTree types referenced in this file, so that
+ * declarations emitted by dependent packages can name them through `eslint`
+ * even when `@types/estree` is not resolvable from those packages (e.g. with
+ * pnpm). A plain alias would be resolved back to the original ESTree name, so
+ * object types are wrapped in interfaces and union types in intersections.
+ */
+
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreePosition extends ESTree.Position {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeSourceLocation extends ESTree.SourceLocation {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeBaseNode extends ESTree.BaseNode {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export type ESTreeNode = ESTree.Node & {};
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeProgram extends ESTree.Program {
+	body: Array<ESTreeDirective | ESTreeStatement | ESTreeModuleDeclaration>;
+}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeDirective extends ESTree.Directive {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export type ESTreeStatement = ESTree.Statement & {};
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export type ESTreeModuleDeclaration = ESTree.ModuleDeclaration & {};
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeComment extends ESTree.Comment {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeIdentifier extends ESTree.Identifier {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export type ESTreeExpression = ESTree.Expression & {};
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeCatchClause extends ESTree.CatchClause {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeClassDeclaration extends ESTree.ClassDeclaration {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeClassExpression extends ESTree.ClassExpression {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeFunctionDeclaration extends ESTree.FunctionDeclaration {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeFunctionExpression extends ESTree.FunctionExpression {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeArrowFunctionExpression
+	extends ESTree.ArrowFunctionExpression {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeAssignmentExpression
+	extends ESTree.AssignmentExpression {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeForInStatement extends ESTree.ForInStatement {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeForOfStatement extends ESTree.ForOfStatement {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeImportDeclaration extends ESTree.ImportDeclaration {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeImportSpecifier extends ESTree.ImportSpecifier {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeImportDefaultSpecifier
+	extends ESTree.ImportDefaultSpecifier {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeImportNamespaceSpecifier
+	extends ESTree.ImportNamespaceSpecifier {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeVariableDeclaration extends ESTree.VariableDeclaration {}
+/** @deprecated Exported only for declaration portability. Do not use directly. */
+export interface ESTreeVariableDeclarator extends ESTree.VariableDeclarator {}
+
+//------------------------------------------------------------------------------
 // Exports
 //------------------------------------------------------------------------------
 
@@ -103,21 +174,21 @@ export namespace AST {
 	}
 
 	interface SourceLocation {
-		start: ESTree.Position;
-		end: ESTree.Position;
+		start: ESTreePosition;
+		end: ESTreePosition;
 	}
 
 	type Range = SourceRange;
 
-	interface Program extends ESTree.Program {
-		comments: ESTree.Comment[];
+	interface Program extends ESTreeProgram {
+		comments: ESTreeComment[];
 		tokens: Token[];
 		loc: SourceLocation;
 		range: Range;
 	}
 }
 
-interface JSXIdentifier extends ESTree.BaseNode {
+interface JSXIdentifier extends ESTreeBaseNode {
 	type: "JSXIdentifier";
 	name: string;
 }
@@ -127,9 +198,9 @@ export namespace Scope {
 		scopes: Scope[];
 		globalScope: Scope | null;
 
-		acquire(node: ESTree.Node, inner?: boolean): Scope | null;
+		acquire(node: ESTreeNode, inner?: boolean): Scope | null;
 
-		getDeclaredVariables(node: ESTree.Node): Variable[];
+		getDeclaredVariables(node: ESTreeNode): Variable[];
 
 		addGlobals(names: ReadonlyArray<string>): void;
 	}
@@ -152,7 +223,7 @@ export namespace Scope {
 		upper: Scope | null;
 		childScopes: Scope[];
 		variableScope: Scope;
-		block: ESTree.Node;
+		block: ESTreeNode;
 		variables: Variable[];
 		set: Map<string, Variable>;
 		references: Reference[];
@@ -167,16 +238,16 @@ export namespace Scope {
 	interface Variable {
 		name: string;
 		scope: Scope;
-		identifiers: ESTree.Identifier[];
+		identifiers: ESTreeIdentifier[];
 		references: Reference[];
 		defs: Definition[];
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier | JSXIdentifier;
+		identifier: ESTreeIdentifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr?: ESTree.Expression | null;
+		writeExpr?: ESTreeExpression | null;
 		init?: boolean;
 
 		isWrite(): boolean;
@@ -191,48 +262,48 @@ export namespace Scope {
 	}
 
 	type DefinitionType =
-		| { type: "CatchClause"; node: ESTree.CatchClause; parent: null }
+		| { type: "CatchClause"; node: ESTreeCatchClause; parent: null }
 		| {
 				type: "ClassName";
-				node: ESTree.ClassDeclaration | ESTree.ClassExpression;
+				node: ESTreeClassDeclaration | ESTreeClassExpression;
 				parent: null;
 		  }
 		| {
 				type: "FunctionName";
-				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
+				node: ESTreeFunctionDeclaration | ESTreeFunctionExpression;
 				parent: null;
 		  }
 		| {
 				type: "ImplicitGlobalVariable";
 				node:
-					| ESTree.AssignmentExpression
-					| ESTree.ForInStatement
-					| ESTree.ForOfStatement;
+					| ESTreeAssignmentExpression
+					| ESTreeForInStatement
+					| ESTreeForOfStatement;
 				parent: null;
 		  }
 		| {
 				type: "ImportBinding";
 				node:
-					| ESTree.ImportSpecifier
-					| ESTree.ImportDefaultSpecifier
-					| ESTree.ImportNamespaceSpecifier;
-				parent: ESTree.ImportDeclaration;
+					| ESTreeImportSpecifier
+					| ESTreeImportDefaultSpecifier
+					| ESTreeImportNamespaceSpecifier;
+				parent: ESTreeImportDeclaration;
 		  }
 		| {
 				type: "Parameter";
 				node:
-					| ESTree.FunctionDeclaration
-					| ESTree.FunctionExpression
-					| ESTree.ArrowFunctionExpression;
+					| ESTreeFunctionDeclaration
+					| ESTreeFunctionExpression
+					| ESTreeArrowFunctionExpression;
 				parent: null;
 		  }
 		| {
 				type: "Variable";
-				node: ESTree.VariableDeclarator;
-				parent: ESTree.VariableDeclaration;
+				node: ESTreeVariableDeclarator;
+				parent: ESTreeVariableDeclaration;
 		  };
 
-	type Definition = DefinitionType & { name: ESTree.Identifier };
+	type Definition = DefinitionType & { name: ESTreeIdentifier };
 }
 
 // #region SourceCode
@@ -240,8 +311,8 @@ export namespace Scope {
 export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
-	ConfigNode: ESTree.Comment;
+	SyntaxElementWithLoc: AST.Token | ESTreeNode | ESTreeComment;
+	ConfigNode: ESTreeComment;
 }> {
 	text: string;
 	ast: AST.Program;
@@ -257,31 +328,31 @@ export class SourceCode implements TextSourceCode<{
 	static splitLines(text: string): string[];
 
 	getLoc(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
-	): ESTree.SourceLocation;
+		syntaxElement: AST.Token | ESTreeNode | ESTreeComment,
+	): ESTreeSourceLocation;
 	getRange(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+		syntaxElement: AST.Token | ESTreeNode | ESTreeComment,
 	): SourceRange;
 
 	getText(
-		node?: ESTree.Node | AST.Token | ESTree.Comment,
+		node?: ESTreeNode | AST.Token | ESTreeComment,
 		beforeCount?: number,
 		afterCount?: number,
 	): string;
 
 	getLines(): string[];
 
-	getAllComments(): ESTree.Comment[];
+	getAllComments(): ESTreeComment[];
 
-	getAncestors(node: ESTree.Node): ESTree.Node[];
+	getAncestors(node: ESTreeNode): ESTreeNode[];
 
-	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
+	getDeclaredVariables(node: ESTreeNode): Scope.Variable[];
 
-	getNodeByRangeIndex(index: number): ESTree.Node | null;
+	getNodeByRangeIndex(index: number): ESTreeNode | null;
 
-	getLocFromIndex(index: number): ESTree.Position;
+	getLocFromIndex(index: number): ESTreePosition;
 
-	getIndexFromLoc(location: ESTree.Position): number;
+	getIndexFromLoc(location: ESTreePosition): number;
 
 	// Inherited methods from TokenStore
 	// ---------------------------------
@@ -293,7 +364,7 @@ export class SourceCode implements TextSourceCode<{
 	getTokenByRangeStart(
 		offset: number,
 		options: { includeComments: boolean },
-	): AST.Token | ESTree.Comment | null;
+	): AST.Token | ESTreeComment | null;
 
 	getFirstToken: SourceCode.UnaryNodeCursorWithSkipOptions;
 
@@ -322,33 +393,33 @@ export class SourceCode implements TextSourceCode<{
 	getTokensBetween: SourceCode.BinaryCursorWithCountOptions;
 
 	getTokens: ((
-		node: ESTree.Node,
+		node: ESTreeNode,
 		beforeCount?: number,
 		afterCount?: number,
 	) => AST.Token[]) &
 		SourceCode.UnaryNodeCursorWithCountOptions;
 
 	commentsExistBetween(
-		left: ESTree.Node | AST.Token | ESTree.Comment,
-		right: ESTree.Node | AST.Token | ESTree.Comment,
+		left: ESTreeNode | AST.Token | ESTreeComment,
+		right: ESTreeNode | AST.Token | ESTreeComment,
 	): boolean;
 
-	getCommentsBefore(nodeOrToken: ESTree.Node | AST.Token): ESTree.Comment[];
+	getCommentsBefore(nodeOrToken: ESTreeNode | AST.Token): ESTreeComment[];
 
-	getCommentsAfter(nodeOrToken: ESTree.Node | AST.Token): ESTree.Comment[];
+	getCommentsAfter(nodeOrToken: ESTreeNode | AST.Token): ESTreeComment[];
 
-	getCommentsInside(node: ESTree.Node): ESTree.Comment[];
+	getCommentsInside(node: ESTreeNode): ESTreeComment[];
 
-	getScope(node: ESTree.Node): Scope.Scope;
+	getScope(node: ESTreeNode): Scope.Scope;
 
 	isSpaceBetween(
-		first: ESTree.Node | AST.Token,
-		second: ESTree.Node | AST.Token,
+		first: ESTreeNode | AST.Token,
+		second: ESTreeNode | AST.Token,
 	): boolean;
 
-	isGlobalReference(node: ESTree.Identifier): boolean;
+	isGlobalReference(node: ESTreeIdentifier): boolean;
 
-	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
+	markVariableAsUsed(name: string, refNode?: ESTreeNode): boolean;
 
 	traverse(): Iterable<TraversalStep>;
 }
@@ -371,7 +442,7 @@ export namespace SourceCode {
 
 	interface UnaryNodeCursorWithSkipOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -380,18 +451,18 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node,
+		<T extends AST.Token | ESTreeComment>(
+			node: ESTreeNode,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
 		): T | null;
 		(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -402,20 +473,19 @@ export namespace SourceCode {
 				| number,
 		): AST.Token | null;
 		(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | ESTreeComment | null;
 	}
 
 	interface UnaryNodeCursorWithCountOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -424,18 +494,18 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node,
+		<T extends AST.Token | ESTreeComment>(
+			node: ESTreeNode,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
 		): T[];
 		(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -446,20 +516,19 @@ export namespace SourceCode {
 				| number,
 		): AST.Token[];
 		(
-			node: ESTree.Node,
+			node: ESTreeNode,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | ESTreeComment>;
 	}
 
 	interface UnaryCursorWithSkipOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -468,18 +537,18 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | ESTreeComment>(
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
 		): T | null;
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -490,20 +559,19 @@ export namespace SourceCode {
 				| number,
 		): AST.Token | null;
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | ESTreeComment | null;
 	}
 
 	interface UnaryCursorWithCountOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -512,18 +580,18 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | ESTreeComment>(
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
 		): T[];
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -534,21 +602,20 @@ export namespace SourceCode {
 				| number,
 		): AST.Token[];
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | ESTreeComment>;
 	}
 
 	interface BinaryCursorWithSkipOptions {
 		<T extends AST.Token>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -557,20 +624,20 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | ESTreeComment>(
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
 		): T | null;
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -581,22 +648,21 @@ export namespace SourceCode {
 				| number,
 		): AST.Token | null;
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | ESTreeComment | null;
 	}
 
 	interface BinaryCursorWithCountOptions {
 		<T extends AST.Token>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -605,20 +671,20 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | ESTreeComment>(
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | ESTreeComment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
 		): T[];
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -629,16 +695,15 @@ export namespace SourceCode {
 				| number,
 		): AST.Token[];
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTreeNode | AST.Token | ESTreeComment,
+			right: ESTreeNode | AST.Token | ESTreeComment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | ESTreeComment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | ESTreeComment>;
 	}
 }
 
@@ -646,7 +711,7 @@ export namespace SourceCode {
 
 export type JSSyntaxElement = {
 	type: string;
-	loc?: ESTree.SourceLocation | null | undefined;
+	loc?: ESTreeSourceLocation | null | undefined;
 };
 
 export namespace Rule {
@@ -662,7 +727,7 @@ export namespace Rule {
 		create(context: RuleContext): RuleListener;
 	}
 
-	type NodeTypes = ESTree.Node["type"];
+	type NodeTypes = ESTreeNode["type"];
 
 	interface NodeListener extends CustomRuleVisitorWithExit<
 		{
@@ -680,7 +745,7 @@ export namespace Rule {
 
 	type Node =
 		| (AST.Program & { parent: null })
-		| (Exclude<ESTree.Node, ESTree.Program> & NodeParentExtension);
+		| (Exclude<ESTreeNode, ESTreeProgram> & NodeParentExtension);
 
 	interface RuleListener extends NodeListener {
 		onCodePathStart?(codePath: CodePath, node: Node): void;
@@ -793,7 +858,7 @@ export namespace Rule {
 	type ReportDescriptorMessage = ViolationMessage;
 	type ReportDescriptorLocation = ViolationLocation<JSSyntaxElement>;
 
-	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
+	type RuleFixer = RuleTextEditor<ESTreeNode | AST.Token>;
 	type Fix = RuleTextEdit;
 }
 
