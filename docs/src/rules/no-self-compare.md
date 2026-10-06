@@ -59,3 +59,7 @@ if (incrementUnlessReachedMaximum() === incrementUnlessReachedMaximum()) {
 ```
 
 :::
+
+## When Not To Use It
+
+If you intentionally compare a value to itself, you can turn this rule off. Prefer `Number.isNaN()` (or an equivalent `NaN` check) over a self-comparison when the goal is to detect `NaN`.

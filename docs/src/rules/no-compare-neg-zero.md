@@ -52,3 +52,7 @@ if (Object.is(x, -0)) {
 ## Options
 
 This rule has no options.
+
+## When Not To Use It
+
+If you do not need to distinguish `-0` from `+0`, you can turn this rule off.

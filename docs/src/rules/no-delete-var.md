@@ -29,3 +29,7 @@ delete x;
 ## Options
 
 This rule has no options.
+
+## When Not To Use It
+
+If ESLint parses your code in strict mode, the parser already reports `delete` on an identifier, so you can turn this rule off.
