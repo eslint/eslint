@@ -775,7 +775,17 @@ export namespace Rule {
 		RuleOptions: any[];
 		Node: JSSyntaxElement;
 		MessageIds: string;
-	}> {}
+	}> {
+		/**
+		 * The normalized language identifier for the file being linted.
+		 * Only available on rule contexts when the rule declares `meta.languages`.
+		 * @example
+		 * if (context.languageId === "json/json5") {
+		 *   // Apply JSON5-specific behavior
+		 * }
+		 */
+		languageId?: string;
+	}
 
 	type ReportFixer = CoreRuleFixer;
 
