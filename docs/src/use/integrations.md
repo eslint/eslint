@@ -44,6 +44,7 @@ If you would like to recommend an integration to be added to this page, [submit 
 - [ESLint Watch](https://www.npmjs.com/package/eslint-watch)
 - [Qlty CLI](https://github.com/qltysh/qlty)
 - [ESLint Nibble](https://github.com/IanVS/eslint-nibble)
+- [Archprint](https://github.com/Tommkruix/archprint)
 
 ## Source Control
 
