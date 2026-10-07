@@ -471,9 +471,23 @@ ruleTester.run("no-use-before-define", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 
+		// IIFEs: the function's own name is defined inside the function scope
+		"(function fn() { fn(); })();",
+		{
+			code: "(function fn() { fn(); })();",
+			options: [{ variables: false }],
+		},
+
 		// not immediately invoked: the function expression is not the callee
 		{
 			code: "const f = () => { a; }; let a;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// calling a function after its declaration but before the referenced variable is initialized is not detected
+		{
+			code: "const f = () => { a; }; f(); let a;",
 			options: [{ variables: false }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
