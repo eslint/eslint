@@ -30,9 +30,12 @@ The [Temporal proposal specification](https://tc39.es/proposal-temporal/#sec-tem
 
 > The Temporal object does not have a `[[Call]]` internal method; it cannot be invoked as a function.
 
-The [ECMAScript 2020 specification](https://tc39.es/ecma262/2020/#sec-globalthis) makes it clear that `globalThis` cannot be invoked:
+The [ECMAScript 2020 specification](https://tc39.es/ecma262/2020/#sec-globalthis) defines `globalThis` as the global `this` value of the current realm. Unless the host specifies otherwise, this is the
+  [global object](https://tc39.es/ecma262/2020/#sec-global-object), which:
 
-> The initial value of `globalThis` is the global `this` value of the current realm. By default, this is the [global object](https://tc39.es/ecma262/2020/#sec-global-object), which does not have a `[[Call]]` or `[[Construct]]` internal method; it cannot be invoked as a function or used as a constructor.
+> does not have a `[[Construct]]` internal method; it cannot be used as a constructor with the `new` operator.
+>
+> does not have a `[[Call]]` internal method; it cannot be invoked as a function.
 
 ## Rule Details
 
