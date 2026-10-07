@@ -148,14 +148,14 @@ export { foo };
   This flag determines whether or not the rule checks class declarations of upper scopes.
   If this is `true`, the rule warns on every reference to a class before the class declaration.
   Otherwise, the rule ignores such references, provided the declaration is in an upper function scope.
-  References inside an immediately invoked function expression (IIFE) that is called before the declaration are still reported, because the function body runs immediately.
+  References inside a synchronous, non-generator function expression that is called directly before the declaration (an IIFE) are still reported, because the function body runs immediately.
   Class declarations are not hoisted, so it might be dangerous to disable this option.
   Default is `true`.
 * `variables` (`boolean`) -
   This flag determines whether or not the rule checks variable declarations in upper scopes.
   If this is `true`, the rule warns on every reference to a variable before the variable declaration.
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
-  References inside an immediately invoked function expression (IIFE) that is called before the declaration are also reported, because the function body runs immediately.
+  References inside a synchronous, non-generator function expression that is called directly before the declaration (an IIFE) are also reported, because the function body runs immediately.
   Default is `true`.
 * `allowNamedExports` (`boolean`) -
   If this flag is set to `true`, the rule always allows references in `export {};` declarations.
