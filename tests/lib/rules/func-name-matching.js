@@ -330,6 +330,10 @@ ruleTester.run("func-name-matching", rule, {
 			code: "Object.create({ bar: { value: function value() {} } })",
 			options: ["always", { considerPropertyDescriptor: true }],
 		},
+		{
+			code: "Object.create(proto, { ...{ value: function value() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
 
 		// class fields, private names are ignored
 		{
