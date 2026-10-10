@@ -1,1 +1,116 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="292" height="550pt" viewBox="0 0 219.31 549.6"><g class="graph"><circle cx="67.1" cy="-532.6" r="9" stroke="#000" class="node" data-name="initial" pointer-events="visible" transform="translate(4 543.872)"/><g class="node" data-name="s2_1" pointer-events="visible"><path fill="#fff" stroke="#000" d="M126.3 56.472H15.9c-6 0-12 6-12 12v101.2c0 6 6 12 12 12h110.4c6 0 12-6 12-12v-101.2c0-6-6-12-12-12"/><text x="67.1" y="-471" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">FunctionDeclaration</text><text x="67.1" y="-454.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Identifier (generator)</text><text x="67.1" y="-437.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Identifier (flag)</text><text x="67.1" y="-420.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">BlockStatement</text><text x="67.1" y="-403.8" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">ExpressionStatement</text><text x="67.1" y="-387" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">YieldExpression</text><text x="67.1" y="-370.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Literal (1)</text></g><g stroke="#000" class="edge" data-name="initial-&gt;s2_1"><path fill="none" d="M71.1 20.572v24.16"/><path d="m74.6 44.492-3.5 10-3.5-10z"/></g><g stroke="#000" class="node" data-name="final" pointer-events="visible" transform="translate(4 543.872)"><circle cx="75.1" cy="-13" r="9"/><circle cx="75.1" cy="-13" r="13" fill="none"/></g><g class="node" data-name="thrown" pointer-events="visible" transform="translate(4 543.872)"><circle cx="67.1" cy="-305.2" r="11" fill="#fff" stroke="#000"/><text x="67.1" y="-301" font-family="Times,serif" font-size="14" text-anchor="middle">✘</text></g><g stroke="#000" class="edge" data-name="s2_1-&gt;final"><path fill="none" d="M56.45 182.132c-2.22 11.8-4.17 24.1-5.35 35.74-11.81 116.74-30.62 150.73 0 264 2.79 10.33 8.42 20.72 13.9 29.17"/><path d="m67.72 508.822 2.83 10.21-8.58-6.21z"/></g><g stroke="#000" class="edge" data-name="s2_1-&gt;thrown"><path fill="none" d="M71.1 181.972v34.22"/><path d="m74.6 216.002-3.5 10-3.5-10z"/></g><g class="node" data-name="s2_2" pointer-events="visible"><path fill="#fff" stroke="#000" d="M190.27 218.072h-78.34c-6 0-12 6-12 12v17.2c0 6 6 12 12 12h78.34c6 0 12-6 12-12v-17.2c0-6-6-12-12-12"/><text x="147.1" y="-309.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">IfStatement</text><text x="147.1" y="-292.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Identifier (flag)</text></g><g stroke="#000" class="edge" data-name="s2_1-&gt;s2_2"><path fill="none" d="M113.21 181.972c6.26 9.2 12.45 18.31 17.96 26.41"/><path d="m133.93 206.202 2.73 10.24-8.52-6.3z"/></g><g class="node" data-name="s2_3" pointer-events="visible"><path fill="#fff" stroke="#000" d="M182.3 295.472H71.9c-6 0-12 6-12 12v68c0 6 6 12 12 12h110.4c6 0 12-6 12-12v-68c0-6-6-12-12-12"/><text x="123.1" y="-231.8" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">BlockStatement</text><text x="123.1" y="-215" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">ExpressionStatement</text><text x="123.1" y="-198.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">CallExpression</text><text x="123.1" y="-181.4" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Identifier (foo)</text><text x="123.1" y="-164.6" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">CallExpression</text></g><g stroke="#000" class="edge" data-name="s2_2-&gt;s2_3"><path fill="none" d="M146.36 259.582c-1.71 7.19-3.74 15.69-5.82 24.44"/><path d="m143.96 284.762-5.72 8.92-1.09-10.54z"/></g><g class="node" data-name="s2_4" pointer-events="visible"><path fill="#fff" stroke="#000" d="M182.3 423.272H71.9c-6 0-12 6-12 12v34.8c0 6 6 12 12 12h110.4c6 0 12-6 12-12v-34.8c0-6-6-12-12-12"/><text x="123.1" y="-103.8" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">ExpressionStatement</text><text x="123.1" y="-87" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">CallExpression</text><text x="123.1" y="-70.2" font-family="Times,serif" font-size="14" text-anchor="middle" transform="translate(4 543.872)">Identifier (bar)</text></g><g stroke="#000" class="edge" data-name="s2_2-&gt;s2_4"><path fill="none" d="M176.79 259.672c10.24 9.59 20.88 22 26.31 35.8 14.98 38.05 17.22 54.91 0 92-4.8 10.34-12.18 19.61-20.48 27.69"/><path d="m184.97 417.752-9.78 4.06 5.11-9.28z"/></g><g stroke="#000" class="edge" data-name="s2_3-&gt;s2_4"><path fill="none" d="M127.1 387.832v23.7"/><path d="m130.6 411.312-3.5 10-3.5-10z"/></g><g stroke="#000" class="edge" data-name="s2_4-&gt;final"><path fill="none" d="M108.95 482.482c-5.75 9.13-11.97 19.01-17.24 27.38"/><path d="m94.75 511.602-8.3 6.6 2.37-10.33z"/></g></g></svg>
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 279.58 700.80">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 696.8)">
+<title>%0</title>
+<!-- initial -->
+<g id="node1" class="node">
+<title>initial</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="83.0337" cy="-683.8" rx="9" ry="9"></ellipse>
+</g>
+<!-- s1_1 -->
+<g id="node4" class="node">
+<title>s2_1</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M154.1011,-638.6006C154.1011,-638.6006 11.9663,-638.6006 11.9663,-638.6006 5.9663,-638.6006 -.0337,-632.6006 -.0337,-626.6006 -.0337,-626.6006 -.0337,-525.3994 -.0337,-525.3994 -.0337,-519.3994 5.9663,-513.3994 11.9663,-513.3994 11.9663,-513.3994 154.1011,-513.3994 154.1011,-513.3994 160.1011,-513.3994 166.1011,-519.3994 166.1011,-525.3994 166.1011,-525.3994 166.1011,-626.6006 166.1011,-626.6006 166.1011,-632.6006 160.1011,-638.6006 154.1011,-638.6006"></path>
+<text text-anchor="middle" x="83.0337" y="-622.2" font-family="Times,serif" font-size="14.00" fill="#000000">FunctionDeclaration:enter</text>
+<text text-anchor="middle" x="83.0337" y="-605.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (generator)</text>
+<text text-anchor="middle" x="83.0337" y="-588.6" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (flag)</text>
+<text text-anchor="middle" x="83.0337" y="-571.8" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="83.0337" y="-555" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="83.0337" y="-538.2" font-family="Times,serif" font-size="14.00" fill="#000000">YieldExpression:enter</text>
+<text text-anchor="middle" x="83.0337" y="-521.4" font-family="Times,serif" font-size="14.00" fill="#000000">Literal (1)</text>
+</g>
+<!-- initial&#45;&gt;s1_1 -->
+<g id="edge1" class="edge">
+<title>initial-&gt;s2_1</title>
+<path fill="none" stroke="#98a2b3" d="M83.0337,-674.609C83.0337,-668.2039 83.0337,-658.9935 83.0337,-648.743"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="86.5338,-648.654 83.0337,-638.6541 79.5338,-648.6541 86.5338,-648.654"></polygon>
+</g>
+<!-- final -->
+<g id="node2" class="node">
+<title>final</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="99.0337" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="#98a2b3" cx="99.0337" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+<!-- s1_2 -->
+<g id="node3" class="node">
+<title>thrown</title>
+<ellipse fill="#ffffff" stroke="#e4e7ec" cx="83.0337" cy="-439.6" rx="11" ry="11"></ellipse>
+<text text-anchor="middle" x="83.0337" y="-435.4" font-family="Times,serif" font-size="14.00" fill="#000000">✘</text>
+</g>
+<!-- s2_1&#45;&gt;final -->
+<g id="edge6" class="edge">
+<title>s2_1-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M68.3875,-513.3028C66.1586,-501.3786 64.2114,-488.9541 63.0337,-477.2 44.6359,-293.5861 5.5436,-237.3495 63.0337,-62 66.9714,-49.9898 75.1008,-38.4952 82.6396,-29.6613"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="85.3963,-31.8319 89.5303,-22.0768 80.2153,-27.1247 85.3963,-31.8319"></polygon>
+</g>
+<!-- s2_1&#45;&gt;thrown -->
+<g id="edge8" class="edge">
+<title>s2_1-&gt;thrown</title>
+<path fill="none" stroke="#98a2b3" d="M83.0337,-513.389C83.0337,-494.6002 83.0337,-475.2419 83.0337,-461.0696"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="86.5338,-460.9255 83.0337,-450.9255 79.5338,-460.9256 86.5338,-460.9255"></polygon>
+</g>
+<!-- s2_2 -->
+<g id="node5" class="node">
+<title>s2_2</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M259.6165,-477.3003C259.6165,-477.3003 124.4509,-477.3003 124.4509,-477.3003 118.4509,-477.3003 112.4509,-471.3003 112.4509,-465.3003 112.4509,-465.3003 112.4509,-413.8997 112.4509,-413.8997 112.4509,-407.8997 118.4509,-401.8997 124.4509,-401.8997 124.4509,-401.8997 259.6165,-401.8997 259.6165,-401.8997 265.6165,-401.8997 271.6165,-407.8997 271.6165,-413.8997 271.6165,-413.8997 271.6165,-465.3003 271.6165,-465.3003 271.6165,-471.3003 265.6165,-477.3003 259.6165,-477.3003"></path>
+<text text-anchor="middle" x="192.0337" y="-460.6" font-family="Times,serif" font-size="14.00" fill="#000000">YieldExpression:exit</text>
+<text text-anchor="middle" x="192.0337" y="-443.8" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="192.0337" y="-427" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:enter</text>
+<text text-anchor="middle" x="192.0337" y="-410.2" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (flag)</text>
+</g>
+<!-- s2_1&#45;&gt;s2_2 -->
+<g id="edge2" class="edge">
+<title>s2_1-&gt;s2_2</title>
+<path fill="none" stroke="#98a2b3" d="M133.0675,-513.389C140.6088,-503.9519 148.2649,-494.3712 155.4531,-485.3761"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="158.3977,-487.2978 161.9062,-477.3008 152.9292,-482.9279 158.3977,-487.2978"></polygon>
+</g>
+<!-- s2_3 -->
+<g id="node6" class="node">
+<title>s2_3</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M226.1011,-365.8006C226.1011,-365.8006 83.9663,-365.8006 83.9663,-365.8006 77.9663,-365.8006 71.9663,-359.8006 71.9663,-353.8006 71.9663,-353.8006 71.9663,-252.5994 71.9663,-252.5994 71.9663,-246.5994 77.9663,-240.5994 83.9663,-240.5994 83.9663,-240.5994 226.1011,-240.5994 226.1011,-240.5994 232.1011,-240.5994 238.1011,-246.5994 238.1011,-252.5994 238.1011,-252.5994 238.1011,-353.8006 238.1011,-353.8006 238.1011,-359.8006 232.1011,-365.8006 226.1011,-365.8006"></path>
+<text text-anchor="middle" x="155.0337" y="-349.4" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="155.0337" y="-332.6" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="155.0337" y="-315.8" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="155.0337" y="-299" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (foo)</text>
+<text text-anchor="middle" x="155.0337" y="-282.2" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="155.0337" y="-265.4" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="155.0337" y="-248.6" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+</g>
+<!-- s2_2&#45;&gt;s2_3 -->
+<g id="edge3" class="edge">
+<title>s2_2-&gt;s2_3</title>
+<path fill="none" stroke="#98a2b3" d="M181.8253,-401.967C179.5947,-393.744 177.1614,-384.7734 174.7004,-375.7009"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="178.0233,-374.5817 172.0273,-365.8468 171.2675,-376.4144 178.0233,-374.5817"></polygon>
+</g>
+<!-- s2_4 -->
+<g id="node7" class="node">
+<title>s2_4</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M226.1011,-204.6006C226.1011,-204.6006 83.9663,-204.6006 83.9663,-204.6006 77.9663,-204.6006 71.9663,-198.6006 71.9663,-192.6006 71.9663,-192.6006 71.9663,-73.7994 71.9663,-73.7994 71.9663,-67.7994 77.9663,-61.7994 83.9663,-61.7994 83.9663,-61.7994 226.1011,-61.7994 226.1011,-61.7994 232.1011,-61.7994 238.1011,-67.7994 238.1011,-73.7994 238.1011,-73.7994 238.1011,-192.6006 238.1011,-192.6006 238.1011,-198.6006 232.1011,-204.6006 226.1011,-204.6006"></path>
+<text text-anchor="middle" x="155.0337" y="-187.8" font-family="Times,serif" font-size="14.00" fill="#000000">IfStatement:exit</text>
+<text text-anchor="middle" x="155.0337" y="-171" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="155.0337" y="-154.2" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="155.0337" y="-137.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (bar)</text>
+<text text-anchor="middle" x="155.0337" y="-120.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="155.0337" y="-103.8" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="155.0337" y="-87" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+<text text-anchor="middle" x="155.0337" y="-70.2" font-family="Times,serif" font-size="14.00" fill="#000000">FunctionDeclaration:exit</text>
+</g>
+<!-- s2_2&#45;&gt;s2_4 -->
+<g id="edge5" class="edge">
+<title>s2_2-&gt;s2_4</title>
+<path fill="none" stroke="#98a2b3" d="M227.4317,-401.792C235.4332,-391.0104 242.8076,-378.7153 247.0337,-366 264.6401,-313.027 266.4171,-292.7489 247.0337,-240.4 243.5528,-230.9991 238.838,-221.8673 233.3722,-213.1583"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="236.1279,-210.9818 227.6738,-204.596 230.3005,-214.86 236.1279,-210.9818"></polygon>
+</g>
+<!-- s2_3&#45;&gt;s2_4 -->
+<g id="edge4" class="edge">
+<title>s2_3-&gt;s2_4</title>
+<path fill="none" stroke="#98a2b3" d="M155.0337,-240.3813C155.0337,-232.0195 155.0337,-223.3498 155.0337,-214.7279"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="158.5338,-214.6496 155.0337,-204.6497 151.5338,-214.6497 158.5338,-214.6496"></polygon>
+</g>
+<!-- s2_4&#45;&gt;final -->
+<g id="edge7" class="edge">
+<title>s2_4-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M121.811,-61.8899C117.108,-51.7952 112.6088,-42.138 108.8698,-34.1125"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="111.9779,-32.4958 104.5822,-24.9094 105.6327,-35.452 111.9779,-32.4958"></polygon>
+</g>
+</g>
+</svg>

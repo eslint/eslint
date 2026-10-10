@@ -1,0 +1,92 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0.00 0.00 369.51 449.60">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 445.6)">
+<title>%0</title>
+<!-- initial -->
+<g id="node1" class="node">
+<title>initial</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="88.4804" cy="-432.6" rx="9" ry="9"></ellipse>
+</g>
+<!-- s1_1 -->
+<g id="node3" class="node">
+<title>s1_1</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M145.5506,-387.4019C145.5506,-387.4019 31.4102,-387.4019 31.4102,-387.4019 25.4102,-387.4019 19.4102,-381.4019 19.4102,-375.4019 19.4102,-375.4019 19.4102,-358.1981 19.4102,-358.1981 19.4102,-352.1981 25.4102,-346.1981 31.4102,-346.1981 31.4102,-346.1981 145.5506,-346.1981 145.5506,-346.1981 151.5506,-346.1981 157.5506,-352.1981 157.5506,-358.1981 157.5506,-358.1981 157.5506,-375.4019 157.5506,-375.4019 157.5506,-381.4019 151.5506,-387.4019 145.5506,-387.4019"></path>
+<text text-anchor="middle" x="88.4804" y="-371" font-family="Times,serif" font-size="14.00" fill="#000000">Program:enter</text>
+<text text-anchor="middle" x="88.4804" y="-354.2" font-family="Times,serif" font-size="14.00" fill="#000000">WhileStatement:enter</text>
+</g>
+<!-- initial&#45;&gt;s1_1 -->
+<g id="edge1" class="edge">
+<title>initial-&gt;s1_1</title>
+<path fill="none" stroke="#98a2b3" d="M88.4804,-423.4508C88.4804,-416.6564 88.4804,-406.9684 88.4804,-397.521"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="91.9805,-397.5123 88.4804,-387.5123 84.9805,-397.5123 91.9805,-397.5123"></polygon>
+</g>
+<!-- final -->
+<g id="node2" class="node">
+<title>final</title>
+<ellipse fill="#98a2b3" stroke="#98a2b3" cx="278.4804" cy="-13" rx="9" ry="9"></ellipse>
+<ellipse fill="none" stroke="#98a2b3" cx="278.4804" cy="-13" rx="13" ry="13"></ellipse>
+</g>
+<!-- s1_2 -->
+<g id="node4" class="node">
+<title>s1_2</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M120.0991,-310C120.0991,-310 56.8617,-310 56.8617,-310 50.8617,-310 44.8617,-304 44.8617,-298 44.8617,-298 44.8617,-286 44.8617,-286 44.8617,-280 50.8617,-274 56.8617,-274 56.8617,-274 120.0991,-274 120.0991,-274 126.0991,-274 132.0991,-280 132.0991,-286 132.0991,-286 132.0991,-298 132.0991,-298 132.0991,-304 126.0991,-310 120.0991,-310"></path>
+<text text-anchor="middle" x="88.4804" y="-287.8" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (a)</text>
+</g>
+<!-- s1_1&#45;&gt;s1_2 -->
+<g id="edge2" class="edge">
+<title>s1_1-&gt;s1_2</title>
+<path fill="none" stroke="#98a2b3" d="M88.4804,-345.964C88.4804,-338.0614 88.4804,-328.9223 88.4804,-320.4373"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="91.9805,-320.1816 88.4804,-310.1816 84.9805,-320.1816 91.9805,-320.1816"></polygon>
+</g>
+<!-- s1_3 -->
+<g id="node5" class="node">
+<title>s1_3</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M164.9412,-238C164.9412,-238 12.0196,-238 12.0196,-238 6.0196,-238 .0196,-232 .0196,-226 .0196,-226 .0196,-74 .0196,-74 .0196,-68 6.0196,-62 12.0196,-62 12.0196,-62 164.9412,-62 164.9412,-62 170.9412,-62 176.9412,-68 176.9412,-74 176.9412,-74 176.9412,-226 176.9412,-226 176.9412,-232 170.9412,-238 164.9412,-238"></path>
+<text text-anchor="middle" x="88.4804" y="-221.4" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:enter</text>
+<text text-anchor="middle" x="88.4804" y="-204.6" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="88.4804" y="-187.8" font-family="Times,serif" font-size="14.00" fill="#000000">AssignmentExpression:enter</text>
+<text text-anchor="middle" x="88.4804" y="-171" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (a)</text>
+<text text-anchor="middle" x="88.4804" y="-154.2" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="88.4804" y="-137.4" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (foo)</text>
+<text text-anchor="middle" x="88.4804" y="-120.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="88.4804" y="-103.8" font-family="Times,serif" font-size="14.00" fill="#000000">AssignmentExpression:exit</text>
+<text text-anchor="middle" x="88.4804" y="-87" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="88.4804" y="-70.2" font-family="Times,serif" font-size="14.00" fill="#000000">BlockStatement:exit</text>
+</g>
+<!-- s1_2&#45;&gt;s1_3 -->
+<g id="edge3" class="edge">
+<title>s1_2-&gt;s1_3</title>
+<path fill="none" stroke="#98a2b3" d="M83.7781,-273.7267C83.0649,-266.6106 82.538,-257.8756 82.1974,-248.3675"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="85.6917,-248.1116 81.9099,-238.2147 78.6945,-248.3098 85.6917,-248.1116"></polygon>
+</g>
+<!-- s1_4 -->
+<g id="node6" class="node">
+<title>s1_4</title>
+<path fill="#ffffff" stroke="#e4e7ec" d="M349.5478,-212.6006C349.5478,-212.6006 207.413,-212.6006 207.413,-212.6006 201.413,-212.6006 195.413,-206.6006 195.413,-200.6006 195.413,-200.6006 195.413,-99.3994 195.413,-99.3994 195.413,-93.3994 201.413,-87.3994 207.413,-87.3994 207.413,-87.3994 349.5478,-87.3994 349.5478,-87.3994 355.5478,-87.3994 361.5478,-93.3994 361.5478,-99.3994 361.5478,-99.3994 361.5478,-200.6006 361.5478,-200.6006 361.5478,-206.6006 355.5478,-212.6006 349.5478,-212.6006"></path>
+<text text-anchor="middle" x="278.4804" y="-196.2" font-family="Times,serif" font-size="14.00" fill="#000000">WhileStatement:exit</text>
+<text text-anchor="middle" x="278.4804" y="-179.4" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:enter</text>
+<text text-anchor="middle" x="278.4804" y="-162.6" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:enter</text>
+<text text-anchor="middle" x="278.4804" y="-145.8" font-family="Times,serif" font-size="14.00" fill="#000000">Identifier (bar)</text>
+<text text-anchor="middle" x="278.4804" y="-129" font-family="Times,serif" font-size="14.00" fill="#000000">CallExpression:exit</text>
+<text text-anchor="middle" x="278.4804" y="-112.2" font-family="Times,serif" font-size="14.00" fill="#000000">ExpressionStatement:exit</text>
+<text text-anchor="middle" x="278.4804" y="-95.4" font-family="Times,serif" font-size="14.00" fill="#000000">Program:exit</text>
+</g>
+<!-- s1_2&#45;&gt;s1_4 -->
+<g id="edge5" class="edge">
+<title>s1_2-&gt;s1_4</title>
+<path fill="none" stroke="#98a2b3" d="M126.1976,-273.8125C144.7263,-264.1881 166.9864,-251.5659 185.4804,-238 193.2771,-232.2809 201.1093,-225.9646 208.7399,-219.419"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="211.0721,-222.0291 216.2945,-212.8108 206.4634,-216.7603 211.0721,-222.0291"></polygon>
+</g>
+<!-- s1_3&#45;&gt;s1_2 -->
+<g id="edge4" class="edge">
+<title>s1_3-&gt;s1_2</title>
+<path fill="none" stroke="red" d="M95.0509,-238.2147C94.8575,-247.3205 94.5079,-256.0244 94.002,-263.6766"></path>
+<polygon fill="red" stroke="red" points="90.5069,-263.4753 93.1827,-273.7267 97.4837,-264.0442 90.5069,-263.4753"></polygon>
+</g>
+<!-- s1_4&#45;&gt;final -->
+<g id="edge6" class="edge">
+<title>s1_4-&gt;final</title>
+<path fill="none" stroke="#98a2b3" d="M278.4804,-87.1135C278.4804,-69.0192 278.4804,-50.399 278.4804,-36.3486"></path>
+<polygon fill="#98a2b3" stroke="#98a2b3" points="281.9805,-36.1575 278.4804,-26.1575 274.9805,-36.1575 281.9805,-36.1575"></polygon>
+</g>
+</g>
+</svg>
