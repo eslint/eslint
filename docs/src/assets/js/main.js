@@ -179,9 +179,50 @@
 
 			select.addEventListener("change", function () {
 				var selected = this.options[this.selectedIndex];
-				url = selected.getAttribute("data-url");
+				var newBasePath = (
+					selected.getAttribute("data-url") || ""
+				).trim();
 
-				window.location.href = url;
+				if (!newBasePath) {
+					return;
+				}
+
+				// External absolute URLs (e.g. "Previous Versions" link)
+				if (/^https?:\/\//i.test(newBasePath)) {
+					var absoluteHref = getSafeHref(newBasePath);
+
+					if (absoluteHref) {
+						window.location.href = absoluteHref;
+					}
+					return;
+				}
+
+				var match = window.location.pathname.match(
+					/^\/docs\/[^/]+\/(?<rest>.*)/,
+				);
+				var relativeHref = getSafeHref(
+					newBasePath,
+					window.location.origin,
+				);
+
+				if (!relativeHref) {
+					return;
+				}
+
+				var targetUrl = new URL(relativeHref);
+
+				if (match && match.groups.rest) {
+					targetUrl.pathname =
+						targetUrl.pathname.replace(/\/?$/, "/") +
+						match.groups.rest;
+				}
+
+				targetUrl.search = window.location.search;
+				targetUrl.hash = window.location.hash;
+
+				if (targetUrl.origin === window.location.origin) {
+					window.location.href = targetUrl.href;
+				}
 			});
 		});
 	}
