@@ -29,6 +29,8 @@ ruleTester.run("new-cap", rule, {
 		"var x = new _;",
 		"var x = new $;",
 		"var x = new Σ;",
+		"var x = new 𐐀;",
+		"var x = 𐐨();",
 		"var x = new _x;",
 		"var x = new $x;",
 		"var x = new this;",
@@ -171,6 +173,72 @@ ruleTester.run("new-cap", rule, {
 			code: "const x = new toLocaleString();",
 			options: [{ newIsCapExceptions: ["toLocaleString"] }],
 		},
+		"globalThis.Array(42);",
+		"globalThis.String(42);",
+		"globalThis['String'](42);",
+		"globalThis?.String(42);",
+		"(globalThis?.String)(42);",
+		{
+			code: "window.String(42);",
+			languageOptions: { globals: { window: "readonly" } },
+		},
+		{
+			code: "self.String(42);",
+			languageOptions: { globals: { self: "readonly" } },
+		},
+		{
+			code: "global.String(42);",
+			languageOptions: { globals: { global: "readonly" } },
+		},
+		{
+			code: "function String(x) { return x; } String(42);",
+			options: [{ capIsNew: false }],
+		},
+		{
+			code: "function String(x) { return x; } String(42);",
+			options: [{ capIsNewExceptions: ["String"] }],
+		},
+		{
+			code: "function String(x) { return x; } String(42);",
+			options: [{ capIsNewExceptionPattern: "^String$" }],
+		},
+		{ code: "obj.String(42);", options: [{ properties: false }] },
+		{
+			code: "obj.String(42);",
+			options: [{ capIsNewExceptions: ["String"] }],
+		},
+		{
+			code: "obj.String(42);",
+			options: [{ capIsNewExceptions: ["obj.String"] }],
+		},
+		{
+			code: "obj.String(42);",
+			options: [{ capIsNewExceptionPattern: "^obj\\." }],
+		},
+		"globalThis.Date.UTC(2000, 0);",
+		"globalThis['Date'].UTC(2000, 0);",
+		"globalThis?.Date.UTC(2000, 0);",
+		"globalThis.Date?.UTC(2000, 0);",
+		{
+			code: "window.Date.UTC(2000, 0);",
+			languageOptions: { globals: { window: "readonly" } },
+		},
+		{
+			code: "self.Date.UTC(2000, 0);",
+			languageOptions: { globals: { self: "readonly" } },
+		},
+		{
+			code: "global.Date.UTC(2000, 0);",
+			languageOptions: { globals: { global: "readonly" } },
+		},
+		{
+			code: "const Date = { UTC() {} }; Date.UTC(2000, 0);",
+			options: [{ properties: false }],
+		},
+		{
+			code: "const Date = { UTC() {} }; Date.UTC(2000, 0);",
+			options: [{ capIsNewExceptions: ["UTC"] }],
+		},
 	],
 	invalid: [
 		{
@@ -194,6 +262,54 @@ ruleTester.run("new-cap", rule, {
 					column: 13,
 					endLine: 1,
 					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "var x = new 𐐨;",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "var x = 𐐀();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "var x = new a.𐐨();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "var x = a.𐐀();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -517,6 +633,239 @@ ruleTester.run("new-cap", rule, {
 					column: 15,
 					endLine: 1,
 					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "function String(x) { return x; } String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 34,
+					endLine: 1,
+					endColumn: 40,
+				},
+			],
+		},
+		{
+			code: "let Array = () => {}; Array(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "function foo(Number) { return Number(42); }",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "import { String } from 'foo'; String(42);",
+			languageOptions: { sourceType: "module" },
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "String(42);",
+			languageOptions: { globals: { String: "off" } },
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 7,
+				},
+			],
+		},
+		{
+			code: "function String(x) { return x; } String(42);",
+			options: [{ properties: false }],
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 34,
+					endLine: 1,
+					endColumn: 40,
+				},
+			],
+		},
+		{
+			code: "const obj = {}; obj.String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 27,
+				},
+			],
+		},
+		{
+			code: "obj['Number'](42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "obj?.String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "globalThis.foo.String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "globalThis.Foo();",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "const window = {}; window.String(42);",
+			languageOptions: { globals: { window: "readonly" } },
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 33,
+				},
+			],
+		},
+		{
+			code: "const globalThis = {}; globalThis.String(42);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 41,
+				},
+			],
+		},
+		{
+			code: "obj.String(42);",
+			options: [{ capIsNewExceptions: ["Foo"] }],
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "const Date = { UTC() {} }; Date.UTC(2000, 0);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "function foo(Date) { return Date.UTC(2000, 0); }",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 34,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "import { Date } from 'foo'; Date?.UTC(2000, 0);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
+		},
+		{
+			code: "function foo(globalThis) { return globalThis.Date.UTC(2000, 0); }",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 51,
+					endLine: 1,
+					endColumn: 54,
+				},
+			],
+		},
+		{
+			code: "globalThis.foo.UTC(2000, 0);",
+			errors: [
+				{
+					messageId: "upper",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},

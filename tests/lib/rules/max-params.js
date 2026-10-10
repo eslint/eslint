@@ -328,14 +328,124 @@ ruleTesterTypeScript.run("max-params", rule, {
   declare function makeDate(m: number, d: number, y: number): Date;
 		`,
 			options: [{ max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'makeDate'", count: 3, max: 1 },
+					line: 2,
+					column: 3,
+					endLine: 2,
+					endColumn: 28,
+				},
+			],
 		},
 		{
 			code: `
   type sum = (a: number, b: number) => number;
 		`,
 			options: [{ max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 2,
+					column: 37,
+					endLine: 2,
+					endColumn: 39,
+				},
+			],
+		},
+		{
+			code: "let f: (a: number, b: number) => number;",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 33,
+				},
+			],
+		},
+		{
+			code: "interface I { m: (a: number, b: number) => number; }",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 41,
+					endLine: 1,
+					endColumn: 43,
+				},
+			],
+		},
+		{
+			code: "function g(cb: (a: number, b: number) => number) {}",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 39,
+					endLine: 1,
+					endColumn: 41,
+				},
+			],
+		},
+		{
+			code: "declare function g(): (a: number, b: number) => number;",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 48,
+				},
+			],
+		},
+		{
+			code: "type F = <T>(a: T, b: T) => T;",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "type F = (a: number, b: number) => (c: number, d: number) => number;",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 35,
+				},
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 59,
+					endLine: 1,
+					endColumn: 61,
+				},
+			],
 		},
 		{
 			code: `function foo(this: unknown[], a, b, c) {}`,
