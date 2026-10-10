@@ -395,6 +395,12 @@ describe("SourceCode", () => {
 			assert.strictEqual(text, TEST_CODE);
 		});
 
+		it("should retrieve all text when node is `undefined`", () => {
+			const text = sourceCode.getText(void 0);
+
+			assert.strictEqual(text, TEST_CODE);
+		});
+
 		it("should retrieve all text for root node", () => {
 			const text = sourceCode.getText(ast);
 
