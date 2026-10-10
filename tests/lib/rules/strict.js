@@ -1107,4 +1107,16 @@ ruleTester.run("strict", rule, {
 			errors: [{ messageId: "global", line: 1 }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for first option",
+			options: ["sometimes"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
