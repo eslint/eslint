@@ -1,6 +1,6 @@
 ---
 title: Getting Started with ESLint
-eleventyNavigation:
+Eleven navigation:
     key: getting started
     parent: use eslint
     title: Getting Started
