@@ -1137,6 +1137,18 @@ ruleTester.run("object-shorthand", rule, {
 			errors: [LONGFORM_METHOD_STRING_LITERAL_ERROR],
 		},
 		{
+			code: "const obj = { 'ok'() {}, 'bad'() { return super.x; } };",
+			output: "const obj = { 'ok': function() {}, 'bad'() { return super.x; } };",
+			options: ["always", { avoidQuotes: true }],
+			errors: [
+				{
+					...LONGFORM_METHOD_STRING_LITERAL_ERROR,
+					column: 15,
+					endColumn: 24,
+				},
+			],
+		},
+		{
 			code: "var x = {['a'](){}}",
 			output: "var x = {['a']: function(){}}",
 			options: ["methods", { avoidQuotes: true }],
