@@ -71,6 +71,33 @@ ruleTester.run("no-duplicate-imports", rule, {
 			code: 'export { something } from "os";\nexport * from "os";',
 			options: [{ includeExports: true }],
 		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport text from "./data.json" with { type: "text" };',
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport text from "./data.json";',
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json", lazy: "true" };\nimport text from "./data.json" with { type: "text", lazy: "true" };',
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nexport { text } from "./data.json" with { type: "text" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: 'export { data } from "./data.json" with { type: "json" };\nexport { text } from "./data.json" with { type: "text" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: 'export * from "./data.json" with { type: "json" };\nexport * from "./data.json" with { type: "text" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025 },
+		},
 	],
 	invalid: [
 		{
@@ -567,6 +594,78 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport text from "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json", lazy: "true" };\nimport text from "./data.json" with { lazy: "true", type: "json" };',
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { "type": "json" };\nimport text from "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport { name } from "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'import "./data.json" with { type: "json" };\nimport "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nexport { data as text } from "./data.json" with { type: "json" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "./data.json" },
+				},
+			],
+		},
+		{
+			code: 'export { data } from "./data.json" with { type: "json" };\nexport { text } from "./data.json" with { type: "json" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "./data.json" },
 				},
 			],
 		},

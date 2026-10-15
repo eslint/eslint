@@ -59,6 +59,34 @@ import * as something from 'module';
 
 :::
 
+Imports that request the same module with different [import attributes](https://github.com/tc39/proposal-import-attributes) are also not mergeable. The attributes are part of the module request, so a JSON module and a text module from the same specifier stay separate.
+
+Example of **incorrect** code for this rule:
+
+::: incorrect
+
+```js
+/*eslint no-duplicate-imports: "error"*/
+
+import data from './data.json' with { type: 'json' };
+import more from './data.json' with { type: 'json' };
+```
+
+:::
+
+Example of **correct** code for this rule:
+
+::: correct
+
+```js
+/*eslint no-duplicate-imports: "error"*/
+
+import data from './data.json' with { type: 'json' };
+import text from './data.json' with { type: 'text' };
+```
+
+:::
+
 ## Options
 
 This rule has an object option:
