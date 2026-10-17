@@ -522,6 +522,53 @@ describe("SuppressionsService", () => {
 				"Expected suppress() to leave stale suppression intact; use prune() to remove it",
 			);
 		});
+
+		it("should add suppressions to a copy of the suppressions snapshot instead of loading the suppressions file", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressionsSnapshot = {
+				[relPath]: { "no-console": { count: 3 } },
+			};
+			const readStub = sinon.stub(fs.promises, "readFile");
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-unused-vars", "error")],
+				}),
+			];
+
+			await suppressionsService.suppress(
+				results,
+				void 0,
+				suppressionsSnapshot,
+			);
+
+			assert.ok(
+				readStub.notCalled,
+				"Expected the suppressions file not to be loaded",
+			);
+			assert.ok(writeStub.calledOnce, "Expected save to be called");
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(written, {
+				[relPath]: {
+					"no-console": { count: 3 },
+					"no-unused-vars": { count: 1 },
+				},
+			});
+			assert.deepStrictEqual(
+				suppressionsSnapshot,
+				{ [relPath]: { "no-console": { count: 3 } } },
+				"Expected the suppressions snapshot to remain unmodified",
+			);
+		});
 	});
 
 	describe("prune()", () => {
@@ -1035,6 +1082,66 @@ describe("SuppressionsService", () => {
 				0,
 				"Expected original suppressedMessages to remain unmodified",
 			);
+		});
+	});
+
+	describe("getRelativeFilePath()", () => {
+		it("should return the path relative to the given directory in POSIX format", () => {
+			const cwd = path.resolve("/project");
+
+			assert.strictEqual(
+				SuppressionsService.getRelativeFilePath(
+					path.join(cwd, "src", "app.js"),
+					cwd,
+				),
+				"src/app.js",
+			);
+		});
+	});
+
+	describe("getSuppressedRuleIds()", () => {
+		const cwd = path.resolve("/project");
+		const suppressions = {
+			"app.js": {
+				"no-console": { count: 2 },
+				"no-unused-vars": { count: 1 },
+			},
+			"src/lib.js": {
+				"no-undef": { count: 0 },
+			},
+		};
+
+		it("should return the IDs of the rules that are suppressed for the file", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "app.js"),
+				cwd,
+			);
+
+			assert.deepStrictEqual([...ruleIds].sort(), [
+				"no-console",
+				"no-unused-vars",
+			]);
+		});
+
+		it("should return an empty set for a file without suppressions", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "other.js"),
+				cwd,
+			);
+
+			assert.strictEqual(ruleIds.size, 0);
+		});
+
+		it("should match nested files by their POSIX relative path regardless of the suppression count", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "src", "lib.js"),
+				cwd,
+			);
+
+			assert.deepStrictEqual([...ruleIds], ["no-undef"]);
 		});
 	});
 });
