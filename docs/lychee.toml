@@ -1,0 +1,54 @@
+offline = true
+no_progress = true
+include_fragments = "anchor-only"
+
+# lychee does not extract `<script src>`, unlike `hyperlink`.
+extensions = ["html", "css"]
+
+# The site is deployed under `/docs/head/`, while `_site` is the URL root. A
+# relative `root_dir` resolves against the working directory, and both the npm
+# script and CI run from `docs`.
+root_dir = "_site"
+remap = [
+    # The bare deployment root, linked as `HEAD` on the versions page. Also
+    # covers the `<base href>` value, which lychee reads as a link.
+    '^file://(.*)/docs/head$ file://$1/index.html',
+    '^file://(.*)/docs/head/(.*)$ file://$1/$2',
+]
+
+# Pretty URLs: `/rules/semi` is served from rules/semi.html, `/use/configure`
+# from use/configure/index.html.
+fallback_extensions = ["html"]
+index_files = ["index.html"]
+
+exclude = [
+    # The main website and separately deployed doc versions.
+    '/blog(/|$)',
+    '/play(/|$)',
+    '/team(/|$)',
+    '/donate(/|$)',
+    '/version-support/',
+    '/docs/latest',
+    '/docs/next',
+    '/docs/v8\.x',
+    '/docs/v9\.x',
+
+    # Migration guides intentionally reference removed rules and APIs.
+    '/use/migrating-to-',
+
+    # Avatar lookup that failed at build time; `onerror` provides a fallback.
+    '/null$',
+
+    # Temporary workarounds.
+
+    # lycheeverse/lychee#2274. Remove after #2276 is released.
+    '/use/migrate-to-[\d.]+\d(#|$)',
+
+    # Protocol-relative URLs are interpreted as local paths in offline mode.
+    '^file://[^/]',
+]
+
+exclude_path = [
+    '_site/use/migrating-to-',  # also skipped as a link source
+    '_site/component-library',  # previews contain placeholder hrefs
+]
