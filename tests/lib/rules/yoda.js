@@ -1282,5 +1282,341 @@ ruleTester.run("yoda", rule, {
 				},
 			],
 		},
+		{
+			code: "foo()\n0 === [a, b].indexOf(x) && go()",
+			output: "foo()\n;[a, b].indexOf(x) === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === (a || b) && go()",
+			output: "foo()\n;(a || b) === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === -x && go()",
+			output: "foo()\n;-x === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "a++\n0 === +x && go()",
+			output: "a++\n;+x === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "a--\n0 === -x && go()",
+			output: "a--\n;-x === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "a--\n0 === /a/.lastIndex && go()",
+			output: "a--\n;/a/.lastIndex === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === `${a}` && go()",
+			output: "foo()\n;`${a}` === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === /a/.lastIndex && go()",
+			output: "foo()\n;/a/.lastIndex === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\nx === -1 && go()",
+			output: "foo()\n;-1 === x && go()",
+			options: ["always"],
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "left", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\nx === `a` && go()",
+			output: "foo()\n;`a` === x && go()",
+			options: ["always"],
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "left", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "1 < {}.x && foo();",
+			output: "({}.x > 1) && foo();",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "null > function* () {};",
+			output: "(function* () {} < null);",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: ">" },
+				},
+			],
+		},
+		{
+			code: "0 === async function () {}.length;",
+			output: "(async function () {}.length === 0);",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "1 < async",
+			output: "async > 1",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "0 === async",
+			output: "async === 0",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === async",
+			output: "foo()\nasync === 0",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "export default 1 < async",
+			output: "export default async > 1",
+			languageOptions: { sourceType: "module" },
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "0 === async\nfunction f() {}",
+			output: "async === 0\nfunction f() {}",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === async\nfunction f() {}",
+			output: "foo()\nasync === 0\nfunction f() {}",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "0 === class {}.name;",
+			output: "(class {}.name === 0);",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "export default 1 < function () {}.x;",
+			output: "export default (function () {}.x > 1);",
+			languageOptions: { sourceType: "module" },
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "export default 1 < class {}.x;",
+			output: "export default (class {}.x > 1);",
+			languageOptions: { sourceType: "module" },
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "export default 1 < {}.x;",
+			output: "export default {}.x > 1;",
+			languageOptions: { sourceType: "module" },
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "const f = () => 1 < {}.x",
+			output: "const f = () => ({}.x > 1)",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "foo()\n1 < {}.x && go()",
+			output: "foo()\n;({}.x > 1) && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "foo();\n0 === [a, b].indexOf(x) && go();",
+			output: "foo();\n[a, b].indexOf(x) === 0 && go();",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "0 === [a, b].indexOf(x) && go()",
+			output: "[a, b].indexOf(x) === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\n0 === x.y && go()",
+			output: "foo()\nx.y === 0 && go()",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "foo()\nx = 0 === [a].indexOf(y)",
+			output: "foo()\nx = [a].indexOf(y) === 0",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "if (1 < {}.x) {}",
+			output: "if ({}.x > 1) {}",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "(1 < {}.x) && foo();",
+			output: "({}.x > 1) && foo();",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "const f = () => (1 < {}.x)",
+			output: "const f = () => ({}.x > 1)",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
+		{
+			code: "const f = () => 1 < function () {}.x",
+			output: "const f = () => function () {}.x > 1",
+			errors: [
+				{
+					messageId: "expected",
+					data: { expectedSide: "right", operator: "<" },
+				},
+			],
+		},
 	],
 });
