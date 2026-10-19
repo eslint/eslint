@@ -55,6 +55,19 @@ ruleTester.run("no-unreachable", rule, {
 		"function foo() { var x = 1; while (x) { return; } x = 2; }",
 		"function foo() { var x = 1; for (x in {}) { return; } x = 2; }",
 		"function foo() { var x = 1; try { return; } finally { x = 2; } }",
+		"function foo() { var x = 1; while (x) { try { break; } finally { x = 2; } } }",
+		"function foo() { var x = 1; while (x) { try { continue; } finally { x = 2; } } }",
+		"function foo() { var x = 1; while (x) { try { break; } finally { x = 2; } } x = 3; }",
+		"function foo() { var x = 1; while (x) { try { foo(); } catch (err) { break; } finally { x = 2; } } }",
+		"function foo() { var x = 1; while (x) { try { try { break; } finally { x = 2; } } finally { x = 3; } } }",
+		"function foo() { var x = 1; A: while (x) { try { while (x) { try { break A; } finally { x = 2; } } } finally { x = 3; } } x = 4; }",
+		"function foo() { var x = 1; A: { try { break A; } finally { x = 2; } } x = 3; }",
+		"function foo() { var x = 1; switch (x) { case 0: try { break; } finally { x = 2; } } x = 3; }",
+		"function foo() { var x = 1; do { try { continue; } finally { x = 2; } } while (x); x = 3; }",
+		{
+			code: "function foo() { for (const x of y) { try { continue; } finally { bar(); } } }",
+			languageOptions: { ecmaVersion: 6 },
+		},
 		"function foo() { var x = 1; for (;;) { if (x) break; } x = 2; }",
 		"A: { break A; } foo()",
 		{
@@ -319,6 +332,54 @@ ruleTester.run("no-unreachable", rule, {
 					column: 57,
 					endLine: 1,
 					endColumn: 63,
+				},
+			],
+		},
+		{
+			code: "function foo() { var x = 1; while (x) { try { break; } finally { x = 2; } x = 3; } }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 75,
+					endLine: 1,
+					endColumn: 81,
+				},
+			],
+		},
+		{
+			code: "function foo() { var x = 1; while (x) { try { continue; } finally { x = 2; } x = 3; } }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 78,
+					endLine: 1,
+					endColumn: 84,
+				},
+			],
+		},
+		{
+			code: "function foo() { var x = 1; while (x) { try { try { break; } finally { x = 2; } x = 3; } finally { x = 4; } } }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 81,
+					endLine: 1,
+					endColumn: 87,
+				},
+			],
+		},
+		{
+			code: "function foo() { var x = 1; A: while (x) { for (;;) { try { break A; } finally { x = 2; } } x = 3; } }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 93,
+					endLine: 1,
+					endColumn: 99,
 				},
 			],
 		},
