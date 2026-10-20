@@ -102,6 +102,10 @@ export namespace AST {
 		loc: SourceLocation;
 	}
 
+	type Comment = Omit<ESTree.Comment, "type"> & {
+		type: ESTree.Comment["type"] | "Shebang";
+	};
+
 	interface SourceLocation {
 		start: ESTree.Position;
 		end: ESTree.Position;
@@ -240,8 +244,8 @@ export namespace Scope {
 export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
-	ConfigNode: ESTree.Comment;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node | AST.Comment;
+	ConfigNode: AST.Comment;
 }> {
 	text: string;
 	ast: AST.Program;
@@ -257,21 +261,19 @@ export class SourceCode implements TextSourceCode<{
 	static splitLines(text: string): string[];
 
 	getLoc(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+		syntaxElement: AST.Token | ESTree.Node | AST.Comment,
 	): ESTree.SourceLocation;
-	getRange(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
-	): SourceRange;
+	getRange(syntaxElement: AST.Token | ESTree.Node | AST.Comment): SourceRange;
 
 	getText(
-		node?: ESTree.Node | AST.Token | ESTree.Comment,
+		node?: ESTree.Node | AST.Token | AST.Comment,
 		beforeCount?: number,
 		afterCount?: number,
 	): string;
 
 	getLines(): string[];
 
-	getAllComments(): ESTree.Comment[];
+	getAllComments(): AST.Comment[];
 
 	getAncestors(node: ESTree.Node): ESTree.Node[];
 
@@ -293,7 +295,7 @@ export class SourceCode implements TextSourceCode<{
 	getTokenByRangeStart(
 		offset: number,
 		options: { includeComments: boolean },
-	): AST.Token | ESTree.Comment | null;
+	): AST.Token | AST.Comment | null;
 
 	getFirstToken: SourceCode.UnaryNodeCursorWithSkipOptions;
 
@@ -329,15 +331,15 @@ export class SourceCode implements TextSourceCode<{
 		SourceCode.UnaryNodeCursorWithCountOptions;
 
 	commentsExistBetween(
-		left: ESTree.Node | AST.Token | ESTree.Comment,
-		right: ESTree.Node | AST.Token | ESTree.Comment,
+		left: ESTree.Node | AST.Token | AST.Comment,
+		right: ESTree.Node | AST.Token | AST.Comment,
 	): boolean;
 
-	getCommentsBefore(nodeOrToken: ESTree.Node | AST.Token): ESTree.Comment[];
+	getCommentsBefore(nodeOrToken: ESTree.Node | AST.Token): AST.Comment[];
 
-	getCommentsAfter(nodeOrToken: ESTree.Node | AST.Token): ESTree.Comment[];
+	getCommentsAfter(nodeOrToken: ESTree.Node | AST.Token): AST.Comment[];
 
-	getCommentsInside(node: ESTree.Node): ESTree.Comment[];
+	getCommentsInside(node: ESTree.Node): AST.Comment[];
 
 	getScope(node: ESTree.Node): Scope.Scope;
 
@@ -380,11 +382,11 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
+		<T extends AST.Token | AST.Comment>(
 			node: ESTree.Node,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
@@ -405,12 +407,11 @@ export namespace SourceCode {
 			node: ESTree.Node,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | AST.Comment | null;
 	}
 
 	interface UnaryNodeCursorWithCountOptions {
@@ -424,11 +425,11 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
+		<T extends AST.Token | AST.Comment>(
 			node: ESTree.Node,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
@@ -449,17 +450,16 @@ export namespace SourceCode {
 			node: ESTree.Node,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | AST.Comment>;
 	}
 
 	interface UnaryCursorWithSkipOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -468,18 +468,18 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | AST.Comment>(
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
 		): T | null;
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -490,20 +490,19 @@ export namespace SourceCode {
 				| number,
 		): AST.Token | null;
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | AST.Comment | null;
 	}
 
 	interface UnaryCursorWithCountOptions {
 		<T extends AST.Token>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -512,18 +511,18 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | AST.Comment>(
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
 		): T[];
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -534,21 +533,20 @@ export namespace SourceCode {
 				| number,
 		): AST.Token[];
 		(
-			node: ESTree.Node | AST.Token | ESTree.Comment,
+			node: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | AST.Comment>;
 	}
 
 	interface BinaryCursorWithSkipOptions {
 		<T extends AST.Token>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -557,20 +555,20 @@ export namespace SourceCode {
 						skip?: number | undefined;
 				  },
 		): T | null;
-		<T extends AST.Token | ESTree.Comment>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | AST.Comment>(
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
 		): T | null;
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -581,22 +579,21 @@ export namespace SourceCode {
 				| number,
 		): AST.Token | null;
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				skip?: number | undefined;
 			},
-		): AST.Token | ESTree.Comment | null;
+		): AST.Token | AST.Comment | null;
 	}
 
 	interface BinaryCursorWithCountOptions {
 		<T extends AST.Token>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options:
 				| ((token: AST.Token) => token is T)
 				| {
@@ -605,20 +602,20 @@ export namespace SourceCode {
 						count?: number | undefined;
 				  },
 		): T[];
-		<T extends AST.Token | ESTree.Comment>(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+		<T extends AST.Token | AST.Comment>(
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter: (
-					tokenOrComment: AST.Token | ESTree.Comment,
+					tokenOrComment: AST.Token | AST.Comment,
 				) => tokenOrComment is T;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
 		): T[];
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options?:
 				| {
 						filter?: ((token: AST.Token) => boolean) | undefined;
@@ -629,16 +626,15 @@ export namespace SourceCode {
 				| number,
 		): AST.Token[];
 		(
-			left: ESTree.Node | AST.Token | ESTree.Comment,
-			right: ESTree.Node | AST.Token | ESTree.Comment,
+			left: ESTree.Node | AST.Token | AST.Comment,
+			right: ESTree.Node | AST.Token | AST.Comment,
 			options: {
 				filter?:
-					| ((token: AST.Token | ESTree.Comment) => boolean)
-					| undefined;
+					((token: AST.Token | AST.Comment) => boolean) | undefined;
 				includeComments: boolean;
 				count?: number | undefined;
 			},
-		): Array<AST.Token | ESTree.Comment>;
+		): Array<AST.Token | AST.Comment>;
 	}
 }
 

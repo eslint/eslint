@@ -167,6 +167,7 @@ findParent(AST, sourceCode.getParent);
 sourceCode.getLines();
 
 sourceCode.getAllComments();
+sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
 
 sourceCode.getNodeByRangeIndex(0);
 
