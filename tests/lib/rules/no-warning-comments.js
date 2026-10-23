@@ -61,6 +61,14 @@ ruleTester.run("no-warning-comments", rule, {
 		{ code: "// foo", options: [{ terms: ["foo-bar"] }] },
 		"/** multi-line block comment with lines starting with\nTODO\nFIXME or\nXXX\n*/",
 		{ code: "//!TODO ", options: [{ decoration: ["*"] }] },
+
+		// Shebang
+		"#!todo\u2028var a = 1;",
+		"#!\u2028var a = 1;",
+		"#!todo\u2029var a = 1;",
+		"#!\u2029var a = 1;",
+		"#!todo",
+		"#!",
 	],
 	invalid: [
 		{
