@@ -364,28 +364,22 @@ describe("SourceCode", () => {
 	describe("getText()", () => {
 		let sourceCode, ast;
 
-		describe("when text begins with a shebang", () => {
-			it("should retrieve unaltered shebang text", () => {
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					SHEBANG_TEST_CODE.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(SHEBANG_TEST_CODE, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for a shebang before CR", () => {
-				const code = "#!/usr/bin/env node\rconst x = 1;";
-
+		[
+			[SHEBANG_TEST_CODE, "#!/usr/bin/env node"],
+			["#!/usr/bin/env node\rconst x = 1;", "#!/usr/bin/env node"],
+			["#!\rconst x = 1;", "#!"],
+			["#!/usr/bin/env node\nconst x = 1;", "#!/usr/bin/env node"],
+			["#!\nconst x = 1;", "#!"],
+			["#!/usr/bin/env node\r\nconst x = 1;", "#!/usr/bin/env node"],
+			["#!\r\nconst x = 1;", "#!"],
+			["#!/usr/bin/env node\u2028const x = 1;", "#!/usr/bin/env node"],
+			["#!\u2028const x = 1;", "#!"],
+			["#!/usr/bin/env node\u2029const x = 1;", "#!/usr/bin/env node"],
+			["#!\u2029const x = 1;", "#!"],
+			["#!/usr/bin/env node", "#!/usr/bin/env node"],
+			["#!", "#!"],
+		].forEach(([code, shebangText]) => {
+			it(code, () => {
 				// Shebangs are normalized to line comments before parsing.
 				ast = espree.parse(
 					code.replace(
@@ -397,230 +391,12 @@ describe("SourceCode", () => {
 				sourceCode = new SourceCode(code, ast);
 
 				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
 
 				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang before CR", () => {
-				const code = "#!\rconst x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
+				assert.strictEqual(
+					sourceCode.getText(shebangToken),
+					shebangText,
 				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
-			});
-
-			it("should retrieve unaltered text for a shebang before LF", () => {
-				const code = "#!/usr/bin/env node\nconst x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang before LF", () => {
-				const code = "#!\nconst x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
-			});
-
-			it("should retrieve unaltered text for a shebang before CRLF", () => {
-				const code = "#!/usr/bin/env node\r\nconst x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang before CRLF", () => {
-				const code = "#!\r\nconst x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
-			});
-
-			it("should retrieve unaltered text for a shebang before LS", () => {
-				const code = "#!/usr/bin/env node\u2028const x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang before LS", () => {
-				const code = "#!\u2028const x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
-			});
-
-			it("should retrieve unaltered text for a shebang before PS", () => {
-				const code = "#!/usr/bin/env node\u2029const x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang before PS", () => {
-				const code = "#!\u2029const x = 1;";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
-			});
-
-			it("should retrieve unaltered text for a shebang at EOF", () => {
-				const code = "#!/usr/bin/env node";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
-			});
-
-			it("should retrieve unaltered text for an empty shebang at EOF", () => {
-				const code = "#!";
-
-				// Shebangs are normalized to line comments before parsing.
-				ast = espree.parse(
-					code.replace(
-						astUtils.shebangPattern,
-						(match, captured) => `//${captured}`,
-					),
-					DEFAULT_CONFIG,
-				);
-				sourceCode = new SourceCode(code, ast);
-
-				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
-
-				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!");
 			});
 		});
 
