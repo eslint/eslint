@@ -75,6 +75,7 @@ async function runTests(pluginKey, pluginSettings) {
 				...process.env,
 				CI: "true",
 				npm_config_audit: "false",
+				NX_SKIP_NX_CACHE: "true",
 			},
 			maxBuffer: 100 * 1024 * 1024,
 		});

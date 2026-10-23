@@ -104,7 +104,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 The ESLint team provides ongoing support for the current version and six months of limited support for the previous version. Limited support includes critical bug fixes, security issues, and compatibility issues only.
 
-ESLint offers commercial support for both current and previous versions through our partners, [Tidelift][tidelift] and [HeroDevs][herodevs].
+ESLint offers commercial support for previous versions through our partner, [HeroDevs][herodevs].
 
 See [Version Support](https://eslint.org/version-support) for more details.
 
@@ -351,16 +351,14 @@ Percy Ma
 The following companies, organizations, and individuals support ESLint's ongoing maintenance and development. [Become a Sponsor](https://eslint.org/donate)
 to get your logo on our READMEs and [website](https://eslint.org/sponsors).
 
-<h3>Platinum Sponsors</h3>
-<p><a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="128"></a></p><h3>Gold Sponsors</h3>
-<p><a href="https://qlty.sh/"><img src="https://images.opencollective.com/qltysh/33d157d/logo.png" alt="Qlty Software" height="96"></a> <a href="https://shopify.engineering/"><img src="https://avatars.githubusercontent.com/u/8085" alt="Shopify" height="96"></a> <a href="https://www.coderabbit.ai/?utm_source=cr_org&utm_medium=github"><img src="https://avatars.githubusercontent.com/u/132028505" alt="CodeRabbit" height="96"></a></p><h3>Silver Sponsors</h3>
+<h3>Gold Sponsors</h3>
+<p><a href="#"><img src="https://images.opencollective.com/vite-ecosystem-fund/logo.png" alt="Vite Ecosystem Fund" height="96"></a> <a href="https://forceindexer.com"><img src="https://images.opencollective.com/forceindexer/588566e/logo.png" alt="ForceIndexer" height="96"></a> <a href="https://qlty.sh/"><img src="https://images.opencollective.com/qltysh/33d157d/logo.png" alt="Qlty Software" height="96"></a> <a href="https://shopify.engineering/"><img src="https://avatars.githubusercontent.com/u/8085" alt="Shopify" height="96"></a> <a href="https://www.coderabbit.ai/?utm_source=cr_org&utm_medium=github"><img src="https://avatars.githubusercontent.com/u/132028505" alt="CodeRabbit" height="96"></a></p><h3>Silver Sponsors</h3>
 <p><a href="https://vite.dev/"><img src="https://images.opencollective.com/vite/d472863/logo.png" alt="Vite" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/2d6c3b6/logo.png" alt="Liftoff" height="64"></a> <a href="https://stackblitz.com"><img src="https://avatars.githubusercontent.com/u/28635252" alt="StackBlitz" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://cybozu.co.jp/"><img src="https://images.opencollective.com/cybozu/933e46d/logo.png" alt="Cybozu" height="32"></a> <a href="https://opensource.sap.com"><img src="https://avatars.githubusercontent.com/u/2531208" alt="SAP" height="32"></a> <a href="https://syntax.fm"><img src="https://github.com/syntaxfm.png" alt="Syntax" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.gitbook.com"><img src="https://avatars.githubusercontent.com/u/7111340" alt="GitBook" height="32"></a> <a href="https://citadel-ai.com"><img src="https://avatars.githubusercontent.com/u/75781367" alt="Citadel AI" height="32"></a> <a href="https://www.testmuai.com"><img src="https://avatars.githubusercontent.com/u/171592363" alt="TestMu AI Open Source Office (Formerly LambdaTest)" height="32"></a></p>
+<p><a href="https://cybozu.co.jp/"><img src="https://images.opencollective.com/cybozu/933e46d/logo.png" alt="Cybozu" height="32"></a> <a href="https://opensource.sap.com"><img src="https://avatars.githubusercontent.com/u/2531208" alt="SAP" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.gitbook.com"><img src="https://avatars.githubusercontent.com/u/7111340" alt="GitBook" height="32"></a> <a href="https://citadel-ai.com"><img src="https://avatars.githubusercontent.com/u/75781367" alt="Citadel AI" height="32"></a> <a href="https://www.testmuai.com"><img src="https://avatars.githubusercontent.com/u/171592363" alt="TestMu AI Open Source Office (Formerly LambdaTest)" height="32"></a></p>
 <h3>Technology Sponsors</h3>
 Technology sponsors allow us to use their products and services for free as part of a contribution to the open source ecosystem and our work.
 <p><a href="https://netlify.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/netlify-icon.svg" alt="Netlify" height="32"></a> <a href="https://algolia.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/algolia-icon.svg" alt="Algolia" height="32"></a> <a href="https://1password.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/1password-icon.svg" alt="1Password" height="32"></a></p>
 
 <!--sponsorsend-->
 
-[tidelift]: https://tidelift.com/funding/github/npm/eslint
 [herodevs]: https://www.herodevs.com/support/eslint-nes?utm_source=ESLintWebsite&utm_medium=ESLintWebsite&utm_campaign=ESLintNES&utm_id=ESLintNES

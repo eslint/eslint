@@ -93,6 +93,13 @@ const COMMENT: Comment = {
 
 // #region SourceCode
 
+function findParent<Node extends object>(
+	node: Node,
+	getParent: (node: Node) => Node | undefined,
+) {
+	return getParent(node);
+}
+
 let sourceCode: SourceCode;
 
 sourceCode = new SourceCode(SOURCE, AST);
@@ -141,12 +148,21 @@ sourceCode = new SourceCode({
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
 
+const sourceCodeWithPublicMembers: Pick<SourceCode, keyof SourceCode> =
+	sourceCode;
+sourceCode = sourceCodeWithPublicMembers;
+
 SourceCode.splitLines(SOURCE);
 
 sourceCode.getText();
 sourceCode.getText(AST);
+sourceCode.getText(TOKEN);
+sourceCode.getText(COMMENT);
 sourceCode.getText(AST, 0);
 sourceCode.getText(AST, 0, 0);
+
+// @ts-expect-error SourceCode does not have a `getParent` method
+findParent(AST, sourceCode.getParent);
 
 sourceCode.getLines();
 

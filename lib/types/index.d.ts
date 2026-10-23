@@ -240,7 +240,7 @@ export namespace Scope {
 export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
 	ConfigNode: ESTree.Comment;
 }> {
 	text: string;
@@ -256,11 +256,15 @@ export class SourceCode implements TextSourceCode<{
 
 	static splitLines(text: string): string[];
 
-	getLoc(syntaxElement: AST.Token | ESTree.Node): ESTree.SourceLocation;
-	getRange(syntaxElement: AST.Token | ESTree.Node): SourceRange;
+	getLoc(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): ESTree.SourceLocation;
+	getRange(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): SourceRange;
 
 	getText(
-		node?: ESTree.Node,
+		node?: ESTree.Node | AST.Token | ESTree.Comment,
 		beforeCount?: number,
 		afterCount?: number,
 	): string;

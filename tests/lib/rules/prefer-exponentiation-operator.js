@@ -487,6 +487,37 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			"(class{static x=2}.x + 100)**4;",
 		),
 
+		// https://github.com/eslint/eslint/issues/21319
+		invalid(
+			"Math.pow(async function(){}.length, 2);",
+			"(async function(){}.length**2);",
+		),
+		invalid(
+			"Math.pow(async function handler(first, second) {}.length, 2);",
+			"(async function handler(first, second) {}.length**2);",
+		),
+		invalid(
+			"Math.pow(async function(){}.length, 2) + 100;",
+			"(async function(){}.length**2) + 100;",
+		),
+		invalid(
+			"(Math.pow(async function(){}.length, 2));",
+			"(async function(){}.length**2);",
+		),
+		invalid(
+			"100 + Math.pow(async function(){}.length, 2);",
+			"100 + async function(){}.length**2;",
+		),
+		invalid(
+			"Math.pow(async function(){}.length + 100, 2);",
+			"(async function(){}.length + 100)**2;",
+		),
+		invalid("Math.pow(async.length, 2);", "async.length**2;"),
+		invalid(
+			"foo\nMath.pow(async function(){}.length, 2)",
+			"foo\n;(async function(){}.length**2)",
+		),
+
 		// preceding semicolon needed
 		invalid("foo\nMath.pow(a + b, c)", "foo\n;(a + b)**c"),
 		invalid("foo\nMath.pow(+a, b)", "foo\n;(+a)**b"),

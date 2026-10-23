@@ -122,6 +122,18 @@ ruleTester.run("no-obj-calls", rule, {
 				globals: { Temporal: false },
 			},
 		},
+		{
+			code: "globalThis.structuredClone({})",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "globalThis.Math.max(1,2)",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "var g = globalThis; g.foo()",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		// non-existing variables
 		"/*globals Math: off*/ Math();",
@@ -150,6 +162,17 @@ ruleTester.run("no-obj-calls", rule, {
 		"new Intl()",
 		"Temporal();",
 		"new Temporal();",
+		{
+			code: "globalThis();",
+			languageOptions: { ecmaVersion: 2019 },
+		},
+		{
+			code: "globalThis();",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { globalThis: "off" },
+			},
+		},
 
 		// shadowed variables
 		"var Math; Math();",
@@ -212,6 +235,10 @@ ruleTester.run("no-obj-calls", rule, {
 		{
 			code: "if (foo) { const Temporal = 1; new Temporal(); }",
 			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "function f(globalThis){ globalThis() }",
+			languageOptions: { ecmaVersion: 2020 },
 		},
 	],
 	invalid: [
@@ -571,6 +598,39 @@ ruleTester.run("no-obj-calls", rule, {
 			],
 		},
 		{
+			code: "globalThis();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "globalThis" },
+				},
+			],
+		},
+		{
+			code: "new globalThis();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "globalThis" },
+				},
+			],
+		},
+		{
+			code: "globalThis();",
+			languageOptions: {
+				ecmaVersion: 2019,
+				globals: { globalThis: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "globalThis" },
+				},
+			],
+		},
+		{
 			code: "var x = globalThis.Math();",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
@@ -783,6 +843,26 @@ ruleTester.run("no-obj-calls", rule, {
 					column: 23,
 					endLine: 1,
 					endColumn: 32,
+				},
+			],
+		},
+		{
+			code: "const x = globalThis; x();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "x", ref: "globalThis" },
+				},
+			],
+		},
+		{
+			code: "const x = globalThis; new x();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "x", ref: "globalThis" },
 				},
 			],
 		},
