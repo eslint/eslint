@@ -154,6 +154,30 @@ ruleTester.run("eqeqeq", rule, {
 			],
 		},
 		{
+			/*
+			 * The other operand may be an object whose `toString()` returns a
+			 * string equal to the `typeof` result, so `==` and `===` can differ.
+			 */
+			code: "typeof a == b",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "typeof a === b",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "true == true",
 			output: "true === true",
 			errors: [
