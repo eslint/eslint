@@ -290,6 +290,50 @@ ruleTester.run("func-name-matching", rule, {
 			code: "foo({ value: function value() {} })",
 			options: ["always", { considerPropertyDescriptor: true }],
 		},
+		{
+			code: "Object.defineProperties(foo, { 'bar': { value: function bar() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.create(proto, { 'bar': { value: function bar() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperties(foo, { 1: { value: function foo() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperties(foo, { 'foo-bar': { value: function foo() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperty(foo, 'foo-bar', { value: function foo() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperty(foo, 'bar', { 'value': function bar() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { ['value']: function bar() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperty({ value: function value() {} }, 'bar', {})",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.defineProperties({ bar: { value: function value() {} } }, {})",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.create({ bar: { value: function value() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
+		{
+			code: "Object.create(proto, { ...{ value: function value() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+		},
 
 		// class fields, private names are ignored
 		{
@@ -749,6 +793,15 @@ ruleTester.run("func-name-matching", rule, {
 			],
 		},
 		{
+			code: "Object.defineProperty(foo, 'bar', { value: function bar() {} })",
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "bar", name: "value" },
+				},
+			],
+		},
+		{
 			code: "Object.defineProperty(foo, 'bar', { value: function baz() {} })",
 			options: ["always", { considerPropertyDescriptor: true }],
 			errors: [
@@ -841,6 +894,149 @@ ruleTester.run("func-name-matching", rule, {
 		{
 			code: "foo({ value: function bar() {} })",
 			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "bar", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(foo, { 'bar': { value: function baz() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "baz", name: "bar" },
+				},
+			],
+		},
+		{
+			code: "Object.create(proto, { 'bar': { value: function bar() {} } })",
+			options: ["never", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "notMatchProperty",
+					data: { funcName: "bar", name: "bar" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(foo, { ['bar']: { value: function baz() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "baz", name: "bar" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(foo, '\\u1885', { value: function foo() {} })", // valid identifier in es2015
+			options: ["always", { considerPropertyDescriptor: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "foo", name: "\u1885" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(foo, { '\\u1885': { value: function foo() {} } })", // valid identifier in es2015
+			options: ["always", { considerPropertyDescriptor: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "foo", name: "\u1885" },
+				},
+			],
+		},
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { 'value': function baz() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "baz", name: "bar" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(foo, { bar: { ['value']: function bar() {} } })",
+			options: ["never", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "notMatchProperty",
+					data: { funcName: "bar", name: "bar" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty({ value: function bar() {} }, 'bar', {})",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "bar", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty({ value: function foo() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "foo", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Object.create({ bar: { value: function bar() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "bar", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Object.create(proto, { ...{ value: function foo() {} } })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "foo", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(foo, [[{ value: function foo() {} }]])",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "foo", name: "value" },
+				},
+			],
+		},
+		{
+			code: "let Object; Object.defineProperty(foo, 'bar', { value: function bar() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "bar", name: "value" },
+				},
+			],
+		},
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
+			options: ["always", { considerPropertyDescriptor: true }],
+			languageOptions: { globals: { Reflect: "off" } },
 			errors: [
 				{
 					messageId: "matchProperty",
