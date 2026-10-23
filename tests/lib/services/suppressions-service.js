@@ -523,7 +523,7 @@ describe("SuppressionsService", () => {
 			);
 		});
 
-		it("should add suppressions to a copy of the suppressions snapshot instead of loading the suppressions file", async () => {
+		it("should add suppressions to the suppressions snapshot instead of loading the suppressions file", async () => {
 			const cwd = path.resolve("/project");
 			const suppressionsService = new SuppressionsService({
 				filePath: path.join(cwd, "eslint-suppressions.json"),
@@ -563,11 +563,7 @@ describe("SuppressionsService", () => {
 					"no-unused-vars": { count: 1 },
 				},
 			});
-			assert.deepStrictEqual(
-				suppressionsSnapshot,
-				{ [relPath]: { "no-console": { count: 3 } } },
-				"Expected the suppressions snapshot to remain unmodified",
-			);
+			assert.deepStrictEqual(suppressionsSnapshot, written);
 		});
 	});
 
@@ -832,6 +828,49 @@ describe("SuppressionsService", () => {
 				{ count: 2 },
 				"Expected the suppression for the active rule to be retained",
 			);
+		});
+
+		it("should prune the suppressions snapshot instead of loading the suppressions file", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressionsSnapshot = {
+				[relPath]: {
+					"no-console": { count: 1 },
+					"no-unused-vars": { count: 5 },
+				},
+			};
+			const readStub = sinon.stub(fs.promises, "readFile");
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			sinon.stub(fs, "existsSync").returns(true);
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-unused-vars"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			await suppressionsService.prune(results, suppressionsSnapshot);
+
+			assert.ok(
+				readStub.notCalled,
+				"Expected the suppressions file not to be loaded",
+			);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(written, {
+				[relPath]: { "no-unused-vars": { count: 2 } },
+			});
+			assert.deepStrictEqual(suppressionsSnapshot, written);
 		});
 	});
 

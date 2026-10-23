@@ -12,6 +12,7 @@
 const assert = require("chai").assert,
 	stdAssert = require("node:assert"),
 	{ ESLint } = require("../../lib/eslint"),
+	{ suppressionsSnapshot } = require("../../lib/eslint/eslint"),
 	path = require("node:path"),
 	sinon = require("sinon"),
 	fs = require("node:fs"),
@@ -1154,7 +1155,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.stub();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1178,7 +1182,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.stub();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1212,7 +1219,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().once();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1253,7 +1263,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1295,7 +1308,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().withExactArgs(report);
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1309,7 +1325,10 @@ describe("cli", () => {
 				const fakeESLint = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1346,7 +1365,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1377,7 +1399,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.stub();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1420,7 +1445,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1462,7 +1490,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1505,7 +1536,10 @@ describe("cli", () => {
 				fakeESLint.outputFixes = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1522,7 +1556,10 @@ describe("cli", () => {
 				const fakeESLint = sinon.mock().never();
 
 				localCLI = proxyquire("../../lib/cli", {
-					"./eslint/eslint": { ESLint: fakeESLint },
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
 					"./shared/logging": log,
 				});
 
@@ -1535,8 +1572,31 @@ describe("cli", () => {
 			});
 		});
 
+		describe("when passed --fix and a suppressions file location that does not exist", () => {
+			it("should exit with an error before linting", async () => {
+				const fakeESLint = sinon.stub();
+				const localCLI = proxyquire("../../lib/cli", {
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
+					"./shared/logging": log,
+				});
+
+				const exitCode = await localCLI.execute([
+					"argv0",
+					"argv1",
+					"--fix",
+					`--suppressions-location=${path.join(os.tmpdir(), "missing-eslint-suppressions.json")}`,
+					".",
+				]);
+
+				assert.strictEqual(exitCode, 2);
+				assert.strictEqual(fakeESLint.callCount, 0);
+			});
+		});
+
 		describe("when passed --fix or --fix-dry-run and a suppressions file exists", () => {
-			const { suppressionsSnapshot } = require("../../lib/eslint/eslint");
 			const suppressions = {
 				"foo.js": { "no-var": { count: 1 } },
 			};
@@ -1626,11 +1686,8 @@ describe("cli", () => {
 
 				assert.strictEqual(exitCode, 0);
 				assert.strictEqual(fakeESLint.callCount, 1);
-				assert.isFalse(
-					Object.hasOwn(
-						fakeESLint.firstCall.args[0],
-						suppressionsSnapshot,
-					),
+				assert.isUndefined(
+					fakeESLint.firstCall.args[0][suppressionsSnapshot],
 				);
 			});
 
@@ -1669,40 +1726,49 @@ describe("cli", () => {
 				);
 			});
 
-			it("should not apply fixes for rules that are suppressed for the file", async () => {
-				const filePath =
-					"tests/fixtures/suppressions-autofix/suppressed.js";
-				const source = fs.readFileSync(filePath, "utf8");
+			describe("when the suppressions file is in the current working directory", () => {
+				const originalCwd = process.cwd;
 
-				fs.writeFileSync(
-					suppressionsFile,
-					JSON.stringify({ [filePath]: { "no-var": { count: 1 } } }),
-				);
+				beforeEach(() => {
+					process.cwd = () => getFixturePath("suppressions-autofix");
+				});
 
-				const exitCode = await cli.execute([
-					"argv0",
-					"argv1",
-					"--no-config-lookup",
-					"--no-ignore",
-					"--fix-dry-run",
-					"--format=json",
-					`--suppressions-location=${suppressionsFile}`,
-					filePath,
-				]);
+				afterEach(() => {
+					process.cwd = originalCwd;
+				});
 
-				assert.strictEqual(exitCode, 0);
+				it("should not apply fixes for rules that are suppressed for the file", async () => {
+					const source = fs.readFileSync(
+						getFixturePath("suppressions-autofix", "suppressed.js"),
+						"utf8",
+					);
 
-				const [result] = JSON.parse(log.info.args[0][0]);
+					const exitCode = await cli.execute([
+						"argv0",
+						"argv1",
+						"--no-config-lookup",
+						"--no-ignore",
+						"--fix-dry-run",
+						"--format=json",
+						"suppressed.js",
+					]);
 
-				assert.strictEqual(
-					result.output,
-					source.replace("!!foo", "foo"),
-				);
-				assert.deepStrictEqual(result.messages, []);
-				assert.deepStrictEqual(
-					result.suppressedMessages.map(message => message.ruleId),
-					["no-var"],
-				);
+					assert.strictEqual(exitCode, 0);
+
+					const [result] = JSON.parse(log.info.args[0][0]);
+
+					assert.strictEqual(
+						result.output,
+						source.replace("!!foo", "foo"),
+					);
+					assert.deepStrictEqual(result.messages, []);
+					assert.deepStrictEqual(
+						result.suppressedMessages.map(
+							message => message.ruleId,
+						),
+						["no-var"],
+					);
+				});
 			});
 		});
 

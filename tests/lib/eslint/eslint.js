@@ -39,6 +39,9 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
+const {
+	SuppressionsService,
+} = require("../../../lib/services/suppressions-service");
 const LintResultCache = require("../../../lib/cli-engine/lint-result-cache");
 
 //------------------------------------------------------------------------------
@@ -2073,6 +2076,7 @@ describe("ESLint", () => {
 				path.join(cwd, "suppressed.js"),
 				"utf8",
 			);
+			const loadSpy = sinon.spy(SuppressionsService.prototype, "load");
 
 			eslint = new ESLint({
 				overrideConfigFile: true,
@@ -2082,6 +2086,7 @@ describe("ESLint", () => {
 			});
 			const results = await eslint.lintText(code);
 
+			assert.strictEqual(loadSpy.callCount, 0);
 			assert.strictEqual(
 				results[0].output,
 				code.replace("!!foo", "foo").replace("var foo", "let foo"),
@@ -2112,6 +2117,66 @@ describe("ESLint", () => {
 			);
 			assert.deepStrictEqual(results[0].messages, []);
 			assert.deepStrictEqual(results[0].suppressedMessages, []);
+		});
+
+		it("should reuse the suppressions loaded by the first call in subsequent calls", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const filePath = path.join(cwd, "suppressed.js");
+			const suppressionsLocation = path.join(
+				cwd,
+				"eslint-suppressions-copy.json",
+			);
+			const code = fs.readFileSync(filePath, "utf8");
+
+			shell.cp(
+				path.join(cwd, "eslint-suppressions.json"),
+				suppressionsLocation,
+			);
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation,
+				fix: true,
+			});
+			await eslint.lintText(code, { filePath });
+			fs.unlinkSync(suppressionsLocation);
+			const results = await eslint.lintText(code, { filePath });
+
+			assert.strictEqual(results[0].output, code.replace("!!foo", "foo"));
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(
+				results[0].suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+		});
+
+		it("should load the suppressions file once for concurrent calls", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const filePath = path.join(cwd, "suppressed.js");
+			const code = fs.readFileSync(filePath, "utf8");
+			const loadSpy = sinon.spy(SuppressionsService.prototype, "load");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				fix: true,
+			});
+			const results = await Promise.all([
+				eslint.lintText(code, { filePath }),
+				eslint.lintText(code, { filePath }),
+			]);
+
+			assert.strictEqual(loadSpy.callCount, 1);
+
+			for (const [result] of results) {
+				assert.strictEqual(result.output, code.replace("!!foo", "foo"));
+				assert.deepStrictEqual(
+					result.suppressedMessages.map(message => message.ruleId),
+					["no-var"],
+				);
+			}
 		});
 	});
 
@@ -15192,10 +15257,6 @@ describe("ESLint", () => {
 			}
 		});
 
-		afterEach(() => {
-			sinon.restore();
-		});
-
 		it("should not apply fixes for rules that are suppressed for the file", async () => {
 			eslint = new ESLint({
 				concurrency,
@@ -15457,6 +15518,7 @@ describe("ESLint", () => {
 					`${filePath} should be fully fixed`,
 				);
 				assert.deepStrictEqual(result.messages, []);
+				assert.deepStrictEqual(result.suppressedMessages, []);
 			}
 
 			const resultB = getResult(results, "unsuppressed.js");
@@ -15470,6 +15532,40 @@ describe("ESLint", () => {
 				["no-var"],
 			);
 			assert.deepStrictEqual(resultB.suppressedMessages, []);
+		});
+
+		it("should reuse the suppressions loaded by the first call in subsequent calls", async () => {
+			const suppressionsLocation = path.join(
+				cwd,
+				"eslint-suppressions-copy.json",
+			);
+
+			shell.cp(
+				path.join(cwd, "eslint-suppressions.json"),
+				suppressionsLocation,
+			);
+			eslint = new ESLint({
+				concurrency,
+				cwd,
+				overrideConfigFile: true,
+				applySuppressions: true,
+				suppressionsLocation,
+				fix: true,
+			});
+			await eslint.lintFiles(["suppressed.js"]);
+			fs.unlinkSync(suppressionsLocation);
+			const results = await eslint.lintFiles(["suppressed.js"]);
+
+			assert.strictEqual(results.length, 1);
+			assert.strictEqual(
+				results[0].output,
+				sources["suppressed.js"].replace("!!foo", "foo"),
+			);
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(
+				results[0].suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
 		});
 	}
 
