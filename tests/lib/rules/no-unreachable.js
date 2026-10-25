@@ -68,6 +68,8 @@ ruleTester.run("no-unreachable", rule, {
 			code: "function foo() { for (const x of y) { try { continue; } finally { bar(); } } }",
 			languageOptions: { ecmaVersion: 6 },
 		},
+		"try { foo(); } catch (e) { while (true) {} } finally { bar(); }",
+		"try { while (true) { foo(); } } finally { bar(); }",
 		"function foo() { var x = 1; for (;;) { if (x) break; } x = 2; }",
 		"A: { break A; } foo()",
 		{
@@ -380,6 +382,157 @@ ruleTester.run("no-unreachable", rule, {
 					column: 93,
 					endLine: 1,
 					endColumn: 99,
+				},
+			],
+		},
+		{
+			code: "try { while (true) {} } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 43,
+				},
+			],
+		},
+		{
+			code: "try { for (;;) {} } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
+		},
+		{
+			code: "try { do {} while (true); } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 37,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
+		},
+		{
+			code: "try { for (;;) { continue; } } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 40,
+					endLine: 1,
+					endColumn: 50,
+				},
+			],
+		},
+		{
+			code: "try { throw e; } catch (e) { while (true) {} } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 56,
+					endLine: 1,
+					endColumn: 66,
+				},
+			],
+		},
+		{
+			code: "try { while (true) {} } finally { foo(); } bar();",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 33,
+					endLine: 1,
+					endColumn: 50,
+				},
+			],
+		},
+		{
+			code: "try { while (1) {} } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 40,
+				},
+			],
+		},
+		{
+			code: "try { for (; true;) {} } finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 34,
+					endLine: 1,
+					endColumn: 44,
+				},
+			],
+		},
+		{
+			code: "try { while (true) {} } catch (e) {} finally { foo(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 35,
+					endLine: 1,
+					endColumn: 37,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 56,
+				},
+			],
+		},
+		{
+			code: "A: { try { break A; } finally { foo(); } bar(); } baz();",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 42,
+					endLine: 1,
+					endColumn: 48,
+				},
+			],
+		},
+		{
+			code: "function foo() { while (a) { try { break; } finally { return; bar(); } } baz(); }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 63,
+					endLine: 1,
+					endColumn: 69,
+				},
+			],
+		},
+		{
+			code: "function foo() { A: { try { break A; } finally { return 1; } } return 2; }",
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 73,
 				},
 			],
 		},

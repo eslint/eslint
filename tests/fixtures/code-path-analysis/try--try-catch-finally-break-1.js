@@ -1,11 +1,11 @@
 /*expected
-initial->s1_1->s1_2->s1_3->s1_4->s1_5->s1_6->s1_7->s1_9->s1_10->s1_2->s1_11;
+initial->s1_1->s1_2->s1_3->s1_4->s1_5->s1_6->s1_7->s1_9->s1_2->s1_12;
 s1_3->s1_6;
 s1_4->s1_6;
 s1_5->s1_9;
-s1_6->s1_11;
-s1_3->s1_9;
-s1_11->final;
+s1_6->s1_10->s1_12;
+s1_7->s1_10;
+s1_12->final;
 */
 
 while (a) {
@@ -32,15 +32,15 @@ digraph {
     s1_5[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];
     s1_6[label="CatchClause:enter\nIdentifier (err)\nBlockStatement:enter\nBreakStatement"];
     s1_7[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit\nCatchClause:exit"];
-    s1_9[label="BlockStatement:enter\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (foo)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
-    s1_10[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nTryStatement:exit\nBlockStatement:exit"];
-    s1_11[label="WhileStatement:exit\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (last)\nCallExpression:exit\nExpressionStatement:exit\nProgram:exit"];
-    initial->s1_1->s1_2->s1_3->s1_4->s1_5->s1_6->s1_7->s1_9->s1_10->s1_2->s1_11;
+    s1_9[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:enter\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (foo)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit\nTryStatement:exit\nBlockStatement:exit"];
+    s1_12[label="WhileStatement:exit\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (last)\nCallExpression:exit\nExpressionStatement:exit\nProgram:exit"];
+    s1_10[label="BlockStatement:enter\nExpressionStatement:enter\nCallExpression:enter\nIdentifier (foo)\nCallExpression:exit\nExpressionStatement:exit\nBlockStatement:exit"];
+    initial->s1_1->s1_2->s1_3->s1_4->s1_5->s1_6->s1_7->s1_9->s1_2->s1_12;
     s1_3->s1_6;
     s1_4->s1_6;
     s1_5->s1_9;
-    s1_6->s1_11;
-    s1_3->s1_9;
-    s1_11->final;
+    s1_6->s1_10->s1_12;
+    s1_7->s1_10;
+    s1_12->final;
 }
 */

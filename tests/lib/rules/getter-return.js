@@ -47,6 +47,8 @@ ruleTester.run("getter-return", rule, {
 		"class foo { get bar(){return true;} }",
 		"class foo { get bar(){if(baz){return true;} else {return false;} } }",
 		"class foo { get(){return true;} }",
+		"var foo = { get bar() { A: { try { break A; } finally { return true; } } } };",
+		"class foo { get bar() { while (baz) { try { continue; } finally { return true; } } return false; } }",
 
 		// option: {allowImplicit: true}
 		{ code: "class foo { get bar(){return true;} }", options },
