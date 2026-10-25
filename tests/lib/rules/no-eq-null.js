@@ -167,5 +167,96 @@ ruleTester.run("no-eq-null", rule, {
 				},
 			],
 		},
+		{
+			// The replacement must keep the grouping it had in its parent.
+			code: "if (a && x == null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "if (a && x === null) { }",
+						},
+						{
+							messageId: "strictNullCheck",
+							output: "if (a && (x === null || x === undefined)) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			// `&&` binds as tightly as the replacement, so no parentheses are needed.
+			code: "if (a && x != null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "if (a && x !== null) { }",
+						},
+						{
+							messageId: "strictNullCheck",
+							output: "if (a && x !== null && x !== undefined) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			// `??` cannot be mixed with `||` without parentheses.
+			code: "const y = a ?? x == null;",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "const y = a ?? x === null;",
+						},
+						{
+							messageId: "strictNullCheck",
+							output: "const y = a ?? (x === null || x === undefined);",
+						},
+					],
+				},
+			],
+		},
+		{
+			// The test of a conditional binds more tightly than the replacement.
+			code: "const y = x == null ? 1 : 2;",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "const y = x === null ? 1 : 2;",
+						},
+						{
+							messageId: "strictNullCheck",
+							output: "const y = (x === null || x === undefined) ? 1 : 2;",
+						},
+					],
+				},
+			],
+		},
+		{
+			// Globals can be accessor properties, so the operand is not duplicated.
+			code: "/* global foo */ if (foo == null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "/* global foo */ if (foo === null) { }",
+						},
+					],
+				},
+			],
+		},
 	],
 });
