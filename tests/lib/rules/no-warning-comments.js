@@ -641,5 +641,21 @@ ruleTester.run("no-warning-comments", rule, {
 				},
 			],
 		},
+		{
+			code: "#!todo\u2028// todo",
+			errors: [
+				{
+					messageId: "unexpectedComment",
+					data: {
+						matchedTerm: "todo",
+						comment: "todo",
+					},
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 8,
+				},
+			],
+		},
 	],
 });
