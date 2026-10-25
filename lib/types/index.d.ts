@@ -55,7 +55,6 @@ import type {
 	RuleConfig,
 	RuleTextEditor,
 	RuleTextEdit,
-	RuleVisitor,
 	BaseConfig as CoreBaseConfig,
 	RuleFixer as CoreRuleFixer,
 	ViolationReportBase,
@@ -101,6 +100,10 @@ export namespace AST {
 		range: Range;
 		loc: SourceLocation;
 	}
+
+	type Comment = Omit<ESTree.Comment, "type"> & {
+		type: ESTree.Comment["type"] | "Shebang";
+	};
 
 	interface SourceLocation {
 		start: ESTree.Position;
@@ -241,6 +244,8 @@ export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
 	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
+	// Uses `ESTree.Comment` instead of `AST.Comment` because `getInlineConfigNodes()`
+	// explicitly excludes shebang comments, which cannot be configuration directives.
 	ConfigNode: ESTree.Comment;
 }> {
 	text: string;
