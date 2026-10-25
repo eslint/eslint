@@ -258,5 +258,20 @@ ruleTester.run("no-eq-null", rule, {
 				},
 			],
 		},
+		{
+			// `undefined` is shadowed, so the expanded comparison would use the binding.
+			code: "function f(undefined) { if (x == null) { } }",
+			errors: [
+				{
+					messageId: "unexpected",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							output: "function f(undefined) { if (x === null) { } }",
+						},
+					],
+				},
+			],
+		},
 	],
 });
