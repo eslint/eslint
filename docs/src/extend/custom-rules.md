@@ -552,6 +552,12 @@ When using options, make sure that your rule has some logical defaults in case t
 
 Rules with options must specify a [schema](#options-schemas).
 
+#### Rule options, shared settings, and `--cache`
+
+When using the [`--cache` option](../use/command-line-interface#--cache), ESLint serializes rule options and shared [settings](../use/configure/configuration-files#configure-shared-settings) to determine whether a cached result is still valid. Values that cannot be serialized, such as regular expressions (`RegExp`), are not reflected in the cache key. Changing a `RegExp` option or setting will therefore not invalidate the cache, and stale results may be reused.
+
+To avoid this, prefer serializable values (strings, numbers, booleans, plain objects) in rule options and shared settings when you use `--cache`. Avoid passing `RegExp` instances or other non-serializable values.
+
 ### Accessing the Source Code
 
 The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.sourceCode` property:
