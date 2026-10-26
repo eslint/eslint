@@ -584,11 +584,11 @@ ruleTester.run("max-statements", rule, {
 		},
 		{
 			code: "function foo() { a: for (;;) break a; }",
-			options: [2],
+			options: [1],
 			errors: [
 				{
 					messageId: "exceed",
-					data: { name: "Function 'foo'", count: 3, max: 2 },
+					data: { name: "Function 'foo'", count: 2, max: 1 },
 					line: 1,
 					column: 1,
 					endLine: 1,
