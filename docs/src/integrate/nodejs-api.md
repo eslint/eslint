@@ -149,7 +149,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.plugins` (`Record<string, Plugin> | null`)<br>
   Default is `null`. The plugin implementations that ESLint uses for the `plugins` setting of your configuration. This is a map-like object. Those keys are plugin IDs and each value is implementation.
 - `options.ruleFilter` (`({ruleId: string, severity: number}) => boolean`)<br>
-  Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
+  Default is `() => true`. A predicate function that filters rules to be run. This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run. When a custom `ruleFilter` is provided, cached lint results are not reused.
 - `options.stats` (`boolean`)<br>
   Default is `false`. When set to `true`, additional statistics are added to the lint results (see [Stats type](../extend/stats#-stats-type)).
 
