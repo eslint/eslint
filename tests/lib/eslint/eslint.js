@@ -14968,6 +14968,209 @@ describe("ESLint", () => {
 			});
 		});
 
+		describe("when options that affect the lint results change", () => {
+			beforeEach(() => {
+				cacheFilePath = getFixturePath(".eslintcache");
+				doDelete(cacheFilePath);
+			});
+
+			/**
+			 * Gets the options for an ESLint instance that caches lint results.
+			 * @param {Object} rules The rules to enable.
+			 * @returns {ESLintOptions} The options for the ESLint instance.
+			 */
+			function getCacheOptions(rules) {
+				return {
+					concurrency,
+					cwd: path.join(fixtureDir, ".."),
+					overrideConfigFile: true,
+					cache: true,
+					cacheLocation: cacheFilePath,
+					overrideConfig: { rules },
+				};
+			}
+
+			/**
+			 * Creates an ESLint instance with a `ruleFilter` that only runs rules set to "error".
+			 * An options module is used because `ruleFilter` cannot be cloned to worker threads.
+			 * @param {ESLintOptions} options The other options for the ESLint instance.
+			 * @param {Object} [filterOptions] The options for the filter.
+			 * @param {boolean} [filterOptions.quiet=false] If `true`, the filter of the `--quiet` CLI option
+			 *   is used. Otherwise, an equivalent custom filter is used.
+			 * @returns {Promise<ESLint>} The ESLint instance.
+			 */
+			function createESLintWithErrorRuleFilter(
+				options,
+				{ quiet = false } = {},
+			) {
+				const ruleFilterURL = pathToFileURL(
+					require.resolve("../../../lib/shared/rule-filter"),
+				);
+				const optionsSrc = `
+					import { quietRuleFilter } from ${JSON.stringify(ruleFilterURL)};
+					export default {
+						...${JSON.stringify(options)},
+						ruleFilter: ${quiet ? "quietRuleFilter" : "({ severity }) => severity === 2"},
+					};
+					`;
+				const url = new URL(
+					`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
+				);
+
+				return ESLint.fromOptionsModule(url);
+			}
+
+			/**
+			 * Lints a file twice and asserts that the second run reuses the cached result of the first run.
+			 * @param {() => ESLint | Promise<ESLint>} createESLint Creates the ESLint instance for each run.
+			 * @param {string} file The file to lint.
+			 * @param {Object} lintOptions The options that affect the lint results, as passed to `LintResultCache`.
+			 * @returns {Promise<LintResult>} The lint result of the second run.
+			 */
+			async function lintTwiceWithCacheHit(
+				createESLint,
+				file,
+				lintOptions,
+			) {
+				eslint = await createESLint();
+				await eslint.lintFiles([file]);
+
+				const lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"metadata",
+					lintOptions,
+				);
+
+				assert(
+					isNonNullObject(
+						lintResultCache.getValidCachedLintResults(
+							file,
+							await eslint.calculateConfigForFile(file),
+						),
+					),
+					"lintResultCache should have returned cached lint results",
+				);
+
+				eslint = await createESLint();
+				const spy = sinon.spy(fs.promises, "readFile");
+				const [result] = await eslint.lintFiles([file]);
+
+				if (!concurrency) {
+					assert(
+						!spy.calledWith(file),
+						"ESLint should not have read the file because the cached result is valid",
+					);
+				}
+
+				return result;
+			}
+
+			it("should not reuse cached results when 'allowInlineConfig' changes", async () => {
+				const file = fs.realpathSync(
+					getFixturePath("disable-inline-config.js"),
+				);
+				const options = getCacheOptions({ "no-console": 2 });
+
+				eslint = new ESLint(options);
+				let [result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(result.errorCount, 0);
+
+				eslint = new ESLint({ ...options, allowInlineConfig: false });
+				[result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(
+					result.errorCount,
+					1,
+					"the cached result with inline config allowed should not have been used",
+				);
+				assert.strictEqual(result.messages[0].ruleId, "no-console");
+
+				eslint = new ESLint(options);
+				[result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(
+					result.errorCount,
+					0,
+					"the cached result with inline config disallowed should not have been used",
+				);
+			});
+
+			it("should not reuse cached results when a custom 'ruleFilter' is used", async () => {
+				const file = fs.realpathSync(
+					getFixturePath("cache/src", "fail-file.js"),
+				);
+				const options = getCacheOptions({
+					"no-console": 2,
+					"no-unused-vars": 1,
+				});
+
+				eslint = new ESLint(options);
+				let [result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(result.errorCount, 1);
+				assert.strictEqual(result.warningCount, 1);
+
+				eslint = await createESLintWithErrorRuleFilter(options);
+				[result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(result.errorCount, 1);
+				assert.strictEqual(
+					result.warningCount,
+					0,
+					"the cached result without a rule filter should not have been used",
+				);
+
+				eslint = new ESLint(options);
+				[result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(result.errorCount, 1);
+				assert.strictEqual(
+					result.warningCount,
+					1,
+					"the result linted with a custom rule filter should not have been used",
+				);
+			});
+
+			it("should reuse cached results when 'allowInlineConfig' is unchanged", async () => {
+				const file = fs.realpathSync(
+					getFixturePath("disable-inline-config.js"),
+				);
+				const options = {
+					...getCacheOptions({ "no-console": 2 }),
+					allowInlineConfig: false,
+				};
+				const result = await lintTwiceWithCacheHit(
+					() => new ESLint(options),
+					file,
+					{ allowInlineConfig: false },
+				);
+
+				assert.strictEqual(result.errorCount, 1);
+			});
+
+			it("should reuse cached results when the 'ruleFilter' of the '--quiet' CLI option is used", async () => {
+				const file = fs.realpathSync(
+					getFixturePath("cache/src", "fail-file.js"),
+				);
+				const options = getCacheOptions({
+					"no-console": 2,
+					"no-unused-vars": 1,
+				});
+				const result = await lintTwiceWithCacheHit(
+					() =>
+						createESLintWithErrorRuleFilter(options, {
+							quiet: true,
+						}),
+					file,
+					{ ruleFilterCacheKey: "quiet" },
+				);
+
+				assert.strictEqual(result.errorCount, 1);
+				assert.strictEqual(result.warningCount, 0);
+			});
+		});
+
 		it("should store all messages in cache even when some are suppressed", async () => {
 			const cwd = getFixturePath("suppressions");
 
