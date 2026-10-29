@@ -6715,5 +6715,463 @@ function * generator() {
 				},
 			],
 		},
+		{
+			code: "!Boolean(foo)in obj;",
+			output: "!foo in obj;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "!Boolean(foo)instanceof Bar;",
+			output: "!foo instanceof Bar;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "!Boolean(1)in obj;",
+			output: "!1 in obj;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "!Boolean()in obj;",
+			output: "true in obj;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "!!!(foo)in obj;",
+			output: "!foo in obj;",
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "Boolean({ a: 1 }) ? b : c;",
+			output: "({ a: 1 }) ? b : c;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "!!{ a: 1 } ? b : c;",
+			output: "({ a: 1 }) ? b : c;",
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "Boolean(function() {}) ? b : c;",
+			output: "(function() {}) ? b : c;",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			code: "!!function*() {} ? b : c;",
+			output: "(function*() {}) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "Boolean(async function() {}) ? b : c;",
+			output: "(async function() {}) ? b : c;",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "!!async function() {}.length ? b : c;",
+			output: "(async function() {}.length) ? b : c;",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "Boolean(async) ? b : c;",
+			output: "async ? b : c;",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "!!!async",
+			output: "!async",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "!!!async\nfunction f() {}",
+			output: "!async\nfunction f() {}",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "Boolean(class {}) ? b : c;",
+			output: "(class {}) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "!!class {}.name ? b : c;",
+			output: "(class {}.name) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "export default Boolean(function() {}) ? b : c;",
+			output: "export default (function() {}) ? b : c;",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
+		},
+		{
+			code: "export default !!class {} ? b : c;",
+			output: "export default (class {}) ? b : c;",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "export default Boolean({ a: 1 }) ? b : c;",
+			output: "export default { a: 1 } ? b : c;",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 33,
+				},
+			],
+		},
+		{
+			code: "const f = () => Boolean({ a: 1 }) ? b : c;",
+			output: "const f = () => ({ a: 1 }) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 34,
+				},
+			],
+		},
+		{
+			code: "const f = () => !!{ a: 1 } ? b : c;",
+			output: "const f = () => ({ a: 1 }) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 27,
+				},
+			],
+		},
+		{
+			code: "const f = () => (Boolean({ a: 1 })) ? b : c;",
+			output: "const f = () => ({ a: 1 }) ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "const f = () => Boolean(function() {}) ? b : c;",
+			output: "const f = () => function() {} ? b : c;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean([a, b].length) ? c : d",
+			output: "foo()\n;[a, b].length ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			code: "foo()\n!![a, b].length ? c : d",
+			output: "foo()\n;[a, b].length ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean((a || b).x) ? c : d",
+			output: "foo()\n;(a || b).x ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean(-x) ? c : d",
+			output: "foo()\n;-x ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean(`${a}`) ? c : d",
+			output: "foo()\n;`${a}` ? c : d",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean(/a/.test(x)) ? c : d",
+			output: "foo()\n;/a/.test(x) ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "foo()\nBoolean({ a: 1 }) ? c : d",
+			output: "foo()\n;({ a: 1 }) ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "a++\nBoolean(+x) ? c : d",
+			output: "a++\n;+x ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "a--\n!!-x ? c : d",
+			output: "a--\n;-x ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "a--\nBoolean(/a/.test(x)) ? c : d",
+			output: "a--\n;/a/.test(x) ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "a--\nBoolean([a, b].length) ? c : d",
+			output: "a--\n[a, b].length ? c : d",
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 23,
+				},
+			],
+		},
 	],
 });
