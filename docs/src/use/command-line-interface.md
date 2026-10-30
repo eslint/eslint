@@ -361,6 +361,8 @@ Not all problems are fixable using this option, and the option does not work in 
 1. This option throws an error when code is piped to ESLint.
 1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
 
+Fixes are not applied for rules that are suppressed for a file in the [suppressions file](suppressions#suppressions-and-autofix).
+
 If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
 
 ##### `--fix` example
@@ -372,7 +374,7 @@ If you want to fix code from `stdin` or otherwise want to get the fixes without 
 
 #### `--fix-dry-run`
 
-This option has the same effect as `--fix` with the difference that the fixes are not saved to the file system. Because the default formatter does not output the fixed code, you'll have to use another formatter (e.g. `--format json`) to get the fixes.
+This option has the same effect as `--fix` with the difference that the fixes are not saved to the file system. Because the default formatter does not output the fixed code, you'll have to use another formatter (e.g. `--format json`) to get the fixes. Like `--fix`, this option does not apply fixes for rules that are suppressed for a file in the [suppressions file](suppressions#suppressions-and-autofix).
 
 - **Argument Type**: No argument.
 
