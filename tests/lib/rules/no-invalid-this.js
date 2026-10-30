@@ -1995,5 +1995,25 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 			code: "(foo as Foo) = function () { return this; };",
 			errors: [{ messageId: "unexpectedThis" }],
 		},
+		{
+			code: "(function () { return this; } as Foo).call(null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; }).call(undefined!);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "Reflect.apply(function () { return this; }, <any>null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "Array.from([], function () { return this; }, null satisfies any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "[].forEach(function () { return this; }, null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
 	],
 });
