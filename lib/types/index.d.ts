@@ -276,7 +276,7 @@ export class SourceCode implements TextSourceCode<{
 
 	getLines(): string[];
 
-	getAllComments(): ESTree.Comment[];
+	getAllComments(): AST.Comment[];
 
 	getAncestors(node: ESTree.Node): ESTree.Node[];
 
