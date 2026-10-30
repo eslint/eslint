@@ -171,6 +171,21 @@ sourceCode.getLines();
 sourceCode.getAllComments();
 sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
 
+sourceCode.getLoc({
+	type: "Shebang",
+	value: "/usr/bin/env node",
+	loc: {
+		start: { line: 1, column: 0 },
+		end: { line: 1, column: 19 },
+	},
+});
+
+sourceCode.getRange({
+	type: "Shebang",
+	value: "/usr/bin/env node",
+	range: [0, 19],
+});
+
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.getNodeByRangeIndex(0);

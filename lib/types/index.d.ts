@@ -243,7 +243,7 @@ export namespace Scope {
 export class SourceCode implements TextSourceCode<{
 	LangOptions: Linter.LanguageOptions;
 	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node | AST.Comment;
 	// Uses `ESTree.Comment` instead of `AST.Comment` because `getInlineConfigNodes()`
 	// explicitly excludes shebang comments, which cannot be configuration directives.
 	ConfigNode: ESTree.Comment;
@@ -262,11 +262,9 @@ export class SourceCode implements TextSourceCode<{
 	static splitLines(text: string): string[];
 
 	getLoc(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+		syntaxElement: AST.Token | ESTree.Node | AST.Comment,
 	): ESTree.SourceLocation;
-	getRange(
-		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
-	): SourceRange;
+	getRange(syntaxElement: AST.Token | ESTree.Node | AST.Comment): SourceRange;
 
 	getText(
 		node?: ESTree.Node | AST.Token | ESTree.Comment,
