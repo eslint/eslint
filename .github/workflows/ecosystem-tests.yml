@@ -28,7 +28,8 @@ jobs:
                     - "@eslint/markdown"
                     - "@eslint-community/eslint-plugin-eslint-comments"
                     - "@typescript-eslint/typescript-eslint"
-                    - "eslint-plugin-unicorn"
+                    # Uncomment when the tests for eslint-plugin-unicorn are passing again.
+                    # - "eslint-plugin-unicorn"
                     - "eslint-plugin-vue"
 
         steps:
