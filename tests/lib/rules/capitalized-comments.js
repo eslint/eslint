@@ -77,6 +77,15 @@ ruleTester.run("capitalized-comments", rule, {
 		"#!/usr/bin/env node",
 		{ code: "#!/usr/bin/env node", options: ["always"] },
 		{ code: "#!/usr/bin/env node", options: ["never"] },
+		"#!foo\u2028var a = 1;",
+		{ code: "#!foo\u2028var a = 1;", options: ["always"] },
+		{ code: "#!Foo\u2028var a = 1;", options: ["never"] },
+		"#!foo\u2029var a = 1;",
+		{ code: "#!foo\u2029var a = 1;", options: ["always"] },
+		{ code: "#!Foo\u2029var a = 1;", options: ["never"] },
+		"#!\u2028var a = 1;",
+		"#!\u2029var a = 1;",
+		"#!",
 
 		// Using "always" string option
 		{ code: "//Uppercase", options: ["always"] },
