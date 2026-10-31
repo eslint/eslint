@@ -1,6 +1,8 @@
 ---
 title: no-iterator
 rule_type: suggestion
+related_rules:
+- no-proto
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
 - https://compat-table.github.io/compat-table/non-standard/#test-__iterator__
@@ -8,19 +10,11 @@ further_reading:
 ---
 
 
-The `__iterator__` property was a SpiderMonkey extension to JavaScript that could be used to create custom iterators that are compatible with JavaScript's `for in` and `for each` constructs. However, this property is now obsolete, so it should not be used. Here's an example of how this used to work:
-
-```js
-Foo.prototype.__iterator__ = function() {
-    return new FooIterator(this);
-}
-```
-
-You should use ECMAScript 6 iterators and generators instead.
+The `__iterator__` property was a SpiderMonkey extension to JavaScript that could be used to create custom iterators compatible with the `for in` and `for each` constructs. This property was never part of the ECMAScript standard, is now obsolete, and is not supported in most environments. Use the standard iteration protocol based on `Symbol.iterator` instead.
 
 ## Rule Details
 
-This rule is aimed at preventing errors that may arise from using the `__iterator__` property, which is not implemented in several browsers. As such, it will warn whenever it encounters the `__iterator__` property.
+This rule disallows the use of the `__iterator__` property. It reports any member access, in dot or bracket notation, to a property named `__iterator__`.
 
 Examples of **incorrect** code for this rule:
 
@@ -29,14 +23,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-iterator: "error"*/
 
-Foo.prototype.__iterator__ = function() {
+Foo.prototype.__iterator__ = function () {
     return new FooIterator(this);
 };
 
 foo.__iterator__ = function () {};
 
 foo["__iterator__"] = function () {};
-
 ```
 
 :::
@@ -48,7 +41,13 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-iterator: "error"*/
 
-const __iterator__ = foo; // Not using the `__iterator__` property.
+const __iterator__ = foo; // an identifier named `__iterator__`, not a property access.
+
+Foo.prototype[Symbol.iterator] = function () {
+    return new FooIterator(this);
+};
+
+const items = foo[Symbol.iterator]();
 ```
 
 :::
@@ -56,3 +55,7 @@ const __iterator__ = foo; // Not using the `__iterator__` property.
 ## Options
 
 This rule has no options.
+
+## When Not To Use It
+
+You might want to turn this rule off if you need to interoperate with legacy code that relies on the SpiderMonkey `__iterator__` extension.
