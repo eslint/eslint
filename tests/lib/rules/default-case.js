@@ -72,6 +72,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -80,6 +84,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -88,6 +96,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -101,6 +113,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -114,6 +130,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -127,6 +147,10 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 11,
 				},
 			],
 		},
