@@ -105,8 +105,42 @@ function getCurrentVersionPath() {
 }
 
 /**
+ * Returns the path of `url` that follows `versionPath`.
+ * @param {string} url Absolute or relative URL.
+ * @param {string} versionPath Version base path such as `/docs/v8.x/`.
+ * @returns {string|null} The remainder, or `null` when the version path is absent.
+ */
+function routeAfterVersionPath(url, versionPath) {
+	const hashless = url.split("#")[0].split("?")[0];
+	const index = hashless.indexOf(versionPath);
+
+	if (index === -1) {
+		return null;
+	}
+
+	return hashless.slice(index + versionPath.length);
+}
+
+/**
+ * Builds the selected version's docs root from a result URL.
+ * @param {string} url Absolute or relative result URL.
+ * @param {string} versionPath Version base path such as `/docs/v8.x/`.
+ * @returns {string} Absolute docs root for that version.
+ */
+function versionRootUrl(url, versionPath) {
+	const base = window.getSafeHref(url, window.location.href);
+
+	if (!base) {
+		return versionPath;
+	}
+
+	return window.getSafeHref(versionPath, new URL(base).origin) || versionPath;
+}
+
+/**
  * Rewrites an Algolia search result URL to point to the currently
  * selected docs version instead of the indexed version (typically "latest").
+ * Missing pages link to that version's docs root, without the old query or hash.
  * @param {string} url The original result URL from Algolia.
  * @returns {string} The adjusted URL for the current version.
  */
@@ -117,70 +151,18 @@ function adjustSearchResultUrl(url) {
 		return url;
 	}
 
-	return url.replace(/\/docs\/[^/]+\//, currentVersionPath);
-}
+	const adjusted = url.replace(/\/docs\/[^/]+\//, currentVersionPath);
+	const route = routeAfterVersionPath(adjusted, currentVersionPath);
 
-/**
- * Sets a safe http(s) URL on an anchor (rejects javascript: and other schemes).
- * @param {HTMLAnchorElement} anchor The anchor element.
- * @param {string} url The destination URL.
- * @returns {void}
- */
-function setSafeHref(anchor, url) {
-	const href = window.getSafeHref(
-		adjustSearchResultUrl(url),
-		window.location.href,
-	);
-
-	if (href) {
-		anchor.href = href;
-	}
-}
-
-/**
- * Appends highlight markup from Algolia by allowing only text, <em>, and <br>
- * (avoids assigning remote HTML to innerHTML).
- * @param {HTMLElement} parent The container element.
- * @param {string} htmlString The highlight HTML from Algolia.
- * @returns {void}
- */
-function appendSanitizedHighlight(parent, htmlString) {
-	const parser = new DOMParser();
-	const doc = parser.parseFromString(htmlString, "text/html");
-
-	/**
-	 * @param {Node} node The node to copy.
-	 * @param {HTMLElement} target The parent to append into.
-	 */
-	function appendNode(node, target) {
-		if (node.nodeType === Node.TEXT_NODE) {
-			target.appendChild(document.createTextNode(node.textContent));
-			return;
-		}
-
-		if (node.nodeType !== Node.ELEMENT_NODE) {
-			return;
-		}
-
-		const tag = /** @type {Element} */ (node).tagName.toLowerCase();
-
-		if (tag === "em") {
-			const em = document.createElement("em");
-
-			if (node.className) {
-				em.className = node.className;
-			}
-
-			node.childNodes.forEach(child => appendNode(child, em));
-			target.appendChild(em);
-		} else if (tag === "br") {
-			target.appendChild(document.createElement("br"));
-		} else {
-			node.childNodes.forEach(child => appendNode(child, target));
-		}
+	if (
+		route &&
+		typeof window.docsPageExists === "function" &&
+		window.docsPageExists(currentVersionPath, route) === false
+	) {
+		return versionRootUrl(adjusted, currentVersionPath);
 	}
 
-	doc.body.childNodes.forEach(child => appendNode(child, parent));
+	return adjusted;
 }
 
 /**
@@ -207,28 +189,17 @@ function displaySearchResults(results) {
 					Number(k.substring(3)),
 				),
 			);
-			const title = document.createElement("h2");
+			const href = (
+				window.getSafeHref(
+					adjustSearchResultUrl(result.url),
+					window.location.href,
+				) || "#"
+			).replace(/&/gu, "&amp;");
 
-			title.classList.add("search-results__item__title");
-
-			const link = document.createElement("a");
-
-			setSafeHref(link, result.url);
-			link.textContent = result.hierarchy.lvl0;
-			title.appendChild(link);
-
-			const context = document.createElement("p");
-
-			context.classList.add("search-results__item__context");
-
-			const highlightHtml =
-				typeof result._highlightResult.content !== "undefined"
-					? result._highlightResult.content.value
-					: result._highlightResult.hierarchy[`lvl${maxLvl}`].value;
-
-			appendSanitizedHighlight(context, highlightHtml);
-			listItem.appendChild(title);
-			listItem.appendChild(context);
+			listItem.innerHTML = `
+                <h2 class="search-results__item__title"><a href="${href}">${result.hierarchy.lvl0}</a></h2>
+                <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
+            `.trim();
 			list.append(listItem);
 		}
 	} else {

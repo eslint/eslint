@@ -210,15 +210,21 @@
 				}
 
 				var targetUrl = new URL(relativeHref);
+				var rest = match && match.groups.rest ? match.groups.rest : "";
+				var pageIsMissing =
+					rest &&
+					typeof docsPageExists === "function" &&
+					docsPageExists(newBasePath, rest) === false;
 
-				if (match && match.groups.rest) {
+				if (!pageIsMissing && rest) {
 					targetUrl.pathname =
-						targetUrl.pathname.replace(/\/?$/, "/") +
-						match.groups.rest;
+						targetUrl.pathname.replace(/\/?$/, "/") + rest;
 				}
 
-				targetUrl.search = window.location.search;
-				targetUrl.hash = window.location.hash;
+				if (!pageIsMissing) {
+					targetUrl.search = window.location.search;
+					targetUrl.hash = window.location.hash;
+				}
 
 				if (targetUrl.origin === window.location.origin) {
 					window.location.href = targetUrl.href;
