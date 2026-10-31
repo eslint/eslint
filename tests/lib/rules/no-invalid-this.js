@@ -1397,6 +1397,16 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		"(obj.foo! as Foo) = function () { return this; };",
 		"(Foo as FooConstructor) = function () { return this; };",
 		"[(obj.foo as Foo) = function () { return this; }] = a;",
+		`
+			obj.foo = (function () {
+				return function () { return this; };
+			} as any)();
+		`,
+		"obj.foo = ((() => function () { return this; }) as any)();",
+		"obj.foo = ((() => function () { return this; }) satisfies Foo)();",
+		"obj.foo = (<any>function () { return function () { return this; }; })();",
+		"obj.foo = (function () { return function () { return this; }; })!();",
+		"obj.foo = (function <T>() { return function () { return this; }; }<string>)();",
 	],
 
 	invalid: [
@@ -2013,6 +2023,14 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		},
 		{
 			code: "[].forEach(function () { return this; }, null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; }).call(void 0 as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "obj.foo = (function () { return function () { return this; }; } as any);",
 			errors: [{ messageId: "unexpectedThis" }],
 		},
 	],
