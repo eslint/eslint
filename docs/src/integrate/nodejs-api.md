@@ -1079,7 +1079,7 @@ You can test that invalid rule options are rejected (schema validation) and that
 - `options` (array, optional): The options passed to the rule (use invalid options to trigger schema validation errors, or options that cause the rule to throw).
 - `error` (object, required): The expected exception. Must have at least one of:
     - `message` (string or RegExp): The expected error message.
-    - `name` (string): The expected error name (e.g. `"SchemaValidationError"` for schema validation failures).
+    - `name` (string): The expected error name (e.g. `"SchemaValidationError"` for schema validation failures). This checks the thrown error's `name` property if it differs from the default `"Error"`; otherwise, it checks the error's class name (`constructor.name`).
 - `before` (function, optional): Function to execute before testing the case.
 - `after` (function, optional): Function to execute after testing the case regardless of its result.
 - `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
