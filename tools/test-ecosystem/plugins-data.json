@@ -48,7 +48,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "a6c2fdf97bd9a37687f31fb3807d23323d877bd8",
+    "commit": "d267d614539df3bfb592bfcf9df4dfdc46fd924e",
     "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
   },
   "eslint-plugin-vue": {
