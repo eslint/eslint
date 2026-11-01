@@ -49,6 +49,14 @@ ruleTester.run("prefer-arrow-callback", rule, {
 		"foo(function bar() { this; }.bind(this, somethingElse));",
 		"foo((function() {}).bind.bar)",
 		"foo((function() { this.bar(); }).bind(obj).bind(this))",
+		"foo(function() {} ? a : b);",
+		"foo((function() {}) ? a : b);",
+		"foo(function() { this; }.bind(this) ? a : b);",
+		"foo(function() { this; }?.bind(this) ? a : b);",
+		"foo(bar ? function() {} ? a : b : c);",
+		"foo(function() {} || a ? b : c);",
+		"new Foo(function() {} ? a : b);",
+		"foo(async function() {} ? a : b);",
 	],
 	invalid: [
 		{
@@ -82,6 +90,11 @@ ruleTester.run("prefer-arrow-callback", rule, {
 			code: "foo(bar ? function() {} : function() {});",
 			output: "foo(bar ? () => {} : () => {});",
 			errors: [errors[0], errors[0]],
+		},
+		{
+			code: "foo(function() {} ? function() {} : b);",
+			output: "foo(function() {} ? () => {} : b);",
+			errors,
 		},
 		{
 			code: "foo(function() { (function() { this; }); });",

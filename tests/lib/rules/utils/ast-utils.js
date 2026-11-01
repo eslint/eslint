@@ -204,6 +204,60 @@ describe("ast-utils", () => {
 		});
 	});
 
+	describe("isES5Constructor", () => {
+		it("should recognize a name starting with an uppercase ASCII letter", () => {
+			const node = espree.parse("function Foo() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should recognize a name starting with an uppercase Greek letter", () => {
+			const node = espree.parse("function Φ() {}", ESPREE_CONFIG).body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should recognize a name starting with an uppercase astral letter", () => {
+			const node = espree.parse("function 𐐀() {}", ESPREE_CONFIG).body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase ASCII letter", () => {
+			const node = espree.parse("function foo() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should only check the first letter", () => {
+			const node = espree.parse("function fooBar() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase Greek letter", () => {
+			const node = espree.parse("function φ() {}", ESPREE_CONFIG).body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase astral letter", () => {
+			const node = espree.parse("function 𐐨() {}", ESPREE_CONFIG).body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a letter without case", () => {
+			const node = espree.parse("function 안녕() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+	});
+
 	describe("checkReference", () => {
 		// catch
 		it("should return true if reference is assigned for catch", () => {
@@ -1256,6 +1310,44 @@ describe("ast-utils", () => {
 					"test.js",
 				);
 			});
+		});
+
+		it('should return the location of the `=>` token for "type F = (a, b) => void".', () => {
+			const expectedLoc = {
+				start: { line: 1, column: 16 },
+				end: { line: 1, column: 18 },
+			};
+
+			linter.verify(
+				"type F = (a, b) => void",
+				{
+					files: ["**/*.ts"],
+					languageOptions: {
+						parser: require("@typescript-eslint/parser"),
+					},
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: mustCall(() => ({
+										TSFunctionType: mustCall(node => {
+											assert.deepStrictEqual(
+												astUtils.getFunctionHeadLoc(
+													node,
+													linter.getSourceCode(),
+												),
+												expectedLoc,
+											);
+										}),
+									})),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				},
+				"test.ts",
+			);
 		});
 	});
 
