@@ -2183,6 +2183,20 @@ ruleTester.run("fatal-test", rule, {
 	],
 });
 
+ruleTester.run("only-fatal-test", rule, {
+	valid: [RuleTester.only("foo"), RuleTester.only({ code: "foo" })],
+	invalid: [RuleTester.only({ code: "bar", errors: ["baz"] })],
+	fatal: [
+		RuleTester.only({
+			error: { name: "SchemaValidationError" },
+		}),
+		RuleTester.only({
+			code: "foo",
+			error: { message: "Intentional throw for testing" },
+		}),
+	],
+});
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],

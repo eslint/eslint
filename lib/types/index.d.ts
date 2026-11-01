@@ -1502,9 +1502,10 @@ export class RuleTester {
 		},
 	): void;
 
-	static only(
-		item: string | RuleTester.ValidTestCase | RuleTester.InvalidTestCase,
-	): RuleTester.ValidTestCase | RuleTester.InvalidTestCase;
+	static only(item: string): RuleTester.ValidTestCase;
+	static only(item: RuleTester.InvalidTestCase): RuleTester.InvalidTestCase;
+	static only(item: RuleTester.FatalTestCase): RuleTester.FatalTestCase;
+	static only(item: RuleTester.ValidTestCase): RuleTester.ValidTestCase;
 }
 
 export namespace RuleTester {
