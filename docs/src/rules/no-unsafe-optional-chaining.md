@@ -79,6 +79,10 @@ class A extends obj?.foo {}
 
 const a = class A extends obj?.foo {};
 
+function* gen() {
+    yield* obj?.foo;
+}
+
 async function foo () {
     const { bar } = await obj?.foo;
    (await obj?.foo)();
@@ -114,6 +118,11 @@ new (obj?.foo ?? bar)();
 const baz = {...obj?.foo};
 
 const { bar } = obj?.foo || baz;
+
+function* gen() {
+    yield obj?.foo;
+    yield* obj?.foo ?? [];
+}
 
 async function foo () {
   const { bar } = await obj?.foo || baz;

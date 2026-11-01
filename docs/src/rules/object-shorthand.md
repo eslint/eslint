@@ -111,6 +111,8 @@ Additionally, the rule takes an optional object configuration:
 * `"methodsIgnorePattern"` (`string`) for methods whose names match this regex pattern, the method shorthand will not be enforced. Note that this option can only be used when the string option is set to `"always"` or `"methods"`.
 * `"avoidExplicitReturnArrows": true` indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
 
+Object methods that provide the binding for a `super` reference are ignored when `"never"` or `"avoidQuotes"` would otherwise require long-form syntax because converting them would produce invalid JavaScript.
+
 ### avoidQuotes
 
 ```json
@@ -165,6 +167,40 @@ Example of **correct** code for this rule with the `"always", { "ignoreConstruct
 
 const foo = {
     ConstructorFunction: function() {}
+};
+```
+
+:::
+
+```json
+{
+    "object-shorthand": ["error", "methods", { "ignoreConstructors": false }]
+}
+```
+
+Example of **incorrect** code for this rule with the `"methods", { "ignoreConstructors": false }` option:
+
+::: incorrect
+
+```js
+/*eslint object-shorthand: ["error", "methods", { "ignoreConstructors": false }]*/
+
+const foo = {
+	"ConstructorFunction": function() {}
+};
+```
+
+:::
+
+Example of **correct** code for this rule with the `"methods", { "ignoreConstructors": false }` option:
+
+::: correct
+
+```js
+/*eslint object-shorthand: ["error", "methods", { "ignoreConstructors": false }]*/
+
+const foo = {
+	"ConstructorFunction"() {}
 };
 ```
 

@@ -91,6 +91,24 @@ ruleTester.run("max-lines-per-function", rule, {
 			options: [{ max: 5, skipComments: true, skipBlankLines: false }],
 		},
 
+		// skipComments: true with several comments on one line
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ /* b */ // c\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
+		// skipComments: true with lines that end one comment and start another
+		{
+			code: "function name() {\nconst x = 5;\n/* a\nb */ /* c\nd */ // e\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
+		// skipComments: true with several comments per line surrounded by whitespace
+		{
+			code: "function name() {\nconst x = 5;\n\t/* a */\t/* b */\t\n  // c\n/* d */ // e\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
 		// Multiple params on separate lines test
 		{
 			code: `function foo(
@@ -446,6 +464,86 @@ if ( x === y ) {
 						name: "Function 'name'",
 						lineCount: 5,
 						maxLines: 1,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true still counts a line with code between two comments
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ const y = 6; /* b */\nconst z = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true still counts a line with code followed by two comments
+		{
+			code: "function name() {\nconst x = 5;\nconst y = 6; /* a */ // b\nconst z = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true counts the first line of a multi-line comment that follows code, but not its other lines
+		{
+			code: "function name() {\nconst x = 5; /* a\nb\nc */ /* d */\nconst y = 2;\n}",
+			options: [{ max: 3, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 4,
+						maxLines: 3,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: false counts a line with several comments
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ /* b */ // c\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: false, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
 					},
 					line: 1,
 					column: 1,

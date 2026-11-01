@@ -310,6 +310,54 @@ const patterns = [
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
 	},
+	{
+		code: "function Φ() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function 𐐀() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "Φ = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "𐐀 = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "var Φ = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "var 𐐀 = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(Φ = function() { this.x = 1; }) {}",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(𐐀 = function() { this.x = 1; }) {}",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
 
 	// On a property.
 	{
@@ -1304,6 +1352,25 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
           `,
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		`
+			obj.foo = function () {
+				class C {
+					accessor x;
+				}
+				return this;
+			};
+		`,
+		`
+			obj.foo = function () {
+				class C {
+					accessor x = function () {
+						return this;
+					};
+					accessor y = () => this;
+				}
+				return this;
+			};
+		`,
 	],
 
 	invalid: [
@@ -1839,6 +1906,36 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
+		},
+		{
+			code: `
+				class C {
+					accessor x;
+				}
+				this.a;
+			`,
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
+		},
+		{
+			code: `
+				function foo() {
+					class C {
+						accessor x = 1;
+						accessor y = function () {};
+						accessor z = () => {};
+					}
+					return this;
+				}
+			`,
 			errors: [
 				{
 					messageId: "unexpectedThis",

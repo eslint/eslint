@@ -330,6 +330,47 @@ describe("SourceCodeTraverser", () => {
 			);
 		});
 
+		it("should consume non-array steps lazily", () => {
+			const fooNode = { type: "Foo", value: 1 };
+			const barNode = { type: "Bar", value: 2 };
+			let yieldCount = 0;
+			const yieldCountAtFirstCall = [];
+
+			const sourceCode = {
+				ast: fooNode,
+				visitorKeys: vk.KEYS,
+				*traverse() {
+					for (const target of [fooNode, barNode]) {
+						yieldCount++;
+						yield {
+							kind: STEP_KIND_VISIT,
+							target,
+							phase: 1,
+						};
+						yieldCount++;
+						yield {
+							kind: STEP_KIND_VISIT,
+							target,
+							phase: 2,
+						};
+					}
+				},
+			};
+
+			visitor.callSync = sinon.spy(() => {
+				yieldCountAtFirstCall.push(yieldCount);
+			});
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assert.strictEqual(visitor.callSync.callCount, 3);
+			assert.deepStrictEqual(
+				yieldCountAtFirstCall,
+				[1, 2, 3],
+				"Steps should be pulled one at a time rather than all at once",
+			);
+		});
+
 		it("should throw error for invalid step kind", () => {
 			const dummyNode = { type: "Foo", value: 1 };
 			const sourceCode = {

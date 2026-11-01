@@ -207,6 +207,66 @@ describe("formatter:stylish", () => {
 		});
 	});
 
+	describe("when a message contains VT control characters", () => {
+		/**
+		 * Builds a result whose message contains the given text, alongside a
+		 * second row that determines the column width.
+		 * @param {string} message The message text to use.
+		 * @returns {Object[]} The lint results.
+		 */
+		function resultsWithMessage(message) {
+			return [
+				{
+					filePath: "foo.js",
+					errorCount: 2,
+					warningCount: 0,
+					fixableErrorCount: 0,
+					fixableWarningCount: 0,
+					messages: [
+						{
+							message,
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo",
+						},
+						{
+							message: "Second message",
+							severity: 2,
+							line: 6,
+							column: 11,
+							ruleId: "bar",
+						},
+					],
+				},
+			];
+		}
+
+		it("should align columns when a message contains an 8-bit CSI introducer", () => {
+			// \u009b is the 8-bit CSI introducer, which `stripVTControlCharacters()` removes.
+			const csiMessage = `\u009b31mred\u009b0m`;
+			const result = util.stripVTControlCharacters(
+				formatter(resultsWithMessage(csiMessage)),
+			);
+
+			/*
+			 * The visible width of the CSI message is "red" (3 characters), which
+			 * is shorter than "Second message", so the rule ID column must line up
+			 * across both rows.
+			 */
+			const lines = result
+				.split("\n")
+				.filter(line => /^\s+\d+:\d+\s/u.test(line));
+
+			assert.lengthOf(lines, 2);
+			assert.strictEqual(
+				lines[0].indexOf("foo"),
+				lines[1].indexOf("bar"),
+				"Rule ID columns should be aligned",
+			);
+		});
+	});
+
 	describe("when passed no messages", () => {
 		const code = [
 			{
