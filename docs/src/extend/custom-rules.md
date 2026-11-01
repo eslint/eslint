@@ -173,7 +173,7 @@ The `context` object has the following properties:
 
 - `id`: (`string`) The rule ID.
 - `filename`: (`string`) The filename associated with the source.
-- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `—stdin-filename` or `<text>` if not specified.
+- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `--stdin-filename` or `<text>` if not specified.
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
