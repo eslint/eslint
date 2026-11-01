@@ -56,6 +56,14 @@ import type {
 } from "estree";
 import type { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
+declare module "eslint" {
+	namespace AST {
+		interface TokenTypeMap {
+			AtxHeadingSequence: "AtxHeadingSequence";
+		}
+	}
+}
+
 const SOURCE = `var foo = bar;`;
 
 const AST: AST.Program = {
@@ -79,6 +87,21 @@ const TOKEN: AST.Token = {
 		end: { line: 0, column: 3 },
 	},
 	range: [0, 3],
+};
+
+const ATX_HEADING_TOKEN: AST.Token = {
+	...TOKEN,
+	type: "AtxHeadingSequence",
+	value: "#",
+};
+
+AST.tokens.push(ATX_HEADING_TOKEN);
+
+const INVALID_TOKEN: AST.Token = {
+	...TOKEN,
+	// @ts-expect-error -- unknown token types stay invalid
+	type: "NotAToken",
+	value: "?",
 };
 
 const COMMENT: Comment = {

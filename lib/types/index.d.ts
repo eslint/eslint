@@ -81,19 +81,22 @@ import type {
 //------------------------------------------------------------------------------
 
 export namespace AST {
-	type TokenType =
-		| "Boolean"
-		| "Null"
-		| "Identifier"
-		| "PrivateIdentifier"
-		| "Keyword"
-		| "Punctuator"
-		| "JSXIdentifier"
-		| "JSXText"
-		| "Numeric"
-		| "String"
-		| "Template"
-		| "RegularExpression";
+	interface TokenTypeMap {
+		Boolean: "Boolean";
+		Null: "Null";
+		Identifier: "Identifier";
+		PrivateIdentifier: "PrivateIdentifier";
+		Keyword: "Keyword";
+		Punctuator: "Punctuator";
+		JSXIdentifier: "JSXIdentifier";
+		JSXText: "JSXText";
+		Numeric: "Numeric";
+		String: "String";
+		Template: "Template";
+		RegularExpression: "RegularExpression";
+	}
+
+	type TokenType = TokenTypeMap[keyof TokenTypeMap];
 
 	interface Token {
 		type: TokenType;
