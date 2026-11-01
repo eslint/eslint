@@ -1470,6 +1470,10 @@ export class RuleTester {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
 			/**
+			 * Test cases for schema validation failures and exceptions thrown by the rule.
+			 */
+			fatal?: RuleTester.FatalTestCase[];
+			/**
 			 * Additional assertions for the "error" matchers of invalid test cases to enforce consistency.
 			 */
 			assertionOptions?: {
@@ -1533,6 +1537,16 @@ export namespace RuleTester {
 	interface InvalidTestCase extends ValidTestCase {
 		errors: number | Array<TestCaseError | string | RegExp>;
 		output?: string | null | undefined;
+	}
+
+	interface FatalTestCaseError {
+		message?: string | RegExp;
+		name?: string;
+	}
+
+	interface FatalTestCase extends Omit<ValidTestCase, "code"> {
+		code?: string;
+		error: FatalTestCaseError;
 	}
 
 	interface TestCaseError {

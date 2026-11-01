@@ -2141,6 +2141,40 @@ RuleTester.setDefaultConfig(null);
 RuleTester.getDefaultConfig() satisfies Linter.Config;
 RuleTester.resetDefaultConfig();
 
+ruleTester.run("fatal-test", rule, {
+	valid: [],
+	invalid: [],
+	fatal: [
+		{
+			options: ["disallowed"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			code: "foo",
+			options: ["throw"],
+			error: { message: "Intentional throw for testing" },
+		},
+		{
+			error: { message: /should be/ },
+			filename: "test.js",
+			only: true,
+			before() {},
+			after() {},
+		},
+		// @ts-expect-error // `error` is required
+		{ code: "foo" },
+		// @ts-expect-error // `error.message` must be a string or RegExp
+		{ error: { message: 42 } },
+		// @ts-expect-error // `error.name` must be a string
+		{ error: { name: null } },
+		{
+			// @ts-expect-error // `options` must be an array
+			options: { allowFoo: true },
+			error: { name: "SchemaValidationError" },
+		},
+	],
+});
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
