@@ -154,5 +154,29 @@ ruleTester.run("default-case", rule, {
 				},
 			],
 		},
+		{
+			code: "switch (foo()) { case 1: break; }",
+			errors: [
+				{
+					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "switch ((a)) { case 1: break; }",
+			errors: [
+				{
+					messageId: "missingDefaultCase",
+					line: 1,
+					endLine: 1,
+					column: 1,
+					endColumn: 13,
+				},
+			],
+		},
 	],
 });
