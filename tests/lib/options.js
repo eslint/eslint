@@ -27,6 +27,13 @@ const options = createOptions();
  */
 
 describe("options", () => {
+	describe("--precommit", () => {
+		it("enables staged snapshot linting only when requested", () => {
+			assert.isFalse(options.parse("").precommit);
+			assert.isTrue(options.parse("--precommit").precommit);
+		});
+	});
+
 	describe("--help", () => {
 		it("should return true for .help when passed", () => {
 			const currentOptions = options.parse("--help");

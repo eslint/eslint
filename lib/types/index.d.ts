@@ -1224,6 +1224,9 @@ export namespace ESLint {
 		/** If `false` then `ESLint#lintFiles()` doesn't throw even if no target files found. Defaults to `true`. */
 		errorOnUnmatchedPattern?: boolean | undefined;
 
+		/** File selector and content provider: filesystem (default), or staged Git index inputs. */
+		fileSource?: "filesystem" | "git" | undefined;
+
 		/**
 		 * Set to false to skip glob resolution of input file paths to lint (default: true).
 		 * If false, each input file path is assumed to be a non-glob path to an existing file.

@@ -25,6 +25,18 @@ const proxyquire = require("proxyquire").noCallThru();
 //------------------------------------------------------------------------------
 
 describe("cli", () => {
+	describe("isPrecommit()", () => {
+		const cli = require("../../lib/cli");
+
+		it("respects boolean values and negation before routing stdin and delegated commands", () => {
+			assert.isFalse(cli.isPrecommit(""));
+			assert.isTrue(cli.isPrecommit("--precommit"));
+			assert.isTrue(cli.isPrecommit("--precommit=true"));
+			assert.isFalse(cli.isPrecommit("--precommit=false"));
+			assert.isFalse(cli.isPrecommit("--precommit --no-precommit"));
+		});
+	});
+
 	describe("calculateInspectConfigFlags()", () => {
 		const cli = require("../../lib/cli");
 

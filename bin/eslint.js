@@ -165,8 +165,13 @@ ${getErrorMessage(error)}`;
 	process.on("uncaughtException", onFatalError);
 	process.on("unhandledRejection", onFatalError);
 
+	const cli = require("../lib/cli");
+	const precommit =
+		process.argv.some(arg => /^--(?:no-)?precommit(?:=|$)/u.test(arg)) &&
+		cli.isPrecommit(process.argv);
+
 	// Call the config initializer if `--init` is present.
-	if (process.argv.includes("--init")) {
+	if (process.argv.includes("--init") && !precommit) {
 		// `eslint --init` has been moved to `@eslint/create-config`
 		console.warn(
 			"You can also run this command directly using 'npm init @eslint/config@latest'.",
@@ -177,7 +182,7 @@ ${getErrorMessage(error)}`;
 	}
 
 	// start the MCP server if `--mcp` is present
-	if (process.argv.includes("--mcp")) {
+	if (process.argv.includes("--mcp") && !precommit) {
 		console.warn(
 			"You can also run this command directly using 'npx @eslint/mcp@latest'.",
 		);
@@ -187,10 +192,11 @@ ${getErrorMessage(error)}`;
 	}
 
 	// Otherwise, call the CLI.
-	const cli = require("../lib/cli");
 	const exitCode = await cli.execute(
 		process.argv,
-		process.argv.includes("--stdin") ? await readStdin() : void 0,
+		process.argv.includes("--stdin") && !precommit
+			? await readStdin()
+			: void 0,
 	);
 
 	/*

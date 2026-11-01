@@ -204,6 +204,286 @@ describe("bin/eslint.js", () => {
 		});
 	}
 
+	describe("--precommit", () => {
+		let repository;
+
+		/**
+		 * Runs Git in the fixture repository.
+		 * @param {...string} args Git arguments.
+		 * @returns {Buffer} Git output.
+		 */
+		function git(...args) {
+			return childProcess.execFileSync(
+				"git",
+				[
+					"-c",
+					"core.autocrlf=false",
+					"-c",
+					"commit.gpgsign=false",
+					"-c",
+					"user.name=ESLint Tests",
+					"-c",
+					"user.email=eslint@example.com",
+					...args,
+				],
+				{ cwd: repository },
+			);
+		}
+
+		/**
+		 * Writes a fixture and optionally stages it.
+		 * @param {string} filename Repository-relative path.
+		 * @param {string} source File contents.
+		 * @param {boolean} [stage] Whether to stage it.
+		 * @returns {void}
+		 */
+		function write(filename, source, stage = true) {
+			const destination = path.join(repository, filename);
+
+			fs.mkdirSync(path.dirname(destination), { recursive: true });
+			fs.writeFileSync(destination, source);
+			if (stage) {
+				git("add", "--", filename);
+			}
+		}
+
+		/**
+		 * Runs staged linting and captures output and status.
+		 * @param {string[]} [args] Additional arguments.
+		 * @param {string} [cwd] Working directory.
+		 * @returns {Promise<{exitCode: number|null, stdout: string, stderr: string}>} The run.
+		 */
+		async function lint(args = [], cwd = repository) {
+			const child = runESLint(
+				[
+					"--precommit",
+					"--format",
+					"json",
+					"--no-warn-ignored",
+					...args,
+				],
+				{ cwd },
+			);
+			const [result, output] = await Promise.all([
+				awaitExitResult(child),
+				getOutput(child),
+			]);
+
+			assert.isNull(result.signal);
+			return { exitCode: result.exitCode, ...output };
+		}
+
+		beforeEach(() => {
+			repository = fs.realpathSync(
+				fs.mkdtempSync(
+					path.join(os.tmpdir(), "eslint-precommit-test-"),
+				),
+			);
+			tempDirectories.add(repository);
+			git("init", "--quiet");
+			write(
+				"eslint.config.js",
+				`
+				module.exports = [{
+					languageOptions: { sourceType: "commonjs" },
+					rules: { "no-undef": "error" }
+				}];
+			`,
+			);
+		});
+
+		["off", "2"].forEach(concurrency => {
+			it(`checks staged bytes without changing working files, index, or cache (concurrency ${concurrency})`, async () => {
+				write("sample.js", "missing();\r\n");
+				write("other.js", "otherMissing();\n");
+				write("sample.js", "0;\n", false);
+				write(".eslintcache", "existing cache", false);
+				const index = fs.readFileSync(
+					path.join(repository, ".git/index"),
+				);
+				const result = await lint(["--concurrency", concurrency]);
+
+				assert.strictEqual(result.exitCode, 1, result.stderr);
+				const finding = JSON.parse(result.stdout).find(
+					item =>
+						item.filePath === path.join(repository, "sample.js"),
+				);
+
+				assert.strictEqual(finding.source, "missing();\r\n");
+				assert.strictEqual(finding.messages[0].ruleId, "no-undef");
+				assert.strictEqual(
+					fs.readFileSync(path.join(repository, "sample.js"), "utf8"),
+					"0;\n",
+				);
+				assert.strictEqual(
+					fs.readFileSync(
+						path.join(repository, ".eslintcache"),
+						"utf8",
+					),
+					"existing cache",
+				);
+				assert.deepStrictEqual(
+					fs.readFileSync(path.join(repository, ".git/index")),
+					index,
+				);
+			});
+		});
+
+		it("keeps configuration imports and direct plugin filesystem reads on the working tree", async () => {
+			write("policy.cjs", 'module.exports = "staged policy";');
+			write("policy.txt", "staged read");
+			write(
+				"eslint.config.js",
+				`
+				const policy = require("./policy.cjs");
+				const fs = require("node:fs");
+				const path = require("node:path");
+				module.exports = [{
+					files: ["sample.js"],
+					plugins: { local: { rules: { policy: {
+						meta: { schema: [] },
+						create(context) {
+							return { Program(node) {
+								context.report({ node, message: policy + "; " +
+									fs.readFileSync(path.join(__dirname, "policy.txt"), "utf8") });
+							} };
+						}
+					} } } },
+					rules: { "local/policy": "error" }
+				}];
+			`,
+			);
+			write("sample.js", "0;\n");
+			write("policy.cjs", 'module.exports = "working policy";', false);
+			write("policy.txt", "working read", false);
+
+			const result = await lint(["sample.js"]);
+
+			assert.strictEqual(result.exitCode, 1, result.stderr);
+			assert.strictEqual(
+				JSON.parse(result.stdout)[0].messages[0].message,
+				"working policy; working read",
+			);
+		});
+
+		it("filters staged paths from a subdirectory without requiring working files to exist", async () => {
+			write("nested/sample.js", "missing();\n");
+			write("nested/other.js", "otherMissing();\n");
+			write("outside.js", "outsideMissing();\n");
+			fs.unlinkSync(path.join(repository, "nested/sample.js"));
+
+			const result = await lint(
+				["sample*.js"],
+				path.join(repository, "nested"),
+			);
+
+			assert.strictEqual(result.exitCode, 1, result.stderr);
+			assert.deepStrictEqual(
+				JSON.parse(result.stdout).map(item => item.filePath),
+				[path.join(repository, "nested/sample.js")],
+			);
+		});
+
+		it("ignores deleted, untracked, and intent-to-add files and checks renamed destinations", async () => {
+			write("old.js", "0;\n");
+			write("deleted.js", "missing();\n");
+			git("commit", "--quiet", "-m", "baseline");
+			git("mv", "old.js", "renamed.js");
+			write("renamed.js", "missing();\n");
+			git("rm", "--quiet", "deleted.js");
+			write("untracked.js", "missing();\n", false);
+			write("intent.js", "missing();\n", false);
+			git("add", "--intent-to-add", "--", "intent.js");
+
+			const result = await lint();
+
+			assert.strictEqual(result.exitCode, 1, result.stderr);
+			assert.deepStrictEqual(
+				JSON.parse(result.stdout).map(item => item.filePath),
+				[path.join(repository, "renamed.js")],
+			);
+		});
+
+		it("succeeds without linting the working tree when no files are staged", async () => {
+			git("commit", "--quiet", "-m", "baseline");
+			write("untracked.js", "missing();\n", false);
+
+			const result = await lint();
+
+			assert.strictEqual(result.exitCode, 0, result.stderr);
+			assert.deepStrictEqual(JSON.parse(result.stdout), []);
+		});
+
+		it("respects configured ignores and warning thresholds", async () => {
+			write("sample.js", "missing();\n");
+			write(
+				"eslint.config.js",
+				`
+				module.exports = [{ ignores: ["sample.js"] }, {
+					languageOptions: { sourceType: "commonjs" },
+					rules: { "no-undef": "warn" }
+				}];
+			`,
+			);
+			write("warning.js", "warningMissing();\n");
+
+			const result = await lint(["--max-warnings", "0"]);
+
+			assert.strictEqual(result.exitCode, 1, result.stderr);
+			assert.isFalse(
+				JSON.parse(result.stdout).some(item =>
+					item.filePath.endsWith("sample.js"),
+				),
+			);
+			assert.include(result.stderr, "too many warnings");
+		});
+
+		it("fails explicitly outside Git and for unmerged index entries", async () => {
+			write("sample.js", "0;\n");
+			const oid = git("rev-parse", ":sample.js").toString().trim();
+
+			git("update-index", "--force-remove", "sample.js");
+			childProcess.execFileSync("git", ["update-index", "--index-info"], {
+				cwd: repository,
+				input: `100644 ${oid} 1\tsample.js\n100644 ${oid} 2\tsample.js\n100644 ${oid} 3\tsample.js\n`,
+			});
+			const unmerged = await lint();
+
+			assert.strictEqual(unmerged.exitCode, 2);
+			assert.include(unmerged.stderr, "unmerged Git index");
+			fs.rmSync(path.join(repository, ".git"), {
+				recursive: true,
+				force: true,
+			});
+			const outside = await lint();
+
+			assert.strictEqual(outside.exitCode, 2);
+			assert.include(outside.stderr, "not a git repository");
+		});
+
+		[
+			"--fix",
+			"--fix-dry-run",
+			"--cache",
+			"--suppress-all",
+			"--prune-suppressions",
+			"--stdin",
+			"--inspect-config",
+			"--init",
+			"--mcp",
+		].forEach(flag => {
+			it(`rejects ${flag}`, async () => {
+				const result = await lint([flag]);
+
+				assert.strictEqual(result.exitCode, 2);
+				assert.include(
+					result.stderr,
+					`${flag} option cannot be used with --precommit`,
+				);
+			});
+		});
+	});
+
 	describe("reading from stdin", () => {
 		it("has exit code 0 if no linting errors are reported", () => {
 			const child = runESLint(["--stdin", "--no-config-lookup"]);

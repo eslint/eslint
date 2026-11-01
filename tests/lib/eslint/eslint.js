@@ -218,6 +218,21 @@ describe("ESLint", () => {
 			}
 		});
 
+		it("rejects invalid or writable Git index source options", () => {
+			assert.throws(
+				() => new ESLint({ fileSource: "unknown" }),
+				/'fileSource' must be 'filesystem' or 'git'/u,
+			);
+			assert.throws(
+				() => new ESLint({ fileSource: "git", fix: true }),
+				/Git index inputs cannot be used with fix/u,
+			);
+			assert.throws(
+				() => new ESLint({ fileSource: "git", cache: true }),
+				/Git index inputs cannot be used with filesystem caching/u,
+			);
+		});
+
 		it("should normalize 'options.cwd'.", async () => {
 			const cwd = getFixturePath("example-app3");
 			const engine = new ESLint({

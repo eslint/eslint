@@ -125,6 +125,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
   Default is `process.cwd()`. The working directory. This must be an absolute path.
 - `options.errorOnUnmatchedPattern` (`boolean`)<br>
   Default is `true`. Unless set to `false`, the [`eslint.lintFiles()`][eslint-lintfiles] method will throw an error when no target files are found.
+- `options.fileSource` (`"filesystem" | "git"`)<br>
+  Default is `"filesystem"`, combining normal filesystem selection with a filesystem content provider. `"git"` combines a staged-file selector with a Git blob provider. Patterns passed to [`eslint.lintFiles()`][eslint-lintfiles] filter staged targets; no matching staged targets returns an empty result regardless of `errorOnUnmatchedPattern`. Configuration and plugin filesystem reads remain on the working tree. Git index inputs cannot be combined with `fix`, `fixTypes`, or filesystem caching. The source does not affect [`eslint.lintText()`][eslint-linttext], which uses the supplied text.
 - `options.globInputPaths` (`boolean`)<br>
   Default is `true`. If `false` is present, the [`eslint.lintFiles()`][eslint-lintfiles] method doesn't interpret glob patterns.
 - `options.ignore` (`boolean`)<br>

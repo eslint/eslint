@@ -1637,6 +1637,10 @@ linterWithEslintrcConfig.verify(
 
 	eslint = new ESLint({ cwd: "foo" });
 	eslint = new ESLint({ errorOnUnmatchedPattern: true });
+	eslint = new ESLint({ fileSource: "filesystem" });
+	eslint = new ESLint({ fileSource: "git" });
+	// @ts-expect-error
+	eslint = new ESLint({ fileSource: "unknown" });
 	eslint = new ESLint({ fix: true });
 	eslint = new ESLint({ fix: message => false });
 	eslint = new ESLint({ fixTypes: ["directive", "problem"] });

@@ -89,6 +89,7 @@ Basic configuration:
   --no-config-lookup               Disable look up for eslint.config.*
   -c, --config path::String        Use this configuration instead of eslint.config.* look up
   --inspect-config                 Open the config inspector with the current configuration
+  --precommit                      Lint staged source files from the Git index - default: false
   --ext [String]                   Specify additional file extensions to lint
   --global [String]                Define global variables
   --parser String                  Specify the parser to be used
@@ -157,6 +158,31 @@ Miscellaneous:
 ```
 
 ### Basic Configuration
+
+#### `--precommit`
+
+Lints staged added, modified, and renamed regular files using their Git index contents instead of their working-tree contents. File, directory, and quoted glob arguments filter the staged targets relative to the current working directory. Deleted files, untracked files, intent-to-add entries, symlinks, and submodules are not source lint targets. No matching staged targets is a successful empty run.
+
+- **Argument Type**: No argument.
+- **Default Value**: `false`
+
+ESLint selects paths through a Git selector and reads captured blob IDs through a content provider.
+
+Configuration, configuration imports, plugins, installed dependencies, suppressions, and direct plugin filesystem reads still use the working tree. The file source combines ESLint's selector and content provider; it does not intercept Node imports or arbitrary filesystem access. Normal configuration and ignore rules determine which staged files can be linted. Use `--no-warn-ignored` to suppress warnings for ignored or unsupported staged files.
+
+This mode requires Git and a working-tree repository. An unmerged index or a changed path that cannot be decoded as UTF-8 is an error. `--precommit` cannot be combined with `--fix`, `--fix-dry-run`, `--fix-type`, `--stdin`, `--stdin-filename`, `--cache`, suppression-writing options, `--print-config`, `--inspect-config`, `--init`, or `--mcp`. An explicitly requested `--output-file` report is still written normally.
+
+##### `--precommit` examples
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--precommit", "--no-warn-ignored"]
+}) }}
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--precommit", "--no-warn-ignored", "\"src/**/*.js\""]
+}) }}
 
 #### `--no-config-lookup`
 
