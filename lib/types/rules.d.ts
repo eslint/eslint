@@ -635,7 +635,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.6.0
 	 * @see https://eslint.org/docs/latest/rules/default-case
 	 */
-    
 	"default-case": Linter.RuleEntry<
 		[
 			Partial<{
