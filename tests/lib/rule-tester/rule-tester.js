@@ -964,6 +964,16 @@ describe("RuleTester", () => {
 			}, /Fatal test case property 'code', if specified, must be a string/u);
 		});
 
+		it("should throw when a fatal test case is not an object", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: ["var foo;"],
+				});
+			}, /Fatal test case must have an 'error' object/u);
+		});
+
 		it("should throw when fatal test case is missing error object", () => {
 			nodeAssert.throws(() => {
 				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
