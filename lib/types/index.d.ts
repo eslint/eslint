@@ -1470,6 +1470,10 @@ export class RuleTester {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
 			/**
+			 * Test cases for schema validation failures and exceptions thrown by the rule.
+			 */
+			fatal?: RuleTester.FatalTestCase[];
+			/**
 			 * Additional assertions for the "error" matchers of invalid test cases to enforce consistency.
 			 */
 			assertionOptions?: {
@@ -1498,9 +1502,20 @@ export class RuleTester {
 		},
 	): void;
 
+	static only(item: string): RuleTester.ValidTestCase;
+	static only(item: RuleTester.InvalidTestCase): RuleTester.InvalidTestCase;
+	static only(item: RuleTester.FatalTestCase): RuleTester.FatalTestCase;
+	static only(item: RuleTester.ValidTestCase): RuleTester.ValidTestCase;
 	static only(
-		item: string | RuleTester.ValidTestCase | RuleTester.InvalidTestCase,
-	): RuleTester.ValidTestCase | RuleTester.InvalidTestCase;
+		item:
+			| string
+			| RuleTester.ValidTestCase
+			| RuleTester.InvalidTestCase
+			| RuleTester.FatalTestCase,
+	):
+		| RuleTester.ValidTestCase
+		| RuleTester.InvalidTestCase
+		| RuleTester.FatalTestCase;
 }
 
 export namespace RuleTester {
@@ -1533,6 +1548,21 @@ export namespace RuleTester {
 	interface InvalidTestCase extends ValidTestCase {
 		errors: number | Array<TestCaseError | string | RegExp>;
 		output?: string | null | undefined;
+	}
+
+	type FatalTestCaseError =
+		| {
+				message: string | RegExp;
+				name?: string;
+		  }
+		| {
+				message?: string | RegExp;
+				name: string;
+		  };
+
+	interface FatalTestCase extends Omit<ValidTestCase, "code"> {
+		code?: string;
+		error: FatalTestCaseError;
 	}
 
 	interface TestCaseError {
