@@ -438,6 +438,87 @@ describe("bin/eslint.js", () => {
 			assert.include(result.stderr, "too many warnings");
 		});
 
+		it("omits unconfigured and ignored files without warning under strict --max-warnings 0", async () => {
+			write("sample.js", "var a = 1;\n");
+			write("logo.png", "image data");
+			write("README.md", "# Readme");
+			write("ignored.js", "missing();\n");
+			write(
+				"eslint.config.js",
+				`
+				module.exports = [{ ignores: ["ignored.js"] }, {
+					languageOptions: { sourceType: "commonjs" },
+					rules: {}
+				}];
+			`,
+			);
+
+			const child = runESLint(
+				["--precommit", "--format", "json", "--max-warnings", "0"],
+				{ cwd: repository },
+			);
+			const [result, output] = await Promise.all([
+				awaitExitResult(child),
+				getOutput(child),
+			]);
+
+			assert.strictEqual(result.exitCode, 0, output.stderr);
+			const files = JSON.parse(output.stdout);
+
+			assert.isFalse(files.some(f => f.filePath.endsWith("logo.png")));
+			assert.isFalse(files.some(f => f.filePath.endsWith("README.md")));
+			assert.isFalse(files.some(f => f.filePath.endsWith("ignored.js")));
+			assert.isTrue(files.some(f => f.filePath.endsWith("sample.js")));
+			assert.strictEqual(
+				files.reduce((acc, f) => acc + f.warningCount, 0),
+				0,
+			);
+		});
+
+		it("warns and respects --max-warnings when an unconfigured file is explicitly specified", async () => {
+			write("sample.js", "var a = 1;\n");
+			write("logo.png", "image data");
+			write(
+				"eslint.config.js",
+				`
+				module.exports = [{
+					languageOptions: { sourceType: "commonjs" },
+					rules: {}
+				}];
+			`,
+			);
+
+			const child = runESLint(
+				[
+					"--precommit",
+					"--format",
+					"json",
+					"--max-warnings",
+					"0",
+					"logo.png",
+				],
+				{ cwd: repository },
+			);
+			const [result, output] = await Promise.all([
+				awaitExitResult(child),
+				getOutput(child),
+			]);
+
+			assert.strictEqual(result.exitCode, 1);
+			assert.include(output.stderr, "too many warnings");
+			const files = JSON.parse(output.stdout);
+
+			assert.strictEqual(files.length, 1);
+			assert.strictEqual(
+				files[0].filePath,
+				path.join(repository, "logo.png"),
+			);
+			assert.include(
+				files[0].messages[0].message,
+				"File ignored because no matching configuration was supplied.",
+			);
+		});
+
 		it("fails explicitly outside Git and for unmerged index entries", async () => {
 			write("sample.js", "0;\n");
 			const oid = git("rev-parse", ":sample.js").toString().trim();
