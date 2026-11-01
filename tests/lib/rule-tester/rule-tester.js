@@ -902,6 +902,61 @@ describe("RuleTester", () => {
 			});
 		});
 
+		it("should use the error class name when name is the default Error", () => {
+			/**
+			 *
+			 */
+			class CustomClassError extends Error {}
+
+			ruleTester.run(
+				"throws-custom-class",
+				{
+					meta: { schema: [] },
+					create() {
+						throw new CustomClassError("class name for testing");
+					},
+				},
+				{
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							error: { name: "CustomClassError" },
+						},
+					],
+				},
+			);
+		});
+
+		it("should use Error when the constructor name is missing", () => {
+			ruleTester.run(
+				"throws-error-without-constructor-name",
+				{
+					meta: { schema: [] },
+					create() {
+						const error = new Error("missing constructor name");
+
+						Object.defineProperty(error, "constructor", {
+							value: void 0,
+						});
+						throw error;
+					},
+				},
+				{
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							error: {
+								message: "missing constructor name",
+								name: "Error",
+							},
+						},
+					],
+				},
+			);
+		});
+
 		it("should pass when fatal case omits code (uses empty string)", () => {
 			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
 				valid: [{ code: "x", options: ["foo"] }],
