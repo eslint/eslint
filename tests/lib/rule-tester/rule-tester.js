@@ -960,6 +960,36 @@ describe("RuleTester", () => {
 			}, /Fatal test case 'error' must specify at least one of 'message' or 'name'/u);
 		});
 
+		it("should throw when fatal test case error.message is not a string or RegExp", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { message: 42 },
+						},
+					],
+				});
+			}, /Fatal test case 'error\.message' must be a string or RegExp/u);
+		});
+
+		it("should throw when fatal test case error.name is not a string", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { name: null },
+						},
+					],
+				});
+			}, /Fatal test case 'error\.name' must be a string/u);
+		});
+
 		it("should throw when fatal test case error has an unknown property", () => {
 			nodeAssert.throws(() => {
 				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
