@@ -915,6 +915,24 @@ describe("RuleTester", () => {
 			});
 		});
 
+		it("should throw when fatal is not an array", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: "foo",
+				});
+			}, /'fatal' property must be an array/u);
+
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: 1,
+				});
+			}, /'fatal' property must be an array/u);
+		});
+
 		it("should throw when fatal test case 'code' is not a string", () => {
 			nodeAssert.throws(() => {
 				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
