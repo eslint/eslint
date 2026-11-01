@@ -957,6 +957,51 @@ describe("RuleTester", () => {
 			);
 		});
 
+		it("should throw when the fatal error message does not match", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { message: "not the real message" },
+						},
+					],
+				});
+			}, /not the real message/u);
+		});
+
+		it("should throw when the fatal error message does not match a pattern", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { message: /this will not match/u },
+						},
+					],
+				});
+			}, /Expected 'Intentional throw for testing' to match \/this will not match\/u/u);
+		});
+
+		it("should throw when the fatal error name does not match", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { name: "WrongName" },
+						},
+					],
+				});
+			}, /Expected error name to be 'WrongName' but got 'CustomRuleError'/u);
+		});
+
 		it("should pass when fatal case omits code (uses empty string)", () => {
 			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
 				valid: [{ code: "x", options: ["foo"] }],
