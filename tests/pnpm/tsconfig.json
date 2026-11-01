@@ -3,7 +3,15 @@
     "checkJs": true,
     "declaration": true,
     "module": "nodenext",
-    "noEmit": true
+    "noEmit": true,
+    "types": []
   },
-  "files": ["test-eslint.config.js"]
+  "files": [
+    "test-eslint.config.js",
+    "test-scope-manager.js",
+    "test-declaration-portability.js",
+    "test/one.ts",
+    "test/two.ts",
+    "test/rules/test.ts"
+  ]
 }

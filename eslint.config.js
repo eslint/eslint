@@ -97,6 +97,7 @@ module.exports = defineConfig([
 			"tests/bench/**",
 			"tests/fixtures/**",
 			"tests/performance/**",
+			"tests/pnpm/**/*.ts",
 		],
 		"eslint/global-ignores",
 	),
