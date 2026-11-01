@@ -1033,6 +1033,21 @@ describe("RuleTester", () => {
 			}, /'fatal' property must be an array/u);
 		});
 
+		it("should not fail while naming an unnamed fatal case with a BigInt option", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: [1n],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /ESLint configuration in rule-tester is invalid: Do not know how to serialize a BigInt/u);
+		});
+
 		it("should throw when fatal test case 'options' is not an array", () => {
 			nodeAssert.throws(() => {
 				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
