@@ -2197,6 +2197,18 @@ ruleTester.run("only-fatal-test", rule, {
 	],
 });
 
+function acceptOnlyUnion(
+	item:
+		| string
+		| RuleTester.ValidTestCase
+		| RuleTester.InvalidTestCase
+		| RuleTester.FatalTestCase,
+) {
+	RuleTester.only(item);
+}
+
+acceptOnlyUnion("foo");
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
