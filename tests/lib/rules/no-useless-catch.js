@@ -842,5 +842,679 @@ ruleTester.run("no-useless-catch", rule, {
 				},
 			],
 		},
+
+		// Extra statements after the rethrow are not removed
+		{
+			code: `
+                try {
+                    foo();
+                } catch (e) {
+                    throw e;
+                    bar();
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } catch (e) {
+                    throw e;
+                    bar();
+                } finally {
+                    baz();
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+				},
+			],
+		},
+
+		// Comments outside the catch clause that the fix would delete
+		{
+			code: `
+                try /* keep */ {
+                    foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } /* keep */ catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    /* keep */
+                    foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                
+                    /* keep */
+                    foo();
+                
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try /* keep */ {
+                    foo();
+                } catch (e) {
+                    throw e;
+                } finally {
+                    bar();
+                }
+            `,
+			output: `
+                try /* keep */ {
+                    foo();
+                }  finally {
+                    bar();
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } /* keep */ catch (e) {
+                    throw e;
+                } finally {
+                    bar();
+                }
+            `,
+			output: `
+                try {
+                    foo();
+                } /* keep */  finally {
+                    bar();
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+				},
+			],
+		},
+
+		// `switch` stores statements on `consequent`, not `body`
+		{
+			code: `
+                switch (x) {
+                    case 1:
+                        try {
+                            foo();
+                        } catch (e) {
+                            throw e;
+                        }
+                    default:
+                        try {
+                            bar();
+                        } catch (e) {
+                            throw e;
+                        }
+                }
+            `,
+			output: `
+                switch (x) {
+                    case 1:
+                        
+                            foo();
+                        
+                    default:
+                        
+                            bar();
+                        
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Keep the block when unwrapping would join two statements
+		{
+			code: `
+                foo()
+                try {
+                    (0, bar)()
+                } catch (e) {
+                    throw e
+                }
+            `,
+			output: `
+                foo()
+                {
+                    (0, bar)()
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo()
+                try {
+                    \`bar\`
+                } catch (e) {
+                    throw e
+                }
+            `,
+			output: `
+                foo()
+                {
+                    \`bar\`
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo()
+                try {
+                    +bar
+                } catch (e) {
+                    throw e
+                }
+            `,
+			output: `
+                foo()
+                {
+                    +bar
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo()
+                try {
+                    -bar
+                } catch (e) {
+                    throw e
+                }
+            `,
+			output: `
+                foo()
+                {
+                    -bar
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo()
+                try {
+                    /bar/g
+                } catch (e) {
+                    throw e
+                }
+            `,
+			output: `
+                foo()
+                {
+                    /bar/g
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo()
+                } catch (e) {
+                    throw e
+                }
+                (0, bar)()
+            `,
+			output: `
+                {
+                    foo()
+                }
+                (0, bar)()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo()
+                } catch (e) {
+                    throw e
+                }
+                \`bar\`
+            `,
+			output: `
+                {
+                    foo()
+                }
+                \`bar\`
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo()
+                } catch (e) {
+                    throw e
+                }
+                +bar
+            `,
+			output: `
+                {
+                    foo()
+                }
+                +bar
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo()
+                } catch (e) {
+                    throw e
+                }
+                -bar
+            `,
+			output: `
+                {
+                    foo()
+                }
+                -bar
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo()
+                } catch (e) {
+                    throw e
+                }
+                /bar/g
+            `,
+			output: `
+                {
+                    foo()
+                }
+                /bar/g
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// `using` disposes at the end of the block, so the braces stay
+		{
+			code: `
+                function f() {
+                    try {
+                        using x = getResource();
+                        doSomething(x);
+                    } catch (e) {
+                        throw e;
+                    }
+                    doSomethingElse();
+                }
+            `,
+			output: `
+                function f() {
+                    {
+                        using x = getResource();
+                        doSomething(x);
+                    }
+                    doSomethingElse();
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                async function f() {
+                    try {
+                        await using x = getResource();
+                        doSomething(x);
+                    } catch (e) {
+                        throw e;
+                    }
+                    doSomethingElse();
+                }
+            `,
+			output: `
+                async function f() {
+                    {
+                        await using x = getResource();
+                        doSomething(x);
+                    }
+                    doSomethingElse();
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    using x = getResource();
+                    doSomething(x);
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                {
+                    using x = getResource();
+                    doSomething(x);
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026, sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                switch (x) {
+                    case 1:
+                        try {
+                            using y = getResource();
+                            doSomething(y);
+                        } catch (e) {
+                            throw e;
+                        }
+                    default:
+                        try {
+                            using z = getResource();
+                            doSomething(z);
+                        } catch (e) {
+                            throw e;
+                        }
+                }
+            `,
+			output: `
+                switch (x) {
+                    case 1:
+                        {
+                            using y = getResource();
+                            doSomething(y);
+                        }
+                    default:
+                        {
+                            using z = getResource();
+                            doSomething(z);
+                        }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    try {
+                        {
+                            using x = getResource();
+                            doSomething(x);
+                        }
+                    } catch (e) {
+                        throw e;
+                    }
+                    doSomethingElse();
+                }
+            `,
+			output: `
+                function f() {
+                    
+                        {
+                            using x = getResource();
+                            doSomething(x);
+                        }
+                    
+                    doSomethingElse();
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Unwrapping a leading string can turn it into a directive
+		{
+			code: `
+                function f() {
+                    try {
+                        "use strict";
+                        with (obj) {}
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                function f() {
+                    {
+                        "use strict";
+                        with (obj) {}
+                    }
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    try {
+                        "use strict";
+                        return this;
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                function f() {
+                    {
+                        "use strict";
+                        return this;
+                    }
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    "use strict";
+                    with (obj) {}
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                {
+                    "use strict";
+                    with (obj) {}
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    foo();
+                    try {
+                        "use strict";
+                        return this;
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                function f() {
+                    foo();
+                    
+                        "use strict";
+                        return this;
+                    
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    "use asm";
+                    try {
+                        "use strict";
+                        return this;
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                function f() {
+                    "use asm";
+                    {
+                        "use strict";
+                        return this;
+                    }
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
 	],
 });
