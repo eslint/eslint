@@ -1539,10 +1539,15 @@ export namespace RuleTester {
 		output?: string | null | undefined;
 	}
 
-	interface FatalTestCaseError {
-		message?: string | RegExp;
-		name?: string;
-	}
+	type FatalTestCaseError =
+		| {
+				message: string | RegExp;
+				name?: string;
+		  }
+		| {
+				message?: string | RegExp;
+				name: string;
+		  };
 
 	interface FatalTestCase extends Omit<ValidTestCase, "code"> {
 		code?: string;

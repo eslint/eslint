@@ -2161,8 +2161,16 @@ ruleTester.run("fatal-test", rule, {
 			before() {},
 			after() {},
 		},
+		{
+			error: {
+				message: "Intentional throw for testing",
+				name: "CustomRuleError",
+			},
+		},
 		// @ts-expect-error // `error` is required
 		{ code: "foo" },
+		// @ts-expect-error // `error` must specify `message` or `name`
+		{ error: {} },
 		// @ts-expect-error // `error.message` must be a string or RegExp
 		{ error: { message: 42 } },
 		// @ts-expect-error // `error.name` must be a string
