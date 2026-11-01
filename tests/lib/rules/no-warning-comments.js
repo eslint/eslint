@@ -61,6 +61,14 @@ ruleTester.run("no-warning-comments", rule, {
 		{ code: "// foo", options: [{ terms: ["foo-bar"] }] },
 		"/** multi-line block comment with lines starting with\nTODO\nFIXME or\nXXX\n*/",
 		{ code: "//!TODO ", options: [{ decoration: ["*"] }] },
+
+		// Shebang
+		"#!todo\u2028var a = 1;",
+		"#!\u2028var a = 1;",
+		"#!todo\u2029var a = 1;",
+		"#!\u2029var a = 1;",
+		"#!todo",
+		"#!",
 	],
 	invalid: [
 		{
@@ -630,6 +638,22 @@ ruleTester.run("no-warning-comments", rule, {
 						matchedTerm: "*todo",
 						comment: "**TODO term starts with a decoration...",
 					},
+				},
+			],
+		},
+		{
+			code: "#!todo\u2028// todo",
+			errors: [
+				{
+					messageId: "unexpectedComment",
+					data: {
+						matchedTerm: "todo",
+						comment: "todo",
+					},
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 8,
 				},
 			],
 		},
