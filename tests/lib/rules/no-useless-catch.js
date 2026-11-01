@@ -1516,5 +1516,118 @@ ruleTester.run("no-useless-catch", rule, {
 				},
 			],
 		},
+
+		// ES5 blocks have no scope, so sibling tries both unwrap
+		{
+			code: `
+                try {
+                    foo();
+                } catch (e) {
+                    throw e;
+                }
+                try {
+                    bar();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                
+                    foo();
+                
+                
+                    bar();
+                
+            `,
+			languageOptions: { ecmaVersion: 5, sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Sibling fixes are checked against the original scope, so the second keeps its braces
+		{
+			code: `
+                try {
+                    const result = a();
+                    use(result);
+                } catch (e) {
+                    throw e;
+                }
+                try {
+                    const result = b();
+                    use(result);
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                
+                    const result = a();
+                    use(result);
+                
+                {
+                    const result = b();
+                    use(result);
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                switch (x) {
+                    case 1:
+                        try {
+                            const result = a();
+                            use(result);
+                        } catch (e) {
+                            throw e;
+                        }
+                    case 2:
+                        try {
+                            const result = b();
+                            use(result);
+                        } catch (e) {
+                            throw e;
+                        }
+                }
+            `,
+			output: `
+                switch (x) {
+                    case 1:
+                        
+                            const result = a();
+                            use(result);
+                        
+                    case 2:
+                        {
+                            const result = b();
+                            use(result);
+                        }
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
 	],
 });
