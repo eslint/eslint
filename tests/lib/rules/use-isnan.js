@@ -963,7 +963,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -972,7 +975,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -982,7 +988,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -992,7 +1001,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -1002,7 +1014,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1012,7 +1027,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1022,7 +1040,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1032,7 +1053,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1042,7 +1066,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -1052,7 +1079,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -1062,7 +1092,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -1072,7 +1105,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 32,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
@@ -1082,7 +1118,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 25,
+					endLine: 1,
+					endColumn: 34,
 				},
 			],
 		},
@@ -1092,11 +1131,17 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 32,
+					endLine: 1,
+					endColumn: 41,
 				},
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 66,
+					endLine: 1,
+					endColumn: 75,
 				},
 			],
 		},
@@ -1106,11 +1151,17 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -1119,7 +1170,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1128,7 +1182,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -1138,7 +1195,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1148,7 +1208,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -1158,7 +1221,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1168,7 +1234,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1178,7 +1247,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1188,7 +1260,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1198,7 +1273,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -1208,7 +1286,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -1218,7 +1299,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 15,
+					endLine: 1,
+					endColumn: 33,
 				},
 			],
 		},
@@ -1228,7 +1312,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 32,
+					endLine: 1,
+					endColumn: 48,
 				},
 			],
 		},
@@ -1238,7 +1325,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 25,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
@@ -1248,11 +1338,17 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 32,
+					endLine: 1,
+					endColumn: 41,
 				},
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 66,
+					endLine: 1,
+					endColumn: 82,
 				},
 			],
 		},
@@ -1262,11 +1358,17 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 				{
 					messageId: "caseNaN",
+					line: 1,
 					column: 22,
+					endLine: 1,
+					endColumn: 38,
 				},
 			],
 		},
@@ -1276,7 +1378,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -1286,7 +1391,10 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "switchNaN",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},

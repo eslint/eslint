@@ -5512,6 +5512,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.6
 	 * @see https://eslint.org/docs/latest/rules/use-isnan
 	 */
+    
 	"use-isnan": Linter.RuleEntry<
 		[
 			Partial<{
