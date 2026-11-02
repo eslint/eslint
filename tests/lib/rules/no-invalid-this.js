@@ -609,6 +609,181 @@ const patterns = [
 		invalid: [],
 	},
 
+	// JSON methods.
+	...["parse", "stringify"].map(methodName => ({
+		code: `JSON.${methodName}(data, function() { console.log(this); z(x => console.log(x, this)); });`,
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	})),
+	{
+		code: "const json = JSON.stringify(data, function (key, value) { const original = this[key]; return original instanceof Date ? original.getTime() : value; });",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: 'const parsed = JSON.parse(json, function (key, value) { return this.type === "date" && key === "value" ? new Date(value) : value; });',
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "JSON.stringify(data, function (key, value) { return this[key]; }, 2);",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "JSON.parse(json, function reviver(key, value) { return this; });",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "JSON.stringify(data, function replacer(key, value) { return this; });",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "JSON?.parse(data, function() { console.log(this); z(x => console.log(x, this)); });",
+		languageOptions: { ecmaVersion: 2020 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "(JSON?.parse)(data, function() { console.log(this); z(x => console.log(x, this)); });",
+		languageOptions: { ecmaVersion: 2020 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "JSON?.stringify(data, function() { console.log(this); z(x => console.log(x, this)); });",
+		languageOptions: { ecmaVersion: 2020 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "(JSON?.stringify)(data, function() { console.log(this); z(x => console.log(x, this)); });",
+		languageOptions: { ecmaVersion: 2020 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	...["parse", "stringify"].map(methodName => ({
+		code: `JSON?.['${methodName}'](data, function() { console.log(this); z(x => console.log(x, this)); });`,
+		languageOptions: { ecmaVersion: 2020 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	})),
+
+	// JSON callbacks - invalid cases
+	...["parse", "stringify"].map(methodName => ({
+		code: `function test() { JSON.${methodName}(data, (key, value) => this); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `function reviver(key, value) { return this; } JSON.${methodName}(data, reviver);`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `const reviver = function(key, value) { return this; }; JSON.${methodName}(data, reviver);`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `JSON.${methodName}(data, function(key, value) { function inner() { return this; } });`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `JSON.${methodName}(data, function(key, value) { const inner = function() { return this; }; });`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `function test(JSON) { JSON.${methodName}(data, function(key, value) { return this; }); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `const JSON = { ${methodName}() {} }; function test() { JSON.${methodName}(data, function(key, value) { return this; }); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `let JSON = { ${methodName}() {} }; function test() { JSON.${methodName}(data, function(key, value) { return this; }); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `var JSON = { ${methodName}() {} }; function test() { JSON.${methodName}(data, function(key, value) { return this; }); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	...["parse", "stringify"].map(methodName => ({
+		code: `function test() { obj.JSON.${methodName}(data, function(key, value) { return this; }); }`,
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	})),
+	{
+		code: "function test() { Date.parse(data, function(key, value) { return this; }); }",
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	},
+	{
+		code: "function test() { foo.parse(data, function(key, value) { return this; }); }",
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	},
+	{
+		code: "function test() { foo.stringify(data, function(key, value) { return this; }); }",
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	},
+	{
+		code: "function test() { JSON.otherMethod(data, function(key, value) { return this; }); }",
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	},
+	{
+		code: "function test() { JSON.parse(function(key, value) { return this; }); }",
+		languageOptions: { ecmaVersion: 6 },
+		errors: [{ messageId: "unexpectedThis" }],
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+	},
+
 	// @this tag.
 	{
 		code: "/** @this Obj */ function foo() { console.log(this); z(x => console.log(x, this)); }",
@@ -974,6 +1149,16 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
       z(x => console.log(x, this));
     };
         `,
+		`
+		JSON.parse(json, function (key, value) {
+			return this.foo();
+		});
+		`,
+		`
+		JSON.stringify(data, function (key, value) {
+			return this.foo();
+		});
+		`,
 		// Constructors.
 		`
     function Foo() {
@@ -1934,6 +2119,21 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 						accessor z = () => {};
 					}
 					return this;
+				}
+			`,
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
+		},
+		{
+			code: `
+				function test(JSON: any) {
+					"use strict";
+					JSON.parse(json, function (key: string, value: any) {
+						return this;
+					});
 				}
 			`,
 			errors: [

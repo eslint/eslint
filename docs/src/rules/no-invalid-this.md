@@ -34,6 +34,7 @@ And this rule allows `this` keywords in functions below:
 
 * The `call/apply/bind` method of the function is called directly.
 * The function is a callback of array methods (such as `.forEach()`) if `thisArg` is given.
+* The function is a callback of `JSON.parse` or `JSON.stringify`.
 * The function has `@this` tag in its JSDoc comment.
 
 And this rule always allows `this` keywords in the following contexts:
@@ -217,6 +218,18 @@ foo.forEach(function() {
     this.a = 0;
     baz(() => this);
 }, thisArg);
+
+JSON.parse(text, function() {
+    // OK, this is in a callback of JSON.parse.
+    this.a = 0;
+    baz(() => this);
+});
+
+JSON.stringify(data, function() {
+    // OK, this is in a callback of JSON.stringify.
+    this.a = 0;
+    baz(() => this);
+});
 
 /** @this Foo */
 function foo() {
