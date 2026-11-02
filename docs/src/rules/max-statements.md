@@ -159,6 +159,30 @@ function foo() {
 
 :::
 
+The body of an `if` statement or loop written without braces counts as a statement, and so does each statement in a `switch` case.
+
+Examples of **incorrect** code for this rule with the `{ "max": 1 }` option:
+
+::: incorrect
+
+```js
+/*eslint max-statements: ["error", 1]*/
+
+function foo() {
+    if (a) b();
+}
+
+function bar(x) {
+    switch (x) {
+        case 1:
+            a();
+            break;
+    }
+}
+```
+
+:::
+
 ### ignoreTopLevelFunctions
 
 Examples of additional **correct** code for this rule with the `{ "max": 10 }, { "ignoreTopLevelFunctions": true }` options:
