@@ -260,6 +260,22 @@ describe("LintResultCache", () => {
 				assert.ok(getFileDescriptorStub.calledOnce);
 				assert.isNull(result);
 			});
+
+			it("should return null when cached results cannot be reused", () => {
+				lintResultsCache = new LintResultCache(
+					cacheFileLocation,
+					"metadata",
+					{ ruleFilterCacheKey: null },
+				);
+
+				const result = lintResultsCache.getCachedLintResults(
+					filePath,
+					fakeConfig,
+				);
+
+				assert.ok(getFileDescriptorStub.calledOnce);
+				assert.isNull(result);
+			});
 		});
 
 		describe("When file is present and unchanged and config is unchanged", () => {
