@@ -867,6 +867,36 @@ describe("cli", () => {
 				});
 			});
 
+			describe("when given the no-inline-config flag", () => {
+				it(`should exit with exit code 1 if an inline disable comment was honored in a previous cached run`, async () => {
+					const filePath = getFixturePath("disable-inline-config.js");
+					const cacheLocation = getFixturePath(
+						".eslintcache-no-inline-config",
+					);
+
+					try {
+						const inlineConfigExitCode = await cli.execute(
+							`--no-config-lookup --rule "no-console: error" --cache --cache-location ${cacheLocation} ${filePath}`,
+						);
+
+						assert.strictEqual(inlineConfigExitCode, 0);
+
+						const exitCode = await cli.execute(
+							`--no-config-lookup --rule "no-console: error" --cache --cache-location ${cacheLocation} --no-inline-config ${filePath}`,
+						);
+
+						assert.strictEqual(exitCode, 1);
+						assert.ok(log.info.calledOnce);
+						assert.include(
+							log.info.getCall(0).args[0],
+							"no-console",
+						);
+					} finally {
+						fs.rmSync(cacheLocation, { force: true });
+					}
+				});
+			});
+
 			describe("when given the exit-on-fatal-error flag", () => {
 				it(`should not change exit code if no fatal errors are reported`, async () => {
 					const filePath = getFixturePath(
