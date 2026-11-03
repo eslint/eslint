@@ -840,6 +840,15 @@ describe("cli", () => {
 						);
 
 						assert.strictEqual(exitCode, 1);
+						assert.ok(log.info.calledOnce);
+						assert.include(
+							log.info.getCall(0).args[0],
+							"'foo' is not defined",
+						);
+						assert.include(
+							log.info.getCall(0).args[0],
+							"0 errors, 1 warning",
+						);
 						assert.ok(log.error.calledOnce);
 						assert.include(
 							log.error.getCall(0).args[0],
