@@ -40,8 +40,8 @@ function unIndent(strings, ...values) {
 /**
  * @typedef {Object} Teardown
  * @property {(...segments: string[]) => string} getPath Resolves a path.
+ * @property {() => Promise<void>} prepare Creates the filesystem volume.
  * @property {() => Promise<void>} cleanup Removes the filesystem volume.
- * @property {() => Promise<string[]>} prepare Creates the filesystem volume.
  */
 
 /**
@@ -57,8 +57,8 @@ function createCustomTeardown({ cwd, files }) {
 
 	return {
 		getPath: (...segments) => path.resolve(rootDir, ...segments),
-		prepare: () =>
-			Promise.all(
+		async prepare() {
+			await Promise.all(
 				Object.entries(files).map(async ([filename, contents]) => {
 					const filePath = path.resolve(rootDir, filename);
 					const stats = await fs.stat(filePath).catch(() => null);
@@ -73,10 +73,9 @@ function createCustomTeardown({ cwd, files }) {
 					if (contents) {
 						await fs.writeFile(filePath, contents);
 					}
-
-					return filePath;
 				}),
-			),
+			);
+		},
 		cleanup: () => fs.rm(rootDir, { recursive: true, force: true }),
 	};
 }
