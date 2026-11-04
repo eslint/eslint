@@ -25,6 +25,8 @@ function foo() {
 
 This rule enforces a maximum number of statements allowed in function blocks.
 
+Empty statements (`;`) and block statements (`{}`) themselves do not count as statements, but the statements inside a block do.
+
 ## Options
 
 This rule has a number or object option:
