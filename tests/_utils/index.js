@@ -8,7 +8,8 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const { createTeardown, addFile } = require("fs-teardown");
+const fs = require("node:fs/promises");
+const path = require("node:path");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -37,7 +38,10 @@ function unIndent(strings, ...values) {
 }
 
 /**
- * @typedef {Pick<ReturnType<typeof createTeardown>, "getPath" | "cleanup" | "prepare">} Teardown
+ * @typedef {Object} Teardown
+ * @property {(...segments: string[]) => string} getPath Resolves a path.
+ * @property {() => Promise<void>} cleanup Removes the filesystem volume.
+ * @property {() => Promise<string[]>} prepare Creates the filesystem volume.
  */
 
 /**
@@ -49,14 +53,32 @@ function unIndent(strings, ...values) {
  *      methods.
  */
 function createCustomTeardown({ cwd, files }) {
-	const { prepare, cleanup, getPath } = createTeardown(
-		cwd,
-		...Object.keys(files).map(filename =>
-			addFile(filename, files[filename]),
-		),
-	);
+	const rootDir = path.resolve(cwd);
 
-	return { prepare, cleanup, getPath };
+	return {
+		getPath: (...segments) => path.resolve(rootDir, ...segments),
+		prepare: () =>
+			Promise.all(
+				Object.entries(files).map(async ([filename, contents]) => {
+					const filePath = path.resolve(rootDir, filename);
+					const stats = await fs.stat(filePath).catch(() => null);
+
+					if (!stats?.isFile()) {
+						await fs.mkdir(path.dirname(filePath), {
+							recursive: true,
+						});
+						await fs.writeFile(filePath, "");
+					}
+
+					if (contents) {
+						await fs.writeFile(filePath, contents);
+					}
+
+					return filePath;
+				}),
+			),
+		cleanup: () => fs.rm(rootDir, { recursive: true, force: true }),
+	};
 }
 
 //-----------------------------------------------------------------------------
