@@ -556,7 +556,7 @@ Rules with options must specify a [schema](#options-schemas).
 
 Rule options and [shared settings](../use/configure/configuration-files#configure-shared-settings) should only contain values that can be serialized to JSON, such as strings, numbers, booleans, `null`, arrays, and plain objects. Avoid designing rules that expect non-serializable values such as regular expressions, functions, or class instances in `context.options` or `context.settings`.
 
-Some ESLint features don't work well with non-serializable values. For example, when [caching](../use/command-line-interface#caching) is enabled, ESLint can't detect changes to such values in the configuration, so it may keep reporting outdated results. If your rule needs a regular expression, accept the pattern as a string option instead and create the `RegExp` object inside the rule.
+Some ESLint features don't work well with non-serializable values. For example, when [caching](../use/command-line-interface#caching) is enabled, ESLint may not detect changes when updated values produce the same serialized configuration, so it may keep reporting outdated results. If your rule needs a regular expression, accept the pattern as a string option instead and create the `RegExp` object inside the rule.
 
 ### Accessing the Source Code
 
