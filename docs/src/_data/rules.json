@@ -15,7 +15,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "for-direction",
@@ -31,7 +32,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-async-promise-executor",
@@ -55,7 +57,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-compare-neg-zero",
@@ -79,7 +82,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-constant-binary-expression",
@@ -127,7 +131,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-dupe-class-members",
@@ -135,7 +140,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-dupe-else-if",
@@ -151,7 +157,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-duplicate-case",
@@ -207,7 +214,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-import-assign",
@@ -215,7 +223,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-inner-declarations",
@@ -263,7 +272,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-obj-calls",
@@ -271,7 +281,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-promise-executor-return",
@@ -311,7 +322,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-sparse-arrays",
@@ -335,7 +347,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-unassigned-vars",
@@ -351,7 +364,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-unexpected-multiline",
@@ -375,7 +389,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-unreachable-loop",
@@ -399,7 +414,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": true
+                "hasSuggestions": true,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-unsafe-optional-chaining",
@@ -937,7 +953,8 @@
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-iterator",
@@ -1113,7 +1130,8 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": false,
+                "handled_by_typescript": true
             },
             {
                 "name": "no-regex-spaces",

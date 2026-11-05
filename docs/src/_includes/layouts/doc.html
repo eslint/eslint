@@ -82,14 +82,15 @@ layout: base.html
             <div class="docs-main__content">
                 <h1>{{ title }}</h1>
                 {% if rule_meta %}
-                    {%set id = true if (rule_meta.docs.recommended or rule_meta.fixable or rule_meta.hasSuggestions) else false %}
+                    {%set id = true if (rule_meta.docs.recommended or rule_meta.fixable or rule_meta.hasSuggestions or handled_by_typescript) else false %}
                     <p>{{ rule_meta.docs.description | markdown | safe }}</p>
                     {{ ruleCategories({
                     index: id,
                     recommended: rule_meta.docs.recommended,
                     fixable: rule_meta.fixable,
                     frozen: rule_meta.docs.frozen,
-                    hasSuggestions: rule_meta.hasSuggestions
+                    hasSuggestions: rule_meta.hasSuggestions,
+                    handledByTypeScript: handled_by_typescript
                     }) }}
 
                     {% if rule_meta.deprecated %}

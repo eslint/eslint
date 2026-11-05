@@ -11,14 +11,15 @@ eleventyNavigation:
 {% from 'components/rule-categories.macro.html' import ruleCategories, recommended, fixable, hasSuggestions %}
 {% from 'components/rule.macro.html' import rule %}
 
-Rules in ESLint are grouped by type to help you understand their purpose. Each rule has emojis denoting:
+Rules in ESLint are grouped by type to help you understand their purpose. The icons shown with each rule indicate:
 
 {{ ruleCategories({
         index: true,
         recommended: true,
         fixable: true,
         frozen: true,
-        hasSuggestions: true
+        hasSuggestions: true,
+        handledByTypeScript: true
 }) }}
 
 {%- for type, content in rules.types -%}
@@ -39,6 +40,7 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
     {%- set isFrozen = the_rule.frozen -%}
     {%- set isFixable = the_rule.fixable -%}
     {%- set isHasSuggestions = the_rule.hasSuggestions -%}
+    {%- set isHandledByTypeScript = the_rule.handled_by_typescript -%}
 
     {{ rule({
             name: name_value,
@@ -48,7 +50,8 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
                 recommended: isRecommended,
                 fixable: isFixable,
                 frozen: isFrozen,
-                hasSuggestions: isHasSuggestions
+                hasSuggestions: isHasSuggestions,
+                handledByTypeScript: isHandledByTypeScript
             }
     }) }}
     {%- endfor -%}

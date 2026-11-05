@@ -36,6 +36,14 @@
         </p>
     </div>
     {%- endif -%}
+    {%- if params.handledByTypeScript == true -%}
+    <div class="rule-category">
+        <span class="rule-category__icon">🟦 <span class="visually-hidden">Handled by TypeScript</span></span>
+        <p class="rule-category__description">
+            TypeScript can catch the same issue as this rule. See the rule documentation for any limitations.
+        </p>
+    </div>
+    {%- endif -%}
 </div>
 {%- endmacro -%}
 

@@ -48,6 +48,9 @@
         <p class="rule__categories__type"{% if params.categories.hasSuggestions == false %} aria-hidden="true"{%- endif -%}>
             💡 <span class="visually-hidden">Suggestions</span>
         </p>
+        <p class="rule__categories__type"{% if not params.categories.handledByTypeScript %} aria-hidden="true"{%- endif %}>
+            🟦 <span class="visually-hidden">Handled by TypeScript</span>
+        </p>
     </div>
     {%- endif -%}
 </article>
