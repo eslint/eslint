@@ -5,9 +5,7 @@
 import { RuleTester } from "eslint";
 import checkCbCalledRule from "./check-cb-called.js";
 
-const ruleTester = new RuleTester({
-	languageOptions: { ecmaVersion: 2018 },
-});
+const ruleTester = new RuleTester();
 
 const message = "`cb` should be called in every path.";
 
@@ -185,6 +183,37 @@ ruleTester.run("check-cb-called", checkCbCalledRule, {
 				cb();
 			}
 			`,
+
+		// cb is called in a finally block after a return in the try block
+		`
+			function foo(cb) {
+				try {
+					return;
+				} finally {
+					cb();
+				}
+			}
+			`,
+
+		// cb is called in a try block whose finally block returns
+		`
+			function foo(cb) {
+				try {
+					cb();
+				} finally {
+					return;
+				}
+			}
+			`,
+
+		// an arrow function in a class field calls its own cb
+		`
+			class Foo {
+				bar = cb => {
+					cb();
+				};
+			}
+			`,
 	],
 
 	invalid: [
@@ -287,6 +316,30 @@ ruleTester.run("check-cb-called", checkCbCalledRule, {
 					}
 					inner(() => {});
 					cb();
+				}
+				`,
+			errors: [{ message }],
+		},
+
+		// cb is only called in unreachable code
+		{
+			code: `
+				function foo(cb) {
+					return;
+					cb();
+				}
+				`,
+			errors: [{ message }],
+		},
+
+		// the called cb is a different variable that shadows the parameter
+		{
+			code: `
+				function foo(cb) {
+					{
+						const cb = () => {};
+						cb();
+					}
 				}
 				`,
 			errors: [{ message }],
