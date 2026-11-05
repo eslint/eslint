@@ -233,4 +233,11 @@ ruleTester.run("no-extend-native", rule, {
 			errors: [{ messageId: "unexpected", data: { builtin: "Array" } }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
