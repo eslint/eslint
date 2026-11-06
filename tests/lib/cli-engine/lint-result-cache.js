@@ -279,6 +279,26 @@ describe("LintResultCache", () => {
 					"source property should be hydrated from filesystem",
 				);
 			});
+
+			it("should return null when cached results cannot be reused", () => {
+				lintResultsCache = new LintResultCache(
+					cacheFileLocation,
+					"metadata",
+					{ ruleFilterCacheKey: null },
+				);
+
+				const result = lintResultsCache.getCachedLintResults(
+					filePath,
+					fakeConfig,
+				);
+
+				assert.ok(getFileDescriptorStub.calledOnce);
+				assert.isNull(result);
+				assert.ok(
+					cacheEntry.meta.data,
+					"cached results of an unchanged file should be kept",
+				);
+			});
 		});
 
 		describe("When called multiple times for the same file", () => {
