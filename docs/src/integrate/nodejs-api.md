@@ -263,8 +263,8 @@ This method calculates the configuration for a given file, which can be useful f
 
 #### Return Value
 
-- (`Promise<Object>`)<br>
-  The promise that will be fulfilled with a configuration object.
+- (`Promise<CalculatedConfig | undefined>`)<br>
+  The promise that will be fulfilled with a [CalculatedConfig] object, or `undefined` if the file is ignored.
 
 ### ◆ eslint.findConfigFile(filePath)
 
@@ -547,6 +547,25 @@ The `EditInfo` value is information to edit text. The `fix` and `suggestions` pr
   The text to add.
 
 This edit information means replacing the range of the `range` property by the `text` property value. It's like `sourceCodeText.slice(0, edit.range[0]) + edit.text + sourceCodeText.slice(edit.range[1])`. Therefore, it's an add if the `range[0]` and `range[1]` property values are the same value, and it's removal if the `text` property value is empty string.
+
+### ◆ CalculatedConfig type
+
+A `CalculatedConfig` object is the configuration ESLint uses to lint a file, merged from all configuration objects that match the file. The [`eslint.calculateConfigForFile()`][eslint-calculateconfigforfile] method returns a promise that is fulfilled with one. It has the following properties:
+
+- `language` (`Language`)<br>
+  The [language](../extend/languages#the-language-object) object used to lint the file.
+- `languageOptions` (`Object`)<br>
+  The language options, merged with the language's default options and normalized by the language.
+- `linterOptions` (`Object`)<br>
+  The [options related to the linting process](../use/configure/configuration-files#configure-linter-options).
+- `processor` (`Processor | undefined`)<br>
+  The [processor](../extend/custom-processors) object used to preprocess and postprocess the file. This property is undefined if no matching configuration object sets `processor`.
+- `plugins` (`Record<string, Plugin>`)<br>
+  The [plugins](../extend/plugins) available to the file.
+- `rules` (`Record<string, [0 | 1 | 2, ...unknown[]]> | undefined`)<br>
+  The [rule configurations](../use/configure/rules), each normalized to an array of the numeric severity followed by any rule options, merged with the rule's [default options](../extend/custom-rules#option-defaults). This property is undefined if no matching configuration object sets `rules`.
+- `settings` (`Object | undefined`)<br>
+  The [shared settings](../use/configure/configuration-files#configure-shared-settings) available to all rules. This property is undefined if no matching configuration object sets `settings`.
 
 ### ◆ LoadedFormatter type
 
@@ -1221,9 +1240,11 @@ module.exports = runWithStrictAssertions;
 [third-party-formatters]: https://www.npmjs.com/search?q=eslintformatter
 [eslint-lintfiles]: #-eslintlintfilespatterns
 [eslint-linttext]: #-eslintlinttextcode-options
+[eslint-calculateconfigforfile]: #-eslintcalculateconfigforfilefilepath
 [eslint-loadformatter]: #-eslintloadformatternameorpath
 [lintresult]: #-lintresult-type
 [lintmessage]: #-lintmessage-type
 [suppressedlintmessage]: #-suppressedlintmessage-type
 [editinfo]: #-editinfo-type
+[calculatedconfig]: #-calculatedconfig-type
 [loadedformatter]: #-loadedformatter-type

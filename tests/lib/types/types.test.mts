@@ -54,7 +54,12 @@ import type {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import type { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
+import type {
+	Language,
+	LanguageOptions,
+	RuleDefinition,
+	SettingsConfig,
+} from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -1707,7 +1712,27 @@ linterWithEslintrcConfig.verify(
 
 	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
 
-	eslint.calculateConfigForFile("./config.json");
+	eslint.calculateConfigForFile("./config.json") satisfies Promise<
+		ESLint.CalculatedConfig | undefined
+	>;
+	eslint.calculateConfigForFile("./config.json").then(config => {
+		// @ts-expect-error `config` is `undefined` for ignored files
+		config.rules;
+
+		if (config) {
+			config.language satisfies Language;
+			config.languageOptions satisfies LanguageOptions;
+			config.linterOptions satisfies Linter.LinterOptions;
+			config.processor satisfies Linter.Processor | undefined;
+			config.plugins satisfies Record<string, ESLint.Plugin>;
+			config.rules satisfies
+				Record<string, [Linter.Severity, ...unknown[]]> | undefined;
+			config.settings satisfies SettingsConfig | undefined;
+
+			// @ts-expect-error `files` is not part of a calculated config
+			config.files;
+		}
+	});
 
 	eslint.findConfigFile("src/index.js");
 	eslint.findConfigFile();
