@@ -1596,6 +1596,54 @@ describe("cli", () => {
 			});
 		});
 
+		describe("when passed --fix and no suppressions file exists", () => {
+			const originalCwd = process.cwd;
+
+			beforeEach(() => {
+				process.cwd = () =>
+					getFixturePath("suppressions-autofix", "nested");
+			});
+
+			afterEach(() => {
+				process.cwd = originalCwd;
+			});
+
+			it("should not pass a suppressions snapshot to ESLint", async () => {
+				const fakeESLint = sinon.stub();
+
+				Object.defineProperties(
+					fakeESLint.prototype,
+					Object.getOwnPropertyDescriptors(ESLint.prototype),
+				);
+				sinon.stub(fakeESLint.prototype, "lintFiles").returns([]);
+				sinon
+					.stub(fakeESLint.prototype, "loadFormatter")
+					.returns({ format: () => "done" });
+				fakeESLint.outputFixes = sinon.stub();
+
+				const localCLI = proxyquire("../../lib/cli", {
+					"./eslint/eslint": {
+						ESLint: fakeESLint,
+						suppressionsSnapshot,
+					},
+					"./shared/logging": log,
+				});
+
+				const exitCode = await localCLI.execute([
+					"argv0",
+					"argv1",
+					"--fix",
+					".",
+				]);
+
+				assert.strictEqual(exitCode, 0);
+				assert.strictEqual(fakeESLint.callCount, 1);
+				assert.isUndefined(
+					fakeESLint.firstCall.args[0][suppressionsSnapshot],
+				);
+			});
+		});
+
 		describe("when passed --fix or --fix-dry-run and a suppressions file exists", () => {
 			const suppressions = {
 				"foo.js": { "no-var": { count: 1 } },

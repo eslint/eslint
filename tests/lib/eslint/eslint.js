@@ -2178,6 +2178,41 @@ describe("ESLint", () => {
 				);
 			}
 		});
+
+		it("should load the suppressions file again in the next call after a failed load", async () => {
+			const cwd = getFixturePath("suppressions-autofix");
+			const filePath = path.join(cwd, "suppressed.js");
+			const suppressionsLocation = path.join(
+				cwd,
+				"eslint-suppressions-copy.json",
+			);
+			const code = fs.readFileSync(filePath, "utf8");
+
+			fs.writeFileSync(suppressionsLocation, "{");
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation,
+				fix: true,
+			});
+			await assert.rejects(eslint.lintText(code, { filePath }), {
+				message: `Failed to parse suppressions file at ${suppressionsLocation}`,
+			});
+			shell.cp(
+				path.join(cwd, "eslint-suppressions.json"),
+				suppressionsLocation,
+			);
+			const results = await eslint.lintText(code, { filePath });
+
+			fs.unlinkSync(suppressionsLocation);
+			assert.strictEqual(results[0].output, code.replace("!!foo", "foo"));
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.deepStrictEqual(
+				results[0].suppressedMessages.map(message => message.ruleId),
+				["no-var"],
+			);
+		});
 	});
 
 	describe("lintFiles()", () => {
