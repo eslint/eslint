@@ -138,6 +138,7 @@ module.exports = defineConfig([
 				"error",
 				{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
 			],
+			"eslint-plugin/require-meta-docs-recommended": "error",
 			"internal-rules/no-invalid-meta": "error",
 
 			"eslint-plugin/require-meta-schema-description": "off",

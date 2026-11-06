@@ -364,23 +364,39 @@ describe("SourceCode", () => {
 	describe("getText()", () => {
 		let sourceCode, ast;
 
-		describe("when text begins with a shebang", () => {
-			it("should retrieve unaltered shebang text", () => {
+		[
+			[SHEBANG_TEST_CODE, "#!/usr/bin/env node"],
+			["#!/usr/bin/env node\rconst x = 1;", "#!/usr/bin/env node"],
+			["#!\rconst x = 1;", "#!"],
+			["#!/usr/bin/env node\nconst x = 1;", "#!/usr/bin/env node"],
+			["#!\nconst x = 1;", "#!"],
+			["#!/usr/bin/env node\r\nconst x = 1;", "#!/usr/bin/env node"],
+			["#!\r\nconst x = 1;", "#!"],
+			["#!/usr/bin/env node\u2028const x = 1;", "#!/usr/bin/env node"],
+			["#!\u2028const x = 1;", "#!"],
+			["#!/usr/bin/env node\u2029const x = 1;", "#!/usr/bin/env node"],
+			["#!\u2029const x = 1;", "#!"],
+			["#!/usr/bin/env node", "#!/usr/bin/env node"],
+			["#!", "#!"],
+		].forEach(([code, shebangText]) => {
+			it(code, () => {
 				// Shebangs are normalized to line comments before parsing.
 				ast = espree.parse(
-					SHEBANG_TEST_CODE.replace(
+					code.replace(
 						astUtils.shebangPattern,
 						(match, captured) => `//${captured}`,
 					),
 					DEFAULT_CONFIG,
 				);
-				sourceCode = new SourceCode(SHEBANG_TEST_CODE, ast);
+				sourceCode = new SourceCode(code, ast);
 
 				const shebangToken = sourceCode.getAllComments()[0];
-				const shebangText = sourceCode.getText(shebangToken);
 
 				assert.strictEqual(shebangToken.type, "Shebang");
-				assert.strictEqual(shebangText, "#!/usr/bin/env node");
+				assert.strictEqual(
+					sourceCode.getText(shebangToken),
+					shebangText,
+				);
 			});
 		});
 
