@@ -26,7 +26,6 @@ const metascraper = require("metascraper")([
 	require("metascraper-title")(),
 	require("metascraper-description")(),
 ]);
-const got = require("got");
 const path = require("node:path");
 const fs = require("node:fs").promises;
 const { globSync } = require("glob");
@@ -59,7 +58,14 @@ filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
  * @returns {Promise<object>} An object with metadata info.
  */
 async function fetchLinkMeta(url) {
-	const { body: html, url: returnedURL } = await got(url);
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch ${url}: ${response.status}`);
+	}
+
+	const html = await response.text();
+	const returnedURL = response.url;
 	const metadata = await metascraper({ html, url: returnedURL });
 	const domain = new URL(returnedURL).hostname;
 
