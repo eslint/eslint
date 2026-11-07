@@ -120,6 +120,14 @@ module.exports = defineConfig([
 		rules: {
 			"no-console": "off",
 			"n/no-process-exit": "off",
+			/*
+			 * fetch is available in Node.js 20.19.0, but marked experimental until 21.
+			 * refs: https://nodejs.org/api/globals.html#fetch
+			 */
+			"n/no-unsupported-features/node-builtins": [
+				"error",
+				{ ignores: ["fetch"] },
+			],
 		},
 	},
 	{
