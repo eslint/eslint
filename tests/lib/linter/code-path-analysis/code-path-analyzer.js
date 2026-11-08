@@ -1007,6 +1007,48 @@ describe("CodePathAnalyzer", () => {
 
 			assert(count === 2);
 		});
+
+		it("should be fired when `continue` in `finally` overrides `throw` or `return`", () => {
+			let count = 0;
+
+			linter.verify(
+				"while (a) { try { throw err; } finally { continue; } }",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathSegmentLoop(
+											fromSegment,
+											toSegment,
+											node,
+										) {
+											count += 1;
+											assert(
+												fromSegment instanceof
+													CodePathSegment,
+											);
+											assert(
+												toSegment instanceof
+													CodePathSegment,
+											);
+											assert(
+												node.type ===
+													"ContinueStatement",
+											);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
+			);
+
+			assert(count === 1);
+		});
 	});
 
 	describe("completed code paths are correct", () => {

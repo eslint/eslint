@@ -67,6 +67,10 @@ const validLoopBodies = [
 	"{ switch (foo) { case 1: break; default: return; } }",
 	"{ switch (foo) { case 1: continue; default: return; } throw err; }",
 	"{ try { return bar(); } catch (e) {} }",
+	"{ try { throw err; } finally { continue; } }",
+	"{ try { return; } finally { continue; } }",
+	"{ try { bar(); } catch (e) { throw err; } finally { continue; } }",
+	"{ try { bar(); } catch (e) { return; } finally { continue; } }",
 
 	// unreachable break
 	"{ continue; break; }",
