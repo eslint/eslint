@@ -570,7 +570,7 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		},
 		{
 			code: "foo(function<T>(x: T) { return x; });",
-			output: null,
+			output: "foo(<T,>(x: T) => { return x; });",
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
@@ -595,6 +595,30 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		{
 			code: "foo(function<T extends unknown>(x: T) { return x; });",
 			output: "foo(<T extends unknown>(x: T) => { return x; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function<T, U>(x: T, y: U) { return [x, y]; });",
+			output: "foo(<T, U>(x: T, y: U) => { return [x, y]; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function(x: number) { return x; });",
+			output: "foo((x: number) => { return x; });",
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
