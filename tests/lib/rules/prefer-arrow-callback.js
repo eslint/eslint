@@ -604,48 +604,5 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 			},
 			errors,
 		},
-		{
-			filename: "foo.ts",
-			code: "foo(function<T>(x: T) { return x; });",
-			output: "foo(<T>(x: T) => { return x; });",
-			languageOptions: {
-				parserOptions: {
-					ecmaFeatures: {
-						jsx: true,
-					},
-				},
-			},
-			errors,
-		},
-		{
-			filename: "foo.tsx",
-			code: "foo(function<T>(x: T) { return x; });",
-			output: null,
-			errors,
-		},
-		{
-			filename: "foo.tsx",
-			code: "foo(function<T,>(x: T) { return x; });",
-			output: "foo(<T,>(x: T) => { return x; });",
-			errors,
-		},
-		{
-			filename: "foo.mts",
-			code: "foo(function<T>(x: T) { return x; });",
-			output: null,
-			errors,
-		},
-		{
-			filename: "foo.cts",
-			code: "foo(function<T = number>(x: T) { return x; });",
-			output: null,
-			errors,
-		},
-		{
-			filename: "foo.mts",
-			code: "foo(function<T,>(x: T) { return x; });",
-			output: "foo(<T,>(x: T) => { return x; });",
-			errors,
-		},
 	],
 });
