@@ -604,5 +604,17 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 			},
 			errors,
 		},
+		{
+			code: "foo(function<T>(x: T) { return x; });",
+			output: null,
+			filename: "foo.tsx",
+			errors,
+		},
+		{
+			code: "foo(function<T,>(x: T) { return x; });",
+			output: "foo(<T,>(x: T) => { return x; });",
+			filename: "foo.tsx",
+			errors,
+		},
 	],
 });
