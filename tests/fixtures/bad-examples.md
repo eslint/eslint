@@ -4,8 +4,8 @@ title: no-restricted-syntax
 
 This file contains rule example code with syntax errors and other problems.
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD040 -->
+
+<!-- eslint-disable markdown/fenced-code-language -->
 ::: incorrect { "sourceType": "script" }
 
 ```
@@ -13,7 +13,7 @@ export default "foo";
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable markdown/fenced-code-language -->
 
 :::correct
 

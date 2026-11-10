@@ -10,8 +10,7 @@ This rule looks for tabs anywhere inside a file: code, comments or anything else
 
 Examples of **incorrect** code for this rule:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: incorrect
 
 ```js
@@ -28,7 +27,7 @@ var x = 1; // 	 test
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 Examples of **correct** code for this rule:
 
@@ -59,8 +58,7 @@ This rule has an optional object option with the following properties:
 
 Examples of **correct** code for this rule with the `allowIndentationTabs: true` option:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: correct
 
 ```js
@@ -74,7 +72,7 @@ function test() {
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 ## When Not To Use It
 

@@ -67,8 +67,7 @@ var foo = {
 
 Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }` option:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: incorrect
 
 ```js
@@ -78,12 +77,11 @@ Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: correct
 
 ```js
@@ -96,7 +94,7 @@ Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` 
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 ### comments
 
