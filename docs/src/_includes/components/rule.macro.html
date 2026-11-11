@@ -23,12 +23,12 @@
         {%- endif -%}
         {%- else -%}
         <div class="rule__name_wrapper">
-        <a href="{{ ['/rules/', params.name] | join | url }}" class="rule__name">{{ params.name }}</a>
+        <a href="{{ ['/rules/', params.name] | join | url }}" class="rule__name">{{ params.name }}{% if params.categories and params.categories.handledByTypeScript %}<span class="visually-hidden"> (Handled by TypeScript)</span>{% endif %}</a>
             {%- if params.categories and params.categories.frozen %}
                 <p class="frozen"> ❄️ <span class="visually-hidden">Frozen</span></p>
             {%- endif -%}
             {%- if params.categories and params.categories.handledByTypeScript %}
-                <p class="handled-by-typescript"> 🔷 <span class="visually-hidden">Handled by TypeScript</span></p>
+                <p class="handled-by-typescript" aria-hidden="true"> 🔷</p>
             {%- endif -%}
         </div>
         <p class="rule__description">{{ params.description }}</p>
