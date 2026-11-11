@@ -210,6 +210,43 @@ describe("LintResultCache", () => {
 					versionStub.restore();
 				}
 			});
+
+			it("contains the options that affect the lint results during hashing", () => {
+				/**
+				 * Gets the string hashed for the config with the given options.
+				 * @param {Object} [lintOptions] The options passed to `LintResultCache`.
+				 * @returns {string} The hashed string.
+				 */
+				function getHashInput(lintOptions) {
+					hashStub.resetHistory();
+					new LintResultCache(
+						cacheFileLocation,
+						"metadata",
+						lintOptions,
+					).getCachedLintResults(filePath, fakeConfig);
+					assert.ok(hashStub.calledOnce);
+					return hashStub.firstCall.args[0];
+				}
+
+				const defaultInput = getHashInput();
+
+				assert.strictEqual(
+					getHashInput({ allowInlineConfig: true, quiet: false }),
+					defaultInput,
+				);
+				assert.notStrictEqual(
+					getHashInput({ allowInlineConfig: false }),
+					defaultInput,
+				);
+				assert.notStrictEqual(
+					getHashInput({ quiet: true }),
+					defaultInput,
+				);
+				assert.notStrictEqual(
+					getHashInput({ allowInlineConfig: false }),
+					getHashInput({ quiet: true }),
+				);
+			});
 		});
 
 		describe("When file is changed", () => {
@@ -277,26 +314,6 @@ describe("LintResultCache", () => {
 				assert.ok(
 					result.source,
 					"source property should be hydrated from filesystem",
-				);
-			});
-
-			it("should return null when cached results cannot be reused", () => {
-				lintResultsCache = new LintResultCache(
-					cacheFileLocation,
-					"metadata",
-					{ ruleFilterCacheKey: null },
-				);
-
-				const result = lintResultsCache.getCachedLintResults(
-					filePath,
-					fakeConfig,
-				);
-
-				assert.ok(getFileDescriptorStub.calledOnce);
-				assert.isNull(result);
-				assert.ok(
-					cacheEntry.meta.data,
-					"cached results of an unchanged file should be kept",
 				);
 			});
 		});

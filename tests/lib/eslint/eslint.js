@@ -15096,7 +15096,7 @@ describe("ESLint", () => {
 				);
 			});
 
-			it("should not reuse cached results when a custom 'ruleFilter' is used", async () => {
+			it("should not reuse cached results when the 'ruleFilter' of the '--quiet' CLI option is toggled", async () => {
 				const file = fs.realpathSync(
 					getFixturePath("cache/src", "fail-file.js"),
 				);
@@ -15105,21 +15105,13 @@ describe("ESLint", () => {
 					"no-unused-vars": 1,
 				});
 
-				eslint = new ESLint(options);
+				eslint = await createESLintWithErrorRuleFilter(options, {
+					quiet: true,
+				});
 				let [result] = await eslint.lintFiles([file]);
 
 				assert.strictEqual(result.errorCount, 1);
-				assert.strictEqual(result.warningCount, 1);
-
-				eslint = await createESLintWithErrorRuleFilter(options);
-				[result] = await eslint.lintFiles([file]);
-
-				assert.strictEqual(result.errorCount, 1);
-				assert.strictEqual(
-					result.warningCount,
-					0,
-					"the cached result without a rule filter should not have been used",
-				);
+				assert.strictEqual(result.warningCount, 0);
 
 				eslint = new ESLint(options);
 				[result] = await eslint.lintFiles([file]);
@@ -15128,11 +15120,23 @@ describe("ESLint", () => {
 				assert.strictEqual(
 					result.warningCount,
 					1,
-					"the result linted with a custom rule filter should not have been used",
+					"the cached result with the '--quiet' rule filter should not have been used",
+				);
+
+				eslint = await createESLintWithErrorRuleFilter(options, {
+					quiet: true,
+				});
+				[result] = await eslint.lintFiles([file]);
+
+				assert.strictEqual(result.errorCount, 1);
+				assert.strictEqual(
+					result.warningCount,
+					0,
+					"the cached result without the '--quiet' rule filter should not have been used",
 				);
 			});
 
-			it("should not overwrite cached results when a custom 'ruleFilter' is used", async () => {
+			it("should reuse cached results when a custom 'ruleFilter' is used", async () => {
 				const file = fs.realpathSync(
 					getFixturePath("cache/src", "fail-file.js"),
 				);
@@ -15140,81 +15144,14 @@ describe("ESLint", () => {
 					"no-console": 2,
 					"no-unused-vars": 1,
 				});
-
-				eslint = new ESLint(options);
-				let [result] = await eslint.lintFiles([file]);
-
-				assert.strictEqual(result.errorCount, 1);
-				assert.strictEqual(result.warningCount, 1);
-
-				eslint = await createESLintWithErrorRuleFilter(options);
-				[result] = await eslint.lintFiles([file]);
-
-				assert.strictEqual(result.warningCount, 0);
-
-				const cachedResults = new LintResultCache(
-					cacheFilePath,
-					"metadata",
-				).getValidCachedLintResults(
+				const result = await lintTwiceWithCacheHit(
+					() => createESLintWithErrorRuleFilter(options),
 					file,
-					await eslint.calculateConfigForFile(file),
+					{},
 				);
 
-				assert(
-					isNonNullObject(cachedResults),
-					"the cached result without a rule filter should have been kept",
-				);
-				assert.strictEqual(cachedResults.errorCount, 1);
-				assert.strictEqual(cachedResults.warningCount, 1);
-
-				eslint = new ESLint(options);
-				const spy = sinon.spy(fs.promises, "readFile");
-
-				[result] = await eslint.lintFiles([file]);
-
-				if (!concurrency) {
-					assert(
-						!spy.calledWith(file),
-						"ESLint should not have read the file because the cached result is valid",
-					);
-				}
 				assert.strictEqual(result.errorCount, 1);
-				assert.strictEqual(result.warningCount, 1);
-			});
-
-			it("should not reuse cached results for a file changed before a run with a custom 'ruleFilter'", async () => {
-				const file = path.join(
-					fs.realpathSync(getFixturePath("cache/src")),
-					"rule-filter-changed-file.js",
-				);
-				const options = getCacheOptions({ "no-console": 2 });
-
-				try {
-					fs.writeFileSync(file, "foo();\n");
-
-					eslint = new ESLint(options);
-					let [result] = await eslint.lintFiles([file]);
-
-					assert.strictEqual(result.errorCount, 0);
-
-					fs.writeFileSync(file, "console.log(foo);\n");
-
-					eslint = await createESLintWithErrorRuleFilter(options);
-					[result] = await eslint.lintFiles([file]);
-
-					assert.strictEqual(result.errorCount, 1);
-
-					eslint = new ESLint(options);
-					[result] = await eslint.lintFiles([file]);
-
-					assert.strictEqual(
-						result.errorCount,
-						1,
-						"the cached result for the previous file contents should not have been used",
-					);
-				} finally {
-					doDelete(file);
-				}
+				assert.strictEqual(result.warningCount, 0);
 			});
 
 			it("should reuse cached results when 'allowInlineConfig' is unchanged", async () => {
@@ -15248,7 +15185,7 @@ describe("ESLint", () => {
 							quiet: true,
 						}),
 					file,
-					{ ruleFilterCacheKey: "quiet" },
+					{ quiet: true },
 				);
 
 				assert.strictEqual(result.errorCount, 1);

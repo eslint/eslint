@@ -859,6 +859,36 @@ describe("cli", () => {
 					}
 				});
 
+				it(`should exit with exit code 1 if warning count exceeds threshold with the quiet option after a cached run with the quiet option`, async () => {
+					// The warning comes from a rule that is only enabled in an inline config comment.
+					const inlineConfigFilePath = getFixturePath(
+						"max-warnings/inline-warning.js",
+					);
+					const cacheLocation = getFixturePath(".eslintcache-quiet");
+
+					try {
+						const quietExitCode = await cli.execute(
+							`--no-config-lookup --cache --cache-location ${cacheLocation} --quiet ${inlineConfigFilePath}`,
+						);
+
+						assert.strictEqual(quietExitCode, 0);
+
+						const exitCode = await cli.execute(
+							`--no-config-lookup --cache --cache-location ${cacheLocation} --quiet --max-warnings 0 ${inlineConfigFilePath}`,
+						);
+
+						assert.strictEqual(exitCode, 1);
+						assert.ok(log.info.notCalled); // didn't print warnings
+						assert.ok(log.error.calledOnce);
+						assert.include(
+							log.error.getCall(0).args[0],
+							"ESLint found too many warnings",
+						);
+					} finally {
+						fs.rmSync(cacheLocation, { force: true });
+					}
+				});
+
 				it(`should not change exit code if warning count equals threshold`, async () => {
 					const exitCode = await cli.execute(
 						`--no-ignore --max-warnings 6 ${filePath} -c ${configFilePath}`,
