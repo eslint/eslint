@@ -242,6 +242,40 @@ ruleTester.run("eqeqeq", rule, {
 			],
 		},
 		{
+			code: "typeof a == `${value}`",
+			output: "typeof a === `${value}`",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "tag`${value}` == typeof a",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "tag`${value}` === typeof a",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "true == true",
 			output: "true === true",
 			errors: [
