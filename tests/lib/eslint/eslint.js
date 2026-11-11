@@ -2155,7 +2155,7 @@ describe("ESLint", () => {
 			const cwd = getFixturePath("suppressions-autofix");
 			const filePath = path.join(cwd, "suppressed.js");
 			const code = fs.readFileSync(filePath, "utf8");
-			const loadSpy = sinon.spy(SuppressionsService.prototype, "load");
+			const readFileSpy = sinon.spy(fsp, "readFile");
 
 			eslint = new ESLint({
 				overrideConfigFile: true,
@@ -2168,7 +2168,11 @@ describe("ESLint", () => {
 				eslint.lintText(code, { filePath }),
 			]);
 
-			assert.strictEqual(loadSpy.callCount, 1);
+			assert.strictEqual(
+				readFileSpy.withArgs(path.join(cwd, "eslint-suppressions.json"))
+					.callCount,
+				1,
+			);
 
 			for (const [result] of results) {
 				assert.strictEqual(result.output, code.replace("!!foo", "foo"));

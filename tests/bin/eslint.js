@@ -1057,6 +1057,37 @@ describe("bin/eslint.js", () => {
 
 				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
+
+			it("throws an error without fixing the linted file when the --fix argument is used", () => {
+				const tempFilePath = "tests/fixtures/suppressions/temp.js";
+
+				fs.copyFileSync(SOURCE_PATH, tempFilePath);
+
+				const child = runESLint([
+					"--no-config-lookup",
+					"--no-ignore",
+					tempFilePath,
+					"--suppressions-location",
+					SUPPRESSIONS_PATH,
+					"--fix",
+				]);
+
+				const exitCodeAssertion = assertExitCode(child, 2).then(() => {
+					assert.strictEqual(
+						fs.readFileSync(tempFilePath, "utf8"),
+						fs.readFileSync(SOURCE_PATH, "utf8"),
+						"The linted file should not be fixed",
+					);
+				});
+				const outputAssertion = getOutput(child).then(output => {
+					assert.include(
+						output.stderr,
+						"Failed to parse suppressions file at",
+					);
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
+			});
 		});
 
 		describe("when a valid suppressions file already exists", () => {

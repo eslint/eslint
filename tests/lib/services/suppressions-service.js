@@ -173,6 +173,56 @@ describe("SuppressionsService", () => {
 				},
 			);
 		});
+
+		it("should read the suppressions file once for concurrent and subsequent calls", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const mockData = { "file.js": { "rule-id": { count: 1 } } };
+			const readStub = sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(mockData));
+
+			const [first, second] = await Promise.all([
+				suppressionsService.load(),
+				suppressionsService.load(),
+			]);
+			const third = await suppressionsService.load();
+
+			assert.ok(
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
+			);
+			assert.deepStrictEqual(first, mockData);
+			assert.strictEqual(second, first);
+			assert.strictEqual(third, first);
+		});
+
+		it("should read the suppressions file again after a failed load", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const mockData = { "file.js": { "rule-id": { count: 1 } } };
+			const readStub = sinon.stub(fs.promises, "readFile");
+
+			readStub.onFirstCall().resolves("invalid json");
+			readStub.onSecondCall().resolves(JSON.stringify(mockData));
+
+			await assert.rejects(() => suppressionsService.load(), {
+				message:
+					"Failed to parse suppressions file at /project/eslint-suppressions.json",
+			});
+
+			const result = await suppressionsService.load();
+
+			assert.deepStrictEqual(result, mockData);
+			assert.ok(
+				readStub.calledTwice,
+				"Expected the suppressions file to be read again",
+			);
+		});
 	});
 
 	describe("save()", () => {
@@ -523,17 +573,18 @@ describe("SuppressionsService", () => {
 			);
 		});
 
-		it("should add suppressions to the suppressions snapshot instead of loading the suppressions file", async () => {
+		it("should update the loaded suppressions instead of reading the suppressions file again", async () => {
 			const cwd = path.resolve("/project");
 			const suppressionsService = new SuppressionsService({
 				filePath: path.join(cwd, "eslint-suppressions.json"),
 				cwd,
 			});
 			const relPath = path.posix.join("src", "app.js");
-			const suppressionsSnapshot = {
-				[relPath]: { "no-console": { count: 3 } },
-			};
-			const readStub = sinon.stub(fs.promises, "readFile");
+			const readStub = sinon.stub(fs.promises, "readFile").resolves(
+				JSON.stringify({
+					[relPath]: { "no-console": { count: 3 } },
+				}),
+			);
 			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
 
 			const results = [
@@ -543,15 +594,14 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(
-				results,
-				void 0,
-				suppressionsSnapshot,
-			);
+			await suppressionsService.load();
+			await suppressionsService.suppress(results, void 0);
+
+			const suppressions = await suppressionsService.load();
 
 			assert.ok(
-				readStub.notCalled,
-				"Expected the suppressions file not to be loaded",
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
 			);
 			assert.ok(writeStub.calledOnce, "Expected save to be called");
 
@@ -563,7 +613,7 @@ describe("SuppressionsService", () => {
 					"no-unused-vars": { count: 1 },
 				},
 			});
-			assert.deepStrictEqual(suppressionsSnapshot, written);
+			assert.deepStrictEqual(suppressions, written);
 		});
 	});
 
@@ -830,20 +880,21 @@ describe("SuppressionsService", () => {
 			);
 		});
 
-		it("should prune the suppressions snapshot instead of loading the suppressions file", async () => {
+		it("should prune the loaded suppressions instead of reading the suppressions file again", async () => {
 			const cwd = path.resolve("/project");
 			const suppressionsService = new SuppressionsService({
 				filePath: path.join(cwd, "eslint-suppressions.json"),
 				cwd,
 			});
 			const relPath = path.posix.join("src", "app.js");
-			const suppressionsSnapshot = {
-				[relPath]: {
-					"no-console": { count: 1 },
-					"no-unused-vars": { count: 5 },
-				},
-			};
-			const readStub = sinon.stub(fs.promises, "readFile");
+			const readStub = sinon.stub(fs.promises, "readFile").resolves(
+				JSON.stringify({
+					[relPath]: {
+						"no-console": { count: 1 },
+						"no-unused-vars": { count: 5 },
+					},
+				}),
+			);
 			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
 
 			sinon.stub(fs, "existsSync").returns(true);
@@ -858,11 +909,14 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.prune(results, suppressionsSnapshot);
+			await suppressionsService.load();
+			await suppressionsService.prune(results);
+
+			const suppressions = await suppressionsService.load();
 
 			assert.ok(
-				readStub.notCalled,
-				"Expected the suppressions file not to be loaded",
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
 			);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
@@ -870,7 +924,7 @@ describe("SuppressionsService", () => {
 			assert.deepStrictEqual(written, {
 				[relPath]: { "no-unused-vars": { count: 2 } },
 			});
-			assert.deepStrictEqual(suppressionsSnapshot, written);
+			assert.deepStrictEqual(suppressions, written);
 		});
 	});
 
