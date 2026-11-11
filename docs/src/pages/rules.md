@@ -18,7 +18,8 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
         recommended: true,
         fixable: true,
         frozen: true,
-        hasSuggestions: true
+        hasSuggestions: true,
+        handledByTypeScript: true
 }) }}
 
 {%- for type, content in rules.types -%}
@@ -39,6 +40,7 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
     {%- set isFrozen = the_rule.frozen -%}
     {%- set isFixable = the_rule.fixable -%}
     {%- set isHasSuggestions = the_rule.hasSuggestions -%}
+    {%- set isHandledByTypeScript = the_rule.handledByTypeScript -%}
 
     {{ rule({
             name: name_value,
@@ -48,7 +50,8 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
                 recommended: isRecommended,
                 fixable: isFixable,
                 frozen: isFrozen,
-                hasSuggestions: isHasSuggestions
+                hasSuggestions: isHasSuggestions,
+                handledByTypeScript: isHandledByTypeScript
             }
     }) }}
     {%- endfor -%}

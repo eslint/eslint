@@ -95,7 +95,8 @@
 	align-items: center;
 	gap: 0.5rem;
 
-	.frozen {
+	.frozen,
+	.handled-by-typescript {
 		font-size: 0.875rem;
 	}
 }

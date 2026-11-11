@@ -188,6 +188,9 @@ function generateRuleIndexPage() {
 			const filename = pair[0];
 			const basename = pair[1];
 			const rule = require(path.resolve(filename));
+			const ruleDoc = matter(
+				String(cat(path.join(DOCS_SRC_DIR, "rules", `${basename}.md`))),
+			);
 
 			/*
 			 * Eleventy interprets the {{ }} in messages as being variables,
@@ -218,6 +221,9 @@ function generateRuleIndexPage() {
 						fixable: !!rule.meta.fixable,
 						frozen: !!rule.meta.docs.frozen,
 						hasSuggestions: !!rule.meta.hasSuggestions,
+						...(ruleDoc.data.handled_by_typescript && {
+							handledByTypeScript: true,
+						}),
 					},
 					ruleType = ruleTypesData.types[rule.meta.type];
 

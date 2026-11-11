@@ -27,6 +27,9 @@
             {%- if params.categories and params.categories.frozen %}
                 <p class="frozen"> ❄️ <span class="visually-hidden">Frozen</span></p>
             {%- endif -%}
+            {%- if params.categories and params.categories.handledByTypeScript %}
+                <p class="handled-by-typescript"> 🔷 <span class="visually-hidden">Handled by TypeScript</span></p>
+            {%- endif -%}
         </div>
         <p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
