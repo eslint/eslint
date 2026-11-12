@@ -642,6 +642,8 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 - `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+- `flags` - An array of feature flags to enable for this instance. Default is an empty array. Can be checked with the [`Linter#hasFlag()`](#linterhasflag) method.
+- `warningService` - The warning service instance to use.
 
 For example:
 
@@ -834,6 +836,10 @@ const Linter = require("eslint").Linter;
 Linter.version; // => '9.0.0'
 ```
 
+### Linter#getSourceCode()
+
+This method is used to get the `SourceCode` object representing the parsed source code.
+
 ### Linter#getTimes()
 
 This method is used to get the times spent on (parsing, fixing, linting) a file. See `times` property of the [Stats](../extend/stats#-stats-type) object.
@@ -841,6 +847,10 @@ This method is used to get the times spent on (parsing, fixing, linting) a file.
 ### Linter#getFixPassCount()
 
 This method is used to get the number of autofix passes made. See `fixPasses` property of the [Stats](../extend/stats#-stats-type) object.
+
+### Linter#getSuppressedMessages()
+
+This method is used to get the list of suppressed linting messages produced in the last running.
 
 ### Linter#hasFlag()
 
