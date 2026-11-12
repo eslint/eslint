@@ -226,6 +226,56 @@ ruleTester.run("no-eq-null", rule, {
 			],
 		},
 		{
+			code: "class A extends B { foo() { return super.foo == null; } }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { expectedOperator: "===" },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 53,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: { expectedOperator: "===" },
+							output: "class A extends B { foo() { return super.foo === null; } }",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "class A extends B { foo() { return super.foo === null || super.foo === undefined; } }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "import.meta.foo != null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { expectedOperator: "!==" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 24,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: { expectedOperator: "!==" },
+							output: "import.meta.foo !== null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "import.meta.foo !== null && import.meta.foo !== undefined",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "(foo) == null",
 			errors: [
 				{
@@ -365,6 +415,27 @@ ruleTester.run("no-eq-null", rule, {
 							messageId: "replaceOperator",
 							data: { expectedOperator: "!==" },
 							output: "const undefined = 0; if (foo !== null) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null",
+			languageOptions: { globals: { undefined: "off" } },
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { expectedOperator: "===" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 10,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: { expectedOperator: "===" },
+							output: "x === null",
 						},
 					],
 				},
