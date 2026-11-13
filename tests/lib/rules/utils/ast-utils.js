@@ -1349,6 +1349,61 @@ describe("ast-utils", () => {
 				"test.ts",
 			);
 		});
+
+		const expectedTypeScriptResults = {
+			"function foo<T extends () => void>() {}": [0, 34],
+			"(function <T extends () => void>() {})": [1, 32],
+			"class A { foo<T extends () => void>() {} }": [10, 35],
+			"class A { foo = <T extends () => void>(a, b) => {}; }": [10, 38],
+			"declare function foo<T extends () => void>(): void;": [0, 42],
+		};
+
+		Object.keys(expectedTypeScriptResults).forEach(key => {
+			const expectedLoc = {
+				start: {
+					line: 1,
+					column: expectedTypeScriptResults[key][0],
+				},
+				end: {
+					line: 1,
+					column: expectedTypeScriptResults[key][1],
+				},
+			};
+
+			it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
+				linter.verify(
+					key,
+					{
+						files: ["**/*.ts"],
+						languageOptions: {
+							parser: require("@typescript-eslint/parser"),
+						},
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: mustCall(() => ({
+											":function, TSDeclareFunction":
+												mustCall(node => {
+													assert.deepStrictEqual(
+														astUtils.getFunctionHeadLoc(
+															node,
+															linter.getSourceCode(),
+														),
+														expectedLoc,
+													);
+												}),
+										})),
+									},
+								},
+							},
+						},
+						rules: { "test/checker": "error" },
+					},
+					"test.ts",
+				);
+			});
+		});
 	});
 
 	describe("isEmptyBlock", () => {

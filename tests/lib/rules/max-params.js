@@ -457,5 +457,103 @@ ruleTesterTypeScript.run("max-params", rule, {
 			options: [{ max: 3, countThis: "except-void" }],
 			errors: [{ messageId: "exceed" }],
 		},
+		{
+			code: "function foo<T extends () => void>(a: T, b: number) {}",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "export default function <T extends () => void>(a: T, b: number) {}",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
+		},
+		{
+			code: "const foo = function <T = (x: string) => void>(a: T, b: number) {};",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function", count: 2, max: 1 },
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
+		},
+		{
+			code: "class A { foo<T extends () => void>(a: T, b: number) {} }",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Method 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "class A { foo = <T extends () => void>(a: T, b: number) => {}; }",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Method 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
+		},
+		{
+			code: "({ foo: <T extends () => void>(a: T, b: number) => {} });",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Method 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "declare function foo<T extends () => void>(a: T, b: number): void;",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 43,
+				},
+			],
+		},
 	],
 });
