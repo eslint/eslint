@@ -304,6 +304,26 @@ ruleTester.run("func-names", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "[fn = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: fn = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "[(fn) = function foo() {}] = bar;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: (fn) = function foo() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
 			code: "fn &&= function() {};",
 			options: ["as-needed"],
 			languageOptions: { ecmaVersion: 2021 },
@@ -1101,6 +1121,32 @@ ruleTester.run("func-names", rule, {
 					data: { name: "function" },
 					column: 7,
 					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "[(fn) = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 9,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "({ bar: (fn) = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 16,
+					endColumn: 24,
 				},
 			],
 		},
