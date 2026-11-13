@@ -1,3 +1,43 @@
+v10.14.0 - October 30, 2026
+
+* [`0e2ab70`](https://github.com/eslint/eslint/commit/0e2ab702714a66829fe2798c77190b48a3a88645) ci: disable `eslint-plugin-unicorn` ecosystem test (#21462) (Francesco Trotta)
+* [`4a12580`](https://github.com/eslint/eslint/commit/4a12580eefdb240bd9b6ae83428638120e9a5f66) fix: require minimatch `10.2.6` to avoid vulnerable brace-expansion (#21460) (lumir)
+* [`0f94f47`](https://github.com/eslint/eslint/commit/0f94f47b3cf188534d6ac24c0ef4108dd004492b) docs: remove `zh-hans` from docs language switcher (#21437) (lumir)
+* [`dab466e`](https://github.com/eslint/eslint/commit/dab466e5cd43f4b9156a4d00b3423be2ed0088cc) docs: Update README (GitHub Actions Bot)
+* [`827a8f3`](https://github.com/eslint/eslint/commit/827a8f3cca710d3efd76c1d7088d894deff08434) fix: `no-restricted-globals` crash on global objects as property values (#21449) (xbinaryx)
+* [`97431f8`](https://github.com/eslint/eslint/commit/97431f86d5dc7cd60ade6415393b906cf08fe46c) docs: replace `--rulesdir` with a virtual plugin in custom rules docs (#21452) (Pixel)
+* [`6e3f988`](https://github.com/eslint/eslint/commit/6e3f9888cca518fbb9ba399e88b3033577d9f4ad) chore: update github/codeql-action action to v4.39.1 (#21450) (renovate[bot])
+* [`161558a`](https://github.com/eslint/eslint/commit/161558ae1391a8649a8d69a8b2c2e555b40121b9) fix: handle LS, PS and empty hashbang comments (#21419) (lumir)
+* [`6194939`](https://github.com/eslint/eslint/commit/6194939873960e605b9df3892aa1f5acd648df34) fix: `no-invalid-this` crash on `accessor` fields without initializer (#21442) (xbinaryx)
+* [`a031c40`](https://github.com/eslint/eslint/commit/a031c40da3c2185279ca8f1f7961fff01fb7b8ff) chore: update ecosystem plugins (#21445) (ESLint Bot)
+* [`9155e14`](https://github.com/eslint/eslint/commit/9155e14781bf0a5549f9a747691f7d98c8c66dcd) fix: Update @humanfs/node dependency version (#21434) (Nicholas C. Zakas)
+* [`67d2ca2`](https://github.com/eslint/eslint/commit/67d2ca2d246bf0311d4a60f58282a7b246c44cba) chore: add troubleshooting page URL to circular fixes warning message (#21429) (Milos Djermanovic)
+* [`cb2b9d4`](https://github.com/eslint/eslint/commit/cb2b9d47a1a14e287ffd473083e97370801ea21e) fix: avoid invalid object-shorthand fixes for super methods (#21323) (dvd233)
+* [`d23a7f9`](https://github.com/eslint/eslint/commit/d23a7f9eed78e2733fa2d17d7d7dbb9891bbb692) feat: fix property descriptor handling in `func-name-matching` (#21400) (xbinaryx)
+* [`276021d`](https://github.com/eslint/eslint/commit/276021d5190f62c873002f7aa08cdcb345135bbe) chore: update github/codeql-action action to v4.39.0 (#21432) (renovate[bot])
+* [`7697550`](https://github.com/eslint/eslint/commit/76975502cb1370f2ae4d9427fa1daf7effabe909) docs: Update README (GitHub Actions Bot)
+* [`0c699d5`](https://github.com/eslint/eslint/commit/0c699d52d2c4596a56e8f8aa0c8f5732558cf552) docs: Remove Tidelift commercial support (#21416) (Milos Djermanovic)
+* [`5ee3915`](https://github.com/eslint/eslint/commit/5ee39156b5abb606170a289844cd25aebda6d302) fix: yoda invalid autofix at statement start (#21424) (Daniel Pinto)
+* [`0880666`](https://github.com/eslint/eslint/commit/088066663aae84ad6edfa902a27a90c4c08785f3) docs: update loadESLint() documentation for v10 (#21374) (Minseon Kim)
+* [`449724e`](https://github.com/eslint/eslint/commit/449724e95bfa013fa32c29375925b4111d3924e4) chore: update ecosystem plugins (#21420) (ESLint Bot)
+* [`8ffeb8c`](https://github.com/eslint/eslint/commit/8ffeb8c023bea91a5cfa01b1413a52a83838a59a) chore: update dependency prettier to v3.9.10 (#21417) (renovate[bot])
+* [`e06fe87`](https://github.com/eslint/eslint/commit/e06fe87c41cc6210269260a097c61cefb92f456a) docs: Revise AI acknowledgment options in PR template (#21414) (Nicholas C. Zakas)
+
+v10.13.0 - October 16, 2026
+
+* [`4783a68`](https://github.com/eslint/eslint/commit/4783a6806fb73ea4843ac46c6ae3d8285f56c288) docs: Update README (GitHub Actions Bot)
+* [`b59d889`](https://github.com/eslint/eslint/commit/b59d889c7c18d8c73144e6ba46e9e7f3e7da0196) chore: update github/codeql-action action to v4.38.3 (#21412) (renovate[bot])
+* [`95e51a0`](https://github.com/eslint/eslint/commit/95e51a0518b15015304eca9844b3f64c1fc167ca) ci: re-enable `@typescript-eslint/typescript-eslint` in ecosystem tests (#21410) (Francesco Trotta)
+* [`317fcb3`](https://github.com/eslint/eslint/commit/317fcb365f19e912a60d171a9d5a8d1f16fe4660) chore: update ecosystem plugins (#21409) (ESLint Bot)
+* [`48d5cc4`](https://github.com/eslint/eslint/commit/48d5cc47e43478670ccf95a74f7a73e8408152b5) feat: report references inside IIFEs in `no-use-before-define` (#21238) (Irfan fandi)
+* [`43f0ac9`](https://github.com/eslint/eslint/commit/43f0ac90e7858a834a0e68309e6397fb4cfa72dd) docs: clarify parameter description in `getText` (#21287) (lumir)
+* [`a39d9fb`](https://github.com/eslint/eslint/commit/a39d9fb1fdb5db546f6407580cac531ba3370450) feat: add `globalThis` to `no-obj-calls` (#21382) (synthex-byte)
+* [`b92decf`](https://github.com/eslint/eslint/commit/b92decf8ead7cc4082a18a4a0ab28f3c7c589887) perf: skip no-redeclare scan for single-declaration variables (#21365) (James Ross)
+* [`66ac583`](https://github.com/eslint/eslint/commit/66ac58383e076940c11a5d7213ad079028d1140e) feat: check `yield*` expressions in `no-unsafe-optional-chaining` (#21399) (xbinaryx)
+* [`87bd2ce`](https://github.com/eslint/eslint/commit/87bd2cef7b2309739c29598fb2be335f4bed71a3) fix: avoid redeclared `let` when `no-var` and `one-var` fix together (#21389) (Daniel Pinto)
+* [`47b7063`](https://github.com/eslint/eslint/commit/47b7063b3f3f7bc7a5bcb87c082577e4e8b96e24) chore: update dependency @eslint/json to ^2.1.1 (#21398) (renovate[bot])
+* [`e5aea41`](https://github.com/eslint/eslint/commit/e5aea414cc00555ecd43f6e608bf80e0f9a6d4d6) chore: update ecosystem plugins (#21390) (ESLint Bot)
+
 v10.12.0 - October 2, 2026
 
 * [`bc51eee`](https://github.com/eslint/eslint/commit/bc51eee6e3e816622b2dd1bc08acb9cfb2d3a6a7) fix: `prefer-arrow-callback` false positive in conditional test (#21373) (Daniel Pinto)

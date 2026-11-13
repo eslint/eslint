@@ -332,6 +332,24 @@ ruleTester.run("accessor-pairs", rule, {
 			code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});",
 			languageOptions: { ecmaVersion: 6 },
 		},
+		"Object.defineProperty(obj, 'foo', { 'get': function() {}, set: function(value) {} });",
+		"Object.defineProperty(obj, 'foo', { get: function() {}, 'set': function(value) {} });",
+		"Object.defineProperty(obj, 'foo', { 'get': function() {}, 'set': function(value) {} });",
+		{
+			code: "Reflect.defineProperty(obj, 'foo', { ['get']: function() {}, set: function(value) {} });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.defineProperties(obj, { foo: { get: function() {}, [`set`]: function(value) {} } });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.create(null, { foo: { ['get']() {}, 'set'(value) {} } });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 
 		// wrong argument index (not in the property descriptor position)
 		"Object.defineProperty({ set: function(value) {} }, 'foo', { value: 1 });",
@@ -1824,6 +1842,60 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { 'set': function(value) {} });",
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Reflect.defineProperty(obj, 'foo', { ['set']: function(value) {} });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(obj, { foo: { [`set`]: function(value) {} } });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.create(null, { foo: { 'set'(value) {} } });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { 'get': function() {} });",
+			options: [{ getWithoutSet: true }],
+			errors: [
+				{
+					messageId: "missingSetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { ['get']: function() {} });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingSetterInPropertyDescriptor",
 				},
 			],
 		},

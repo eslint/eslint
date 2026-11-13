@@ -737,5 +737,20 @@ ruleTester.run("no-redeclare", rule, {
 				},
 			],
 		},
+		{
+			code: "/*globals a */ var a;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: { globals: { a: "off" } },
+			errors: [
+				{
+					message:
+						"'a' is already defined by a variable declaration.",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
 	],
 });

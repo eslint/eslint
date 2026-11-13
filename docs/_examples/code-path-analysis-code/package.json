@@ -1,0 +1,24 @@
+{
+  "name": "code-path-analysis-example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Example rule for the Code Path Analysis documentation.",
+  "type": "module",
+  "main": "check-cb-called.js",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "peerDependencies": {
+    "eslint": ">=10.0.0"
+  },
+  "scripts": {
+    "test": "node check-cb-called.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^10.0.0"
+  }
+}

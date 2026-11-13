@@ -50,17 +50,6 @@ function hasMetaDocs(metaPropertyNode) {
 }
 
 /**
- * Whether this `meta` ObjectExpression has a `docs.recommended` property defined or not.
- * @param {ASTNode} metaPropertyNode The `meta` ObjectExpression for this rule.
- * @returns {boolean} `true` if a `docs.recommended` property exists.
- */
-function hasMetaDocsRecommended(metaPropertyNode) {
-	const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
-
-	return metaDocs && getPropertyFromObject("recommended", metaDocs.value);
-}
-
-/**
  * Checks the validity of the meta definition of this rule and reports any errors found.
  * @param {RuleContext} context The ESLint rule context.
  * @param {ASTNode} exportsNode ObjectExpression node that the rule exports.
@@ -76,14 +65,6 @@ function checkMetaValidity(context, exportsNode) {
 
 	if (!hasMetaDocs(metaProperty)) {
 		context.report({ node: metaProperty, messageId: "missingMetaDocs" });
-		return;
-	}
-
-	if (!hasMetaDocsRecommended(metaProperty)) {
-		context.report({
-			node: metaProperty,
-			messageId: "missingMetaDocsRecommended",
-		});
 	}
 }
 
@@ -102,8 +83,6 @@ module.exports = {
 		messages: {
 			missingMeta: "Rule is missing a meta property.",
 			missingMetaDocs: "Rule is missing a meta.docs property.",
-			missingMetaDocsRecommended:
-				"Rule is missing a meta.docs.recommended property.",
 			noExport:
 				"Rule does not export anything. Make sure rule exports an object according to new rule format.",
 		},
