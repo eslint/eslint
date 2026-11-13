@@ -172,7 +172,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 ##### Suppressions
 
 - `options.applySuppressions` (`boolean`)<br>
-  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect. If the `fix` option is also enabled, fixes are not applied for rules that are suppressed for the file being linted.
 - `options.suppressionsLocation` (`string`)<br>
   Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
 
