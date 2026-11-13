@@ -4427,6 +4427,123 @@ try {
 			],
 		},
 		{
+			code: 'foo("x", a => {})',
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: 'foo("x", () => {})',
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "foo(b, a => {}, c)",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "foo(b, () => {}, c)",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "[b, a => 1]",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "[b, () => 1]",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "[, a => 1]",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "[, () => 1]",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "(b, a => 1)",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "(b, () => 1)",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "foo(b, /* comment */ a => {})",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "foo(b, /* comment */ () => {})",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "foo(b, a /* comment */ => {})",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "foo(b, () /* comment */ => {})",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "foo(b,\n    a => {})",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "foo(b,\n    () => {})",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "foo(b, (c, a) => c)",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "foo(b, (c) => c)",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
 			code: "if (foo()) var bar;",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
