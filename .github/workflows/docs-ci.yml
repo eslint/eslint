@@ -23,6 +23,9 @@ jobs:
               with:
                   node-version: "24" # Should be the same as the version used on Netlify to build the docs site
 
+            - name: Check documentation page index
+              run: node docs/tools/update-docs-page-index.js --check --fetch
+
             - name: Install Docs Packages
               working-directory: docs
               run: npm install
