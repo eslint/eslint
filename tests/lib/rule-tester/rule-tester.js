@@ -777,6 +777,14 @@ describe("RuleTester", () => {
 			}, /Valid test case must not have 'output' property/u);
 		});
 
+		it("Valid test case must not have 'error' property", () => {
+			assert.throws(() => {
+				runValidTests([
+					{ code: "", error: { name: "SchemaValidationError" } },
+				]);
+			}, /Valid test case must not have 'error' property/u);
+		});
+
 		it("Valid test case can have 'output' property set to undefined", () => {
 			runValidTests([{ code: "", output: void 0 }]);
 		});
@@ -796,6 +804,488 @@ describe("RuleTester", () => {
 				],
 			},
 		);
+	});
+
+	describe("fatal", () => {
+		const noSchemaViolationRule = require("../../fixtures/testers/rule-tester/no-schema-violation");
+		const throwsOnOptionRule = require("../../fixtures/testers/rule-tester/throws-on-option");
+		const throwsOnListenerRule = require("../../fixtures/testers/rule-tester/throws-on-listener");
+
+		it("should pass when fatal cases expect schema validation errors (by name)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "foo", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { name: "SchemaValidationError" },
+					},
+				],
+			});
+		});
+
+		it("should pass when fatal cases expect schema validation errors (by message regex)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "foo", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: [123],
+						error: {
+							message:
+								/should be equal to one of the allowed values/u,
+						},
+					},
+				],
+			});
+		});
+
+		it("should expose messageForTest (without 'Key \"rules\":' prefix) in fatal schema validation errors", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "foo", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: {
+							name: "SchemaValidationError",
+							message: /^(?!Key "rules":)/u,
+						},
+					},
+				],
+			});
+		});
+
+		it("should pass when fatal cases expect rule-thrown exceptions (by message and name)", () => {
+			ruleTester.run("throws-on-option", throwsOnOptionRule, {
+				valid: [{ code: "x", options: ["strict"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["throw"],
+						error: {
+							message: "Intentional throw for testing",
+							name: "CustomRuleError",
+						},
+					},
+				],
+			});
+		});
+
+		it("should expose the original error message when a rule listener throws", () => {
+			ruleTester.run("throws-on-listener", throwsOnListenerRule, {
+				valid: [],
+				invalid: [],
+				fatal: [
+					{
+						error: {
+							message: "Listener crash for testing",
+							name: "ListenerError",
+						},
+					},
+				],
+			});
+		});
+
+		it("should not include 'Occurred while linting' in the fatal error message when a rule listener throws", () => {
+			ruleTester.run("throws-on-listener", throwsOnListenerRule, {
+				valid: [],
+				invalid: [],
+				fatal: [
+					{
+						error: {
+							message: /^(?!.*Occurred while linting)/u,
+							name: "ListenerError",
+						},
+					},
+				],
+			});
+		});
+
+		it("should use the error class name when name is the default Error", () => {
+			/**
+			 *
+			 */
+			class CustomClassError extends Error {}
+
+			ruleTester.run(
+				"throws-custom-class",
+				{
+					meta: { schema: [] },
+					create() {
+						throw new CustomClassError("class name for testing");
+					},
+				},
+				{
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							error: { name: "CustomClassError" },
+						},
+					],
+				},
+			);
+		});
+
+		it("should use Error when the constructor name is missing", () => {
+			ruleTester.run(
+				"throws-error-without-constructor-name",
+				{
+					meta: { schema: [] },
+					create() {
+						const error = new Error("missing constructor name");
+
+						Object.defineProperty(error, "constructor", {
+							value: void 0,
+						});
+						throw error;
+					},
+				},
+				{
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							error: {
+								message: "missing constructor name",
+								name: "Error",
+							},
+						},
+					],
+				},
+			);
+		});
+
+		it("should throw when the fatal error message does not match", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { message: "not the real message" },
+						},
+					],
+				});
+			}, /not the real message/u);
+		});
+
+		it("should throw when the fatal error message does not match a pattern", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { message: /this will not match/u },
+						},
+					],
+				});
+			}, /Expected 'Intentional throw for testing' to match \/this will not match\/u/u);
+		});
+
+		it("should throw when the fatal error name does not match", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("throws-on-option", throwsOnOptionRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["throw"],
+							error: { name: "WrongName" },
+						},
+					],
+				});
+			}, /Expected error name to be 'WrongName' but got 'CustomRuleError'/u);
+		});
+
+		it("should pass when fatal case omits code (uses empty string)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "x", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { name: "SchemaValidationError" },
+					},
+				],
+			});
+		});
+
+		it("should throw when fatal is not an array", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: "foo",
+				});
+			}, /'fatal' property must be an array/u);
+
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: 1,
+				});
+			}, /'fatal' property must be an array/u);
+		});
+
+		it("should not fail while naming an unnamed fatal case with a BigInt option", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: [1n],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /ESLint configuration in rule-tester is invalid: Do not know how to serialize a BigInt/u);
+		});
+
+		it("should throw when fatal test case 'options' is not an array", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: null,
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /Optional test case property 'options' must be an array/u);
+		});
+
+		it("should throw when fatal test case 'code' is not a string", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							code: 123,
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /Fatal test case property 'code', if specified, must be a string/u);
+		});
+
+		it("should throw when a fatal test case is not an object", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: ["var foo;"],
+				});
+			}, /Fatal test case must have an 'error' object/u);
+		});
+
+		it("should throw when fatal test case is missing error object", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+						},
+					],
+				});
+			}, /Fatal test case must have an 'error' object/u);
+		});
+
+		it("should throw when fatal test case error has neither message nor name", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: {},
+						},
+					],
+				});
+			}, /Fatal test case 'error' must specify at least one of 'message' or 'name'/u);
+		});
+
+		it("should throw when fatal test case error.message is not a string or RegExp", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { message: 42 },
+						},
+					],
+				});
+			}, /Fatal test case 'error\.message' must be a string or RegExp/u);
+		});
+
+		it("should throw when fatal test case error.name is not a string", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { name: null },
+						},
+					],
+				});
+			}, /Fatal test case 'error\.name' must be a string/u);
+		});
+
+		it("should throw when fatal test case error has an unknown property", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: {
+								name: "SchemaValidationError",
+								stack: "some stack",
+							},
+						},
+					],
+				});
+			}, /Invalid fatal error property name 'stack'\. Expected one of \['message', 'name'\]\./u);
+		});
+
+		it("should throw when fatal test case has an 'errors' property", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+							errors: 1,
+						},
+					],
+				});
+			}, /Fatal test case must not have 'errors' property/u);
+		});
+
+		it("should throw when fatal test case has an 'output' property", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+							output: "x",
+						},
+					],
+				});
+			}, /Fatal test case must not have 'output' property/u);
+		});
+
+		it("should throw when fatal test cases are duplicates", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+						},
+						{
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /detected duplicate test case/u);
+		});
+
+		it("should throw when fatal test cases are duplicates except for the 'name' and 'error' properties", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							name: "first",
+							options: ["bar"],
+							error: { name: "SchemaValidationError" },
+						},
+						{
+							name: "second",
+							options: ["bar"],
+							error: { message: "some other message" },
+						},
+					],
+				});
+			}, /detected duplicate test case/u);
+		});
+
+		it("should not throw when fatal test cases differ in 'options'", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { name: "SchemaValidationError" },
+					},
+					{
+						options: ["baz"],
+						error: { name: "SchemaValidationError" },
+					},
+				],
+			});
+		});
+
+		it("should not throw when fatal test cases are duplicates but not serializable", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { message: /allowed values/u },
+					},
+					{
+						options: ["bar"],
+						error: { message: /allowed values/u },
+					},
+				],
+			});
+		});
+
+		it("should throw when fatal case expected a fatal error but options were valid", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["foo"],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /Expected an error to be thrown but the rule executed successfully/u);
+		});
 	});
 
 	it("should throw correct error when valid code is invalid and enables other core rule", () => {
@@ -927,6 +1417,25 @@ describe("RuleTester", () => {
 				},
 			);
 		}, /Expected 'Bad var.' to match \/Bad error message\//u);
+	});
+
+	it("Invalid test case must not have 'error' property", () => {
+		nodeAssert.throws(() => {
+			ruleTester.run(
+				"no-var",
+				require("../../fixtures/testers/rule-tester/no-var"),
+				{
+					valid: ["x"],
+					invalid: [
+						{
+							code: "var foo = bar;",
+							errors: [{ message: "Bad var." }],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				},
+			);
+		}, /Invalid test case must not have 'error' property/u);
 	});
 
 	it("should throw an error when the error is not a supported type", () => {
@@ -7435,6 +7944,99 @@ describe("RuleTester", () => {
 						normalizedStack,
 						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 11})`,
 						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+		});
+
+		describe("fatal", () => {
+			it("should report the correct location for a fatal test case", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-schema-violation",
+						require("../../fixtures/testers/rule-tester/no-schema-violation"),
+						{
+							valid: [],
+							invalid: [],
+							fatal: [
+								{
+									options: ["foo"],
+									error: { name: "SchemaValidationError" },
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.fatal[0] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.fatal (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for the second fatal test case", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-schema-violation",
+						require("../../fixtures/testers/rule-tester/no-schema-violation"),
+						{
+							valid: [],
+							invalid: [],
+							fatal: [
+								{
+									options: ["bar"],
+									error: { name: "SchemaValidationError" },
+								},
+								{
+									options: ["foo"],
+									error: { name: "SchemaValidationError" },
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.fatal[1] (${__filename}:${lineNumber + 15})`,
+						`    roughly at RuleTester.run.fatal (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location when fatal is before valid and invalid", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-schema-violation",
+						require("../../fixtures/testers/rule-tester/no-schema-violation"),
+						{
+							fatal: [
+								{
+									options: ["foo"],
+									error: { name: "SchemaValidationError" },
+								},
+							],
+							valid: [],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.fatal[0] (${__filename}:${lineNumber + 9})`,
+						`    roughly at RuleTester.run.fatal (${__filename}:${lineNumber + 6})`,
 						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}

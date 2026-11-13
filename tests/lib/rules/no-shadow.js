@@ -3889,4 +3889,16 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 			},
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for hoist option",
+			options: [{ hoist: "invalid" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
