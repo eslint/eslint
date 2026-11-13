@@ -233,14 +233,52 @@ ruleTester.run("new-cap", rule, {
 		},
 		{
 			code: "const Date = { UTC() {} }; Date.UTC(2000, 0);",
-			options: [{ properties: false }],
+			options: [{ capIsNewExceptions: ["UTC"] }],
 		},
 		{
-			code: "const Date = { UTC() {} }; Date.UTC(2000, 0);",
-			options: [{ capIsNewExceptions: ["UTC"] }],
+			code: "class A { @Controller() static foo() {} }",
+			options: [{ ignoreDecorators: true }],
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+		},
+		{
+			code: "@Controller() class A {}",
+			options: [{ ignoreDecorators: true }],
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+		},
+		{
+			code: "class A { @Get() method() {} }",
+			options: [{ ignoreDecorators: true }],
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 	],
 	invalid: [
+		{
+			code: "class A { @Controller() static foo() {} }",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ messageId: "upper" }],
+		},
+		{
+			code: "@Controller() class A {}",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ messageId: "upper" }],
+		},
+		{
+			code: "class A { @Get() method() {} }",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ messageId: "upper" }],
+		},
 		{
 			code: "var x = new c();",
 			errors: [

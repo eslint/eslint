@@ -84,6 +84,8 @@ This rule has an object option:
 * `"capIsNewExceptionPattern"` allows any uppercase-started function names that match the specified regex pattern to be called without the `new` operator.
 * `"properties": true` (default) enables checks on object properties.
 * `"properties": false` disables checks on object properties.
+* `"ignoreDecorators": false` (default) checks decorator calls like `@Controller()` the same as other uppercase-called functions.
+* `"ignoreDecorators": true` ignores decorator calls, even when the decorator name starts with an uppercase letter.
 
 ### newIsCap
 
@@ -298,6 +300,26 @@ Examples of **correct** code for this rule with the `{ "properties": false }` op
 /*eslint new-cap: ["error", { "properties": false }]*/
 
 const friend = new person.acquaintance();
+```
+
+:::
+
+### ignoreDecorators
+
+Examples of additional **correct** code for this rule with the `{ "ignoreDecorators": true }` option:
+
+::: correct
+
+```ts
+/*eslint new-cap: ["error", { "ignoreDecorators": true }]*/
+
+@Controller()
+export class AppController {
+    @Get()
+    getHello() {
+        return "Hello World!";
+    }
+}
 ```
 
 :::

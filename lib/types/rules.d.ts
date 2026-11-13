@@ -1957,6 +1957,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.3-0
 	 * @see https://eslint.org/docs/latest/rules/new-cap
 	 */
+    
 	"new-cap": Linter.RuleEntry<
 		[
 			Partial<{
