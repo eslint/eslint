@@ -17,7 +17,10 @@ const {
 	normalizeDocsRoute,
 } = require("../../docs/src/assets/js/docs-page-index");
 const {
+	parseArgs,
 	routeForContentFile,
+	selectGitRef,
+	versionBranchForCheckout,
 } = require("../../docs/tools/update-docs-page-index");
 
 //------------------------------------------------------------------------------
@@ -204,6 +207,137 @@ describe("docs page index", () => {
 				}),
 				null,
 			);
+		});
+	});
+
+	describe("versionBranchForCheckout()", () => {
+		const branches = ["main", "latest", "v9.x"];
+
+		it("uses the checkout when it is already a version branch", () => {
+			assert.strictEqual(
+				versionBranchForCheckout("v9.x", branches, {
+					main: 500,
+					latest: 400,
+					"v9.x": 100,
+				}),
+				"v9.x",
+			);
+		});
+
+		it("uses the version branch this checkout was cut from", () => {
+			assert.strictEqual(
+				versionBranchForCheckout("fix-docs", branches, {
+					main: 300,
+					latest: 200,
+					"v9.x": 100,
+				}),
+				"main",
+			);
+			assert.strictEqual(
+				versionBranchForCheckout("maint", branches, {
+					main: 100,
+					latest: 150,
+					"v9.x": 400,
+				}),
+				"v9.x",
+			);
+		});
+
+		it("keeps the earlier version branch when merge-bases tie", () => {
+			assert.strictEqual(
+				versionBranchForCheckout("fix-docs", branches, {
+					main: 200,
+					latest: 200,
+					"v9.x": 50,
+				}),
+				"main",
+			);
+		});
+
+		it("supplies main when history is unavailable", () => {
+			assert.strictEqual(
+				versionBranchForCheckout("", branches, {
+					main: null,
+					latest: null,
+					"v9.x": null,
+				}),
+				"main",
+			);
+			assert.strictEqual(
+				versionBranchForCheckout("topic", ["v9.x", "v8.x"], {
+					"v9.x": null,
+					"v8.x": null,
+				}),
+				null,
+			);
+		});
+	});
+
+	describe("selectGitRef()", () => {
+		it("reads an owned version from the checkout before the remote", () => {
+			assert.strictEqual(
+				selectGitRef("main", {
+					ownedBranches: ["main"],
+					availableRefs: ["HEAD", "origin/main", "main"],
+				}),
+				"HEAD",
+			);
+		});
+
+		it("reads other versions from the remote", () => {
+			assert.strictEqual(
+				selectGitRef("v9.x", {
+					ownedBranches: ["main"],
+					availableRefs: ["HEAD", "origin/v9.x", "v9.x"],
+				}),
+				"origin/v9.x",
+			);
+		});
+
+		it("falls back to a local branch when the remote ref is absent", () => {
+			assert.strictEqual(
+				selectGitRef("next", {
+					ownedBranches: [],
+					availableRefs: ["HEAD", "next"],
+				}),
+				"next",
+			);
+		});
+
+		it("throws when the branch cannot be resolved", () => {
+			assert.throws(() => {
+				selectGitRef("v8.x", {
+					ownedBranches: [],
+					availableRefs: ["HEAD"],
+				});
+			}, /Missing git ref for docs branch "v8\.x"/u);
+		});
+	});
+
+	describe("parseArgs()", () => {
+		it("reads the check, fetch, and branch flags", () => {
+			assert.deepStrictEqual(parseArgs([]), {
+				check: false,
+				fetch: false,
+				asBranch: null,
+			});
+			assert.deepStrictEqual(
+				parseArgs(["--check", "--fetch", "--as-branch", "latest"]),
+				{
+					check: true,
+					fetch: true,
+					asBranch: "latest",
+				},
+			);
+		});
+
+		it("rejects incomplete and unknown arguments", () => {
+			assert.throws(() => {
+				parseArgs(["--as-branch"]);
+			}, /Missing branch name after --as-branch/u);
+			assert.throws(() => {
+				parseArgs(["--nope"]);
+			}, /Unknown argument "--nope"/u);
 		});
 	});
 

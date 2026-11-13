@@ -26,14 +26,12 @@ const IGNORED_CONTENT_DIR =
 const FRONT_MATTER_LINE_LIMIT = 40;
 
 /**
- * Runs git and returns stdout lines.
- * `git grep` exits with 1 when it finds no matches.
+ * Runs git.
  * @param {string[]} args Git arguments.
- * @param {{ allowNoMatch?: boolean }} [options] Command options.
- * @returns {string[]} Stdout split into non-empty lines.
- * @throws {Error} When git fails or cannot be started.
+ * @returns {import("node:child_process").SpawnSyncReturns<string>} Git result.
+ * @throws {Error} When git cannot be started.
  */
-function gitLines(args, options) {
+function gitResult(args) {
 	const result = spawnSync("git", args, {
 		cwd: repoRoot,
 		encoding: "utf8",
@@ -42,6 +40,20 @@ function gitLines(args, options) {
 	if (result.error) {
 		throw result.error;
 	}
+
+	return result;
+}
+
+/**
+ * Runs git and returns stdout lines.
+ * `git grep` exits with 1 when it finds no matches.
+ * @param {string[]} args Git arguments.
+ * @param {{ allowNoMatch?: boolean }} [options] Command options.
+ * @returns {string[]} Stdout split into non-empty lines.
+ * @throws {Error} When git fails.
+ */
+function gitLines(args, options) {
+	const result = gitResult(args);
 
 	if (result.status === 1 && options && options.allowNoMatch) {
 		return [];
@@ -57,25 +69,166 @@ function gitLines(args, options) {
 }
 
 /**
- * Resolves a branch name to a local or origin ref.
- * @param {string} branch Branch name from `versions.json`.
- * @returns {string} Git ref.
- * @throws {Error} When neither the branch nor its origin ref exists.
+ * Branch names published in `versions.json`.
+ * @returns {string[]} Documentation branches.
  */
-function gitRefForBranch(branch) {
-	const candidates = [`origin/${branch}`, branch];
+function versionBranches() {
+	return versions.items
+		.map(item => item.branch)
+		.filter(branch => typeof branch === "string" && branch !== "");
+}
+
+/**
+ * Reports whether a ref points at a commit.
+ * @param {string} ref Git ref.
+ * @returns {boolean} `true` when the ref exists.
+ */
+function refExists(ref) {
+	return (
+		gitResult(["rev-parse", "--verify", "--quiet", `${ref}^{commit}`])
+			.status === 0
+	);
+}
+
+/**
+ * Name of the checked-out branch.
+ * @returns {string} Branch name, or `""` when HEAD is detached.
+ */
+function currentBranchName() {
+	const result = gitResult(["branch", "--show-current"]);
+
+	if (result.status !== 0) {
+		return "";
+	}
+
+	return result.stdout.trim();
+}
+
+/**
+ * Prefers the remote ref for a documentation branch.
+ * @param {string} branch Branch name from `versions.json`.
+ * @returns {string|null} Existing ref, or `null` when neither exists.
+ */
+function availableRef(branch) {
+	if (refExists(`origin/${branch}`)) {
+		return `origin/${branch}`;
+	}
+
+	if (refExists(branch)) {
+		return branch;
+	}
+
+	return null;
+}
+
+/**
+ * Commit time of the merge-base between HEAD and a ref.
+ * @param {string} ref Git ref.
+ * @returns {number|null} Unix time, or `null` when the history is unavailable.
+ */
+function mergeBaseTime(ref) {
+	const base = gitResult(["merge-base", "HEAD", ref]);
+
+	if (base.status !== 0) {
+		return null;
+	}
+
+	const time = gitResult(["show", "-s", "--format=%ct", base.stdout.trim()]);
+
+	if (time.status !== 0) {
+		return null;
+	}
+
+	const value = Number(time.stdout.trim());
+
+	return Number.isFinite(value) ? value : null;
+}
+
+/**
+ * Picks the version branch whose pages come from this checkout.
+ * A checkout of a version branch supplies that branch. Otherwise the version
+ * branch with the newest merge-base is the one this checkout was cut from.
+ * When that history is unavailable, a non-version branch supplies `main`.
+ * @param {string} currentBranch Current branch name, or `""` when detached.
+ * @param {string[]} branches Branch names from `versions.json`.
+ * @param {Object<string, number|null>} mergeBaseTimes Unix time of each merge-base, or `null`.
+ * @returns {string|null} Branch supplied by the checkout.
+ */
+function versionBranchForCheckout(currentBranch, branches, mergeBaseTimes) {
+	if (branches.includes(currentBranch)) {
+		return currentBranch;
+	}
+
+	let bestBranch = null;
+	let bestTime = -1;
+
+	for (const branch of branches) {
+		const time = mergeBaseTimes[branch];
+
+		if (typeof time === "number" && time > bestTime) {
+			bestBranch = branch;
+			bestTime = time;
+		}
+	}
+
+	if (bestBranch) {
+		return bestBranch;
+	}
+
+	return branches.includes("main") ? "main" : null;
+}
+
+/**
+ * Version branches whose pages should be read from the checkout.
+ * @param {string|null} asBranch Branch the caller is about to publish from HEAD.
+ * @returns {string[]} Branch names.
+ */
+function branchesSuppliedByCheckout(asBranch) {
+	const branches = versionBranches();
+	const currentBranch = currentBranchName();
+
+	/** @type {Object<string, number|null>} */
+	const mergeBaseTimes = {};
+
+	if (!branches.includes(currentBranch)) {
+		for (const branch of branches) {
+			const ref = availableRef(branch);
+
+			mergeBaseTimes[branch] = ref ? mergeBaseTime(ref) : null;
+		}
+	}
+
+	const owned = versionBranchForCheckout(
+		currentBranch,
+		branches,
+		mergeBaseTimes,
+	);
+
+	return [...new Set([owned, asBranch].filter(Boolean))];
+}
+
+/**
+ * Chooses the git ref that supplies one version's pages.
+ * The checkout is used for a version it supplies, before any remote ref, so
+ * pages added on that branch are indexed before they exist on the remote.
+ * Other versions use their remote ref, then a local branch of the same name.
+ * @param {string} branch Branch name from `versions.json`.
+ * @param {{ ownedBranches: string[], availableRefs: string[] }} options Ref selection input.
+ * @returns {string} Git ref.
+ * @throws {Error} When no candidate ref exists.
+ */
+function selectGitRef(branch, { ownedBranches, availableRefs }) {
+	const available = new Set(availableRefs);
+	const candidates = [];
+
+	if (ownedBranches.includes(branch)) {
+		candidates.push("HEAD");
+	}
+
+	candidates.push(`origin/${branch}`, branch);
 
 	for (const candidate of candidates) {
-		const result = spawnSync(
-			"git",
-			["rev-parse", "--verify", "--quiet", `${candidate}^{commit}`],
-			{
-				cwd: repoRoot,
-				encoding: "utf8",
-			},
-		);
-
-		if (result.status === 0) {
+		if (available.has(candidate)) {
 			return candidate;
 		}
 	}
@@ -83,6 +236,99 @@ function gitRefForBranch(branch) {
 	throw new Error(
 		`Missing git ref for docs branch "${branch}". Fetch it and rerun this script.`,
 	);
+}
+
+/**
+ * Resolves a branch name to the checkout or a remote ref.
+ * @param {string} branch Branch name from `versions.json`.
+ * @param {string[]} ownedBranches Branches whose pages come from HEAD.
+ * @returns {string} Git ref.
+ * @throws {Error} When no candidate ref exists.
+ */
+function gitRefForBranch(branch, ownedBranches) {
+	const availableRefs = [];
+
+	if (refExists("HEAD")) {
+		availableRefs.push("HEAD");
+	}
+
+	if (refExists(`origin/${branch}`)) {
+		availableRefs.push(`origin/${branch}`);
+	}
+
+	if (refExists(branch)) {
+		availableRefs.push(branch);
+	}
+
+	return selectGitRef(branch, { ownedBranches, availableRefs });
+}
+
+/**
+ * Fetches documentation branches listed in `versions.json`.
+ * A branch that origin does not have yet is skipped. Any other fetch
+ * failure aborts the run so the index is not built from stale refs.
+ * @returns {void}
+ * @throws {Error} When a fetch fails for a reason other than a missing branch.
+ */
+function fetchVersionBranches() {
+	const missing = [];
+
+	for (const branch of versionBranches()) {
+		const result = gitResult(["fetch", "--no-tags", "origin", branch]);
+
+		if (result.status === 0) {
+			continue;
+		}
+
+		const stderr = (result.stderr || "").trim();
+
+		if (/couldn't find remote ref/u.test(stderr)) {
+			missing.push(branch);
+			continue;
+		}
+
+		throw new Error(stderr || `git fetch origin ${branch} failed.`);
+	}
+
+	if (missing.length > 0) {
+		console.error(
+			`Documentation branches not on origin yet: ${missing.join(", ")}.`,
+		);
+	}
+}
+
+/**
+ * Reads CLI flags.
+ * @param {string[]} argv Arguments after the node executable and script path.
+ * @returns {{check: boolean, fetch: boolean, asBranch: string|null}} Parsed options.
+ * @throws {Error} When a flag is unknown or incomplete.
+ */
+function parseArgs(argv) {
+	/** @type {{check: boolean, fetch: boolean, asBranch: string|null}} */
+	const options = { check: false, fetch: false, asBranch: null };
+
+	for (let index = 0; index < argv.length; index++) {
+		const arg = argv[index];
+
+		if (arg === "--check") {
+			options.check = true;
+		} else if (arg === "--fetch") {
+			options.fetch = true;
+		} else if (arg === "--as-branch") {
+			const branch = argv[index + 1];
+
+			if (!branch || branch.startsWith("-")) {
+				throw new Error("Missing branch name after --as-branch.");
+			}
+
+			options.asBranch = branch;
+			index += 1;
+		} else {
+			throw new Error(`Unknown argument "${arg}".`);
+		}
+	}
+
+	return options;
 }
 
 /**
@@ -430,9 +676,14 @@ function assertIndex(index) {
 
 /**
  * Builds the page index for every version in `versions.json`.
+ * @param {{ asBranch?: string|null }} [options] Build options.
  * @returns {Object<string, string[]>} Version path to sorted routes.
  */
-function buildPageIndex() {
+function buildPageIndex(options) {
+	const ownedBranches = branchesSuppliedByCheckout(
+		(options && options.asBranch) || null,
+	);
+
 	/** @type {Object<string, string[]>} */
 	const index = {};
 
@@ -441,7 +692,9 @@ function buildPageIndex() {
 			continue;
 		}
 
-		index[item.path] = pagesForRef(gitRefForBranch(item.branch));
+		index[item.path] = pagesForRef(
+			gitRefForBranch(item.branch, ownedBranches),
+		);
 	}
 
 	assertIndex(index);
@@ -478,16 +731,68 @@ function renderPageIndex(index) {
 }
 
 /**
- * Writes `docs/src/assets/js/docs-pages.js`.
- * @returns {void}
+ * Command that rewrites the page index with the same inputs as `options`.
+ * @param {{fetch: boolean, asBranch: string|null}} options Parsed CLI options.
+ * @returns {string} Shell command without `--check`.
  */
-function main() {
-	const index = buildPageIndex();
+function updateCommand(options) {
+	let command = "node docs/tools/update-docs-page-index.js";
 
-	fs.writeFileSync(outputPath, renderPageIndex(index));
+	if (options.fetch) {
+		command += " --fetch";
+	}
+
+	if (options.asBranch) {
+		command += ` --as-branch ${options.asBranch}`;
+	}
+
+	return command;
+}
+
+/**
+ * Writes `docs/src/assets/js/docs-pages.js`, or checks that it is current.
+ * @param {{check: boolean, fetch: boolean, asBranch: string|null}} options Parsed CLI options.
+ * @returns {void}
+ * @throws {Error} When `--check` finds a stale page index.
+ */
+function run(options) {
+	if (options.fetch) {
+		fetchVersionBranches();
+	}
+
+	const index = buildPageIndex(options);
+	const rendered = renderPageIndex(index);
 
 	for (const [versionPath, routes] of Object.entries(index)) {
 		console.log(`${versionPath} ${routes.length} pages`);
+	}
+
+	if (options.check) {
+		const current = fs.readFileSync(outputPath, "utf8");
+
+		if (current !== rendered) {
+			throw new Error(
+				`docs/src/assets/js/docs-pages.js is out of date. Run \`${updateCommand(options)}\`.`,
+			);
+		}
+
+		console.log("docs/src/assets/js/docs-pages.js is up to date.");
+		return;
+	}
+
+	fs.writeFileSync(outputPath, rendered);
+}
+
+/**
+ * Writes `docs/src/assets/js/docs-pages.js`, or checks that it is current.
+ * @returns {void}
+ */
+function main() {
+	try {
+		run(parseArgs(process.argv.slice(2)));
+	} catch (error) {
+		console.error(error instanceof Error ? error.message : error);
+		process.exitCode = 1;
 	}
 }
 
@@ -496,5 +801,8 @@ if (require.main === module) {
 }
 
 module.exports = {
+	parseArgs,
 	routeForContentFile,
+	selectGitRef,
+	versionBranchForCheckout,
 };

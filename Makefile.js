@@ -275,6 +275,59 @@ function isPreRelease(version) {
 }
 
 /**
+ * Docs branch a release publishes from the current checkout.
+ * @param {string} packageTag Release package tag (`latest`, `next`, or `maintenance`).
+ * @param {string} version Release version.
+ * @returns {string|undefined} Branch name, or `undefined` when the tag is missing.
+ */
+function docsSiteBranchFor(packageTag, version) {
+	if (!packageTag) {
+		return void 0;
+	}
+
+	return packageTag === "maintenance"
+		? `v${semver.major(version)}.x`
+		: packageTag;
+}
+
+/**
+ * Regenerates `docs/src/assets/js/docs-pages.js` from the documentation branches.
+ * `publishedBranch` is read from the checkout because that ref is not on origin yet.
+ * @param {string} [publishedBranch] Branch this release is about to publish.
+ * @returns {void}
+ */
+function updateDocsPageIndex(publishedBranch) {
+	echo("Updating documentation page index");
+
+	const asBranch = publishedBranch ? ` --as-branch ${publishedBranch}` : "";
+	const result = exec(
+		`node docs/tools/update-docs-page-index.js --fetch${asBranch}`,
+	);
+
+	if (result.code !== 0) {
+		exit(1);
+	}
+}
+
+/**
+ * Exits when the committed page index does not match the documentation branches.
+ * @param {string} [publishedBranch] Branch this release is about to publish.
+ * @returns {void}
+ */
+function checkDocsPageIndex(publishedBranch) {
+	echo("Checking documentation page index");
+
+	const asBranch = publishedBranch ? ` --as-branch ${publishedBranch}` : "";
+	const result = exec(
+		`node docs/tools/update-docs-page-index.js --check --fetch${asBranch}`,
+	);
+
+	if (result.code !== 0) {
+		exit(1);
+	}
+}
+
+/**
  * Updates docs/src/_data/versions.json
  * @param {string} oldVersion Current version.
  * @param {string} newVersion New version to be released.
@@ -398,6 +451,8 @@ function generateRelease({ prereleaseId, packageTag }) {
 	echo("Updating rule type header comments");
 	updateRuleTypeHeaders();
 
+	updateDocsPageIndex(docsSiteBranchFor(packageTag, releaseInfo.version));
+
 	echo("Updating commit with docs data and rule types");
 	exec("git add lib/types/rules.d.ts docs/ && git commit --amend --no-edit");
 	exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
@@ -412,10 +467,12 @@ function publishRelease() {
 	ReleaseOps.publishRelease();
 	const releaseInfo = JSON.parse(cat(".eslint-release-info.json"));
 
-	const docsSiteBranch =
-		releaseInfo.packageTag === "maintenance"
-			? `v${semver.major(releaseInfo.version)}.x`
-			: releaseInfo.packageTag; // "latest" or "next"
+	const docsSiteBranch = docsSiteBranchFor(
+		releaseInfo.packageTag,
+		releaseInfo.version,
+	);
+
+	checkDocsPageIndex(docsSiteBranch);
 
 	echo(`Updating docs site branch: ${docsSiteBranch}`);
 	exec(`git push origin HEAD:${docsSiteBranch} -f`);
@@ -442,7 +499,11 @@ function publishRelease() {
 			`${JSON.stringify(versions, null, 4)}\n`,
 		);
 
-		exec(`git add ${CHANGELOG_FILE} ${VERSIONS_FILE}`);
+		updateDocsPageIndex();
+
+		exec(
+			`git add ${CHANGELOG_FILE} ${VERSIONS_FILE} docs/src/assets/js/docs-pages.js`,
+		);
 		exec(
 			`git commit -m "chore: updates for v${releaseInfo.version} release"`,
 		);
