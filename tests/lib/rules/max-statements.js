@@ -112,6 +112,14 @@ ruleTester.run("max-statements", rule, {
 			options: [2],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "function foo() { if (a); else; for (;;); while (a); do ; while (a) }",
+			options: [4],
+		},
+		{
+			code: "function foo(x) { ;; switch (x) { case 1: ; } }",
+			options: [1],
+		},
 	],
 	invalid: [
 		{
@@ -458,6 +466,203 @@ ruleTester.run("max-statements", rule, {
 					column: 47,
 					endLine: 1,
 					endColumn: 69,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (a) b(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (a) b(); else if (c) d(); }",
+			options: [3],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 4, max: 3 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (;;) a(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (a in b) c(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { for (a of b) c(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { while (a) b(); }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { do a(); while (b) }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { with (a) b(); }",
+			options: [1],
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { a: for (;;) break a; }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { { a(); b(); } }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo(x) { switch (x) { case 1: a(); b(); c(); break; } }",
+			options: [1],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 5, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo(x) { switch (x) { case 1: { a(); break; } default: { b(); } } }",
+			options: [3],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 4, max: 3 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (true); }",
+			options: [0],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 1, max: 0 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
+			code: "function foo() { if (true) {}; }",
+			options: [0],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 1, max: 0 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
