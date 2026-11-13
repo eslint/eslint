@@ -88,6 +88,16 @@ ruleTester.run("prefer-object-has-own", rule, {
 		"const hasProperty = Object.hasOwn(object, property);",
 		`/* global Object: off */
         ({}).hasOwnProperty.call(a, b);`,
+		{
+			// Object is shadowed
+			code: "var Object = foo;\nObject.prototype.hasOwnProperty.call(obj, prop);",
+			languageOptions: { sourceType: "script" },
+		},
+		{
+			// Object is shadowed
+			code: "var Object = foo;\n({}).hasOwnProperty.call(obj, prop);",
+			languageOptions: { sourceType: "script" },
+		},
 	],
 	invalid: [
 		{

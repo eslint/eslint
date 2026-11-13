@@ -116,5 +116,111 @@ describe("shared ast-utils", () => {
 			assert.isNotNull(match);
 			assert.strictEqual(match[1], "/usr/bin/env node");
 		});
+
+		it("should match a shebang before CR", () => {
+			const match = astUtils.shebangPattern.exec(
+				"#!/usr/bin/env node\rconst x = 1;",
+			);
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang before CR", () => {
+			const match = astUtils.shebangPattern.exec("#!\rconst x = 1;");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
+
+		it("should match a shebang before LF", () => {
+			const match = astUtils.shebangPattern.exec(
+				"#!/usr/bin/env node\nconst x = 1;",
+			);
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang before LF", () => {
+			const match = astUtils.shebangPattern.exec("#!\nconst x = 1;");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
+
+		it("should match a shebang before CRLF", () => {
+			const match = astUtils.shebangPattern.exec(
+				"#!/usr/bin/env node\r\nconst x = 1;",
+			);
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang before CRLF", () => {
+			const match = astUtils.shebangPattern.exec("#!\r\nconst x = 1;");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
+
+		it("should match a shebang before LS", () => {
+			const match = astUtils.shebangPattern.exec(
+				"#!/usr/bin/env node\u2028const x = 1;",
+			);
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang before LS", () => {
+			const match = astUtils.shebangPattern.exec("#!\u2028const x = 1;");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
+
+		it("should match a shebang before PS", () => {
+			const match = astUtils.shebangPattern.exec(
+				"#!/usr/bin/env node\u2029const x = 1;",
+			);
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang before PS", () => {
+			const match = astUtils.shebangPattern.exec("#!\u2029const x = 1;");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
+
+		it("should match a shebang at EOF", () => {
+			const match = astUtils.shebangPattern.exec("#!/usr/bin/env node");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!/usr/bin/env node");
+			assert.strictEqual(match[1], "/usr/bin/env node");
+		});
+
+		it("should match an empty shebang at EOF", () => {
+			const match = astUtils.shebangPattern.exec("#!");
+
+			assert.isNotNull(match);
+			assert.strictEqual(match[0], "#!");
+			assert.strictEqual(match[1], "");
+		});
 	});
 });

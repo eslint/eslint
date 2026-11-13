@@ -93,6 +93,13 @@ const COMMENT: Comment = {
 
 // #region SourceCode
 
+function findParent<Node extends object>(
+	node: Node,
+	getParent: (node: Node) => Node | undefined,
+) {
+	return getParent(node);
+}
+
 let sourceCode: SourceCode;
 
 sourceCode = new SourceCode(SOURCE, AST);
@@ -141,12 +148,21 @@ sourceCode = new SourceCode({
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
 
+const sourceCodeWithPublicMembers: Pick<SourceCode, keyof SourceCode> =
+	sourceCode;
+sourceCode = sourceCodeWithPublicMembers;
+
 SourceCode.splitLines(SOURCE);
 
 sourceCode.getText();
 sourceCode.getText(AST);
+sourceCode.getText(TOKEN);
+sourceCode.getText(COMMENT);
 sourceCode.getText(AST, 0);
 sourceCode.getText(AST, 0, 0);
+
+// @ts-expect-error SourceCode does not have a `getParent` method
+findParent(AST, sourceCode.getParent);
 
 sourceCode.getLines();
 
@@ -1294,7 +1310,13 @@ linter.getFixPassCount(); // $ExpectType number
 (index: number, ruleId: string) => {
 	const pass = linter.getTimes().passes[index];
 	pass.fix.total; // $ExpectType number
-	pass.parse.total; // $ExpectType number
+	pass.parse?.total; // $ExpectType number | undefined
+	// @ts-expect-error -- parse may be omitted
+	pass.parse.total;
+	if (pass.parse) {
+		pass.parse.total; // $ExpectType number
+	}
+	delete pass.parse;
 	pass.rules![ruleId].total; // $ExpectType number
 	delete pass.rules;
 	pass.total; // $ExpectType number
@@ -1799,7 +1821,7 @@ for (const result of results) {
 	result.output = "foo";
 
 	result.stats = {
-		fixPasses: 2,
+		fixPasses: 3,
 		times: {
 			passes: [
 				{
@@ -1812,6 +1834,10 @@ for (const result of results) {
 					rules: { foo: { total: 0.5 } },
 					fix: { total: 5 },
 					total: 9,
+				},
+				{
+					fix: { total: 0 },
+					total: 1,
 				},
 			],
 		},

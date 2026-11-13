@@ -173,7 +173,7 @@ The `context` object has the following properties:
 
 - `id`: (`string`) The rule ID.
 - `filename`: (`string`) The filename associated with the source.
-- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `—stdin-filename` or `<text>` if not specified.
+- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `--stdin-filename` or `<text>` if not specified.
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
@@ -552,6 +552,12 @@ When using options, make sure that your rule has some logical defaults in case t
 
 Rules with options must specify a [schema](#options-schemas).
 
+#### Avoid Non-Serializable Options
+
+Rule options and [shared settings](../use/configure/configuration-files#configure-shared-settings) should only contain values that can be serialized to JSON, such as strings, numbers, booleans, `null`, arrays, and plain objects. Avoid designing rules that expect non-serializable values such as regular expressions, functions, or class instances in `context.options` or `context.settings`.
+
+Some ESLint features don't work well with non-serializable values. For example, when [caching](../use/command-line-interface#caching) is enabled, ESLint may not detect changes when updated values produce the same serialized configuration, so it may keep reporting outdated results. If your rule needs a regular expression, accept the pattern as a string option instead and create the `RegExp` object inside the rule.
+
 ### Accessing the Source Code
 
 The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.sourceCode` property:
@@ -568,7 +574,7 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-- `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
+- `getText(node, beforeCount, afterCount)`: Returns the source code for the given node, token, or comment, and optionally, a specified number of characters before and after its range. If `node` is omitted or `undefined`, the entire source text is returned (see the [dedicated section](#accessing-the-source-text)).
 - `getAllComments()`: Returns an array of all comments in the source (see the [dedicated section](#accessing-comments)).
 - `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
@@ -646,6 +652,12 @@ var source = sourceCode.getText();
 
 // get source for just this AST node
 var nodeSource = sourceCode.getText(node);
+
+// get source for just this token
+var tokenSource = sourceCode.getText(token);
+
+// get source for just this comment
+var commentSource = sourceCode.getText(comment);
 
 // get source for AST node plus previous two characters
 var nodeSourceWithPrev = sourceCode.getText(node, 2);
@@ -985,13 +997,39 @@ While you can give a custom rule any name you'd like, the core rules have naming
 
 ## Runtime Rules
 
-The thing that makes ESLint different from other linters is the ability to define custom rules at runtime. This is perfect for rules that are specific to your project or company and wouldn't make sense for ESLint to ship with or be included in a plugin. Just write your rules and include them at runtime.
+You can include custom rules directly in your configuration file. This is perfect for rules that are specific to your project or company and that wouldn't make sense to ship with ESLint or to publish as a plugin.
 
-Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
+These rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
-1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
-2. Create a [configuration file](../use/configure/) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `"warn"` or `"error"` in the configuration file.
-3. Run the [command line interface](../use/command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+1. Import your rule into your [configuration file](../use/configure/configuration-files#configuration-file).
+2. Define a [virtual plugin](../use/configure/plugins#configure-a-virtual-plugin) under the `plugins` key and add your rule to its `rules` object.
+3. Specify the severity for your rule under the `rules` key, using the plugin namespace as a prefix for the rule ID (for example, `local/my-rule`). Your rule will not run unless its severity is `"warn"` or `"error"`.
+
+For example, if your rule is in `rules/my-rule.js`, your configuration file would look like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import myRule from "./rules/my-rule.js";
+
+export default defineConfig([
+	{
+		// define the plugin
+		plugins: {
+			local: {
+				rules: {
+					"my-rule": myRule,
+				},
+			},
+		},
+
+		// configure the rule
+		rules: {
+			"local/my-rule": "error",
+		},
+	},
+]);
+```
 
 ## Profile Rule Performance
 

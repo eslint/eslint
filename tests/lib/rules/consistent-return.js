@@ -35,6 +35,12 @@ ruleTester.run("consistent-return", rule, {
 		"function foo() { function bar() { return true; } return; }",
 		"function foo() { function bar() { return; } return false; }",
 		"function Foo() { if (!(this instanceof Foo)) return new Foo(); }",
+		"function Foo() { if (true) return 1; }",
+		"function Φ() { if (true) return 1; }",
+		{
+			code: "function 𐐀() { if (true) return 1; }",
+			languageOptions: { ecmaVersion: 6 },
+		},
 		"function foo() { if (true) return 5; else return undefined; }",
 		"function foo() { if (true) return 5; else return void 0; }",
 		{

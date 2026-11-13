@@ -49,6 +49,14 @@ ruleTester.run("prefer-arrow-callback", rule, {
 		"foo(function bar() { this; }.bind(this, somethingElse));",
 		"foo((function() {}).bind.bar)",
 		"foo((function() { this.bar(); }).bind(obj).bind(this))",
+		"foo(function() {} ? a : b);",
+		"foo((function() {}) ? a : b);",
+		"foo(function() { this; }.bind(this) ? a : b);",
+		"foo(function() { this; }?.bind(this) ? a : b);",
+		"foo(bar ? function() {} ? a : b : c);",
+		"foo(function() {} || a ? b : c);",
+		"new Foo(function() {} ? a : b);",
+		"foo(async function() {} ? a : b);",
 	],
 	invalid: [
 		{
@@ -82,6 +90,11 @@ ruleTester.run("prefer-arrow-callback", rule, {
 			code: "foo(bar ? function() {} : function() {});",
 			output: "foo(bar ? () => {} : () => {});",
 			errors: [errors[0], errors[0]],
+		},
+		{
+			code: "foo(function() {} ? function() {} : b);",
+			output: "foo(function() {} ? () => {} : b);",
+			errors,
 		},
 		{
 			code: "foo(function() { (function() { this; }); });",
@@ -518,6 +531,101 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		{
 			code: "test('foo', function (this: any) {});",
 			output: null,
+			errors,
+		},
+		{
+			code: "foo(function<T>(x: T) { return x; });",
+			output: "foo(<T>(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(function bar<T>(x: T) { return x; });",
+			output: "foo(<T>(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(function<T extends (a: number) => void>(x: T) { return x; });",
+			output: "foo(<T extends (a: number) => void>(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(function /* comment */ <T extends (a: number) => void>(x: T) { return x; });",
+			output: "foo( /* comment */ <T extends (a: number) => void>(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(async function<T>(x: T) { return x; });",
+			output: "foo(async <T>(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(async function<T>\n(x: T) { return x; });",
+			output: "foo(async <T>\n(x: T) => { return x; });",
+			errors,
+		},
+		{
+			code: "foo(async function\n<T>(x: T) { return x; });",
+			output: null,
+			errors,
+		},
+		{
+			code: "foo(function<T>(x: T) { return x; });",
+			output: "foo(<T,>(x: T) => { return x; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function<T,>(x: T) { return x; });",
+			output: "foo(<T,>(x: T) => { return x; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function<T extends unknown>(x: T) { return x; });",
+			output: "foo(<T extends unknown>(x: T) => { return x; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function<T, U>(x: T, y: U) { return [x, y]; });",
+			output: "foo(<T, U>(x: T, y: U) => { return [x, y]; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+			errors,
+		},
+		{
+			code: "foo(function(x: number) { return x; });",
+			output: "foo((x: number) => { return x; });",
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
 			errors,
 		},
 	],

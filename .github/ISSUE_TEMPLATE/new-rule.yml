@@ -53,10 +53,15 @@ body:
     - type: checkboxes
       attributes:
           label: AI acknowledgment
+          description: Check all that apply.
           options:
               - label: I did not use AI to generate this issue report.
                 required: false
-              - label: (If the above is not checked) I have reviewed the AI-generated content before submitting.
+              - label: I used AI to translate the content of this issue report.
+                required: false
+              - label: I used AI to understand the codebase.
+                required: false
+              - label: I used AI to generate content for this issue report and I reviewed the generated content.
                 required: false
     - type: textarea
       attributes:

@@ -10,7 +10,10 @@
 
 const assert = require("node:assert"),
 	sinon = require("sinon"),
-	{ SourceCodeVisitor } = require("../../../lib/linter/source-code-visitor");
+	{
+		SourceCodeVisitor,
+		setListenerRuleId,
+	} = require("../../../lib/linter/source-code-visitor");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -181,6 +184,152 @@ describe("SourceCodeVisitor", () => {
 
 			assert(spyFunc1.calledOnce);
 			assert(spyFunc2.notCalled);
+		});
+	});
+
+	describe("callSync() error attribution", () => {
+		/**
+		 * Creates a function that throws the given value.
+		 * @param {any} error The value to throw.
+		 * @param {string} [ruleId] The rule ID to associate the function with, if any.
+		 * @returns {Function} The throwing function.
+		 */
+		function createThrower(error, ruleId) {
+			/**
+			 * Throws the given value.
+			 * @returns {void}
+			 * @throws {any} Always.
+			 */
+			function thrower() {
+				throw error;
+			}
+
+			if (ruleId !== void 0) {
+				setListenerRuleId(thrower, ruleId);
+			}
+
+			return thrower;
+		}
+
+		it("should rethrow an error without a `ruleId` when the function is not tagged", () => {
+			const error = new Error("Boom");
+
+			visitor.add("test", createThrower(error));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, error);
+					assert.strictEqual(thrown.ruleId, void 0);
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error to the rule that tagged the function", () => {
+			const error = new Error("Boom");
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, error);
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should overwrite an existing `ruleId` with the rule that threw", () => {
+			const error = new Error("Boom");
+
+			error.ruleId = "test/other-rule";
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error when called with multiple arguments", () => {
+			const error = new Error("Boom");
+
+			error.ruleId = "test/other-rule";
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}, "extra"),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should not call subsequent functions after one throws", () => {
+			const spyFunc = sinon.spy();
+
+			visitor.add("test", createThrower(new Error("Boom")));
+			visitor.add("test", spyFunc);
+
+			assert.throws(() => visitor.callSync("test", {}));
+			assert(spyFunc.notCalled);
+		});
+
+		it("should rethrow a thrown primitive unchanged rather than failing to attach a `ruleId`", () => {
+			visitor.add("test", createThrower("boom", "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, "boom");
+					return true;
+				},
+			);
+		});
+
+		it("should rethrow a thrown `null` unchanged", () => {
+			visitor.add("test", createThrower(null, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, null);
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error thrown from a frozen function", () => {
+			const error = new Error("Boom");
+
+			/**
+			 * Throws the error.
+			 * @returns {void}
+			 * @throws {Error} Always.
+			 */
+			function thrower() {
+				throw error;
+			}
+
+			Object.freeze(thrower);
+			setListenerRuleId(thrower, "test/some-rule");
+			visitor.add("test", thrower);
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
 		});
 	});
 });

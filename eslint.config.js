@@ -111,6 +111,7 @@ module.exports = defineConfig([
 		},
 		rules: {
 			"internal-rules/multiline-comment-style": "error",
+			"internal-rules/no-debug-template-literals": "error",
 		},
 	},
 	{
@@ -119,6 +120,14 @@ module.exports = defineConfig([
 		rules: {
 			"no-console": "off",
 			"n/no-process-exit": "off",
+			/*
+			 * fetch is available in Node.js 20.19.0, but marked experimental until 21.
+			 * refs: https://nodejs.org/api/globals.html#fetch
+			 */
+			"n/no-unsupported-features/node-builtins": [
+				"error",
+				{ ignores: ["fetch"] },
+			],
 		},
 	},
 	{
@@ -137,6 +146,7 @@ module.exports = defineConfig([
 				"error",
 				{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
 			],
+			"eslint-plugin/require-meta-docs-recommended": "error",
 			"internal-rules/no-invalid-meta": "error",
 
 			"eslint-plugin/require-meta-schema-description": "off",

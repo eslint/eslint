@@ -44,6 +44,14 @@ ruleTester.run("no-inline-comments", rule, {
 		"foo(); /* globals foo */",
 		"var foo; /* exported foo */",
 
+		// Shebang
+		"#!/usr/bin/env node\u2028var a = 1;",
+		"#!/usr/bin/env node\u2029var a = 1;",
+		"#!\u2028var a = 1;",
+		"#!\u2029var a = 1;",
+		"#!/usr/bin/env node",
+		"#!",
+
 		// JSX exception
 		`var a = (
             <div>
