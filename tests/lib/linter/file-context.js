@@ -10,7 +10,10 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const { FileContext } = require("../../../lib/linter/file-context");
+const {
+	FileContext,
+	RuleContext,
+} = require("../../../lib/linter/file-context");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -124,5 +127,73 @@ describe("FileContext", () => {
 				context.extend(extension);
 			}, TypeError);
 		});
+	});
+});
+
+describe("RuleContext", () => {
+	const fileContext = new FileContext({
+		cwd: "/project",
+		filename: "/project/foo.js",
+		physicalFilename: "/project/foo.md",
+		sourceCode: {},
+		languageOptions: { ecmaVersion: 2026 },
+		settings: { foo: "bar" },
+	});
+
+	/**
+	 * A report function for tests.
+	 * @returns {void}
+	 */
+	function report() {}
+
+	it("should copy the file properties and store the rule properties", () => {
+		const options = [{ a: 1 }];
+		const ruleContext = new RuleContext(
+			fileContext,
+			"my-rule",
+			options,
+			report,
+		);
+
+		assert.strictEqual(ruleContext.cwd, fileContext.cwd);
+		assert.strictEqual(ruleContext.filename, fileContext.filename);
+		assert.strictEqual(
+			ruleContext.physicalFilename,
+			fileContext.physicalFilename,
+		);
+		assert.strictEqual(ruleContext.sourceCode, fileContext.sourceCode);
+		assert.strictEqual(
+			ruleContext.languageOptions,
+			fileContext.languageOptions,
+		);
+		assert.strictEqual(ruleContext.settings, fileContext.settings);
+		assert.strictEqual(ruleContext.id, "my-rule");
+		assert.strictEqual(ruleContext.options, options);
+		assert.strictEqual(ruleContext.report, report);
+	});
+
+	it("should have all properties as own enumerable properties", () => {
+		const ruleContext = new RuleContext(fileContext, "my-rule", [], report);
+
+		assert.deepStrictEqual(Object.keys(ruleContext), [
+			"cwd",
+			"filename",
+			"physicalFilename",
+			"sourceCode",
+			"languageOptions",
+			"settings",
+			"id",
+			"options",
+			"report",
+		]);
+	});
+
+	it("should be frozen", () => {
+		const ruleContext = new RuleContext(fileContext, "my-rule", [], report);
+
+		assert.isTrue(Object.isFrozen(ruleContext));
+		assert.throws(() => {
+			ruleContext.id = "changed";
+		}, TypeError);
 	});
 });

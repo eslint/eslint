@@ -3879,6 +3879,249 @@ describe("SourceCode", () => {
 		});
 	});
 
+	describe("finalize() with deferred config globals", () => {
+		const USED_GLOBALS = Symbol.for("eslint.usedGlobalVariables");
+		const es2015Names = Object.keys(globals.es2015);
+
+		/**
+		 * Creates a finalized `SourceCode` that uses the ES2015 globals.
+		 * @param {string} code The source text.
+		 * @param {Function} [prepare] Called with the scope manager before finalizing.
+		 * @returns {Scope} The global scope.
+		 */
+		function getFinalizedGlobalScope(code, prepare) {
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			if (prepare) {
+				prepare(scopeManager);
+			}
+
+			sourceCode.applyLanguageOptions({ ecmaVersion: 2015 });
+			sourceCode.finalize();
+
+			return scopeManager.scopes[0];
+		}
+
+		/**
+		 * Gets the names of the variables that exist in a map without creating any.
+		 * @param {Map<string, Variable>} set The map of variables of the global scope.
+		 * @returns {string[]} The names of the existing variables.
+		 */
+		function getExistingNames(set) {
+			return [...Map.prototype.keys.call(set)];
+		}
+
+		it("should create only the variables that the file references or declares", () => {
+			const globalScope = getFinalizedGlobalScope(
+				"var foo = Array; var Map;",
+			);
+
+			assert.sameMembers(getExistingNames(globalScope.set), [
+				"foo",
+				"Map",
+				"Array",
+			]);
+			assert.sameMembers(
+				globalScope[USED_GLOBALS].map(variable => variable.name),
+				["foo", "Map", "Array"],
+			);
+		});
+
+		it("should resolve references to the variables that the file uses", () => {
+			const globalScope = getFinalizedGlobalScope("Set = Array");
+
+			assert.sameDeepMembers(
+				globalScope[USED_GLOBALS].map(variable => [
+					variable.name,
+					variable.references.length,
+					variable.writeable,
+				]),
+				[
+					["Array", 1, false],
+					["Set", 1, false],
+				],
+			);
+			assert.strictEqual(globalScope.through.length, 0);
+		});
+
+		it("should create a single variable when it is looked up by name", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+			assert.isTrue(globalScope.set.has("Promise"));
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+
+			const variable = globalScope.set.get("Promise");
+
+			assert.strictEqual(variable.name, "Promise");
+			assert.strictEqual(
+				variable.eslintImplicitGlobalSetting,
+				"readonly",
+			);
+			assert.strictEqual(variable.eslintExplicitGlobal, false);
+			assert.strictEqual(variable.eslintExplicitGlobalComments, void 0);
+			assert.strictEqual(variable.writeable, false);
+			assert.strictEqual(globalScope.set.get("Promise"), variable);
+			assert.deepStrictEqual(getExistingNames(globalScope.set), [
+				"Promise",
+			]);
+		});
+
+		it("should not report or create variables for unknown names", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.isFalse(globalScope.set.has("foo"));
+			assert.strictEqual(globalScope.set.get("foo"), void 0);
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+		});
+
+		it("should create all variables in configuration order when `variables` is read", () => {
+			const globalScope = getFinalizedGlobalScope(
+				"var foo = WeakMap; Promise; Array;",
+			);
+
+			// Create one variable out of order first.
+			globalScope.set.get("Symbol");
+
+			const expectedNames = ["foo", ...es2015Names];
+
+			assert.deepStrictEqual(
+				globalScope.variables.map(variable => variable.name),
+				expectedNames,
+			);
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				expectedNames,
+			);
+			assert.strictEqual(
+				globalScope.variables,
+				globalScope[USED_GLOBALS],
+			);
+
+			for (const variable of globalScope.variables) {
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+			}
+
+			// Reading it again doesn't change anything.
+			assert.strictEqual(
+				globalScope.variables.length,
+				expectedNames.length,
+			);
+		});
+
+		[
+			["size", set => set.size],
+			["keys()", set => [...set.keys()].length],
+			["values()", set => [...set.values()].length],
+			["entries()", set => [...set.entries()].length],
+			["[Symbol.iterator]()", set => [...set].length],
+			[
+				"forEach()",
+				set => {
+					let count = 0;
+
+					set.forEach(function () {
+						assert.strictEqual(this, set);
+						count++;
+					}, set);
+
+					return count;
+				},
+			],
+		].forEach(([name, getCount]) => {
+			it(`should create all variables when set.${name} is used`, () => {
+				const globalScope = getFinalizedGlobalScope("foo");
+
+				assert.strictEqual(
+					getCount(globalScope.set),
+					es2015Names.length,
+				);
+				assert.deepStrictEqual(
+					getExistingNames(globalScope.set),
+					es2015Names,
+				);
+			});
+		});
+
+		it("should create all variables before `set.delete()` removes one", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.isTrue(globalScope.set.delete("Promise"));
+			assert.isFalse(globalScope.set.has("Promise"));
+			assert.strictEqual(globalScope.set.get("Promise"), void 0);
+			assert.strictEqual(globalScope.set.size, es2015Names.length - 1);
+		});
+
+		it("should not create variables again after `set.clear()`", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			globalScope.set.clear();
+
+			assert.strictEqual(globalScope.set.size, 0);
+			assert.isFalse(globalScope.set.has("Promise"));
+			assert.strictEqual(
+				globalScope.variables.length,
+				es2015Names.length,
+			);
+		});
+
+		it("should allow `variables` to be replaced", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+			const replacement = [];
+
+			globalScope.variables = replacement;
+
+			assert.strictEqual(globalScope.variables, replacement);
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				es2015Names,
+			);
+		});
+
+		it("should not defer anything when the file uses every configured global", () => {
+			const globalScope = getFinalizedGlobalScope(es2015Names.join(";"));
+
+			assert.isFalse(Object.hasOwn(globalScope, USED_GLOBALS));
+			assert.deepStrictEqual(
+				Object.getOwnPropertyDescriptor(
+					globalScope,
+					"variables",
+				).value.map(variable => variable.name),
+				es2015Names,
+			);
+		});
+
+		it("should create all variables up front when the global scope has an unexpected shape", () => {
+			const globalScope = getFinalizedGlobalScope("foo", scopeManager => {
+				Object.defineProperty(scopeManager.scopes[0], "variables", {
+					configurable: false,
+				});
+			});
+
+			assert.isFalse(Object.hasOwn(globalScope, USED_GLOBALS));
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				es2015Names,
+			);
+			assert.deepStrictEqual(
+				globalScope.variables.map(variable => variable.name),
+				es2015Names,
+			);
+		});
+	});
+
 	describe("isGlobalReference(node)", () => {
 		it("should throw an error when argument is missing", () => {
 			assert.throws(() => {
@@ -4873,6 +5116,154 @@ describe("SourceCode", () => {
 
 			const number1Node = declaratorNode.init;
 			assert.strictEqual(number1Node.parent, declaratorNode);
+		});
+	});
+
+	describe("assignParents()", () => {
+		it("should assign the parent property to every node", () => {
+			const code = "if (x) { var y = 1; }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+
+			sourceCode.assignParents();
+
+			const ifNode = ast.body[0];
+
+			assert.strictEqual(ast.parent, null);
+			assert.strictEqual(ifNode.parent, ast);
+			assert.strictEqual(ifNode.test.parent, ifNode);
+			assert.strictEqual(ifNode.consequent.parent, ifNode);
+			assert.strictEqual(
+				ifNode.consequent.body[0].declarations[0].id.parent,
+				ifNode.consequent.body[0].declarations[0],
+			);
+		});
+
+		it("should traverse the AST only once", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const marker = {};
+
+			sourceCode.assignParents();
+			ast.body[0].parent = marker;
+			sourceCode.assignParents();
+
+			assert.strictEqual(ast.body[0].parent, marker);
+		});
+
+		it("should not traverse the AST after traverse() was called", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const marker = {};
+
+			sourceCode.traverse();
+			ast.body[0].parent = marker;
+			sourceCode.assignParents();
+
+			assert.strictEqual(ast.body[0].parent, marker);
+		});
+	});
+
+	describe("traverseDirect()", () => {
+		/**
+		 * Records the calls that `traverseDirect()` makes.
+		 * @param {SourceCode} sourceCode The source code to traverse.
+		 * @returns {Array<Array>} The recorded calls.
+		 */
+		function recordDirectTraversal(sourceCode) {
+			const calls = [];
+
+			sourceCode.traverseDirect({
+				enterNode(node) {
+					calls.push(["enter", node.type, node.range[0]]);
+				},
+				leaveNode(node) {
+					calls.push(["leave", node.type, node.range[0]]);
+				},
+				emit(eventName, args) {
+					calls.push(["emit", eventName, args.length]);
+				},
+			});
+
+			return calls;
+		}
+
+		[
+			"var foo = 1;",
+			"if (x) { var y = 1; } else { z(); }",
+			"function foo(a) { for (const b of a) { if (b) { return b; } } throw new Error(); }",
+			"class A { b() { try { c(); } catch (e) { d(); } finally { f(); } } }",
+		].forEach(code => {
+			it(`should report the same steps in the same order as traverse() for: ${code}`, () => {
+				const expected = new SourceCode(
+					code,
+					espree.parse(code, DEFAULT_CONFIG),
+				)
+					.traverse()
+					.map(step =>
+						step.kind === 1
+							? [
+									step.phase === 1 ? "enter" : "leave",
+									step.target.type,
+									step.target.range[0],
+								]
+							: ["emit", step.target, step.args.length],
+					);
+				const actual = recordDirectTraversal(
+					new SourceCode(code, espree.parse(code, DEFAULT_CONFIG)),
+				);
+
+				assert.deepStrictEqual(actual, expected);
+			});
+		});
+
+		it("should assign the parent property to every node before the first call", () => {
+			const code = "if (x) { var y = 1; }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			let innerParent;
+
+			sourceCode.traverseDirect({
+				enterNode(node) {
+					if (node.type === "Program") {
+						innerParent = node.body[0].consequent.body[0].parent;
+					}
+				},
+				leaveNode() {},
+				emit() {},
+			});
+
+			assert.strictEqual(innerParent, ast.body[0].consequent);
+		});
+
+		it("should assign the parent property to a node that is added during traversal", () => {
+			const code = "foo;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const added = {
+				type: "Identifier",
+				name: "bar",
+				range: [0, 3],
+				loc: ast.body[0].expression.loc,
+			};
+			const entered = [];
+
+			sourceCode.traverseDirect({
+				enterNode(node) {
+					entered.push(node);
+
+					if (node.type === "ExpressionStatement") {
+						node.expression = added;
+					}
+				},
+				leaveNode() {},
+				emit() {},
+			});
+
+			assert.include(entered, added);
+			assert.strictEqual(added.parent, ast.body[0]);
 		});
 	});
 });

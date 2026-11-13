@@ -2792,4 +2792,63 @@ describe("ast-utils", () => {
 			);
 		});
 	});
+
+	describe("getUsedVariables", () => {
+		it("should return `scope.variables` when the scope has no list of used variables", () => {
+			const scope = { variables: [{ name: "foo" }] };
+
+			assert.strictEqual(
+				astUtils.getUsedVariables(scope),
+				scope.variables,
+			);
+		});
+
+		it("should return the list of used variables when the scope has one", () => {
+			const used = [{ name: "foo" }];
+			const scope = {
+				variables: [{ name: "foo" }, { name: "bar" }],
+				[Symbol.for("eslint.usedGlobalVariables")]: used,
+			};
+
+			assert.strictEqual(astUtils.getUsedVariables(scope), used);
+		});
+
+		it("should leave out configured globals that the file doesn't use", () => {
+			let usedNames, allNames;
+
+			linter.verify("var foo = Array;", {
+				languageOptions: { ecmaVersion: 2015, sourceType: "script" },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									return {
+										Program(node) {
+											const scope =
+												context.sourceCode.getScope(
+													node,
+												);
+
+											usedNames = astUtils
+												.getUsedVariables(scope)
+												.map(variable => variable.name);
+											allNames = scope.variables.map(
+												variable => variable.name,
+											);
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
+			});
+
+			assert.sameMembers(usedNames, ["foo", "Array"]);
+			assert.include(allNames, "Promise");
+			assert.isAbove(allNames.length, usedNames.length);
+		});
+	});
 });
