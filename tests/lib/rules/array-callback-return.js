@@ -1347,6 +1347,21 @@ ruleTester.run("array-callback-return", rule, {
 			],
 		},
 		{
+			code: "foo.forEach(x => class x {})",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
 			code: "foo.forEach(x => function foo() {})",
 			options: checkForEachOptions,
 			languageOptions: { ecmaVersion: 6 },
