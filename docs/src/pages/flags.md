@@ -138,4 +138,4 @@ To enable flags in the VS Code ESLint Extension for a lint task, specify the `es
 }
 ```
 
-{# <!-- markdownlint-disable-file MD046 --> #}
+{# <!-- eslint md/consistent-code-style: "off" --> #}

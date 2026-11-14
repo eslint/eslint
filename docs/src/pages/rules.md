@@ -101,4 +101,4 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 {%- endfor -%}
 {%- endif -%}
 
-{# <!-- markdownlint-disable-file MD046 --> #}
+{# <!-- eslint md/consistent-code-style: "off" --> #}

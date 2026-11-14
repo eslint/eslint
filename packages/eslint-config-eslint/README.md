@@ -110,6 +110,24 @@ import eslintConfigESLintFormatting from "eslint-config-eslint/formatting";
 export default defineConfig([eslintConfigESLint, eslintConfigESLintFormatting]);
 ```
 
+### Markdown config
+
+To lint Markdown files, add the Markdown config. It applies to `**/*.md` and supports GitHub Flavored Markdown with YAML front matter.
+
+```js
+import { defineConfig } from "eslint/config";
+import eslintConfigESLint from "eslint-config-eslint";
+import eslintConfigESLintMarkdown from "eslint-config-eslint/markdown";
+
+export default defineConfig([
+	{
+		files: ["**/*.{js,mjs,cjs}"],
+		extends: [eslintConfigESLint],
+	},
+	eslintConfigESLintMarkdown,
+]);
+```
+
 ### Where to ask for help?
 
 Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.
