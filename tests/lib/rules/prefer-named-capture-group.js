@@ -824,6 +824,21 @@ ruleTester.run("prefer-named-capture-group", rule, {
 				},
 			],
 		},
+		{
+			code: String.raw`/(a)(?<x>b)\2/`,
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					suggestions: [
+						{
+							messageId: "addGroupName",
+							output: String.raw`/(?<temp1>a)(?<x>b)\2/`,
+						},
+					],
+				},
+			],
+		},
 
 		// regex literal passed to RegExp is reported once, by the literal itself
 		{
