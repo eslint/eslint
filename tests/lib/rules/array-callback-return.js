@@ -1257,6 +1257,171 @@ ruleTester.run("array-callback-return", rule, {
 			],
 		},
 		{
+			code: "foo.forEach(x => function() {})",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => class {})",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function(){}.call())",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function foo(){}.call())",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => class Foo {}.name)",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function(){} && x)",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => class x {})",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function foo() {})",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [
+						{
+							output: "foo.forEach(x => {function foo() {}})",
+							messageId: "wrapBraces",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => (function() {}))",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [
+						{
+							output: "foo.forEach(x => {(function() {})})",
+							messageId: "wrapBraces",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => (class {}))",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [
+						{
+							output: "foo.forEach(x => {(class {})})",
+							messageId: "wrapBraces",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "foo.forEach(function() {return function() { if (a == b) { return a; }}}())",
 			options: checkForEachOptions,
 			errors: [
@@ -1541,6 +1706,46 @@ ruleTester.run("array-callback-return", rule, {
 						},
 						{
 							output: "foo.forEach(x => void (x))",
+							messageId: "prependVoid",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function() {})",
+			options: checkForEachAllowVoid,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [
+						{
+							output: "foo.forEach(x => void function() {})",
+							messageId: "prependVoid",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => class {})",
+			options: checkForEachAllowVoid,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [
+						{
+							output: "foo.forEach(x => void class {})",
 							messageId: "prependVoid",
 						},
 					],
