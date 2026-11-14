@@ -154,6 +154,128 @@ ruleTester.run("eqeqeq", rule, {
 			],
 		},
 		{
+			code: "typeof a == b",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "typeof a === b",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "b != typeof a",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "b !== typeof a",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "typeof a == 1",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "typeof a === 1",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "typeof a == typeof b",
+			output: "typeof a === typeof b",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "typeof a != `number`",
+			output: "typeof a !== `number`",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "typeof a == `${value}`",
+			output: "typeof a === `${value}`",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
+		},
+		{
+			code: "tag`${value}` == typeof a",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "tag`${value}` === typeof a",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "true == true",
 			output: "true === true",
 			errors: [
