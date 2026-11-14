@@ -283,6 +283,61 @@ ruleTester.run("func-names", rule, {
 			options: ["as-needed"],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "const obj = { ['__proto__']: function() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const obj = { __proto__() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const obj = { __proto__: function foo() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(fn) = function foo() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "[fn = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: fn = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "[(fn) = function foo() {}] = bar;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: (fn) = function foo() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "fn &&= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
+		{
+			code: "fn ||= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
+		{
+			code: "fn ??= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
 	],
 	invalid: [
 		{
@@ -975,6 +1030,123 @@ ruleTester.run("func-names", rule, {
 					data: { name: "method 'foo'" },
 					column: 11,
 					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "const obj = { __proto__: function() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "method '__proto__'" },
+					column: 15,
+					endColumn: 34,
+				},
+			],
+		},
+		{
+			code: 'const obj = { "__proto__": function() {} };',
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "method '__proto__'" },
+					column: 15,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "const obj = { '__proto__': function*() {} };",
+			options: ["as-needed", { generators: "as-needed" }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "generator method '__proto__'" },
+					column: 15,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "(fn) = function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 8,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "((fn)) = function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 10,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "(fn) ||= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 10,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "fn += function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 7,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "[(fn) = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 9,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "({ bar: (fn) = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 16,
+					endColumn: 24,
 				},
 			],
 		},
