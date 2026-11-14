@@ -8,6 +8,11 @@ Install all required dependencies for the documentation site by running the foll
 npm install
 ```
 
+Link checking uses [lychee](https://lychee.cli.rs), a binary that npm does not
+install. Install it separately (`brew install lychee`, `cargo install lychee`, or
+a [release build](https://github.com/lycheeverse/lychee/releases)) to run
+`npm run lint:links`. CI pins v0.24.2.
+
 ## Run Locally
 
 To start the documentation site locally, run the following command inside the `docs` folder:
