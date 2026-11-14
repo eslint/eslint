@@ -4219,6 +4219,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/no-unused-vars
 	 */
+    
 	"no-unused-vars": Linter.RuleEntry<
 		[
 			| "all"

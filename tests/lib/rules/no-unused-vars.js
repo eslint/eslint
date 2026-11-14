@@ -751,6 +751,19 @@ ruleTester.run("no-unused-vars", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "/* global DEBUG */",
+			options: [{ varsIgnorePattern: "DEBUG" }],
+		},
+		{
+			code: "/* global DEBUG, FOO */\nFOO;",
+			options: [
+				{
+					varsIgnorePattern: "DEBUG",
+					reportUsedIgnorePattern: true,
+				},
+			],
+		},
+		{
 			code: "using resource = getResource();\nresource;",
 			languageOptions: {
 				sourceType: "module",
@@ -3022,6 +3035,45 @@ ruleTester.run("no-unused-vars", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				usedIgnoredError("_a", ". Used vars must not match /^_/u"),
+			],
+		},
+		{
+			code: "/* global DEBUG, OTHER */",
+			options: [{ varsIgnorePattern: "DEBUG" }],
+			errors: [
+				{
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 23,
+					messageId: "unusedVar",
+					data: {
+						varName: "OTHER",
+						action: "defined",
+						additional: "",
+					},
+				},
+			],
+		},
+		{
+			code: "/* global _DEBUG */\n_DEBUG;",
+			options: [
+				{
+					varsIgnorePattern: "^_",
+					reportUsedIgnorePattern: true,
+				},
+			],
+			errors: [
+				{
+					...usedIgnoredError(
+						"_DEBUG",
+						". Used vars must not match /^_/u",
+					),
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 17,
+				},
 			],
 		},
 		{
