@@ -1287,6 +1287,66 @@ ruleTester.run("array-callback-return", rule, {
 			],
 		},
 		{
+			code: "foo.forEach(x => function(){}.call())",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function foo(){}.call())",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => class Foo {}.name)",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.forEach(x => function(){} && x)",
+			options: checkForEachOptions,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "expectedNoReturnValue",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.prototype.forEach",
+					},
+					suggestions: [],
+				},
+			],
+		},
+		{
 			code: "foo.forEach(x => function foo() {})",
 			options: checkForEachOptions,
 			languageOptions: { ecmaVersion: 6 },
