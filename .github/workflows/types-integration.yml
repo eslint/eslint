@@ -255,6 +255,39 @@ jobs:
               working-directory: markdown
               run: npm run test:types
 
+    eslint_shell:
+        name: Types (@eslint/shell)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v7
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/shell
+              uses: actions/checkout@v7
+              with:
+                  repository: eslint/shell
+                  path: shell
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/shell)
+              working-directory: shell
+              run: |
+                  npm install
+                  npm install ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: shell
+              run: npm run build # TODO: Add `test:types` script to `@eslint/shell` package
+
     are-the-types-wrong:
         name: Are the types wrong?
         runs-on: ubuntu-latest
