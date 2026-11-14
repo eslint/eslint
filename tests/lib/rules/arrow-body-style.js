@@ -666,6 +666,133 @@ ruleTester.run("arrow-body-style", rule, {
 			],
 		},
 		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "var foo = () => { return bar }\n" + "/baz/.test(foo())",
+			output: null,
+			errors: [
+				{
+					line: 1,
+					column: 17,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "var foo = () => { return bar }\n" + "`baz`.split('')",
+			output: null,
+			errors: [
+				{
+					line: 1,
+					column: 17,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "var foo = () => { return bar }\n" + "`${foo()}`.split('')",
+			output: null,
+			options: ["never"],
+			errors: [
+				{
+					line: 1,
+					column: 17,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "class C {\nfoo = () => { return bar }\n*gen() {}\n}",
+			output: null,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 13,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "class C {\nfoo = () => { return bar }\nin = 1\n}",
+			output: null,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 13,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "class C {\nfoo = () => { return bar }\ninstanceof() {}\n}",
+			output: null,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 13,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Not fixed; fixing would cause ASI issues.
+			code: "class C {\nfoo = c ? 1 : () => { return bar }\n*gen() {}\n}",
+			output: null,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 21,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Fixing here is ok because the arrow function has a semicolon afterwards.
+			code: "var foo = () => { return bar };\n" + "`baz`.split('')",
+			output: "var foo = () => bar;\n" + "`baz`.split('')",
+			errors: [
+				{
+					line: 1,
+					column: 17,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Fixing here is ok because the class field has a semicolon afterwards.
+			code: "class C {\nfoo = () => { return bar };\n*gen() {}\n}",
+			output: "class C {\nfoo = () => bar;\n*gen() {}\n}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 13,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
+			// Fixing here is ok because the next class member doesn't continue the expression.
+			code: "class C {\nfoo = () => { return bar }\nbaz = 1\n}",
+			output: "class C {\nfoo = () => bar\nbaz = 1\n}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					line: 2,
+					column: 13,
+					messageId: "unexpectedSingleBlock",
+				},
+			],
+		},
+		{
 			code: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */ { /* e */ return /* f */ 5 /* g */ ; /* h */ } /* i */ ;",
 			output: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */  /* e */  /* f */ 5 /* g */  /* h */  /* i */ ;",
 			options: ["as-needed"],
