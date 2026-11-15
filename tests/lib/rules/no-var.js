@@ -588,6 +588,18 @@ ruleTester.run("no-var", rule, {
 			output: "function wrap() { function foo() {} foo(); if (bar) { let a = 1; function foo() { console.log(a); } foo (); } }",
 			errors: [{ messageId: "unexpectedVar" }],
 		},
+
+		// https://github.com/eslint/eslint/issues/21387
+		{
+			code: "/*eslint one-var:error*/ function f(a) { var b = 1; var a; }",
+			output: "/*eslint one-var:error*/ function f(a) { let b = 1; var a; }",
+			errors: 3,
+		},
+		{
+			code: "/*eslint one-var:error*/ function f() { var b = 1; var c = 2; }",
+			output: "/*eslint one-var:error*/ function f() { let b = 1; let c = 2; }",
+			errors: 3,
+		},
 	],
 });
 

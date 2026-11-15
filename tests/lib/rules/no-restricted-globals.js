@@ -249,6 +249,15 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 			languageOptions: { globals: { myGlobal: "readonly" } },
 		},
+		{
+			code: "const obj = { foo: window };",
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "class C { foo = globalThis; }",
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
+		},
 	],
 	invalid: [
 		{
@@ -1103,6 +1112,21 @@ ruleTester.run("no-restricted-globals", rule, {
 					column: 68,
 					endLine: 1,
 					endColumn: 73,
+				},
+			],
+		},
+		{
+			code: "const obj = { self };",
+			options: [{ globals: ["self"], checkGlobalObject: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "self" },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},

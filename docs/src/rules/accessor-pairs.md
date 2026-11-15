@@ -75,6 +75,20 @@ Object.defineProperty(r, 'c', {
         this.val = value;
     }
 });
+
+const r2 = {d: 1};
+Object.defineProperty(r2, 'c', {
+    'set': function(value) {
+        this.val = value;
+    }
+});
+
+const r3 = {d: 1};
+Object.defineProperty(r3, 'c', {
+    ['set']: function(value) {
+        this.val = value;
+    }
+});
 ```
 
 :::
@@ -101,6 +115,16 @@ Object.defineProperty(t, 'c', {
         this.val = value;
     },
     get: function() {
+        return this.val;
+    }
+});
+
+const t2 = {d: 1};
+Object.defineProperty(t2, 'c', {
+    'set': function(value) {
+        this.val = value;
+    },
+    ['get']: function() {
         return this.val;
     }
 });
@@ -143,6 +167,20 @@ Object.defineProperty(x, 'c', {
         return this.val;
     }
 });
+
+const x2 = {d: 1};
+Object.defineProperty(x2, 'c', {
+    'get': function() {
+        return this.val;
+    }
+});
+
+const x3 = {d: 1};
+Object.defineProperty(x3, 'c', {
+    ['get']: function() {
+        return this.val;
+    }
+});
 ```
 
 :::
@@ -168,6 +206,16 @@ Object.defineProperty(z, 'c', {
         this.val = value;
     },
     get: function() {
+        return this.val;
+    }
+});
+
+const z2 = {d: 1};
+Object.defineProperty(z2, 'c', {
+    'set': function(value) {
+        this.val = value;
+    },
+    ['get']: function() {
         return this.val;
     }
 });
