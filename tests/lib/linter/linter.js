@@ -10614,6 +10614,47 @@ let c; // var a = "test2";
 
 			assert.strictEqual(messages[0].message, "foo");
 		});
+
+		it("rules should receive the same options for every file linted with the same config", () => {
+			const receivedOptions = [];
+			const config = {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								meta: {
+									defaultOptions: [{ a: 1, b: 2 }],
+									schema: false,
+								},
+								create(context) {
+									receivedOptions.push(context.options);
+									return {};
+								},
+							},
+						},
+					},
+				},
+				rules: {
+					"test/checker": ["error", { b: 3 }],
+				},
+			};
+
+			linter.verify("foo", config, "a.js");
+			linter.verify("bar", config, "b.js");
+			linter.verify(
+				"/* eslint test/checker: ['error', { b: 4 }] */",
+				config,
+				"c.js",
+			);
+			linter.verify("baz", config, "d.js");
+
+			assert.deepStrictEqual(receivedOptions, [
+				[{ a: 1, b: 3 }],
+				[{ a: 1, b: 3 }],
+				[{ a: 1, b: 4 }],
+				[{ a: 1, b: 3 }],
+			]);
+		});
 	});
 
 	describe("processors", () => {
