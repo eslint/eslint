@@ -1418,6 +1418,17 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		"(Reflect?.apply as any)(function () { return this; }, obj, []);",
 		"([].forEach as any)(function () { return this; }, obj);",
 		"(Array.from as any)([], function () { return this; }, obj);",
+		"((function () { return this; }).call<any, [], void>)(obj);",
+		"((function () { return this; }).apply<any, [], void>)(obj, []);",
+		"((function () { return this; }).bind<any>)(obj);",
+		"(Reflect.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Reflect?.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Array.from<number, string>)([], function () { return this; }, obj);",
+		"(Array.fromAsync<number, string>)([], function () { return this; }, obj);",
+		"([].map<string>)(function () { return this; }, obj);",
+		"((Reflect.apply<any, any[], void>) as any)(function () { return this; }, obj, []);",
+		"((Reflect.apply as any)<any, any[], void>)(function () { return this; }, obj, []);",
+		"(obj.foo<string>) = function () { return this; };",
 	],
 
 	invalid: [
@@ -2066,6 +2077,46 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		},
 		{
 			code: "const call = (function () { return this; }).call as any;",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call<any, [], void>)(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, obj);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.from<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.fromAsync<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; });",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((Reflect.apply<any, any[], void>) as any)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply as any)(function () { return this; }, (null as any)<any>, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(foo<string>) = function () { return this; };",
 			errors: [{ messageId: "unexpectedThis" }],
 		},
 	],
