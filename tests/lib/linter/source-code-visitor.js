@@ -10,10 +10,7 @@
 
 const assert = require("node:assert"),
 	sinon = require("sinon"),
-	{
-		SourceCodeVisitor,
-		setListenerRuleId,
-	} = require("../../../lib/linter/source-code-visitor");
+	{ SourceCodeVisitor } = require("../../../lib/linter/source-code-visitor");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -191,10 +188,9 @@ describe("SourceCodeVisitor", () => {
 		/**
 		 * Creates a function that throws the given value.
 		 * @param {any} error The value to throw.
-		 * @param {string} [ruleId] The rule ID to associate the function with, if any.
 		 * @returns {Function} The throwing function.
 		 */
-		function createThrower(error, ruleId) {
+		function createThrower(error) {
 			/**
 			 * Throws the given value.
 			 * @returns {void}
@@ -202,10 +198,6 @@ describe("SourceCodeVisitor", () => {
 			 */
 			function thrower() {
 				throw error;
-			}
-
-			if (ruleId !== void 0) {
-				setListenerRuleId(thrower, ruleId);
 			}
 
 			return thrower;
@@ -229,7 +221,7 @@ describe("SourceCodeVisitor", () => {
 		it("should attribute an error to the rule that tagged the function", () => {
 			const error = new Error("Boom");
 
-			visitor.add("test", createThrower(error, "test/some-rule"));
+			visitor.add("test", createThrower(error), "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}),
@@ -246,7 +238,7 @@ describe("SourceCodeVisitor", () => {
 
 			error.ruleId = "test/other-rule";
 
-			visitor.add("test", createThrower(error, "test/some-rule"));
+			visitor.add("test", createThrower(error), "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}),
@@ -262,7 +254,7 @@ describe("SourceCodeVisitor", () => {
 
 			error.ruleId = "test/other-rule";
 
-			visitor.add("test", createThrower(error, "test/some-rule"));
+			visitor.add("test", createThrower(error), "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}, "extra"),
@@ -284,7 +276,7 @@ describe("SourceCodeVisitor", () => {
 		});
 
 		it("should rethrow a thrown primitive unchanged rather than failing to attach a `ruleId`", () => {
-			visitor.add("test", createThrower("boom", "test/some-rule"));
+			visitor.add("test", createThrower("boom"), "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}),
@@ -296,7 +288,7 @@ describe("SourceCodeVisitor", () => {
 		});
 
 		it("should rethrow a thrown `null` unchanged", () => {
-			visitor.add("test", createThrower(null, "test/some-rule"));
+			visitor.add("test", createThrower(null), "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}),
@@ -320,8 +312,7 @@ describe("SourceCodeVisitor", () => {
 			}
 
 			Object.freeze(thrower);
-			setListenerRuleId(thrower, "test/some-rule");
-			visitor.add("test", thrower);
+			visitor.add("test", thrower, "test/some-rule");
 
 			assert.throws(
 				() => visitor.callSync("test", {}),
