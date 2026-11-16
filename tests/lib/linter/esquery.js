@@ -295,6 +295,15 @@ describe("esquery", () => {
 			"FunctionDeclaration > !.params",
 			"!FunctionDeclaration > .params",
 			"FunctionDeclaration > !*.params",
+
+			// selectors of other shapes
+			"FunctionDeclaration", // not a child selector
+			"FunctionDeclaration .params", // descendant, not child
+			"FunctionDeclaration > Identifier", // not a field
+			"FunctionDeclaration > .body.body", // dotted field name
+			"FunctionDeclaration > [name] .params", // not a plain field
+			"* > .params", // parent isn't an identifier
+			"FunctionDeclaration > *.params[name]", // more than a wildcard and a field
 		];
 
 		fastMatchedSelectors.forEach(source => {
@@ -312,39 +321,39 @@ describe("esquery", () => {
 				});
 			});
 		});
-
-		[
-			"FunctionDeclaration", // not a child selector
-			"FunctionDeclaration .params", // descendant, not child
-			"FunctionDeclaration > Identifier", // not a field
-			"FunctionDeclaration > .body.body", // dotted field name
-			"FunctionDeclaration > [name] .params", // not a plain field
-			"* > .params", // parent isn't an identifier
-			"FunctionDeclaration > *.params[name]", // more than a wildcard and a field
-		].forEach(source => {
-			it(`should not create a fast matcher for "${source}"`, () => {
-				assert.isNull(parse(source).fastMatch);
-			});
-		});
 	});
 
 	describe("matches()", () => {
-		it("should delegate to esquery.matches", () => {
-			const matchesSpy = sinon.stub(esquery, "matches").returns(true);
+		it("should match without delegating to esquery.matches", () => {
+			const matchesSpy = sinon.stub(esquery, "matches").returns(false);
 			const node = { type: "Identifier", name: "foo" };
 			const root = { type: "identifier", value: "Identifier" };
 			const ancestry = [];
 			const options = {};
 
-			const result = matches(node, root, ancestry, options);
+			try {
+				assert.strictEqual(
+					matches(node, root, ancestry, options),
+					true,
+				);
+				assert.strictEqual(
+					matches({ type: "Literal" }, root, ancestry, options),
+					false,
+				);
+				assert.strictEqual(matchesSpy.notCalled, true);
+			} finally {
+				matchesSpy.restore();
+			}
+		});
 
-			assert.strictEqual(
-				matchesSpy.calledOnceWith(node, root, ancestry, options),
-				true,
-			);
-			assert.strictEqual(result, true);
+		it("should use the ancestry and the options", () => {
+			const node = { kind: "Identifier" };
+			const parent = { kind: "Program", body: [node] };
+			const root = esquery.parse("Program > Identifier.body");
+			const options = { nodeTypeKey: "kind" };
 
-			matchesSpy.restore();
+			assert.strictEqual(matches(node, root, [parent], options), true);
+			assert.strictEqual(matches(node, root, [], options), false);
 		});
 	});
 
