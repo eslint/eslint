@@ -795,7 +795,7 @@ ruleTester.run("no-useless-catch", rule, {
 			],
 		},
 
-		// No name collision - different variable names, fix should be applied
+		// Different names, but the module scope would publish `bar`
 		{
 			code: `
                 const foo = "bar";
@@ -808,10 +808,10 @@ ruleTester.run("no-useless-catch", rule, {
             `,
 			output: `
                 const foo = "bar";
-                
+                {
                     const bar = "baz";
                     doSomething(bar);
-                
+                }
             `,
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1553,27 +1553,31 @@ ruleTester.run("no-useless-catch", rule, {
 		// Sibling fixes are checked against the original scope, so the second keeps its braces
 		{
 			code: `
-                try {
-                    const result = a();
-                    use(result);
-                } catch (e) {
-                    throw e;
-                }
-                try {
-                    const result = b();
-                    use(result);
-                } catch (e) {
-                    throw e;
+                function f() {
+                    try {
+                        const result = a();
+                        use(result);
+                    } catch (e) {
+                        throw e;
+                    }
+                    try {
+                        const result = b();
+                        use(result);
+                    } catch (e) {
+                        throw e;
+                    }
                 }
             `,
 			output: `
-                
-                    const result = a();
-                    use(result);
-                
-                {
-                    const result = b();
-                    use(result);
+                function f() {
+                    
+                        const result = a();
+                        use(result);
+                    
+                    {
+                        const result = b();
+                        use(result);
+                    }
                 }
             `,
 			languageOptions: { ecmaVersion: 6 },
@@ -1624,6 +1628,296 @@ ruleTester.run("no-useless-catch", rule, {
 				{
 					messageId: "unnecessaryCatch",
 				},
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// A strict-mode function in a script would become a global property
+		{
+			code: `
+                "use strict";
+                try {
+                    function foo() {
+                        return 1;
+                    }
+                    foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                "use strict";
+                {
+                    function foo() {
+                        return 1;
+                    }
+                    foo();
+                }
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// let/const/class in a script become bindings a direct eval can see
+		{
+			code: `
+                "use strict";
+                function later() {
+                    return eval("typeof foo");
+                }
+                try {
+                    const foo = 1;
+                } catch (e) {
+                    throw e;
+                }
+                later();
+            `,
+			output: `
+                "use strict";
+                function later() {
+                    return eval("typeof foo");
+                }
+                {
+                    const foo = 1;
+                }
+                later();
+            `,
+			languageOptions: { ecmaVersion: 6, sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                "use strict";
+                try {
+                    class Foo {}
+                    new Foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                "use strict";
+                {
+                    class Foo {}
+                    new Foo();
+                }
+            `,
+			languageOptions: { ecmaVersion: 6, sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// var is already in the script scope, so unwrapping does not publish a new binding
+		{
+			code: `
+                "use strict";
+                try {
+                    var foo = 1;
+                    foo;
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                "use strict";
+                
+                    var foo = 1;
+                    foo;
+                
+            `,
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// The surrounding block, not the program, receives the binding
+		{
+			code: `
+                {
+                    try {
+                        const foo = 1;
+                        foo;
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                {
+                    
+                        const foo = 1;
+                        foo;
+                    
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Direct eval in the scope we merge into would see the new binding
+		{
+			code: `
+                function f() {
+                    try {
+                        let a = 1;
+                        foo(a);
+                    } catch (e) {
+                        throw e;
+                    }
+                    return eval("typeof a");
+                }
+            `,
+			output: `
+                function f() {
+                    {
+                        let a = 1;
+                        foo(a);
+                    }
+                    return eval("typeof a");
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    try {
+                        let a = 1;
+                        foo(a);
+                    } catch (e) {
+                        throw e;
+                    }
+                    function inner() {
+                        return eval("typeof a");
+                    }
+                    return inner();
+                }
+            `,
+			output: `
+                function f() {
+                    {
+                        let a = 1;
+                        foo(a);
+                    }
+                    function inner() {
+                        return eval("typeof a");
+                    }
+                    return inner();
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Eval inside the try already sees the binding
+		{
+			code: `
+                function f() {
+                    try {
+                        let a = 1;
+                        return eval("typeof a");
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                function f() {
+                    
+                        let a = 1;
+                        return eval("typeof a");
+                    
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Indirect eval does not see local bindings
+		{
+			code: `
+                function f() {
+                    try {
+                        let a = 1;
+                        foo(a);
+                    } catch (e) {
+                        throw e;
+                    }
+                    return (0, eval)("typeof a");
+                }
+            `,
+			output: `
+                function f() {
+                    
+                        let a = 1;
+                        foo(a);
+                    
+                    return (0, eval)("typeof a");
+                }
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function f() {
+                    try {
+                        let a = 1;
+                        foo(a);
+                    } catch (e) {
+                        throw e;
+                    }
+                    return eval?.("typeof a");
+                }
+            `,
+			output: `
+                function f() {
+                    
+                        let a = 1;
+                        foo(a);
+                    
+                    return eval?.("typeof a");
+                }
+            `,
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
 				{
 					messageId: "unnecessaryCatch",
 				},
