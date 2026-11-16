@@ -17,6 +17,7 @@ const fs = require("node:fs"),
 	{ Linter } = require("../../../../../lib/linter"),
 	SourceCode = require("../../../../../lib/languages/js/source-code/source-code"),
 	astUtils = require("../../../../../lib/shared/ast-utils"),
+	{ TraversalSteps } = require("../../../../../lib/shared/traversal-steps"),
 	globals = require("../../../../../conf/globals");
 
 //------------------------------------------------------------------------------
@@ -4800,21 +4801,40 @@ describe("SourceCode", () => {
 	});
 
 	describe("traverse()", () => {
-		it("should return an array of steps", () => {
+		it("should return a list of steps", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
 			const steps = sourceCode.traverse();
 
-			assert.isArray(steps);
+			assert.instanceOf(steps, TraversalSteps);
 			assert.strictEqual(steps.length, 14);
+			assert.isArray([...steps]);
+			assert.strictEqual([...steps].length, 14);
+		});
+
+		it("should yield the same steps each time the list is iterated", () => {
+			const code = "function foo() { if (a) { return b; } }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+			const first = [...steps];
+			const second = [...steps];
+
+			assert.strictEqual(first.length, second.length);
+			first.forEach((step, i) => {
+				assert.strictEqual(step.kind, second[i].kind);
+				assert.strictEqual(step.target, second[i].target);
+				assert.strictEqual(step.phase, second[i].phase);
+				assert.deepStrictEqual(step.args, second[i].args);
+			});
 		});
 
 		it("should return steps with VisitNodeStep for each node", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			// Filter for VisitNodeStep instances
 			const visitSteps = steps.filter(step => step.kind === 1);
@@ -4837,7 +4857,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
@@ -4868,7 +4888,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = visitSteps.map(step => ({
@@ -4940,7 +4960,7 @@ describe("SourceCode", () => {
 			const code = "if (true) { var x = 1; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			// Look for CallMethodStep (kind === 2) which are emitted by CodePathAnalyzer
 			const callSteps = steps.filter(step => step.kind === 2);
@@ -4962,7 +4982,7 @@ describe("SourceCode", () => {
 			const code = "42;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			assert.strictEqual(steps.length, 10);
 
@@ -4983,7 +5003,7 @@ describe("SourceCode", () => {
 			const code = "function foo(a, b) { return a + b; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
@@ -5006,7 +5026,7 @@ describe("SourceCode", () => {
 			const code = "const {x, y} = obj; const [a, b] = arr;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
@@ -5029,7 +5049,7 @@ describe("SourceCode", () => {
 			const code = "var x = y + z;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
@@ -5063,7 +5083,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
@@ -5116,154 +5136,6 @@ describe("SourceCode", () => {
 
 			const number1Node = declaratorNode.init;
 			assert.strictEqual(number1Node.parent, declaratorNode);
-		});
-	});
-
-	describe("assignParents()", () => {
-		it("should assign the parent property to every node", () => {
-			const code = "if (x) { var y = 1; }";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-
-			sourceCode.assignParents();
-
-			const ifNode = ast.body[0];
-
-			assert.strictEqual(ast.parent, null);
-			assert.strictEqual(ifNode.parent, ast);
-			assert.strictEqual(ifNode.test.parent, ifNode);
-			assert.strictEqual(ifNode.consequent.parent, ifNode);
-			assert.strictEqual(
-				ifNode.consequent.body[0].declarations[0].id.parent,
-				ifNode.consequent.body[0].declarations[0],
-			);
-		});
-
-		it("should traverse the AST only once", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const marker = {};
-
-			sourceCode.assignParents();
-			ast.body[0].parent = marker;
-			sourceCode.assignParents();
-
-			assert.strictEqual(ast.body[0].parent, marker);
-		});
-
-		it("should not traverse the AST after traverse() was called", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const marker = {};
-
-			sourceCode.traverse();
-			ast.body[0].parent = marker;
-			sourceCode.assignParents();
-
-			assert.strictEqual(ast.body[0].parent, marker);
-		});
-	});
-
-	describe("traverseDirect()", () => {
-		/**
-		 * Records the calls that `traverseDirect()` makes.
-		 * @param {SourceCode} sourceCode The source code to traverse.
-		 * @returns {Array<Array>} The recorded calls.
-		 */
-		function recordDirectTraversal(sourceCode) {
-			const calls = [];
-
-			sourceCode.traverseDirect({
-				enterNode(node) {
-					calls.push(["enter", node.type, node.range[0]]);
-				},
-				leaveNode(node) {
-					calls.push(["leave", node.type, node.range[0]]);
-				},
-				emit(eventName, args) {
-					calls.push(["emit", eventName, args.length]);
-				},
-			});
-
-			return calls;
-		}
-
-		[
-			"var foo = 1;",
-			"if (x) { var y = 1; } else { z(); }",
-			"function foo(a) { for (const b of a) { if (b) { return b; } } throw new Error(); }",
-			"class A { b() { try { c(); } catch (e) { d(); } finally { f(); } } }",
-		].forEach(code => {
-			it(`should report the same steps in the same order as traverse() for: ${code}`, () => {
-				const expected = new SourceCode(
-					code,
-					espree.parse(code, DEFAULT_CONFIG),
-				)
-					.traverse()
-					.map(step =>
-						step.kind === 1
-							? [
-									step.phase === 1 ? "enter" : "leave",
-									step.target.type,
-									step.target.range[0],
-								]
-							: ["emit", step.target, step.args.length],
-					);
-				const actual = recordDirectTraversal(
-					new SourceCode(code, espree.parse(code, DEFAULT_CONFIG)),
-				);
-
-				assert.deepStrictEqual(actual, expected);
-			});
-		});
-
-		it("should assign the parent property to every node before the first call", () => {
-			const code = "if (x) { var y = 1; }";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			let innerParent;
-
-			sourceCode.traverseDirect({
-				enterNode(node) {
-					if (node.type === "Program") {
-						innerParent = node.body[0].consequent.body[0].parent;
-					}
-				},
-				leaveNode() {},
-				emit() {},
-			});
-
-			assert.strictEqual(innerParent, ast.body[0].consequent);
-		});
-
-		it("should assign the parent property to a node that is added during traversal", () => {
-			const code = "foo;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const added = {
-				type: "Identifier",
-				name: "bar",
-				range: [0, 3],
-				loc: ast.body[0].expression.loc,
-			};
-			const entered = [];
-
-			sourceCode.traverseDirect({
-				enterNode(node) {
-					entered.push(node);
-
-					if (node.type === "ExpressionStatement") {
-						node.expression = added;
-					}
-				},
-				leaveNode() {},
-				emit() {},
-			});
-
-			assert.include(entered, added);
-			assert.strictEqual(added.parent, ast.body[0]);
 		});
 	});
 });
