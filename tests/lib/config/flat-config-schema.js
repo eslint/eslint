@@ -7,7 +7,7 @@
 
 const {
 	flatConfigSchema,
-	withMergeScope,
+	runInMergeScope,
 } = require("../../../lib/config/flat-config-schema");
 const { assert } = require("chai");
 const { ObjectSchema } = require("@eslint/config-array");
@@ -359,17 +359,18 @@ describe("merge", () => {
 	});
 });
 
-describe("withMergeScope", () => {
+describe("runInMergeScope", () => {
 	it("merges rules the same as without a merge scope", () => {
 		const configs = [
 			{ rules: { foo: ["error", { bar: 1 }], baz: "warn" } },
 			{ rules: { foo: "warn", baz: ["error", "always"] } },
 			{ rules: { foo: [1], qux: "error" } },
+			{ rules: { [Symbol.for("foo")]: "error" } },
 			{ rules: { ["__proto__"]: "error", baz: 0 } },
 		];
 
 		assert.deepStrictEqual(
-			withMergeScope(() => mergeConfigs(configs)),
+			runInMergeScope(() => mergeConfigs(configs)),
 			mergeConfigs(configs),
 		);
 	});
@@ -404,6 +405,7 @@ describe("withMergeScope", () => {
 					foo: { baz: 2 },
 				},
 			},
+			{ languageOptions: { [Symbol.for("foo")]: 1 } },
 			{
 				languageOptions: {
 					parserOptions: { foo: true },
@@ -411,7 +413,7 @@ describe("withMergeScope", () => {
 				},
 			},
 		];
-		const result = withMergeScope(() => mergeConfigs(configs));
+		const result = runInMergeScope(() => mergeConfigs(configs));
 
 		assert.deepStrictEqual(result, mergeConfigs(configs));
 		assert.strictEqual(result.languageOptions.parser, stubParser);
@@ -431,7 +433,7 @@ describe("withMergeScope", () => {
 				languageOptions: { sourceType: "module" },
 			},
 		];
-		const result = withMergeScope(() => mergeConfigs(configs));
+		const result = runInMergeScope(() => mergeConfigs(configs));
 
 		assert.notStrictEqual(result.rules.bar, configs[1].rules.bar);
 		assert.notStrictEqual(result.rules.bar[1], ruleOptions);
@@ -440,7 +442,7 @@ describe("withMergeScope", () => {
 
 	it("normalizes merge results again after the merge scope ends", () => {
 		const { merge } = flatConfigSchema.rules;
-		const rules = withMergeScope(() =>
+		const rules = runInMergeScope(() =>
 			merge({ foo: ["error", { bar: 1 }] }, { baz: "warn" }),
 		);
 
@@ -465,7 +467,7 @@ describe("withMergeScope", () => {
 			},
 		};
 		const stubParser = { parse() {}, meta: { name: "stub" } };
-		const result = withMergeScope(() =>
+		const result = runInMergeScope(() =>
 			mergeConfigs([
 				{ languageOptions: { ecmaVersion: 2020 } },
 				{ languageOptions: { parser } },
