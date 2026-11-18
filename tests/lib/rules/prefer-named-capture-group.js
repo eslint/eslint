@@ -929,6 +929,42 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			],
 		},
 
+		{
+			code: "new RegExp(true ? /(a)/ : /b/)",
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					line: 1,
+					column: 19,
+					suggestions: [
+						{
+							messageId: "addGroupName",
+							output: "new RegExp(true ? /(?<temp1>a)/ : /b/)",
+						},
+						{
+							messageId: "addNonCapture",
+							output: "new RegExp(true ? /(?:a)/ : /b/)",
+						},
+					],
+				},
+			],
+		},
+
+		// a RegExp value that doesn't come from a regex literal is checked by the RegExp call
+		{
+			code: 'new RegExp(/x/.constructor("(a)"))',
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					line: 1,
+					column: 1,
+					suggestions: [],
+				},
+			],
+		},
+
 		// without `u`/`v` flags and named groups, `\k` is an identity escape that a named group would break
 		{
 			code: String.raw`/(a)\k/`,
