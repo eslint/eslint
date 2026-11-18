@@ -1407,6 +1407,28 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		"obj.foo = (<any>function () { return function () { return this; }; })();",
 		"obj.foo = (function () { return function () { return this; }; })!();",
 		"obj.foo = (function <T>() { return function () { return this; }; }<string>)();",
+		"((function () { return this; }).call as any)(obj);",
+		"((function () { return this; }).apply as any)(obj, []);",
+		"((function () { return this; }).bind as any)(obj);",
+		"((function () { return this; })?.call as any)(obj);",
+		"((function () { return this; }).call!)(obj);",
+		"((function () { return this; }).call satisfies Foo)(obj);",
+		"(<any>(function () { return this; }).call)(obj);",
+		"(Reflect.apply as any)(function () { return this; }, obj, []);",
+		"(Reflect?.apply as any)(function () { return this; }, obj, []);",
+		"([].forEach as any)(function () { return this; }, obj);",
+		"(Array.from as any)([], function () { return this; }, obj);",
+		"((function () { return this; }).call<any, [], void>)(obj);",
+		"((function () { return this; }).apply<any, [], void>)(obj, []);",
+		"((function () { return this; }).bind<any>)(obj);",
+		"(Reflect.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Reflect?.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Array.from<number, string>)([], function () { return this; }, obj);",
+		"(Array.fromAsync<number, string>)([], function () { return this; }, obj);",
+		"([].map<string>)(function () { return this; }, obj);",
+		"((Reflect.apply<any, any[], void>) as any)(function () { return this; }, obj, []);",
+		"((Reflect.apply as any)<any, any[], void>)(function () { return this; }, obj, []);",
+		"(obj.foo<string>) = function () { return this; };",
 	],
 
 	invalid: [
@@ -2031,6 +2053,70 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		},
 		{
 			code: "obj.foo = (function () { return function () { return this; }; } as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call as any)(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call as any)(null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply as any)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].forEach as any)(function () { return this; });",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.from as any)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "const call = (function () { return this; }).call as any;",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call<any, [], void>)(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, obj);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.from<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.fromAsync<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; });",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((Reflect.apply<any, any[], void>) as any)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply as any)(function () { return this; }, (null as any)<any>, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(foo<string>) = function () { return this; };",
 			errors: [{ messageId: "unexpectedThis" }],
 		},
 	],
