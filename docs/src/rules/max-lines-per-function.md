@@ -8,7 +8,6 @@ related_rules:
 - max-nested-callbacks
 - max-params
 - max-statements
-- max-statements-per-line
 ---
 
 

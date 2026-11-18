@@ -112,6 +112,35 @@ ruleTester.run("getter-return", rule, {
 		"foo.defineProperty(null, { get() {} });",
 		"foo.defineProperties(null, { bar: { get() {} } });",
 		"foo.create(null, { bar: { get() {} } });",
+
+		// wrong argument index (not in the property descriptor position)
+		"Object.defineProperty({ get() {} }, 'foo', { value: 1 });",
+		{
+			code: "Reflect.defineProperty({ get() {} }, 'foo', { value: 1 });",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		"Object.defineProperties({ foo: { get() {} } }, { bar: { value: 1 } });",
+		"Object.create({ foo: { get() {} } }, { bar: { value: 1 } });",
+
+		// global object is shadowed
+		"let Object; Object.defineProperty(foo, 'bar', { get() {} })",
+		{
+			code: "function f() { Reflect.defineProperty(foo, 'bar', { get() {} }); var Reflect;}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		"function f(Object) { Object.defineProperties(foo, { bar: { get() {} } }) }",
+		"if (x) { const Object = getObject(); Object.create(foo, { bar: { get() {} } }) }",
+
+		// global object doesn't exist
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { get() {} })",
+			languageOptions: { globals: { Reflect: "off" } },
+		},
+		"/* globals Object:off */ Object.defineProperty(foo, 'bar', { get() {} })",
+		{
+			code: "Object.defineProperties(foo, { bar: { get() {} } })",
+			languageOptions: { globals: { Object: "off" } },
+		},
 	],
 
 	invalid: [

@@ -38,6 +38,7 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
+const LintResultCache = require("../../../lib/cli-engine/lint-result-cache");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -78,6 +79,15 @@ const eslintConfigFiles = {
 	mjs: "eslint.config.mjs",
 	cjs: "eslint.config.cjs",
 };
+
+/**
+ * Check if a value is a non-null object.
+ * @param {any} value The value to check.
+ * @returns {boolean} `true` if the value is a non-null object.
+ */
+function isNonNullObject(value) {
+	return typeof value === "object" && value !== null;
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -299,6 +309,8 @@ describe("ESLint", () => {
 						plugins: "",
 						warnIgnored: "",
 						ruleFilter: "",
+						applySuppressions: "",
+						suppressionsLocation: "",
 					}),
 				new RegExp(
 					escapeStringRegExp(
@@ -321,6 +333,8 @@ describe("ESLint", () => {
 							"- 'plugins' must be an object or null.",
 							"- 'warnIgnored' must be a boolean.",
 							"- 'ruleFilter' must be a function.",
+							"- 'applySuppressions' must be a boolean.",
+							"- 'suppressionsLocation' must be a non-empty string.",
 						].join("\n"),
 					),
 					"u",
@@ -585,6 +599,27 @@ describe("ESLint", () => {
 			eslint = new ESLint({ cwd: getFixturePath() });
 
 			assert.strictEqual(eslint.hasFlag("x_feature"), false);
+		});
+
+		it("should throw when 'applySuppressions' is not a boolean", () => {
+			assert.throws(
+				() => new ESLint({ applySuppressions: "yes" }),
+				/'applySuppressions' must be a boolean/u,
+			);
+		});
+
+		it("should throw when 'suppressionsLocation' is an empty string", () => {
+			assert.throws(
+				() => new ESLint({ suppressionsLocation: "" }),
+				/'suppressionsLocation' must be a non-empty string/u,
+			);
+		});
+
+		it("should throw when 'suppressionsLocation' is not a string", () => {
+			assert.throws(
+				() => new ESLint({ suppressionsLocation: 123 }),
+				/'suppressionsLocation' must be a non-empty string/u,
+			);
 		});
 	});
 
@@ -1898,6 +1933,112 @@ describe("ESLint", () => {
 			assert.strictEqual(results[0].messages.length, 1);
 			assert.strictEqual(results[0].messages[0].severity, 2);
 			assert.strictEqual(results[0].messages[0].ruleId, "unicode-bom");
+		});
+
+		it("should apply suppressions when 'applySuppressions' is true and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			// no-undef has 3 violations and is suppressed (count: 3 in suppressions file)
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed",
+			);
+
+			// Check that suppressed messages are in suppressedMessages
+			const suppressedNoUndef = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				suppressedNoUndef.length,
+				3,
+				"no-undef errors should appear in suppressedMessages",
+			);
+		});
+
+		it("should not apply suppressions when 'applySuppressions' is false (default)", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed",
+			);
+		});
+
+		it("should not apply suppressions when 'applySuppressions' is explicitly false and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: false,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed when applySuppressions is false",
+			);
+		});
+
+		it("should not apply suppressions when 'filePath' is omitted", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed without filePath",
+			);
 		});
 	});
 
@@ -4223,6 +4364,80 @@ describe("ESLint", () => {
 					},
 				]);
 			});
+
+			it("should ignore replacement metadata that is not an array", async () => {
+				const deprecated = {
+					replacedBy: "replacement",
+				};
+
+				eslint = new ESLint({
+					cwd: originalDir,
+					overrideConfigFile: true,
+					overrideConfig: {
+						plugins: {
+							test: {
+								rules: {
+									deprecated: {
+										meta: { deprecated },
+										create: () => ({}),
+									},
+								},
+							},
+						},
+						rules: {
+							"test/deprecated": "error",
+						},
+					},
+				});
+				const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+				assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+					{
+						ruleId: "test/deprecated",
+						replacedBy: [],
+						info: deprecated,
+					},
+				]);
+			});
+
+			it("should handle invalid replacement metadata entries", async () => {
+				const deprecated = {
+					replacedBy: [
+						null,
+						{ plugin: { name: null } },
+						{ plugin: { name: null }, rule: { name: "name" } },
+					],
+				};
+
+				eslint = new ESLint({
+					cwd: originalDir,
+					overrideConfigFile: true,
+					overrideConfig: {
+						plugins: {
+							test: {
+								rules: {
+									deprecated: {
+										meta: { deprecated },
+										create: () => ({}),
+									},
+								},
+							},
+						},
+						rules: {
+							"test/deprecated": "error",
+						},
+					},
+				});
+				const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+				assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+					{
+						ruleId: "test/deprecated",
+						replacedBy: ["", "", "name"],
+						info: deprecated,
+					},
+				]);
+			});
 		});
 
 		// working
@@ -5273,9 +5488,7 @@ describe("ESLint", () => {
 			);
 			const commonFiles = {
 				"node_modules/pattern-processor/index.js": fs.readFileSync(
-					require.resolve(
-						"../../fixtures/processors/pattern-processor",
-					),
+					require.resolve("../../fixtures/processors/pattern-processor"),
 					"utf8",
 				),
 				"node_modules/eslint-plugin-markdown/index.js": `
@@ -9068,6 +9281,193 @@ describe("ESLint", () => {
 				assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
 			});
 		});
+
+		it("should apply suppressions to lintFiles results when 'applySuppressions' is true", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// no-undef (3 violations) and no-sparse-arrays (2 violations) should be suppressed
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				0,
+				"no-sparse-arrays errors should be suppressed",
+			);
+
+			// Suppressed messages should be in suppressedMessages
+			const suppressedNoUndef = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const suppressedNoSparse = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				suppressedNoUndef.length,
+				3,
+				"no-undef errors should appear in suppressedMessages",
+			);
+			assert.strictEqual(
+				suppressedNoSparse.length,
+				2,
+				"no-sparse-arrays errors should appear in suppressedMessages",
+			);
+		});
+
+		it("should not apply suppressions to lintFiles results when 'applySuppressions' is false (default)", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed",
+			);
+		});
+
+		it("should use default 'eslint-suppressions.json' when 'suppressionsLocation' is omitted", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// The default eslint-suppressions.json in the suppressions fixture suppresses no-undef and no-sparse-arrays
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"should use default suppressions file",
+			);
+		});
+
+		it("should use custom suppressions file when 'suppressionsLocation' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: "partial-suppressions.json",
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			/*
+			 * partial-suppressions.json only suppresses no-undef, not no-sparse-arrays.
+			 * This proves the custom file is being used instead of the default eslint-suppressions.json
+			 * (which suppresses both rules).
+			 */
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed by custom file",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				2,
+				"no-sparse-arrays errors should NOT be suppressed (not in custom file)",
+			);
+		});
+
+		it("should handle missing suppressions file gracefully when 'applySuppressions' is true", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: "nonexistent-suppressions.json",
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// SuppressionsService.load() returns {} on ENOENT, so no suppressions should be applied
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"should not crash and should report all errors",
+			);
+		});
+
+		it("should use absolute path for 'suppressionsLocation'", async () => {
+			const cwd = getFixturePath("suppressions");
+			const absoluteSuppressionsPath = path.join(
+				cwd,
+				"partial-suppressions.json",
+			);
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: absoluteSuppressionsPath,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			/*
+			 * partial-suppressions.json only suppresses no-undef, not no-sparse-arrays.
+			 * This verifies the absolute path is correctly resolved and used.
+			 */
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed when using absolute path",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				2,
+				"no-sparse-arrays errors should NOT be suppressed",
+			);
+		});
 	});
 
 	describe("Fix Types", () => {
@@ -10243,6 +10643,47 @@ describe("ESLint", () => {
 				isNumber(results[0].stats.times.passes[2].total),
 				true,
 			);
+		});
+
+		it("Should omit parse stats when a processor returns no code blocks", async () => {
+			const engine = new ESLint({
+				overrideConfigFile: true,
+				stats: true,
+				overrideConfig: {
+					files: ["**/*.txt"],
+					processor: {
+						preprocess() {
+							return [];
+						},
+						postprocess() {
+							return [];
+						},
+					},
+				},
+			});
+			const results = await engine.lintText("plain text", {
+				filePath: "empty.txt",
+			});
+
+			assert.deepStrictEqual(results[0].messages, []);
+			assert.strictEqual(results[0].stats.fixPasses, 0);
+			assert.strictEqual(results[0].stats.times.passes.length, 1);
+			assert.strictEqual(
+				Object.hasOwn(results[0].stats.times.passes[0], "parse"),
+				false,
+			);
+			assert.strictEqual(
+				Object.hasOwn(results[0].stats.times.passes[0], "rules"),
+				false,
+			);
+			assert.deepStrictEqual(results[0].stats.times.passes[0].fix, {
+				total: 0,
+			});
+			assert.strictEqual(
+				isNumber(results[0].stats.times.passes[0].total),
+				true,
+			);
+			assert.ok(results[0].stats.times.passes[0].total >= 0);
 		});
 	});
 
@@ -12715,6 +13156,33 @@ describe("ESLint", () => {
 				assert.strictEqual(actualWorkerCount, 2);
 			});
 
+			it('should consider cached files that have outdated cache entries with cache strategy "metadata"', async () => {
+				const cwd = getFixturePath("files");
+				const eslint = new ESLint({
+					cache: true,
+					cacheLocation,
+					cacheStrategy: "metadata",
+					concurrency: "auto",
+					cwd,
+					overrideConfigFile: true,
+				});
+
+				// Make sure the config array for `cwd` is loaded and the cache is created.
+				const filePath = path.join(cwd, "foo.js");
+				await eslint.lintFiles([filePath]);
+
+				// modify mtime to make the cache entry outdated
+				shell.touch(filePath);
+
+				// Multitreading expected because files have outdated cache entries.
+				const actualWorkerCount = calculateWorkerCount(
+					eslint,
+					Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+					{ availableParallelism: () => 4 },
+				);
+				assert.strictEqual(actualWorkerCount, 2);
+			});
+
 			it('should consider unchanged cached files with violations with cache strategy "metadata" and autofix enabled', async () => {
 				const cwd = getFixturePath();
 				const eslintOptions = {
@@ -12745,6 +13213,50 @@ describe("ESLint", () => {
 					{ availableParallelism: () => 4 },
 				);
 				assert.strictEqual(actualWorkerCount, 2);
+			});
+
+			it("should not have side effects on cache entries validity", async () => {
+				// Use cache temporary directory to create a new file in it
+				const cwd = cacheLocation;
+				const filePath = path.join(cwd, "foo.js");
+				fs.writeFileSync(filePath, "");
+
+				const eslint = new ESLint({
+					baseConfig: {
+						rules: {
+							"no-unused-vars": "error",
+						},
+					},
+					cache: true,
+					cacheLocation,
+					cacheStrategy: "metadata",
+					concurrency: "auto",
+					cwd,
+					overrideConfigFile: true,
+				});
+
+				// Create cache entry for the file
+				const [oldResult] = await eslint.lintFiles([filePath]);
+				assert.strictEqual(oldResult.messages.length, 0);
+
+				// Overwrite the file
+				fs.writeFileSync(filePath, "let bar;");
+
+				// Call calculateWorkerCount with arguments that should trigger cache check
+				calculateWorkerCount(
+					eslint,
+					Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+					{ availableParallelism: () => 4 },
+				);
+
+				const [newResult] = await eslint.lintFiles([filePath]);
+
+				// Assert that lint results are for the new content
+				assert.strictEqual(newResult.messages.length, 1);
+				assert.strictEqual(
+					newResult.messages[0].ruleId,
+					"no-unused-vars",
+				);
 			});
 		});
 	});
@@ -13597,28 +14109,26 @@ describe("ESLint", () => {
 			fs.unlinkSync(toBeDeletedFile);
 
 			/*
-			 * file-entry-cache@2.0.0 will remove from the cache deleted files
+			 * file-entry-cache >= 2.0.0 will remove from the cache deleted files
 			 * even when they were not part of the array of files to be analyzed
 			 */
 			await eslint.lintFiles([badFile, goodFile]);
 
+			// an array
 			cache = JSON.parse(fs.readFileSync(cacheFilePath));
 
-			assert.strictEqual(
-				typeof cache[0][toBeDeletedFile],
-				"undefined",
+			assert(
+				!cache.includes(toBeDeletedFile),
 				"the entry for the file to be deleted should not have been in the cache",
 			);
 
-			// make sure that the previous assertion checks the right place
-			assert.notStrictEqual(
-				typeof cache[0][badFile],
-				"undefined",
+			// make sure that the previous assertion checks properly
+			assert(
+				cache.includes(badFile),
 				"the entry for the bad file should have been in the cache",
 			);
-			assert.notStrictEqual(
-				typeof cache[0][goodFile],
-				"undefined",
+			assert(
+				cache.includes(goodFile),
 				"the entry for the good file should have been in the cache",
 			);
 		});
@@ -13682,6 +14192,137 @@ describe("ESLint", () => {
 				"object",
 				"the entry for the test-file2 should have been in the cache",
 			);
+		});
+
+		describe("when some cached files are not visited", () => {
+			let file1, file2, goodFile, badFile;
+
+			beforeEach(() => {
+				goodFile = fs.realpathSync(
+					getFixturePath("cache/src", "test-file.js"),
+				);
+
+				badFile = fs.realpathSync(
+					getFixturePath("cache/src", "fail-file.js"),
+				);
+
+				file1 = path.resolve(
+					`${path.dirname(goodFile)}`,
+					"tmp-file-1.js",
+				);
+				shell.cp(goodFile, file1);
+
+				file2 = path.resolve(
+					`${path.dirname(goodFile)}`,
+					"tmp-file-2.js",
+				);
+				shell.cp(goodFile, file2);
+			});
+
+			afterEach(() => {
+				doDelete(file1);
+				doDelete(file2);
+			});
+
+			["metadata", "content"].forEach(cacheStrategy => {
+				it(`should not make existing cache entries valid for files that were not visited when cacheStrategy is "${cacheStrategy}" (same instance of eslint)`, async () => {
+					cacheFilePath = getFixturePath(".eslintcache");
+					doDelete(cacheFilePath);
+					assert(
+						!shell.test("-f", cacheFilePath),
+						"the cache file already exists and wasn't successfully deleted",
+					);
+
+					const eslintOptions = {
+						concurrency,
+						cwd: path.join(fixtureDir, ".."),
+						overrideConfigFile: true,
+
+						// specifying cache true the cache will be created
+						cache: true,
+						cacheLocation: cacheFilePath,
+						cacheStrategy,
+						overrideConfig: {
+							rules: {
+								"no-console": 0,
+								"no-unused-vars": 2,
+							},
+						},
+					};
+
+					eslint = new ESLint(eslintOptions);
+					const results = await eslint.lintFiles([file1, file2]);
+					assert(
+						results.every(result => result.messages.length === 0),
+						"There should have been no lint messages for valid files",
+					);
+
+					// Make lint errors in file2
+					doDelete(file2);
+					shell.cp(badFile, file2);
+
+					eslint = new ESLint(eslintOptions);
+
+					// Make a run that doesn't visit file2
+					await eslint.lintFiles([file1]);
+
+					// Now check file2 in another run
+					const [result] = await eslint.lintFiles([file2]);
+					assert(
+						result.messages.length > 0,
+						"There should have been lint messages for an invalid file",
+					);
+				});
+
+				it(`should not make existing cache entries valid for files that were not visited when cacheStrategy is "${cacheStrategy}" (another instance of eslint)`, async () => {
+					cacheFilePath = getFixturePath(".eslintcache");
+					doDelete(cacheFilePath);
+					assert(
+						!shell.test("-f", cacheFilePath),
+						"the cache file already exists and wasn't successfully deleted",
+					);
+
+					const eslintOptions = {
+						concurrency,
+						cwd: path.join(fixtureDir, ".."),
+						overrideConfigFile: true,
+
+						// specifying cache true the cache will be created
+						cache: true,
+						cacheLocation: cacheFilePath,
+						cacheStrategy,
+						overrideConfig: {
+							rules: {
+								"no-console": 0,
+								"no-unused-vars": 2,
+							},
+						},
+					};
+
+					eslint = new ESLint(eslintOptions);
+					const results = await eslint.lintFiles([file1, file2]);
+					assert(
+						results.every(result => result.messages.length === 0),
+						"There should have been no lint messages for valid files",
+					);
+
+					// Make lint errors in file2
+					doDelete(file2);
+					shell.cp(badFile, file2);
+
+					// Make a run that doesn't visit file2
+					eslint = new ESLint(eslintOptions);
+					await eslint.lintFiles([file1]);
+
+					// Now check file2 in another run
+					eslint = new ESLint(eslintOptions);
+					const [result] = await eslint.lintFiles([file2]);
+					assert(
+						result.messages.length > 0,
+						"There should have been lint messages for an invalid file",
+					);
+				});
+			});
 		});
 
 		it("should not delete cache when executing on text", async () => {
@@ -13766,7 +14407,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			fs.writeFileSync(cacheFilePath, "");
+			fs.writeFileSync(cacheFilePath, "[[]]");
 
 			eslint = new ESLint({
 				concurrency,
@@ -13946,7 +14587,10 @@ describe("ESLint", () => {
 					"the cache for eslint should have been created",
 				);
 
-				const fileCache = fCache.create(cacheFilePath);
+				const fileCache = fCache.create(
+					path.basename(cacheFilePath),
+					path.dirname(cacheFilePath),
+				);
 				const descriptor = fileCache.getFileDescriptor(filePath);
 
 				assert(
@@ -13954,11 +14598,11 @@ describe("ESLint", () => {
 					"an entry for the file should have been in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results === "object",
+					typeof descriptor.meta.data.results === "object",
 					"lint result for the file should have been in its cache entry in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results.usedDeprecatedRules ===
+					typeof descriptor.meta.data.results.usedDeprecatedRules ===
 						"undefined",
 					"lint result in the cache file contains `usedDeprecatedRules`",
 				);
@@ -14013,7 +14657,10 @@ describe("ESLint", () => {
 					"the cache for eslint should have been created",
 				);
 
-				const fileCache = fCache.create(cacheFilePath);
+				const fileCache = fCache.create(
+					path.basename(cacheFilePath),
+					path.dirname(cacheFilePath),
+				);
 				const descriptor = fileCache.getFileDescriptor(filePath);
 
 				assert(
@@ -14021,13 +14668,13 @@ describe("ESLint", () => {
 					"an entry for the file should have been in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results === "object",
+					typeof descriptor.meta.data.results === "object",
 					"lint result for the file should have been in its cache entry in the cache file",
 				);
 
 				// if the lint result contains `source`, it should be stored as `null` in the cache file
 				assert.strictEqual(
-					descriptor.meta.results.source,
+					descriptor.meta.data.results.source,
 					null,
 					"lint result in the cache file contains non-null `source`",
 				);
@@ -14077,16 +14724,53 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"metadata",
+				);
+
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should result in a changed entry
 				shell.touch(goodFile);
 				fileCache = fCache.createFromFile(cacheFilePath);
+				lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"metadata",
+				);
 				assert(
 					fileCache.getFileDescriptor(badFile).changed === false,
 					`the entry for ${badFile} should have been unchanged`,
 				);
 				assert(
+					isNonNullObject(
+						lintResultCache.getValidCachedLintResults(
+							badFile,
+							await eslint.calculateConfigForFile(badFile),
+						),
+					),
+					`lintResultCache should have returned cached lint results for ${badFile}`,
+				);
+				assert(
 					fileCache.getFileDescriptor(goodFile).changed === true,
 					`the entry for ${goodFile} should have been changed`,
+				);
+				assert(
+					lintResultCache.getValidCachedLintResults(
+						goodFile,
+						await eslint.calculateConfigForFile(goodFile),
+					) === null,
+					`lintResultCache should have returned null for ${goodFile}`,
 				);
 			});
 
@@ -14122,7 +14806,10 @@ describe("ESLint", () => {
 				);
 
 				await eslint.lintFiles([badFile, goodFile]);
-				let fileCache = fCache.createFromFile(cacheFilePath, true);
+				let fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
 				let entries = fileCache.normalizeEntries([badFile, goodFile]);
 
 				entries.forEach(entry => {
@@ -14132,9 +14819,29 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"content",
+				);
+
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should NOT result in a changed entry
 				shell.touch(goodFile);
-				fileCache = fCache.createFromFile(cacheFilePath, true);
+				fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
 				entries = fileCache.normalizeEntries([badFile, goodFile]);
 				entries.forEach(entry => {
 					assert(
@@ -14142,6 +14849,18 @@ describe("ESLint", () => {
 						`the entry for ${entry.key} should have remained unchanged`,
 					);
 				});
+				lintResultCache = new LintResultCache(cacheFilePath, "content");
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have returned cached lint results for ${file}`,
+					);
+				}
 			});
 
 			it("should detect changes using a file's contents when set to 'content'", async () => {
@@ -14182,7 +14901,10 @@ describe("ESLint", () => {
 				shell.cp(goodFile, goodFileCopy);
 
 				await eslint.lintFiles([badFile, goodFileCopy]);
-				let fileCache = fCache.createFromFile(cacheFilePath, true);
+				let fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
 				const entries = fileCache.normalizeEntries([
 					badFile,
 					goodFileCopy,
@@ -14195,18 +14917,120 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"content",
+				);
+
+				for (const file of [badFile, goodFileCopy]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should result in a changed entry
 				shell.sed("-i", "abc", "xzy", goodFileCopy);
-				fileCache = fCache.createFromFile(cacheFilePath, true);
+				fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
+				lintResultCache = new LintResultCache(cacheFilePath, "content");
 				assert(
 					fileCache.getFileDescriptor(badFile).changed === false,
 					`the entry for ${badFile} should have been unchanged`,
 				);
 				assert(
+					isNonNullObject(
+						lintResultCache.getValidCachedLintResults(
+							badFile,
+							await eslint.calculateConfigForFile(badFile),
+						),
+					),
+					`lintResultCache should have returned cached lint results for ${badFile}`,
+				);
+				assert(
 					fileCache.getFileDescriptor(goodFileCopy).changed === true,
 					`the entry for ${goodFileCopy} should have been changed`,
 				);
+				assert(
+					lintResultCache.getValidCachedLintResults(
+						goodFileCopy,
+						await eslint.calculateConfigForFile(goodFileCopy),
+					) === null,
+					`lintResultCache should have returned null for ${goodFileCopy}`,
+				);
 			});
+		});
+
+		it("should store all messages in cache even when some are suppressed", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			cacheFilePath = path.join(
+				os.tmpdir(),
+				`.eslintcache-suppressions-${Date.now()}`,
+			);
+
+			// First run: lint with both caching and suppressions enabled
+			const eslintWithSuppressions = new ESLint({
+				concurrency,
+				overrideConfigFile: true,
+				cwd,
+				cache: true,
+				cacheLocation: cacheFilePath,
+				applySuppressions: true,
+			});
+
+			const resultsWithSuppressions =
+				await eslintWithSuppressions.lintFiles(["test-file.js"]);
+
+			// Verify suppressions were applied
+			const suppressedNoUndef =
+				resultsWithSuppressions[0].messages.filter(
+					m => m.ruleId === "no-undef",
+				);
+
+			assert.strictEqual(
+				suppressedNoUndef.length,
+				0,
+				"no-undef errors should be suppressed in first run",
+			);
+
+			/**
+			 * Second run: lint with only caching enabled (no suppressions)
+			 * This should return cached results with ALL messages (including those that were suppressed)
+			 */
+			const eslintWithoutSuppressions = new ESLint({
+				concurrency,
+				overrideConfigFile: true,
+				cwd,
+				cache: true,
+				cacheLocation: cacheFilePath,
+				applySuppressions: false,
+			});
+
+			const resultsWithoutSuppressions =
+				await eslintWithoutSuppressions.lintFiles(["test-file.js"]);
+
+			/**
+			 * The cache should have stored all messages, so the second run should show the messages
+			 * that were suppressed in the first run
+			 */
+			const noUndefMessages =
+				resultsWithoutSuppressions[0].messages.filter(
+					m => m.ruleId === "no-undef",
+				);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"all no-undef errors should be present when reading from cache without suppressions",
+			);
 		});
 	}
 

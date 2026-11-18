@@ -117,9 +117,10 @@ try {
 
 ## Options
 
-This rule takes a single option — an object with the following optional property:
+This rule takes a single option — an object with the following optional properties:
 
 - `requireCatchParameter`: Requires the catch blocks to always have the caught error parameter when set to `true`. By default, this is `false`.
+- `errorClassNames`: Additional error class names to check for cause preservation. By default, this is `[]`.
 
 ### requireCatchParameter
 
@@ -162,6 +163,138 @@ try {
 ```
 
 :::
+
+### errorClassNames
+
+By default, this rule checks only the built-in `Error` types (`Error`, `EvalError`, `RangeError`, `ReferenceError`, `SyntaxError`, `TypeError`, `URIError`, `AggregateError`). Use `errorClassNames` to also check custom error classes.
+
+Each entry can be either a string or an object:
+
+- A **string** specifies the class name. The constructor is assumed to accept the options object as the second argument, matching the built-in `Error` signature.
+- An **object** with `name` and `argumentPosition` is used when the constructor accepts the options object at a different position. `argumentPosition` is 1-indexed.
+
+```json
+{
+    "rules": {
+        "preserve-caught-error": ["error", {
+            "errorClassNames": [
+                "AppError",
+                { "name": "APIError", "argumentPosition": 3 }
+            ]
+        }]
+    }
+}
+```
+
+Example of **incorrect** code for the `{ "errorClassNames": ["AppError"] }` option:
+
+::: incorrect
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": ["AppError"] }] */
+
+class AppError extends Error {}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new AppError("Something failed");
+}
+```
+
+:::
+
+Example of **correct** code for the `{ "errorClassNames": ["AppError"] }` option:
+
+::: correct
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": ["AppError"] }] */
+
+class AppError extends Error {}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new AppError("Something failed", { cause: err });
+}
+```
+
+:::
+
+Example of **incorrect** code for the `{ "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }` option:
+
+::: incorrect
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }] */
+
+class APIError extends Error {
+	constructor(message, statusCode, options) {
+		super(message, options);
+		this.statusCode = statusCode;
+	}
+}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new APIError("Request failed", 500);
+}
+```
+
+:::
+
+Example of **correct** code for the `{ "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }` option:
+
+::: correct
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }] */
+
+class APIError extends Error {
+	constructor(message, statusCode, options) {
+		super(message, options);
+		this.statusCode = statusCode;
+	}
+}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new APIError("Request failed", 500, { cause: err });
+}
+```
+
+:::
+
+## Known Limitations
+
+The `errorClassNames` option accepts names, not references to specific error classes. The rule matches these configured names in the AST and does not resolve scope or type information.
+
+As a result, a local class can shadow the intended error class while having the same name. The rule cannot distinguish the local class from the intended class and may report a false positive.
+
+For example:
+
+```js
+/* eslint preserve-caught-error: ["error", { errorClassNames: ["AppError"] }] */
+
+function makeWrapped() {
+	class AppError {
+		constructor(err) {
+			this.original = err;
+		}
+	}
+
+	try {
+		doSomething();
+	} catch (err) {
+		throw new AppError(err);
+	}
+}
+```
+
+Here, `AppError` is configured by name, but the local `AppError` class is different from the intended global/imported class. The rule still matches the name and may report a missing `cause`, even though this local class has a different constructor signature and does not accept an options object containing `cause`.
 
 ## When Not To Use It
 

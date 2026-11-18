@@ -223,6 +223,20 @@ ruleTester.run("no-unreachable-loop", rule, {
 			code: "for (var key in obj) { hasEnumerableProperties = true; break; } for (const a of b) break;",
 			options: [{ ignore: ["ForInStatement", "ForOfStatement"] }],
 		},
+		{
+			code: "while (a) break;",
+			options: [
+				{
+					ignore: [
+						"WhileStatement",
+						"DoWhileStatement",
+						"ForStatement",
+						"ForInStatement",
+						"ForOfStatement",
+					],
+				},
+			],
+		},
 	],
 
 	invalid: [

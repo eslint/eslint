@@ -2,9 +2,9 @@
 
 module.exports = function () {
 	return `
-ESLint couldn't find an eslint.config.(js|mjs|cjs) file.
+ESLint couldn't find an eslint.config.* file.
 
-From ESLint v9.0.0, the default configuration file is now eslint.config.js.
+From ESLint v9.0.0, the default configuration file is now eslint.config.*.
 If you are using a .eslintrc.* file, please follow the migration guide
 to update your configuration file to the new format:
 

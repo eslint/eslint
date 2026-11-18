@@ -41,7 +41,7 @@ describe("WarningService", () => {
 
 			assert(
 				process.emitWarning.calledOnceWithExactly(
-					`Circular fixes detected while fixing ${filename}. It is likely that you have conflicting rules in your configuration.`,
+					`Circular fixes detected while fixing ${filename}. It is likely that you have conflicting rules in your configuration. For more information, visit https://eslint.org/docs/latest/use/troubleshooting/circular-fixes`,
 					"ESLintCircularFixesWarning",
 				),
 				"Expected process.emitWarning to be called with the correct arguments",

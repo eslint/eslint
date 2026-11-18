@@ -19,9 +19,9 @@ Every property is optional.
   Information about the available replacements for the rule.
   This may be an empty array to explicitly state there is no replacement.
 - `deprecatedSince` (`string`)<br>
-  [Semver](https://semver.org/) of the version deprecating the rule.
+  [Semver](https://semver.org/) of the version deprecating the rule. It should be the full semver string that represents the specific version, without leading `"v"`, e.g. `"3.12.0"`.
 - `availableUntil` (`string | null`)<br>
-  [Semver](https://semver.org/) of the version likely to remove the rule, e.g. the next major version.
+  [Semver](https://semver.org/) of the version likely to remove the rule, e.g. the next major version. It should be the full semver string that represents the specific version, without leading `"v"`, e.g. `"4.0.0"`.
   The special value `null` means the rule will no longer be changed but will be kept available.
 
 ## ◆ ReplacedByInfo type

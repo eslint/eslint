@@ -169,6 +169,13 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Suppressions
+
+- `options.applySuppressions` (`boolean`)<br>
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+- `options.suppressionsLocation` (`string`)<br>
+  Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
+
 ##### Other Options
 
 - `options.concurrency` (`number | "auto" | "off"`)<br>
@@ -552,33 +559,26 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ## loadESLint()
 
-The `loadESLint()` function is used for integrations that wish to support different ESLint versions. This function returns the correct `ESLint` class implementation based on the arguments provided:
+The `loadESLint()` function is used for integrations that wish to support different ESLint versions. In ESLint v10.0.0 and later, it always returns the `ESLint` class, which uses the flat config system:
 
 ```js
 const { loadESLint } = require("eslint");
 
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
-
-// loads the flat config version specifically
-const FlatESLint = await loadESLint({ useFlatConfig: true });
-
-// loads the legacy version specifically if possible, otherwise falls back to flat config version
-const LegacyESLint = await loadESLint({ useFlatConfig: false });
 ```
+
+In ESLint v9 and earlier, `loadESLint()` accepted a `useFlatConfig` option to choose between the flat config and eslintrc implementations. Because eslintrc support was removed in ESLint v10.0.0, this option is now ignored.
 
 You can then use the returned constructor to instantiate a new `ESLint` instance, like this:
 
 ```js
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
 const eslint = new DefaultESLint();
 ```
 
-If you're ever unsure which config system the returned constructor uses, check the `configType` property, which is either `"flat"` or `"eslintrc"`:
+If your integration also supports earlier ESLint versions, check the `configType` property to determine which config system the returned constructor uses. In ESLint v10.0.0 and later, it is always `"flat"`, while earlier versions may return `"eslintrc"`:
 
 ```js
-// loads the default ESLint that the CLI would use based on process.cwd()
 const DefaultESLint = await loadESLint();
 
 if (DefaultESLint.configType === "flat") {
@@ -586,7 +586,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-**If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.**
+**If your integration only needs to support ESLint v10.0.0 and later, then it's recommended to just use the `ESLint` constructor directly.**
 
 ## SourceCode
 
@@ -976,7 +976,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
@@ -1122,6 +1121,8 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 ### Customizing RuleTester
 
+#### Customizing `describe` and `it`
+
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
@@ -1163,6 +1164,56 @@ ruleTester.run("my-rule", myRule, {
 		// invalid test cases
 	],
 });
+```
+
+#### Enforcing `assertionOptions` Globally
+
+Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
+
+##### Option 1 — Subclass `RuleTester` and override `run()`
+
+```js
+const { RuleTester } = require("eslint");
+
+class StrictRuleTester extends RuleTester {
+	run(ruleName, rule, tests) {
+		super.run(ruleName, rule, {
+			...tests,
+			assertionOptions: {
+				// Default assertion options applied to every run() call.
+				requireMessage: "messageId",
+				requireLocation: true,
+				// Per-call options are merged in and take precedence.
+				...tests.assertionOptions,
+			},
+		});
+	}
+}
+
+module.exports = StrictRuleTester;
+```
+
+##### Option 2 — Helper wrapper function
+
+```js
+const { RuleTester } = require("eslint");
+
+const ruleTester = new RuleTester();
+
+function runWithStrictAssertions(ruleName, rule, tests) {
+	return ruleTester.run(ruleName, rule, {
+		...tests,
+		assertionOptions: {
+			// Default assertion options applied to every call.
+			requireMessage: "messageId",
+			requireLocation: true,
+			// Per-call options are merged in and take precedence.
+			...tests.assertionOptions,
+		},
+	});
+}
+
+module.exports = runWithStrictAssertions;
 ```
 
 [configuration object]: ../use/configure/

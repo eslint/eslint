@@ -33,6 +33,10 @@ ruleTester.run("no-ex-assign", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -41,6 +45,10 @@ ruleTester.run("no-ex-assign", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -50,6 +58,10 @@ ruleTester.run("no-ex-assign", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -59,6 +71,10 @@ ruleTester.run("no-ex-assign", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -68,6 +84,10 @@ ruleTester.run("no-ex-assign", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 36,
 				},
 			],
 		},

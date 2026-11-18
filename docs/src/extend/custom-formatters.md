@@ -220,7 +220,7 @@ In this example, the `your-program-that-reads-json` program can accept the raw J
 
 ### Formatting for Terminals
 
-Modern terminals like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-project.org/) expect a specific results format to automatically open filenames when they are clicked. Most terminals support this format for that purpose:
+Modern terminals like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake.org/) expect a specific results format to automatically open filenames when they are clicked. Most terminals support this format for that purpose:
 
 ```bash
 file:line:column

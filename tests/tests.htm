@@ -1,35 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Browser smoke test</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
-  </head>
-  <body>
-    <div id="mocha"></div>
-    <!-- test framework -->
-    <script src="../node_modules/mocha/mocha.js"></script>
-    <script src="../node_modules/chai/chai.js"></script>
-    <script src="../node_modules/sinon/pkg/sinon.js"></script>
-    <script src="../node_modules/phantomjs-polyfill/bind-polyfill.js"></script>
+	<head>
+		<title>Browser smoke test</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+	</head>
+	<body>
+		<div id="mocha"></div>
+		<!-- test framework -->
+		<script src="../node_modules/mocha/mocha.js"></script>
+		<script src="../node_modules/chai/chai.js"></script>
+		<script src="../node_modules/sinon/pkg/sinon.js"></script>
+		<script src="../node_modules/phantomjs-polyfill/bind-polyfill.js"></script>
 
-    <!-- source -->
-    <script src="../build/eslint.js"></script>
+		<!-- source -->
+		<script src="../build/eslint.js"></script>
 
-    <!-- mocha setup -->
-    <script>
-        mocha.ui('bdd');
-        mocha.reporter('html');
-    </script>
+		<!-- mocha setup -->
+		<script>
+			mocha.ui("bdd");
+			mocha.reporter("html");
+		</script>
 
-    <!-- test suite -->
-    <script src="lib/eslint.js"></script>
+		<!-- test suite -->
+		<script src="lib/eslint.js"></script>
 
-    <!-- runner -->
-    <script>
-        window.mochaPhantomJS
-          ? mochaPhantomJS.run()
-          : mocha.run();
-    </script>
-  </body>
+		<!-- runner -->
+		<script>
+			window.mochaPhantomJS ? mochaPhantomJS.run() : mocha.run();
+		</script>
+	</body>
 </html>

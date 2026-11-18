@@ -491,5 +491,122 @@ ruleTester.run("no-unneeded-ternary", rule, {
 				},
 			],
 		},
+		{
+			code: "({ a: 1 } === b) ? false : true;",
+			output: "({ a: 1 } !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
+			code: "const f = () => ({ a: 1 } === b) ? false : true;",
+			output: "const f = () => ({ a: 1 } !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 48,
+				},
+			],
+		},
+		{
+			code: "(function() {} === b) ? false : true;",
+			output: "(function() {} !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "(class {} === b) ? false : true;",
+			output: "(class {} !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
+			code: "export default (function() {} === b) ? false : true;",
+			output: "export default (function() {} !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 52,
+				},
+			],
+		},
+		{
+			code: "a++\n(/x/.test(y) === b) ? false : true;",
+			output: "a++\n(/x/.test(y) !== b);",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "switch (x) { case(foo) ? true : true: break; }",
+			output: "switch (x) { case true: break; }",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "function f() { return(foo) ? true : true; }",
+			output: "function f() { return true; }",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 41,
+				},
+			],
+		},
+		{
+			code: "function f() { return(a === b) ? false : true; }",
+			output: "function f() { return(a !== b); }",
+			errors: [
+				{
+					messageId: "unnecessaryConditionalExpression",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 46,
+				},
+			],
+		},
 	],
 });

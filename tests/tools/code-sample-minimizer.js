@@ -65,6 +65,30 @@ describe("reduceBadExampleSize()", () => {
 		);
 	});
 
+	it("handles ES2022+ syntax like class fields with comments", () => {
+		/*
+		 * Previously, recast would crash with "did not recognize object of type PropertyDefinition"
+		 * when trying to attach comments to PropertyDefinition nodes (ES2022 class fields).
+		 */
+		const initialCode = `
+            class Foo {
+                /* irrelevant comment */
+                x = THIS_EXPRESSION_CAUSES_A_BUG;
+            }
+        `;
+
+		const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
+
+		assert.strictEqual(
+			reduceBadExampleSize({
+				sourceText: initialCode,
+				predicate: code =>
+					code.includes("THIS_EXPRESSION_CAUSES_A_BUG"),
+			}),
+			expectedFinalCode,
+		);
+	});
+
 	it("removes irrelevant comments from the source code", () => {
 		const initialCode = `
         var /* aaa */foo = bar;

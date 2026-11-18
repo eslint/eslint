@@ -344,6 +344,16 @@ ruleTester.run("id-match", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 
+		// Meta-properties
+		{
+			code: "import.meta",
+			options: ["^$"],
+		},
+		{
+			code: "function foo() { new.target; }",
+			options: ["^foo$"],
+		},
+
 		// Import attribute keys
 		{
 			code: "import foo from 'foo.json' with { type: 'json' }",

@@ -101,4 +101,4 @@ If explicit declaration of global variables is not to your taste.
 
 ## Compatibility
 
-This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).
+This rule provides compatibility with treatment of global variables in [JSHint](https://jshint.com/) and [JSLint](https://www.jslint.com).

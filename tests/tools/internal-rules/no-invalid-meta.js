@@ -153,31 +153,6 @@ ruleTester.run("no-invalid-meta", rule, {
 			],
 		},
 		{
-			code: [
-				"module.exports = {",
-				"    meta: {",
-				"        docs: {",
-				"            description: 'some rule',",
-				"        },",
-				"        schema: []",
-				"    },",
-
-				"    create: function(context) {",
-				"        return {",
-				"            Program: function(node) {}",
-				"        };",
-				"    }",
-				"};",
-			].join("\n"),
-			errors: [
-				{
-					messageId: "missingMetaDocsRecommended",
-					line: 2,
-					column: 5,
-				},
-			],
-		},
-		{
 			code: "",
 			errors: [
 				{

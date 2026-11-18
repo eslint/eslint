@@ -152,17 +152,6 @@ ruleTester.run("no-useless-rename", rule, {
 			code: "export {foo as foo, bar as bar} from 'foo';",
 			options: [{ ignoreExport: true }],
 		},
-
-		/*
-		 * TODO: Remove after babel-eslint removes ExperimentalRestProperty
-		 * https://github.com/eslint/eslint/issues/12335
-		 */
-		{
-			code: "const { ...foo } = bar;",
-			languageOptions: {
-				parser: require("../../fixtures/parsers/babel-eslint10/object-pattern-with-rest-element"),
-			},
-		},
 	],
 
 	invalid: [
@@ -1321,6 +1310,101 @@ ruleTester.run("no-useless-rename", rule, {
 				{
 					messageId: "unnecessarilyRenamed",
 					data: { type: "Export", name: "foo" },
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-useless-rename", rule, {
+	valid: [
+		"import {type foo} from 'foo';",
+		"import {type foo as bar} from 'foo';",
+		"export {type foo} from 'foo';",
+		"export {type foo as bar} from 'foo';",
+		{
+			code: "import {type foo as foo} from 'foo';",
+			options: [{ ignoreImport: true }],
+		},
+		{
+			code: "export {type foo as foo} from 'foo';",
+			options: [{ ignoreExport: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "import {type foo as foo} from 'foo';",
+			output: "import {type foo} from 'foo';",
+			errors: [
+				{
+					messageId: "unnecessarilyRenamed",
+					data: { type: "Import", name: "foo" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "import type {foo as foo} from 'foo';",
+			output: "import type {foo} from 'foo';",
+			errors: [
+				{
+					messageId: "unnecessarilyRenamed",
+					data: { type: "Import", name: "foo" },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "import {type as type} from 'foo';",
+			output: "import {type} from 'foo';",
+			errors: [
+				{
+					messageId: "unnecessarilyRenamed",
+					data: { type: "Import", name: "type" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "export {type foo as foo} from 'foo';",
+			output: "export {type foo} from 'foo';",
+			errors: [
+				{
+					messageId: "unnecessarilyRenamed",
+					data: { type: "Export", name: "foo" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "export type {foo as foo} from 'foo';",
+			output: "export type {foo} from 'foo';",
+			errors: [
+				{
+					messageId: "unnecessarilyRenamed",
+					data: { type: "Export", name: "foo" },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},

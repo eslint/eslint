@@ -33,6 +33,13 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 10; 0 < i; i--){}",
 		"for(var i = 10; 0 <= i; i--){}",
 
+		/*
+		 * loops where the condition is statically false from the start (dead code),
+		 * but the direction is consistent, so the rule does not report them
+		 */
+		"for(var i = 0; i < 0; i++){}",
+		"for(var i = 0; 0 > i; i++){}",
+
 		// test if '+=', '-=',
 		"for(var i = 0; i < 10; i+=1){}",
 		"for(var i = 0; i <= 10; i+=1){}",
@@ -81,6 +88,33 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 0; i === 10; i+=1){}",
 		"for(var i = 0; i == 10; i+=1){}",
 		"for(var i = 0; i != 10; i+=1){}",
+
+		// test SequenceExpression (comma operator) - counter moves in the correct direction
+		"for(var i = 0; i < 10; (i++, j++)){}",
+		"for(var i = 0; i <= 10; (i++, j++)){}",
+		"for(var i = 10; i > 0; (i--, j++)){}",
+		"for(var i = 10; i >= 0; (i--, j++)){}",
+		"for(var i = 0; i < 10; (j++, i++)){}",
+		"for(var i = 0; i < 10; (j++, k++)){}",
+		"for(var i = 0; i < 10; (i+=1, j++)){}",
+		"for(var i = 10; i > 0; (i-=1, j++)){}",
+
+		// test SequenceExpression - counter modified multiple times (direction unknown, skip)
+		"for(var i = 10; i < 20; (i--, i++)){}",
+		"for(var i = 10; i < 20; (i--, i += 2)){}",
+		"for(var i = 0; i < 10; (i++, i--)){}",
+		"for(var i = 0; i < 10; (i-=1, i+=2)){}",
+
+		// test SequenceExpression - three expressions
+		"for(var i = 0; i < 10; (j++, i++, k++)){}",
+		"for(var i = 10; i > 0; (j++, i--, k++)){}",
+
+		// test SequenceExpression - nested SequenceExpressions
+		"for(var i = 10; i < 20; (i--, (i = 5, j++))){}",
+		"for(var i = 10; i < 20; ((i--, j++), i += 2)){}",
+
+		// test SequenceExpression - unknown AssignmentExpression RHS
+		"for(var i = 10; i < 20; (i--, i += STEP_SIZE)){}",
 	],
 	invalid: [
 		// test if '++', '--'
@@ -363,6 +397,118 @@ ruleTester.run("for-direction", rule, {
 					column: 1,
 					endLine: 1,
 					endColumn: 29,
+				},
+			],
+		},
+
+		// test SequenceExpression (comma operator) - counter moves in the wrong direction
+		{
+			code: "for(var i = 0; i < 10; (i--, j++)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "for(var i = 0; i <= 10; (i--, j++)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "for(var i = 10; i > 0; (i++, j--)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "for(var i = 10; i >= 0; (i++, j--)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "for(var i = 0; i < 10; (j++, i--)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "for(var i = 0; i < 10; (i-=1, j++)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "for(var i = 10; i > 0; (i+=1, j--)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "for(var i = 0; 10 > i; (i--, j++)){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+
+		// test SequenceExpression - nested SequenceExpressions with wrong direction
+		{
+			code: "for(var i = 10; i < 20; (j++, (i--, k++))){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 43,
 				},
 			],
 		},

@@ -310,6 +310,54 @@ const patterns = [
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
 	},
+	{
+		code: "function Φ() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function 𐐀() { this.x = 1; }",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "Φ = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "𐐀 = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "var Φ = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "var 𐐀 = function() { this.x = 1; };",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(Φ = function() { this.x = 1; }) {}",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
+	{
+		code: "function f(𐐀 = function() { this.x = 1; }) {}",
+		languageOptions: { ecmaVersion: 6 },
+		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+		invalid: [],
+	},
 
 	// On a property.
 	{
@@ -1304,6 +1352,83 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
           `,
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		`
+			obj.foo = function () {
+				class C {
+					accessor x;
+				}
+				return this;
+			};
+		`,
+		`
+			obj.foo = function () {
+				class C {
+					accessor x = function () {
+						return this;
+					};
+					accessor y = () => this;
+				}
+				return this;
+			};
+		`,
+
+		// TypeScript expression wrappers don't change the destination of the function.
+		"obj.foo = function () { return this; } as Foo;",
+		"obj.foo = <Foo>function () { return this; };",
+		"obj.foo = function () { return this; } satisfies Foo;",
+		"obj.foo = function () { return this; }!;",
+		"obj.foo = function <T>() { return this; }<string>;",
+		"obj.foo = function () { return this; } as unknown as Foo;",
+		"obj.foo = (bar || function () { return this; }) as Foo;",
+		"obj.foo = bar ? (function () { return this; } as Foo) : null;",
+		"obj.foo = (() => function () { return this; } as Foo)();",
+		"obj.foo = (function () { return function () { return this; }; })() as Foo;",
+		"var Foo = function () { return this; } as FooConstructor;",
+		"var obj = { foo: function () { return this; } as Foo };",
+		"class A { foo = function () { return this; } as Foo; }",
+		"(function () { return this; } as Foo).call(obj);",
+		"(function () { return this; } as Foo)?.call(obj);",
+		"var foo = (<Foo>function () { return this; }).bind(obj);",
+		"[].forEach(function () { return this; } as Foo, obj);",
+		"(obj.foo as Foo) = function () { return this; };",
+		"(<Foo>obj.foo) = function () { return this; };",
+		"(obj.foo satisfies Foo) = function () { return this; };",
+		"obj.foo! = function () { return this; };",
+		"(obj.foo! as Foo) = function () { return this; };",
+		"(Foo as FooConstructor) = function () { return this; };",
+		"[(obj.foo as Foo) = function () { return this; }] = a;",
+		`
+			obj.foo = (function () {
+				return function () { return this; };
+			} as any)();
+		`,
+		"obj.foo = ((() => function () { return this; }) as any)();",
+		"obj.foo = ((() => function () { return this; }) satisfies Foo)();",
+		"obj.foo = (<any>function () { return function () { return this; }; })();",
+		"obj.foo = (function () { return function () { return this; }; })!();",
+		"obj.foo = (function <T>() { return function () { return this; }; }<string>)();",
+		"((function () { return this; }).call as any)(obj);",
+		"((function () { return this; }).apply as any)(obj, []);",
+		"((function () { return this; }).bind as any)(obj);",
+		"((function () { return this; })?.call as any)(obj);",
+		"((function () { return this; }).call!)(obj);",
+		"((function () { return this; }).call satisfies Foo)(obj);",
+		"(<any>(function () { return this; }).call)(obj);",
+		"(Reflect.apply as any)(function () { return this; }, obj, []);",
+		"(Reflect?.apply as any)(function () { return this; }, obj, []);",
+		"([].forEach as any)(function () { return this; }, obj);",
+		"(Array.from as any)([], function () { return this; }, obj);",
+		"((function () { return this; }).call<any, [], void>)(obj);",
+		"((function () { return this; }).apply<any, [], void>)(obj, []);",
+		"((function () { return this; }).bind<any>)(obj);",
+		"(Reflect.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Reflect?.apply<any, any[], void>)(function () { return this; }, obj, []);",
+		"(Array.from<number, string>)([], function () { return this; }, obj);",
+		"(Array.fromAsync<number, string>)([], function () { return this; }, obj);",
+		"([].map<string>)(function () { return this; }, obj);",
+		"((Reflect.apply<any, any[], void>) as any)(function () { return this; }, obj, []);",
+		"((Reflect.apply as any)<any, any[], void>)(function () { return this; }, obj, []);",
+		"(obj.foo<string>) = function () { return this; };",
 	],
 
 	invalid: [
@@ -1844,6 +1969,155 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 					messageId: "unexpectedThis",
 				},
 			],
+		},
+		{
+			code: `
+				class C {
+					accessor x;
+				}
+				this.a;
+			`,
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
+		},
+		{
+			code: `
+				function foo() {
+					class C {
+						accessor x = 1;
+						accessor y = function () {};
+						accessor z = () => {};
+					}
+					return this;
+				}
+			`,
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
+		},
+
+		// TypeScript expression wrappers don't hide the default `this` binding.
+		{
+			code: "foo(function () { return this; } as Foo);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "[].forEach(function () { return this; } as Foo);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; } as Foo).call(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "obj.foo = function () { return function () { return this; } as Foo; };",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "var Foo = function () { return this; } as FooConstructor;",
+			options: [{ capIsConstructor: false }],
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(foo as Foo) = function () { return this; };",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; } as Foo).call(null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; }).call(undefined!);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "Reflect.apply(function () { return this; }, <any>null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "Array.from([], function () { return this; }, null satisfies any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "[].forEach(function () { return this; }, null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(function () { return this; }).call(void 0 as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "obj.foo = (function () { return function () { return this; }; } as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call as any)(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call as any)(null as any);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply as any)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].forEach as any)(function () { return this; });",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.from as any)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "const call = (function () { return this; }).call as any;",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((function () { return this; }).call<any, [], void>)(null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply<any, any[], void>)(function () { return this; }, obj);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.from<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Array.fromAsync<number, string>)([], function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; }, null);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "([].map<string>)(function () { return this; });",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "((Reflect.apply<any, any[], void>) as any)(function () { return this; }, null, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(Reflect.apply as any)(function () { return this; }, (null as any)<any>, []);",
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		{
+			code: "(foo<string>) = function () { return this; };",
+			errors: [{ messageId: "unexpectedThis" }],
 		},
 	],
 });

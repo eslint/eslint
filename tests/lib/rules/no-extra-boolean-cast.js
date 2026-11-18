@@ -34,6 +34,21 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 		"for(;; Boolean(foo)) {}",
 		"if (new Boolean(foo)) {}",
 		"if ((Boolean(1), 2)) {}",
+
+		// shadowed `Boolean` is not the global, so the call is not redundant
+		"function foo(Boolean) { if (Boolean(bar)) {} }",
+		"let Boolean = x => x; if (Boolean(bar)) {}",
+		"function foo(Boolean) { return !!Boolean(bar); }",
+		"function foo(Boolean) { if (Boolean(!!bar)) {} }",
+		"function foo(Boolean) { if (new Boolean(!!bar)) {} }",
+		{
+			code: "function foo(Boolean) { if (bar && Boolean(baz)) {} }",
+			options: [{ enforceForLogicalOperands: true }],
+		},
+		{
+			code: "if (Boolean(bar)) {}",
+			languageOptions: { globals: { Boolean: "off" } },
+		},
 		{
 			code: "var foo = bar || !!baz",
 			options: [{ enforceForLogicalOperands: true }],
@@ -218,7 +233,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 5,
+					endLine: 1,
 					endColumn: 10,
 				},
 			],
@@ -229,7 +246,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 14,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -239,7 +259,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -249,7 +272,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -259,7 +285,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -269,7 +298,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 2,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -279,7 +311,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 9,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -289,7 +324,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 13,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -299,6 +337,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -308,6 +350,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -317,6 +363,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -326,6 +376,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -335,6 +389,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -344,6 +402,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -353,6 +415,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -362,6 +428,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -371,6 +441,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -380,6 +454,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -389,6 +467,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -399,6 +481,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -408,6 +494,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -417,6 +507,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -426,6 +520,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -435,6 +533,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -444,6 +546,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -453,6 +559,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -462,6 +572,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -471,6 +585,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -480,6 +598,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -489,6 +611,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -498,6 +624,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -510,6 +640,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -520,6 +654,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -530,6 +668,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -540,6 +682,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -550,6 +696,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -560,6 +710,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 28,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -569,6 +723,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -578,6 +736,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -587,6 +749,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -596,6 +762,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -605,6 +775,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -614,6 +788,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -623,6 +801,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -632,6 +814,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -641,6 +827,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -652,6 +842,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -661,6 +855,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -670,6 +868,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -679,6 +881,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -688,6 +894,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -697,6 +907,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -706,6 +920,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -715,6 +933,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -724,6 +946,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -733,6 +959,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -742,6 +972,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -751,6 +985,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -760,6 +998,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -769,6 +1011,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -778,6 +1024,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -787,6 +1037,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -796,6 +1050,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -805,6 +1063,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -814,6 +1076,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -823,6 +1089,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -832,6 +1102,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -841,6 +1115,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -850,6 +1128,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -859,6 +1141,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -868,6 +1154,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -880,7 +1170,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 5,
+					endLine: 1,
 					endColumn: 10,
 				},
 			],
@@ -892,7 +1184,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 5,
+					endLine: 1,
 					endColumn: 10,
 				},
 			],
@@ -905,7 +1199,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 6,
+					endLine: 1,
 					endColumn: 11,
 				},
 			],
@@ -917,7 +1213,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 12,
+					endLine: 1,
 					endColumn: 17,
 				},
 			],
@@ -929,7 +1227,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 14,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -940,7 +1241,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -951,7 +1255,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -962,7 +1269,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -973,7 +1283,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 2,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -984,7 +1297,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 9,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -995,7 +1311,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 13,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1006,6 +1325,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1016,6 +1339,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -1026,6 +1353,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1036,6 +1367,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1046,6 +1381,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1056,6 +1395,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -1066,6 +1409,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -1076,6 +1423,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1086,6 +1437,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1096,6 +1451,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -1106,6 +1465,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -1116,6 +1479,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1127,6 +1494,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1137,6 +1508,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -1147,6 +1522,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 30,
 				},
 			],
 		},
@@ -1157,6 +1536,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -1167,6 +1550,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1177,6 +1564,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1187,6 +1578,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1197,6 +1592,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1207,6 +1606,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -1217,6 +1620,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1230,6 +1637,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -1241,6 +1652,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -1252,6 +1667,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -1263,6 +1682,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -1274,6 +1697,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -1284,6 +1711,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -1294,6 +1725,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -1304,6 +1739,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1314,6 +1753,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1324,6 +1767,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1334,6 +1781,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1346,6 +1797,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1356,6 +1811,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -1366,6 +1825,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -1376,6 +1839,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -1386,6 +1853,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1396,6 +1867,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -1406,6 +1881,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1416,6 +1895,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1426,6 +1909,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1436,6 +1923,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1446,6 +1937,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1456,6 +1951,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1466,6 +1965,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1476,6 +1979,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1486,6 +1993,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1496,6 +2007,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1506,6 +2021,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1516,6 +2035,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1526,6 +2049,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1536,6 +2063,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -1546,6 +2077,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1556,6 +2091,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1566,6 +2105,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1576,6 +2119,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1586,6 +2133,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1597,7 +2148,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 10,
+					endLine: 1,
 					endColumn: 23,
 				},
 			],
@@ -1610,7 +2163,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 24,
+					endLine: 1,
 					endColumn: 27,
 				},
 			],
@@ -1624,7 +2179,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 5,
+					endLine: 1,
 					endColumn: 10,
 				},
 			],
@@ -1636,7 +2193,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 5,
+					endLine: 1,
 					endColumn: 10,
 				},
 			],
@@ -1649,7 +2208,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 6,
+					endLine: 1,
 					endColumn: 11,
 				},
 			],
@@ -1661,7 +2222,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 12,
+					endLine: 1,
 					endColumn: 17,
 				},
 			],
@@ -1673,7 +2236,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 14,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -1684,7 +2250,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1695,7 +2264,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -1706,7 +2278,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 8,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1717,7 +2292,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 2,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -1728,7 +2306,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 9,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -1739,7 +2320,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 13,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1750,6 +2334,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1760,6 +2348,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -1770,6 +2362,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1780,6 +2376,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -1790,6 +2390,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1800,6 +2404,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -1810,6 +2418,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -1820,6 +2432,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1830,6 +2446,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1840,6 +2460,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -1850,6 +2474,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -1860,6 +2488,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1871,6 +2503,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1881,6 +2517,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -1891,6 +2531,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 30,
 				},
 			],
 		},
@@ -1901,6 +2545,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -1911,6 +2559,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -1921,6 +2573,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -1931,6 +2587,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -1941,6 +2601,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -1951,6 +2615,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -1961,6 +2629,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -1974,6 +2646,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -1985,6 +2661,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -1996,6 +2676,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -2007,6 +2691,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -2018,6 +2706,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -2028,6 +2720,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -2038,6 +2734,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -2048,6 +2748,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2058,6 +2762,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2068,6 +2776,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -2078,6 +2790,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2090,6 +2806,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -2100,6 +2820,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -2110,6 +2834,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -2120,6 +2848,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -2130,6 +2862,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -2140,6 +2876,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -2150,6 +2890,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2160,6 +2904,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2170,6 +2918,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2180,6 +2932,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2190,6 +2946,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2200,6 +2960,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2210,6 +2974,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2220,6 +2988,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2230,6 +3002,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2240,6 +3016,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2250,6 +3030,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2260,6 +3044,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -2270,6 +3058,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2280,6 +3072,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -2290,6 +3086,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2300,6 +3100,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2310,6 +3114,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2320,6 +3128,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -2330,6 +3142,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2341,7 +3157,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 10,
+					endLine: 1,
 					endColumn: 23,
 				},
 			],
@@ -2354,7 +3172,9 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
 					column: 24,
+					endLine: 1,
 					endColumn: 27,
 				},
 			],
@@ -2367,6 +3187,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2376,6 +3200,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -2385,6 +3213,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2394,6 +3226,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -2403,6 +3239,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2412,6 +3252,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2421,6 +3265,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2430,6 +3278,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2439,6 +3291,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2448,6 +3304,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -2457,6 +3317,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2466,6 +3330,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2475,6 +3343,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -2484,6 +3356,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -2493,6 +3369,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2503,6 +3383,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -2512,6 +3396,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -2521,6 +3409,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2530,6 +3422,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -2539,6 +3435,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2548,6 +3448,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -2557,6 +3461,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2566,6 +3474,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2575,6 +3487,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -2584,6 +3500,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 30,
 				},
 			],
 		},
@@ -2593,6 +3513,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -2602,6 +3526,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -2611,6 +3539,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2620,6 +3552,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -2629,6 +3565,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2638,6 +3578,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -2647,6 +3591,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2656,6 +3604,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2665,6 +3617,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -2674,6 +3630,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2683,6 +3643,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -2692,6 +3656,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -2701,6 +3669,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -2710,6 +3682,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2719,6 +3695,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -2728,6 +3708,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -2737,6 +3721,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -2746,6 +3734,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -2755,6 +3747,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2764,6 +3760,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -2773,6 +3773,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2782,6 +3786,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2791,6 +3799,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2800,6 +3812,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2809,6 +3825,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -2818,6 +3838,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -2827,6 +3851,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -2836,6 +3864,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -2845,6 +3877,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -2854,6 +3890,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -2863,6 +3903,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2872,6 +3916,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -2881,6 +3929,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -2890,6 +3942,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2899,6 +3955,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -2908,6 +3968,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -2917,6 +3981,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2926,6 +3994,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -2935,6 +4007,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -2944,6 +4020,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 30,
 				},
 			],
 		},
@@ -2953,6 +4033,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -2962,6 +4046,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -2971,6 +4059,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -2980,6 +4072,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -2989,6 +4085,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 28,
 				},
 			],
 		},
@@ -2998,6 +4098,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3007,6 +4111,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -3016,6 +4124,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -3025,6 +4137,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -3034,6 +4150,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -3043,6 +4163,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3052,6 +4176,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -3061,6 +4189,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3070,6 +4202,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -3079,6 +4215,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3088,6 +4228,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -3097,6 +4241,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -3106,6 +4254,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3115,6 +4267,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -3124,6 +4280,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -3133,6 +4293,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -3142,6 +4306,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},
@@ -3151,6 +4319,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -3160,6 +4332,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -3169,6 +4345,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -3178,6 +4358,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -3187,6 +4371,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -3196,6 +4384,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3205,6 +4397,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -3214,6 +4410,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -3223,6 +4423,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -3232,6 +4436,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3241,6 +4449,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3250,6 +4462,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3259,6 +4475,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -3268,6 +4488,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -3277,6 +4501,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -3286,6 +4514,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3295,6 +4527,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -3304,6 +4540,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -3313,6 +4553,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -3322,6 +4566,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 4,
 				},
 			],
 		},
@@ -3331,6 +4579,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -3340,6 +4592,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -3349,6 +4605,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3358,6 +4618,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -3367,6 +4631,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3376,6 +4644,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -3385,6 +4657,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3394,6 +4670,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -3403,6 +4683,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -3412,6 +4696,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3421,6 +4709,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3430,6 +4722,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3439,6 +4735,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3448,6 +4748,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3457,6 +4761,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -3466,6 +4774,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -3475,6 +4787,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -3485,6 +4801,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3495,6 +4815,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -3505,6 +4829,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 34,
 				},
 			],
 		},
@@ -3515,6 +4843,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3524,9 +4856,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 6,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -3536,9 +4876,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},
@@ -3548,6 +4896,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -3557,6 +4909,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3566,6 +4922,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3575,6 +4935,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3584,6 +4948,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -3593,6 +4961,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -3602,6 +4974,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -3611,6 +4987,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -3620,6 +5000,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3629,6 +5013,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -3638,6 +5026,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},
@@ -3647,6 +5039,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -3656,6 +5052,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -3665,6 +5065,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -3674,6 +5078,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -3683,6 +5091,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -3693,9 +5105,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -3706,9 +5126,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3719,9 +5147,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -3732,9 +5168,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -3745,9 +5189,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3758,9 +5210,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -3771,9 +5231,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -3784,9 +5252,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3797,9 +5273,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -3811,9 +5295,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 21,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
@@ -3824,9 +5316,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 18,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},
@@ -3837,9 +5337,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 23,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 45,
 				},
 			],
 		},
@@ -3850,9 +5358,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 18,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},
@@ -3863,9 +5379,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 23,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 45,
 				},
 			],
 		},
@@ -3876,9 +5400,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -3889,9 +5421,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3902,9 +5442,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -3915,9 +5463,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3928,9 +5484,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -3941,9 +5505,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3954,9 +5526,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -3967,9 +5547,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -3980,9 +5568,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -3993,9 +5589,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4006,9 +5610,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4019,9 +5631,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -4032,9 +5652,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4045,9 +5673,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 11,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -4058,9 +5694,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -4071,9 +5715,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 8,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -4084,9 +5736,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -4099,6 +5759,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -4108,14 +5772,30 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			code: "if (Boolean?.(foo)) {};",
 			output: "if (foo) {};",
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
 		},
 		{
 			code: "if (Boolean?.(a ?? b) || c) {}",
 			output: "if ((a ?? b) || c) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
 		},
 
 		// https://github.com/eslint/eslint/issues/17173
@@ -4128,25 +5808,57 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 				),
 				ecmaVersion: 2020,
 			},
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
 		},
 		{
 			code: "if ((1, 2, Boolean(3))) {}",
 			output: "if ((1, 2, 3)) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
 		},
 		{
 			code: "if (a ?? Boolean(b)) {}",
 			output: "if (a ?? b) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
 		},
 		{
 			code: "if ((a, b, c ?? (d, e, f ?? Boolean(g)))) {}",
 			output: "if ((a, b, c ?? (d, e, f ?? g))) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
 		},
 		{
 			code: "if (!!(a, b) || !!(c, d)) {}",
@@ -4155,9 +5867,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -4168,9 +5888,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4181,9 +5909,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -4194,9 +5930,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -4207,9 +5951,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4220,9 +5972,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -4233,9 +5993,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -4246,9 +6014,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4259,9 +6035,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4273,9 +6057,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 21,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
@@ -4286,9 +6078,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 18,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},
@@ -4299,9 +6099,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 23,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 45,
 				},
 			],
 		},
@@ -4312,9 +6120,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 18,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},
@@ -4325,9 +6141,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 23,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 45,
 				},
 			],
 		},
@@ -4338,9 +6162,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -4351,9 +6183,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4364,9 +6204,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -4377,9 +6225,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4390,9 +6246,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -4403,9 +6267,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4416,9 +6288,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -4429,9 +6309,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4442,9 +6330,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4455,9 +6351,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -4468,9 +6372,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4481,9 +6393,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 14,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 27,
 				},
 			],
 		},
@@ -4494,9 +6414,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 31,
 				},
 			],
 		},
@@ -4507,9 +6435,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 11,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -4520,9 +6456,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -4533,9 +6477,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 8,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -4546,9 +6498,17 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 				},
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 25,
 				},
 			],
 		},
@@ -4561,6 +6521,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -4569,37 +6533,85 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ?? b) || c) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
 		},
 		{
 			code: "if (a ? Boolean(b) : c) {}",
 			output: "if (a ? b : c) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
 		},
 		{
 			code: "if (a ? b : Boolean(c)) {}",
 			output: "if (a ? b : c) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
 		},
 		{
 			code: "if (a ? b : Boolean(c ? d : e)) {}",
 			output: "if (a ? b : c ? d : e) {}",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "const ternary = Boolean(bar ? !!baz : bat);",
 			output: "const ternary = Boolean(bar ? baz : bat);",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedNegation" }],
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "const commaOperator = Boolean((bar, baz, !!bat));",
 			output: "const commaOperator = Boolean((bar, baz, bat));",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedNegation" }],
+			errors: [
+				{
+					messageId: "unexpectedNegation",
+					line: 1,
+					column: 42,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
 		},
 		{
 			code: `
@@ -4611,21 +6623,49 @@ for (let i = 0; (console.log(i), i < 10); i++) {
     // ...
 }`,
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 2,
+					column: 34,
+					endLine: 2,
+					endColumn: 49,
+				},
+			],
 		},
 		{
 			code: "const nullishCoalescingOperator = Boolean(bar ?? Boolean(baz));",
 			output: "const nullishCoalescingOperator = Boolean(bar ?? baz);",
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 62,
+				},
+			],
 		},
 		{
 			code: "if (a ? Boolean(b = c) : Boolean(d = e));",
 			output: "if (a ? b = c : d = e);",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall" },
-				{ messageId: "unexpectedCall" },
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 23,
+				},
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 40,
+				},
 			],
 		},
 		{
@@ -4633,8 +6673,20 @@ for (let i = 0; (console.log(i), i < 10); i++) {
 			output: "if (a ? (b, c) : (d, e));",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall" },
-				{ messageId: "unexpectedCall" },
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 24,
+				},
+				{
+					messageId: "unexpectedCall",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 42,
+				},
 			],
 		},
 		{
@@ -4653,7 +6705,15 @@ function * generator() {
 }
 `,
 			options: [{ enforceForInnerExpressions: true }],
-			errors: [{ messageId: "unexpectedCall" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 29,
+				},
+			],
 		},
 	],
 });

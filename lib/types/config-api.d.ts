@@ -5,8 +5,16 @@
 
 import {
 	type Config,
+	type ConfigObject,
 	defineConfig,
 	globalIgnores,
+	includeIgnoreFile,
 } from "@eslint/config-helpers";
 
-export { type Config, defineConfig, globalIgnores };
+export {
+	type Config,
+	type ConfigObject,
+	defineConfig,
+	globalIgnores,
+	includeIgnoreFile,
+};

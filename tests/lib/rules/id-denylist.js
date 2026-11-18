@@ -235,6 +235,18 @@ ruleTester.run("id-denylist", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 
+		// Meta-properties
+		{
+			code: "import.meta",
+			options: ["import", "meta"],
+			languageOptions: { ecmaVersion: 2020, sourceType: "module" },
+		},
+		{
+			code: "function foo() { new.target; }",
+			options: ["new", "target"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+
 		// Import attribute keys
 		{
 			code: "import foo from 'foo.json' with { type: 'json' }",

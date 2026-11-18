@@ -1,0 +1,122 @@
+name: Test Ecosystem Plugins
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    schedule:
+        # “At 00:00.” https://crontab.guru/#0_0_*_*_*
+        - cron: "0 0 * * *"
+    workflow_dispatch: ~
+
+permissions:
+    contents: read
+    issues: write
+
+jobs:
+    test_ecosystem:
+        name: Test Ecosystem Plugin (${{ matrix.plugin }})
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                plugin:
+                    - "@eslint/css"
+                    - "@eslint/json"
+                    - "@eslint/markdown"
+                    - "@eslint-community/eslint-plugin-eslint-comments"
+                    - "@typescript-eslint/typescript-eslint"
+                    - "eslint-plugin-unicorn"
+                    - "eslint-plugin-vue"
+
+        steps:
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            - name: Determine package manager
+              id: get_pm
+              run: echo "pm=$(jq -r --arg plugin "${{ matrix.plugin }}" '.[$plugin].commands.install[0]' tools/test-ecosystem/plugins-data.json)" >> "$GITHUB_OUTPUT"
+
+            - name: Install Corepack latest
+              if: steps.get_pm.outputs.pm == 'pnpm'
+              run: |
+                  npm install -g corepack@latest
+                  corepack enable pnpm
+
+            - name: Install Packages
+              run: npm install
+
+            - name: Test Ecosystem Plugins
+              run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
+
+            - name: Upload Test Results
+              if: always()
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ecosystem-results-${{ strategy.job-index }}
+                  path: ecosystem/*-results.json
+                  retention-days: 1
+
+    report_failures:
+        name: Report Failures
+        needs: [test_ecosystem]
+        if: failure() && github.ref_name == 'main'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Download all results
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: ecosystem-results-*
+                  path: raw-results
+                  merge-multiple: true
+
+            - name: Build failure summary
+              id: summary
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const script = require('./tools/test-ecosystem/build-failure-summary.js');
+                      script({ core });
+
+            - name: Create or update GitHub issue
+              uses: actions/github-script@v9
+              env:
+                  SUMMARY_TEXT: ${{ steps.summary.outputs.summary_text }}
+              with:
+                  script: |
+                      const script = require('./tools/test-ecosystem/sync-ecosystem-issue.js');
+                      await script({ github, context, core });
+
+            - name: Check previous build status
+              id: check_previous
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const { data } = await github.rest.actions.listWorkflowRuns({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          workflow_id: 'ecosystem-tests.yml',
+                          branch: 'main',
+                          per_page: 2
+                      });
+
+                      const prevRun = data.workflow_runs[1];
+                      const conclusion = prevRun?.conclusion || 'success';
+                      core.setOutput('conclusion', conclusion);
+
+            - name: Notify Discord
+              if: steps.check_previous.outputs.conclusion == 'success'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: |
+                      🚨 **Ecosystem tests failed!**
+                      Failed plugins: ${{ steps.summary.outputs.failed_list }}
+                      🔗 ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

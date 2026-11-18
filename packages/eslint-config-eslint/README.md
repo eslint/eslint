@@ -48,7 +48,7 @@ bun add eslint-config-eslint -D
 
 ## Usage
 
-### ESM (`"type":"module"`) projects
+### ESM (`"type": "module"`) projects
 
 In your `eslint.config.js` file, add:
 

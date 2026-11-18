@@ -16,7 +16,6 @@
 const fs = require("node:fs");
 const { stripIndents } = require("common-tags");
 const ejs = require("ejs");
-const got = require("got");
 
 //-----------------------------------------------------------------------------
 // Data
@@ -39,7 +38,13 @@ const readme = fs.readFileSync(README_FILE_PATH, "utf8");
  * @returns {Promise<string>} Prerendered sponsors markdown.
  */
 async function fetchSponsorsMarkdown() {
-	return got(SPONSORS_URL).text();
+	const response = await fetch(SPONSORS_URL);
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch sponsors: ${response.status}`);
+	}
+
+	return response.text();
 }
 
 /**
@@ -47,7 +52,13 @@ async function fetchSponsorsMarkdown() {
  * @returns {Object} The sponsors data object.
  */
 async function fetchTeamData() {
-	return got(TEAM_URL).json();
+	const response = await fetch(TEAM_URL);
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch team data: ${response.status}`);
+	}
+
+	return response.json();
 }
 
 /**

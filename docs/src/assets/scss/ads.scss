@@ -1,11 +1,9 @@
-.hero-ad {
+.docs-ad {
+	height: 290px;
+
 	@media all and (max-width: 800px) {
 		display: none;
 	}
-}
-
-.docs-ad {
-	height: 290px;
 }
 
 /*

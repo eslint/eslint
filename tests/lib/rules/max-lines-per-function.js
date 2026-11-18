@@ -91,6 +91,24 @@ ruleTester.run("max-lines-per-function", rule, {
 			options: [{ max: 5, skipComments: true, skipBlankLines: false }],
 		},
 
+		// skipComments: true with several comments on one line
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ /* b */ // c\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
+		// skipComments: true with lines that end one comment and start another
+		{
+			code: "function name() {\nconst x = 5;\n/* a\nb */ /* c\nd */ // e\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
+		// skipComments: true with several comments per line surrounded by whitespace
+		{
+			code: "function name() {\nconst x = 5;\n\t/* a */\t/* b */\t\n  // c\n/* d */ // e\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+		},
+
 		// Multiple params on separate lines test
 		{
 			code: `function foo(
@@ -239,6 +257,10 @@ if ( x === y ) {
 						lineCount: 2,
 						maxLines: 1,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -251,6 +273,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Function", lineCount: 2, maxLines: 1 },
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -263,6 +289,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", lineCount: 4, maxLines: 3 },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -275,6 +305,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", lineCount: 2, maxLines: 1 },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
@@ -291,6 +325,10 @@ if ( x === y ) {
 						lineCount: 61,
 						maxLines: 50,
 					},
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 6,
 				},
 			],
 		},
@@ -307,6 +345,10 @@ if ( x === y ) {
 						lineCount: 7,
 						maxLines: 6,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -323,6 +365,10 @@ if ( x === y ) {
 						lineCount: 7,
 						maxLines: 6,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -339,6 +385,10 @@ if ( x === y ) {
 						lineCount: 4,
 						maxLines: 2,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -355,6 +405,10 @@ if ( x === y ) {
 						lineCount: 4,
 						maxLines: 2,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -371,6 +425,10 @@ if ( x === y ) {
 						lineCount: 7,
 						maxLines: 6,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -387,6 +445,10 @@ if ( x === y ) {
 						lineCount: 4,
 						maxLines: 1,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -403,6 +465,90 @@ if ( x === y ) {
 						lineCount: 5,
 						maxLines: 1,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true still counts a line with code between two comments
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ const y = 6; /* b */\nconst z = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true still counts a line with code followed by two comments
+		{
+			code: "function name() {\nconst x = 5;\nconst y = 6; /* a */ // b\nconst z = 2;\n}",
+			options: [{ max: 4, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: true counts the first line of a multi-line comment that follows code, but not its other lines
+		{
+			code: "function name() {\nconst x = 5; /* a\nb\nc */ /* d */\nconst y = 2;\n}",
+			options: [{ max: 3, skipComments: true, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 4,
+						maxLines: 3,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+
+		// Test skipComments: false counts a line with several comments
+		{
+			code: "function name() {\nconst x = 5;\n/* a */ /* b */ // c\nconst y = 2;\n}",
+			options: [{ max: 4, skipComments: false, skipBlankLines: false }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: {
+						name: "Function 'name'",
+						lineCount: 5,
+						maxLines: 4,
+					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -421,6 +567,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", lineCount: 7, maxLines: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -446,6 +596,10 @@ function
 				{
 					messageId: "exceed",
 					data: { name: "Function", lineCount: 4, maxLines: 2 },
+					line: 2,
+					column: 1,
+					endLine: 3,
+					endColumn: 1,
 				},
 			],
 		},
@@ -471,6 +625,10 @@ if ( x === y ) {
 						lineCount: 10,
 						maxLines: 9,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -496,6 +654,10 @@ if ( x === y ) {
 						lineCount: 10,
 						maxLines: 2,
 					},
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 16,
 				},
 				{
 					messageId: "exceed",
@@ -504,6 +666,10 @@ if ( x === y ) {
 						lineCount: 4,
 						maxLines: 2,
 					},
+					line: 3,
+					column: 1,
+					endLine: 3,
+					endColumn: 16,
 				},
 			],
 		},
@@ -526,6 +692,10 @@ if ( x === y ) {
 						lineCount: 5,
 						maxLines: 2,
 					},
+					line: 2,
+					column: 5,
+					endLine: 2,
+					endColumn: 11,
 				},
 			],
 		},
@@ -548,6 +718,10 @@ if ( x === y ) {
 						lineCount: 5,
 						maxLines: 2,
 					},
+					line: 2,
+					column: 5,
+					endLine: 4,
+					endColumn: 5,
 				},
 			],
 		},
@@ -566,6 +740,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Getter 'foo'", lineCount: 5, maxLines: 2 },
+					line: 2,
+					column: 5,
+					endLine: 4,
+					endColumn: 5,
 				},
 			],
 		},
@@ -584,6 +762,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Setter 'foo'", lineCount: 5, maxLines: 2 },
+					line: 2,
+					column: 5,
+					endLine: 4,
+					endColumn: 5,
 				},
 			],
 		},
@@ -605,6 +787,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Static method", lineCount: 8, maxLines: 2 },
+					line: 2,
+					column: 5,
+					endLine: 7,
+					endColumn: 5,
 				},
 			],
 		},
@@ -630,6 +816,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Function", lineCount: 7, maxLines: 2 },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -655,6 +845,10 @@ if ( x === y ) {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", lineCount: 7, maxLines: 2 },
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},

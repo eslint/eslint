@@ -8,7 +8,7 @@ further_reading:
 
 
 
-ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due their capitalization (such as `Math` and `JSON`) but will throw an error if you try to execute them as functions.
+ECMAScript provides several global objects that are intended to be used as-is. Some of these objects look as if they could be constructors due to their capitalization (such as `Math`, `JSON`, and `Temporal`) but will throw an error if you try to execute them as functions.
 
 The [ECMAScript 5 specification](https://es5.github.io/#x15.8) makes it clear that both `Math` and `JSON` cannot be invoked:
 
@@ -22,13 +22,24 @@ The [ECMAScript 2017 specification](https://www.ecma-international.org/ecma-262/
 
 > The Atomics object does not have a `[[Call]]` internal method; it is not possible to invoke the Atomics object as a function.
 
-And the [ECMAScript Internationalization API Specification](https://tc39.es/ecma402/#intl-object) makes it clear that `Intl` cannot be invoked:
+The [ECMAScript Internationalization API Specification](https://tc39.es/ecma402/#intl-object) makes it clear that `Intl` cannot be invoked:
 
 > The Intl object does not have a `[[Call]]` internal method; it is not possible to invoke the Intl object as a function.
 
+The [Temporal proposal specification](https://tc39.es/proposal-temporal/#sec-temporal-objects) makes it clear that `Temporal` cannot be invoked:
+
+> The Temporal object does not have a `[[Call]]` internal method; it cannot be invoked as a function.
+
+The [ECMAScript 2020 specification](https://tc39.es/ecma262/2020/#sec-globalthis) defines `globalThis` as the global `this` value of the current realm. Unless the host specifies otherwise, this is the
+  [global object](https://tc39.es/ecma262/2020/#sec-global-object), which:
+
+> does not have a `[[Construct]]` internal method; it cannot be used as a constructor with the `new` operator.
+>
+> does not have a `[[Call]]` internal method; it cannot be invoked as a function.
+
 ## Rule Details
 
-This rule disallows calling the `Math`, `JSON`, `Reflect`, `Atomics` and `Intl` objects as functions.
+This rule disallows calling `Math`, `JSON`, `Reflect`, `Atomics`, `Intl`, `Temporal`, and `globalThis` as functions.
 
 This rule also disallows using these objects as constructors with the `new` operator.
 
@@ -58,6 +69,15 @@ const newAtomics = new Atomics();
 const intl = Intl();
 
 const newIntl = new Intl();
+
+const temporal = Temporal();
+
+const newTemporal = new Temporal();
+
+const globalObject = globalThis();
+
+const newGlobalObject = new globalThis();
+
 ```
 
 :::
@@ -80,6 +100,10 @@ const value = Reflect.get({ x: 1, y: 2 }, "x");
 const first = Atomics.load(foo, 0);
 
 const segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
+
+const instant = Temporal.Now.instant();
+
+const parsed = globalThis.parseInt("42", 10);
 ```
 
 :::

@@ -63,6 +63,12 @@ ruleTester.run("prefer-numeric-literals", rule, {
 			code: 'class C { #parseInt; foo() { Number.#parseInt("111110111", 2); } }',
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// Shadowed `parseInt` and `Number` should not be reported.
+		'function foo(parseInt) { parseInt("111110111", 2); }',
+		'function foo() { var parseInt; parseInt("111110111", 2); }',
+		'function foo(Number) { Number.parseInt("111110111", 2); }',
+		'function foo() { var Number; Number.parseInt("111110111", 2); }',
 	],
 	invalid: [
 		{

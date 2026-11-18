@@ -12,6 +12,7 @@
 const assert = require("chai").assert;
 const sinon = require("sinon");
 const esquery = require("esquery");
+const espree = require("espree");
 const {
 	parse,
 	matches,
@@ -256,6 +257,74 @@ describe("esquery", () => {
 			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
 			assert.strictEqual(result.attributeCount, 3);
 			assert.strictEqual(result.identifierCount, 3);
+		});
+	});
+
+	describe("fastMatch", () => {
+		const ast = espree.parse("function f(a, b) { return a; }", {
+			ecmaVersion: 2022,
+		});
+		const functionNode = ast.body[0];
+		const paramNode = functionNode.params[0];
+		const bodyNode = functionNode.body;
+
+		// [node, ancestry] pairs to check each selector against
+		const targets = [
+			[ast, []],
+			[functionNode, [ast]],
+			[paramNode, [functionNode, ast]],
+			[bodyNode, [functionNode, ast]],
+		];
+
+		const fastMatchedSelectors = [
+			"FunctionDeclaration > .params",
+			"FunctionDeclaration > *.params",
+			"FunctionDeclaration > .body",
+			"Program > .body",
+
+			// identifiers are matched case-insensitively
+			"functiondeclaration > .params",
+
+			// `:exit` is stripped before parsing
+			"FunctionDeclaration > .params:exit",
+
+			/*
+			 * Subject indicators don't affect `esquery.matches()` for child
+			 * selectors, so these are handled by the fast matcher too.
+			 */
+			"FunctionDeclaration > !.params",
+			"!FunctionDeclaration > .params",
+			"FunctionDeclaration > !*.params",
+		];
+
+		fastMatchedSelectors.forEach(source => {
+			it(`should create a fast matcher for "${source}" that behaves like esquery.matches()`, () => {
+				const selector = parse(source);
+
+				assert.isFunction(selector.fastMatch);
+
+				targets.forEach(([node, ancestry]) => {
+					assert.strictEqual(
+						selector.fastMatch(node, ancestry),
+						esquery.matches(node, selector.root, ancestry),
+						`Mismatch for ${node.type}`,
+					);
+				});
+			});
+		});
+
+		[
+			"FunctionDeclaration", // not a child selector
+			"FunctionDeclaration .params", // descendant, not child
+			"FunctionDeclaration > Identifier", // not a field
+			"FunctionDeclaration > .body.body", // dotted field name
+			"FunctionDeclaration > [name] .params", // not a plain field
+			"* > .params", // parent isn't an identifier
+			"FunctionDeclaration > *.params[name]", // more than a wildcard and a field
+		].forEach(source => {
+			it(`should not create a fast matcher for "${source}"`, () => {
+				assert.isNull(parse(source).fastMatch);
+			});
 		});
 	});
 

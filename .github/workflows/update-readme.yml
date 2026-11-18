@@ -4,17 +4,24 @@ on:
     schedule:
         - cron: "0 8 * * *" # Every day at 1am PDT
 
+    workflow_dispatch: ~
+
+permissions:
+    contents: read
+
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - name: Check out repo
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
 
             - name: Install npm packages
               run: npm install

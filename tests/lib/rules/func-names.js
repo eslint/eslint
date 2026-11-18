@@ -283,6 +283,61 @@ ruleTester.run("func-names", rule, {
 			options: ["as-needed"],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "const obj = { ['__proto__']: function() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const obj = { __proto__() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const obj = { __proto__: function foo() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(fn) = function foo() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "[fn = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: fn = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "[(fn) = function foo() {}] = bar;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "({ bar: (fn) = function foo() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "fn &&= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
+		{
+			code: "fn ||= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
+		{
+			code: "fn ??= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+		},
 	],
 	invalid: [
 		{
@@ -290,6 +345,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -301,6 +357,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -312,6 +369,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -323,6 +381,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -334,6 +393,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 12,
 					endColumn: 20,
@@ -345,6 +405,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -357,6 +418,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -369,6 +431,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -381,6 +444,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -393,6 +457,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -405,6 +470,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -418,6 +484,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -431,6 +498,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -444,6 +512,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -457,6 +526,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 16,
 					endColumn: 24,
@@ -470,6 +540,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 22,
 					endColumn: 30,
@@ -524,6 +595,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 16,
 					endColumn: 24,
 				},
@@ -536,6 +608,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 16,
 					endColumn: 24,
 				},
@@ -548,6 +621,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 17,
 					endColumn: 25,
 				},
@@ -562,6 +636,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -575,6 +650,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -588,6 +664,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -601,6 +678,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -614,6 +692,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -627,6 +706,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -640,6 +720,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -653,6 +734,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -666,6 +748,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -679,6 +762,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -692,6 +776,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -705,6 +790,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -718,6 +804,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -731,6 +818,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -744,6 +832,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -757,6 +846,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -770,6 +860,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -783,6 +874,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -796,6 +888,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -809,6 +902,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -936,6 +1030,123 @@ ruleTester.run("func-names", rule, {
 					data: { name: "method 'foo'" },
 					column: 11,
 					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "const obj = { __proto__: function() {} };",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "method '__proto__'" },
+					column: 15,
+					endColumn: 34,
+				},
+			],
+		},
+		{
+			code: 'const obj = { "__proto__": function() {} };',
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "method '__proto__'" },
+					column: 15,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "const obj = { '__proto__': function*() {} };",
+			options: ["as-needed", { generators: "as-needed" }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "generator method '__proto__'" },
+					column: 15,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "(fn) = function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 8,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "((fn)) = function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 10,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "(fn) ||= function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 2021 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 10,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "fn += function() {};",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 7,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "[(fn) = function() {}] = foo;",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 9,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "({ bar: (fn) = function() {} } = baz);",
+			options: ["as-needed"],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnamed",
+					data: { name: "function" },
+					column: 16,
+					endColumn: 24,
 				},
 			],
 		},

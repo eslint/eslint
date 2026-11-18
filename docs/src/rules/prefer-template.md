@@ -3,7 +3,6 @@ title: prefer-template
 rule_type: suggestion
 related_rules:
 - no-useless-concat
-- quotes
 ---
 
 

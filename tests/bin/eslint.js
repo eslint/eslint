@@ -28,12 +28,27 @@ const EXECUTABLE_PATH = path.resolve(
 //-----------------------------------------------------------------------------
 
 /**
- * Returns a Promise for when a child process exits
+ * Returns a Promise for when a child process exits.
  * @param {ChildProcess} exitingProcess The child process
- * @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
+ * @returns {Promise<{exitCode: number | null, signal: string | null}>} A Promise that fulfills
+ * with the exit code and signal when the child process exits.
+ */
+function awaitExitResult(exitingProcess) {
+	return new Promise(resolve =>
+		exitingProcess.once("exit", (exitCode, signal) =>
+			resolve({ exitCode, signal }),
+		),
+	);
+}
+
+/**
+ * Returns a Promise for when a child process exits.
+ * @param {ChildProcess} exitingProcess The child process
+ * @returns {Promise<number | null>} A Promise that fulfills with the exit code when the child
+ * process exits.
  */
 function awaitExit(exitingProcess) {
-	return new Promise(resolve => exitingProcess.once("exit", resolve));
+	return awaitExitResult(exitingProcess).then(({ exitCode }) => exitCode);
 }
 
 /**
@@ -43,11 +58,53 @@ function awaitExit(exitingProcess) {
  * @returns {Promise<void>} A Promise that fulfills if the exit code ends up matching, and rejects otherwise.
  */
 function assertExitCode(exitingProcess, expectedExitCode) {
-	return awaitExit(exitingProcess).then(exitCode => {
+	return awaitExitResult(exitingProcess).then(({ exitCode, signal }) => {
 		assert.strictEqual(
 			exitCode,
 			expectedExitCode,
 			`Expected an exit code of ${expectedExitCode} but got ${exitCode}.`,
+		);
+		assert.isNull(signal, `Expected no exit signal but got ${signal}.`);
+	});
+}
+
+/**
+ * Asserts that a given child process exits due to the given signal.
+ * @param {ChildProcess} exitingProcess The child process.
+ * @param {string} expectedSignal The expected signal.
+ * @returns {Promise<void>} A Promise that fulfills if the child exits due to the given signal.
+ */
+function assertExitSignal(exitingProcess, expectedSignal) {
+	return awaitExitResult(exitingProcess).then(({ exitCode, signal }) => {
+		if (signal === expectedSignal) {
+			assert.isNull(
+				exitCode,
+				`Expected no exit code when exiting due to ${expectedSignal}, but got ${exitCode}.`,
+			);
+			return;
+		}
+
+		if (process.platform === "win32") {
+			assert.isNull(
+				signal,
+				`Expected no exit signal on Windows when simulating ${expectedSignal}, but got ${signal}.`,
+			);
+			assert.notStrictEqual(
+				exitCode,
+				0,
+				`Expected a nonzero exit code on Windows when simulating ${expectedSignal}, but got ${exitCode}.`,
+			);
+			return;
+		}
+
+		assert.isNull(
+			exitCode,
+			`Expected no exit code when exiting due to ${expectedSignal}, but got ${exitCode}.`,
+		);
+		assert.strictEqual(
+			signal,
+			expectedSignal,
+			`Expected an exit signal of ${expectedSignal} but got ${signal}.`,
 		);
 	});
 }
@@ -73,6 +130,7 @@ function getOutput(runningProcess) {
 
 describe("bin/eslint.js", () => {
 	const forkedProcesses = new Set();
+	const tempDirectories = new Set();
 
 	/**
 	 * Forks the process to run an instance of ESLint.
@@ -89,6 +147,61 @@ describe("bin/eslint.js", () => {
 
 		forkedProcesses.add(newProcess);
 		return newProcess;
+	}
+
+	/**
+	 * Creates a preload hook that stubs the `cross-spawn` module.
+	 * @param {string} returnValueSource JavaScript source to return from `spawn.sync()`.
+	 * @returns {string} The preload hook path.
+	 */
+	function createCrossSpawnHook(returnValueSource) {
+		const tempDirectory = fs.mkdtempSync(
+			path.join(os.tmpdir(), "eslint-cross-spawn-hook-"),
+		);
+		const hookPath = path.join(tempDirectory, "hook.js");
+
+		tempDirectories.add(tempDirectory);
+		fs.writeFileSync(
+			hookPath,
+			`
+				const Module = require("node:module");
+				const originalLoad = Module._load;
+
+				Module._load = function(request, parent, isMain) {
+					if (request === "cross-spawn") {
+						return {
+							sync() {
+								return ${returnValueSource};
+							},
+						};
+					}
+
+					return originalLoad.apply(this, arguments);
+				};
+			`,
+		);
+
+		return hookPath;
+	}
+
+	/**
+	 * Forks ESLint with a preload hook that stubs `cross-spawn`.
+	 * @param {string[]} args An array of arguments.
+	 * @param {string} returnValueSource JavaScript source to return from `spawn.sync()`.
+	 * @param {Object} [options] Additional child process options.
+	 * @returns {ChildProcess} The resulting child process.
+	 */
+	function runESLintWithCrossSpawnHook(
+		args,
+		returnValueSource,
+		options = {},
+	) {
+		const hookPath = createCrossSpawnHook(returnValueSource);
+
+		return runESLint(args, {
+			...options,
+			execArgv: ["--require", hookPath, ...(options.execArgv ?? [])],
+		});
 	}
 
 	describe("reading from stdin", () => {
@@ -1361,6 +1474,45 @@ describe("bin/eslint.js", () => {
 		});
 	});
 
+	describe("delegated commands", () => {
+		[
+			["--init", "npm init @eslint/config@latest"],
+			["--mcp", "npx @eslint/mcp@latest"],
+		].forEach(([flag, command]) => {
+			it(`should propagate a nonzero exit code from ${flag}`, () => {
+				const child = runESLintWithCrossSpawnHook(
+					[flag],
+					"({ status: 7 })",
+				);
+
+				return assertExitCode(child, 7);
+			});
+
+			it(`should surface spawn errors from ${flag}`, () => {
+				const child = runESLintWithCrossSpawnHook(
+					[flag],
+					'({ error: new Error("boom") })',
+				);
+				const exitCodeAssertion = assertExitCode(child, 2);
+				const outputAssertion = getOutput(child).then(output => {
+					assert.include(output.stderr, command);
+					assert.include(output.stderr, "boom");
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
+			});
+
+			it(`should propagate signals from ${flag}`, () => {
+				const child = runESLintWithCrossSpawnHook(
+					[flag],
+					'({ signal: "SIGTERM" })',
+				);
+
+				return assertExitSignal(child, "SIGTERM");
+			});
+		});
+	});
+
 	describe("Multithread mode", () => {
 		it("should warn exactly once for an empty config file", async () => {
 			const cwd = path.join(
@@ -1516,5 +1668,13 @@ describe("bin/eslint.js", () => {
 		// Clean up all the processes after every test.
 		forkedProcesses.forEach(child => child.kill());
 		forkedProcesses.clear();
+
+		tempDirectories.forEach(tempDirectory => {
+			fs.rmSync(tempDirectory, {
+				recursive: true,
+				force: true,
+			});
+		});
+		tempDirectories.clear();
 	});
 });

@@ -6,7 +6,7 @@ related_rules:
 ---
 
 
-Comparing to `null` without a type-checking operator (`==` or `!=`), can have unintended results as the comparison will evaluate to `true` when comparing to not just a `null`, but also an `undefined` value.
+Comparing to `null` without a type-checking operator (`==` or `!=`) can have unintended results as the comparison will evaluate to `true` when comparing not just to `null`, but also to `undefined`.
 
 ```js
 if (foo == null) {
@@ -16,7 +16,7 @@ if (foo == null) {
 
 ## Rule Details
 
-The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such it will flag comparisons to `null` when using `==` and `!=`.
+The `no-eq-null` rule aims to reduce potential bugs and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such, it will flag comparisons to `null` when using `==` and `!=`.
 
 Examples of **incorrect** code for this rule:
 
@@ -50,9 +50,22 @@ if (foo === null) {
 while (qux !== null) {
   baz();
 }
+
+if (foo === null || foo === undefined) {
+  bar();
+}
+
+while (qux !== null && qux !== undefined) {
+  baz();
+}
 ```
 
 :::
+
+This rule offers two suggestions for each reported comparison:
+
+* Replace `==` or `!=` with `===` or `!==` to compare with `null` only. This changes the result when the other operand is `undefined`.
+* Replace the operator and add a comparison with `undefined`, as in `foo === null || foo === undefined`, to keep comparing with both `null` and `undefined`. This suggestion is only offered when the other operand can be safely repeated, such as `foo` or `foo.bar`.
 
 ## Options
 

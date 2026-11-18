@@ -98,6 +98,15 @@ ruleTester.run("prefer-object-spread", rule, {
 		"Object.assign({}, { set a(val) {} })",
 		"Object.assign({}, { foo: 'bar', get a() {} }, {})",
 		"Object.assign({ foo }, bar, {}, { baz: 'quux', set a(val) {}, quuux }, {})",
+
+		// ignore Object.assign() with > 1 arguments if any of the source arguments is an object expression with a `__proto__` property
+		"Object.assign({}, { __proto__: proto })",
+		'Object.assign({}, { "__proto__": proto })',
+		'Object.assign({}, { ["__proto__"]: proto })',
+		"Object.assign({}, { __proto__() {} })",
+		"Object.assign({}, { __proto__ })",
+		'Object.assign({}, foo, { ["__proto__"]: proto })',
+		"Object.assign({ __proto__: proto }, { __proto__: other })",
 	],
 
 	invalid: [
@@ -377,6 +386,78 @@ ruleTester.run("prefer-object-spread", rule, {
 			],
 		},
 
+		{
+			code: "const result = doSomething()\nObject.assign({}, myData)",
+			output: "const result = doSomething()\n;({ ...myData})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "let a = foo + Object.assign({}, bar)",
+			output: "let a = foo + ({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "let foo = function() {};\nfoo\nObject.assign({}, bar)",
+			output: "let foo = function() {};\nfoo\n;({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({ foo: bar })",
+			output: "foo\n;({foo: bar})",
+			errors: [
+				{
+					messageId: "useLiteralMessage",
+				},
+			],
+		},
+		{
+			code: "foo();\nObject.assign({}, bar)",
+			output: "foo();\n({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "const x = [1]\nObject.assign({}, bar)",
+			output: "const x = [1]\n;({ ...bar})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({}, bar).doSomething()",
+			output: "foo\n;({ ...bar}).doSomething()",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({}, bar), 2",
+			output: "foo\n;({ ...bar}), 2",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
 		/*
 		 * This is a special case where Object.assign is called with a single argument
 		 * and that argument is an object expression. In this case we warn and display
@@ -909,6 +990,87 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+
+		// report Object.assign() with a `__proto__` property if the function call has only 1 argument
+		{
+			code: "Object.assign({ __proto__: proto })",
+			output: "({__proto__: proto})",
+			errors: [
+				{
+					messageId: "useLiteralMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: 'Object.assign({ ["__proto__"]: proto })',
+			output: '({["__proto__"]: proto})',
+			errors: [
+				{
+					messageId: "useLiteralMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+
+		// report Object.assign() with a `__proto__` property in the first argument (the target), as its meaning doesn't change
+		{
+			code: "Object.assign({ __proto__: proto }, foo)",
+			output: "({__proto__: proto, ...foo})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: 'Object.assign({ "__proto__": proto }, foo)',
+			output: '({"__proto__": proto, ...foo})',
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: 'Object.assign({ ["__proto__"]: proto }, { a: 1 })',
+			output: '({["__proto__"]: proto, a: 1})',
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "Object.assign({ __proto__ }, foo)",
+			output: "({__proto__, ...foo})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+					line: 1,
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "Object.assign({ __proto__() {} }, { a: 1 })",
+			output: "({__proto__() {}, a: 1})",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
 					line: 1,
 					column: 1,
 				},

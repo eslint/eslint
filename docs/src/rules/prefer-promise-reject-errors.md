@@ -4,7 +4,7 @@ rule_type: suggestion
 related_rules:
 - no-throw-literal
 further_reading:
-- http://bluebirdjs.com/docs/warning-explanations.html#warning-a-promise-was-rejected-with-a-non-error
+- https://github.com/petkaantonov/bluebird/blob/master/docs/docs/warning-explanations.md#warning-a-promise-was-rejected-with-a-non-error
 ---
 
 

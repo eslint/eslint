@@ -30,6 +30,10 @@ ruleTester.run("no-div-regex", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},

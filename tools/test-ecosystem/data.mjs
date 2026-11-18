@@ -1,0 +1,84 @@
+/**
+ * @fileoverview Data utilities for ecosystem tests and updates to data.
+ * @author Josh Goldberg
+ */
+
+//-----------------------------------------------------------------------------
+// Requirements
+//-----------------------------------------------------------------------------
+
+import util, { styleText } from "node:util";
+
+//-----------------------------------------------------------------------------
+// Types
+//-----------------------------------------------------------------------------
+
+/**
+ * Command-line scripts to run on a plugin.
+ * @typedef {Object} PluginData
+ * @property {string?} build Command to build files before tests, if defined.
+ * @property {string} install Command to install dependencies.
+ * @property {string} test Command to run tests.
+ */
+
+/**
+ * Settings for how to clone, set up, and test an ecosystem plugin.
+ * @typedef {Object} PluginData
+ * @property {PluginCommands} commands Command-line scripts to run on the plugin.
+ * @property {string} commit Hash to check out after cloning the plugin.
+ * @property {string} repository Repository URL to clone the plugin from.
+ */
+
+//-----------------------------------------------------------------------------
+// Constants
+//-----------------------------------------------------------------------------
+
+export const pluginDataFilePath = new URL("plugins-data.json", import.meta.url);
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
+/**
+ * @param {"test" | "update"} action
+ * @returns {[string, PluginData][]}
+ */
+export async function getPlugins(action) {
+	const { values } = util.parseArgs({
+		options: {
+			plugin: {
+				type: "string",
+			},
+		},
+	});
+
+	const { plugin: pluginRequested = "all" } = values;
+	const { default: pluginsData } = await import(pluginDataFilePath, {
+		with: { type: "json" },
+	});
+
+	if (pluginRequested !== "all" && !(pluginRequested in pluginsData)) {
+		console.error(`The plugin "${values.plugin}" is not supported.`);
+		console.error(
+			`Supported plugins are: ${["", ...Object.keys(pluginsData)].join(
+				"\n  ",
+			)}`,
+		);
+		console.error(
+			`Alternately, run without --plugin to ${action} all plugins.`,
+		);
+		process.exit(1);
+	}
+
+	const pluginsSelected =
+		pluginRequested === "all"
+			? Object.entries(pluginsData)
+			: [[pluginRequested, pluginsData[pluginRequested]]];
+
+	console.log(
+		`Plugins to ${action}:`,
+		styleText("bold", pluginsSelected.map(([key]) => key).join(", ")),
+	);
+
+	return { pluginsData, pluginsSelected };
+}

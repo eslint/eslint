@@ -141,6 +141,37 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["never"],
 		},
 
+		// https://github.com/eslint/eslint/issues/21320
+		{
+			code: "const obj = { describe() { return super.toString(); } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { async *f() { yield super.x; } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { f(a = super.x) {} };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { outer() { super.x; return { inner() { return super.y; } }; } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { describe() { return () => super.toString(); } };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { 'describe'() { return super.toString(); } };",
+			options: ["always", { avoidQuotes: true }],
+		},
+		{
+			code: "const obj = { outer() { return class { [super.key] = 1; }; } };",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
 		// ignoreConstructors
 		{
 			code: "var x = {ConstructorFunction: function(){}, a: b}",
@@ -163,7 +194,33 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["always", { ignoreConstructors: true }],
 		},
 		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {𐐀Foo: function() {}}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[notConstructorFunction](){}, b: c}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[NotConstructorFunction](){}, b: c}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {'.NotConstructorFunction'(){}, b: c}",
 			options: ["always", { ignoreConstructors: true }],
 		},
 		{
@@ -187,7 +244,27 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["methods", { ignoreConstructors: true }],
 		},
 		{
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[notConstructorFunction](){}, b: c}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[NotConstructorFunction](){}, b: c}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {'.NotConstructorFunction'(){}, b: c}",
 			options: ["methods", { ignoreConstructors: true }],
 		},
 		{
@@ -195,7 +272,27 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["never"],
 		},
 		{
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["never"],
+		},
+		{
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			options: ["never"],
+		},
+		{
 			code: "var x = {notConstructorFunction: function(){}, b: c}",
+			options: ["never"],
+		},
+		{
+			code: "var x = {[notConstructorFunction]: function(){}, b: c}",
+			options: ["never"],
+		},
+		{
+			code: "var x = {[NotConstructorFunction]: function(){}, b: c}",
+			options: ["never"],
+		},
+		{
+			code: "var x = {'.NotConstructorFunction': function(){}, b: c}",
 			options: ["never"],
 		},
 
@@ -483,6 +580,30 @@ ruleTester.run("object-shorthand", rule, {
 		"({ val: /**\n  *  @type   {Object} options\n  */ (val) })",
 		"({ val: /**\n\t *\t@type\t{Array}\n\t */ (val) })",
 		"({ val: /**\n   *\n   * @type {Function}\n   * @param {string} name\n   */ (val) })",
+		"const obj = { __proto__: function () {} };",
+		"const obj = { '__proto__': function () {} };",
+		"const obj = { __proto__: __proto__ };",
+		"const obj = { '__proto__': __proto__ };",
+		{
+			code: "const obj = { '__proto__'() {} };",
+			options: ["always", { avoidQuotes: true }],
+		},
+		{
+			code: "const obj = { __proto__() {} };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { __proto__ };",
+			options: ["never"],
+		},
+		{
+			code: "const obj = { __proto__: __proto__ };",
+			options: ["consistent-as-needed"],
+		},
+		{
+			code: "const obj = { __proto__: function () {} };",
+			options: ["consistent-as-needed"],
+		},
 	],
 	invalid: [
 		{
@@ -831,6 +952,31 @@ ruleTester.run("object-shorthand", rule, {
 			errors: [LONGFORM_METHOD_ERROR],
 		},
 		{
+			code: "const obj = { outer() { return { inner() { return super.value; } }; } };",
+			output: "const obj = { outer: function() { return { inner() { return super.value; } }; } };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return class extends Base { inner() { return super.value; } }; } };",
+			output: "const obj = { outer: function() { return class extends Base { inner() { return super.value; } }; } };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return class extends Base { field = super.value; static { super.value; } }; } };",
+			output: "const obj = { outer: function() { return class extends Base { field = super.value; static { super.value; } }; } };",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { outer() { return { [super.key]() {} }; } };",
+			output: "const obj = { outer() { return { [super.key]: function() {} }; } };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
 			output: "var x = {notConstructorFunction: function(){}, b: c}",
 			options: ["never"],
@@ -884,6 +1030,40 @@ ruleTester.run("object-shorthand", rule, {
 			code: "var x = {_0y: function() {}}",
 			output: "var x = {_0y() {}}",
 			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		// https://github.com/eslint/eslint/pull/21271#discussion_r3889188639
+		{
+			code: "var x = {[y]: function() {}}",
+			output: "var x = {[y]() {}}",
+			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		// https://github.com/eslint/eslint/pull/21271#discussion_r3889188639
+		{
+			code: "var x = {[Y]: function() {}}",
+			output: "var x = {[Y]() {}}",
+			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		{
+			code: "var x = {'.Y': function() {}}",
+			output: "var x = {'.Y'() {}}",
+			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: 'var x = {"ConstructorFunction": function() {}, a: b}',
+			output: 'var x = {"ConstructorFunction"() {}, a: b}',
+			options: ["methods", { ignoreConstructors: false }],
+			errors: [METHOD_ERROR],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: "var x = {'ConstructorFunction': function() {}, a: b}",
+			output: "var x = {'ConstructorFunction'() {}, a: b}",
+			options: ["methods", { ignoreConstructors: false }],
 			errors: [METHOD_ERROR],
 		},
 
@@ -955,6 +1135,18 @@ ruleTester.run("object-shorthand", rule, {
 			output: "var x = {'a': function(){}}",
 			options: ["always", { avoidQuotes: true }],
 			errors: [LONGFORM_METHOD_STRING_LITERAL_ERROR],
+		},
+		{
+			code: "const obj = { 'ok'() {}, 'bad'() { return super.x; } };",
+			output: "const obj = { 'ok': function() {}, 'bad'() { return super.x; } };",
+			options: ["always", { avoidQuotes: true }],
+			errors: [
+				{
+					...LONGFORM_METHOD_STRING_LITERAL_ERROR,
+					column: 15,
+					endColumn: 24,
+				},
+			],
 		},
 		{
 			code: "var x = {['a'](){}}",
@@ -1406,6 +1598,22 @@ ruleTester.run("object-shorthand", rule, {
 		{
 			code: "({ val: /**\n   *\n   * @param {string} name\n   * @returns {number}\n   */ (val) })",
 			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "const obj = { ['__proto__']: function () {} };",
+			output: "const obj = { ['__proto__'] () {} };",
+			errors: [METHOD_ERROR],
+		},
+		{
+			code: "const obj = { ['__proto__']() {} };",
+			output: "const obj = { ['__proto__']: function() {} };",
+			options: ["never"],
+			errors: [LONGFORM_METHOD_ERROR],
+		},
+		{
+			code: "const obj = { __proto__: __proto__, a };",
+			options: ["consistent"],
+			errors: [MIXED_SHORTHAND_ERROR],
 		},
 	],
 });

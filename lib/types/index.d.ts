@@ -237,15 +237,12 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode
-	implements
-		TextSourceCode<{
-			LangOptions: Linter.LanguageOptions;
-			RootNode: AST.Program;
-			SyntaxElementWithLoc: AST.Token | ESTree.Node;
-			ConfigNode: ESTree.Comment;
-		}>
-{
+export class SourceCode implements TextSourceCode<{
+	LangOptions: Linter.LanguageOptions;
+	RootNode: AST.Program;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node | ESTree.Comment;
+	ConfigNode: ESTree.Comment;
+}> {
 	text: string;
 	ast: AST.Program;
 	lines: string[];
@@ -259,11 +256,15 @@ export class SourceCode
 
 	static splitLines(text: string): string[];
 
-	getLoc(syntaxElement: AST.Token | ESTree.Node): ESTree.SourceLocation;
-	getRange(syntaxElement: AST.Token | ESTree.Node): SourceRange;
+	getLoc(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): ESTree.SourceLocation;
+	getRange(
+		syntaxElement: AST.Token | ESTree.Node | ESTree.Comment,
+	): SourceRange;
 
 	getText(
-		node?: ESTree.Node,
+		node?: ESTree.Node | AST.Token | ESTree.Comment,
 		beforeCount?: number,
 		afterCount?: number,
 	): string;
@@ -649,32 +650,29 @@ export type JSSyntaxElement = {
 };
 
 export namespace Rule {
-	interface RuleModule
-		extends RuleDefinition<{
-			LangOptions: Linter.LanguageOptions;
-			Code: SourceCode;
-			RuleOptions: any[];
-			Visitor: RuleListener;
-			Node: JSSyntaxElement;
-			MessageIds: string;
-			ExtRuleDocs: {};
-		}> {
+	interface RuleModule extends RuleDefinition<{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		RuleOptions: any[];
+		Visitor: RuleListener;
+		Node: JSSyntaxElement;
+		MessageIds: string;
+		ExtRuleDocs: {};
+	}> {
 		create(context: RuleContext): RuleListener;
 	}
 
 	type NodeTypes = ESTree.Node["type"];
 
-	interface NodeListener
-		extends CustomRuleVisitorWithExit<
-			{
-				[Node in Rule.Node as Node["type"]]?:
-					| ((node: Node) => void)
-					| undefined;
-			} & {
-				// A `Program` visitor's node type has no `parent` property.
-				Program?: ((node: AST.Program) => void) | undefined;
-			}
-		> {}
+	interface NodeListener extends CustomRuleVisitorWithExit<
+		{
+			[Node in Rule.Node as Node["type"]]?:
+				((node: Node) => void) | undefined;
+		} & {
+			// A `Program` visitor's node type has no `parent` property.
+			Program?: ((node: AST.Program) => void) | undefined;
+		}
+	> {}
 
 	interface NodeParentExtension {
 		parent: Node;
@@ -728,6 +726,22 @@ export namespace Rule {
 		| "class-field-initializer"
 		| "class-static-block";
 
+	interface CodePathSegmentTraversalController {
+		skip(): void;
+		break(): void;
+	}
+
+	type CodePathSegmentTraversalCallback = (
+		this: CodePath,
+		segment: CodePathSegment,
+		controller: CodePathSegmentTraversalController,
+	) => void;
+
+	interface CodePathTraversalOptions {
+		first?: CodePathSegment | undefined;
+		last?: CodePathSegment | undefined;
+	}
+
 	interface CodePath {
 		id: string;
 		origin: CodePathOrigin;
@@ -737,25 +751,31 @@ export namespace Rule {
 		thrownSegments: CodePathSegment[];
 		upper: CodePath | null;
 		childCodePaths: CodePath[];
+		traverseSegments(callback: CodePathSegmentTraversalCallback): void;
+		traverseSegments(
+			options: CodePathTraversalOptions,
+			callback: CodePathSegmentTraversalCallback,
+		): void;
 	}
 
 	interface CodePathSegment {
 		id: string;
 		nextSegments: CodePathSegment[];
 		prevSegments: CodePathSegment[];
+		allNextSegments: CodePathSegment[];
+		allPrevSegments: CodePathSegment[];
 		reachable: boolean;
 	}
 
 	type RuleMetaData = RulesMeta;
 
-	interface RuleContext
-		extends CoreRuleContext<{
-			LangOptions: Linter.LanguageOptions;
-			Code: SourceCode;
-			RuleOptions: any[];
-			Node: JSSyntaxElement;
-			MessageIds: string;
-		}> {}
+	interface RuleContext extends CoreRuleContext<{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		RuleOptions: any[];
+		Node: JSSyntaxElement;
+		MessageIds: string;
+	}> {}
 
 	type ReportFixer = CoreRuleFixer;
 
@@ -952,7 +972,7 @@ export namespace Linter {
 					 */
 					impliedStrict?: boolean | undefined;
 					/**
-					 * Enable [JSX](https://facebook.github.io/jsx/).
+					 * Enable [JSX](https://react.github.io/jsx/).
 					 *
 					 * @default false
 					 */
@@ -970,11 +990,9 @@ export namespace Linter {
 		filename?: string | undefined;
 		preprocess?: ((code: string) => string[]) | undefined;
 		postprocess?:
-			| ((problemLists: LintMessage[][]) => LintMessage[])
-			| undefined;
+			((problemLists: LintMessage[][]) => LintMessage[]) | undefined;
 		filterCodeBlock?:
-			| ((filename: string, text: string) => boolean)
-			| undefined;
+			((filename: string, text: string) => boolean) | undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
@@ -1111,8 +1129,9 @@ export namespace Linter {
 	interface TimePass {
 		/**
 		 * The parse object containing all parse time information.
+		 * If no parsing was performed, the property is omitted.
 		 */
-		parse: { total: number };
+		parse?: { total: number };
 
 		/**
 		 * The rules object containing all lint time information for each rule.
@@ -1274,6 +1293,12 @@ export namespace ESLint {
 
 		/** The strategy used to detect changed files. */
 		cacheStrategy?: CacheStrategy | undefined;
+
+		/** If true, apply suppressions automatically. Defaults to false. */
+		applySuppressions?: boolean | undefined;
+
+		/** Path to suppressions file. Relative to cwd. Defaults to eslint-suppressions.json in cwd. */
+		suppressionsLocation?: string | undefined;
 
 		// Other Options
 
@@ -1479,17 +1504,16 @@ export class RuleTester {
 }
 
 export namespace RuleTester {
-	interface ValidTestCase
-		extends Omit<
-			Linter.Config,
-			| "name"
-			| "basePath"
-			| "files"
-			| "ignores"
-			| "linterOptions"
-			| "plugins"
-			| "rules"
-		> {
+	interface ValidTestCase extends Omit<
+		Linter.Config,
+		| "name"
+		| "basePath"
+		| "files"
+		| "ignores"
+		| "linterOptions"
+		| "plugins"
+		| "rules"
+	> {
 		name?: string;
 		code: string;
 		options?: any[];

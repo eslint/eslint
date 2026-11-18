@@ -1,8 +1,6 @@
 ---
 title: no-cond-assign
 rule_type: problem
-related_rules:
-- no-extra-parens
 ---
 
 

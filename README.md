@@ -45,7 +45,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 ### Prerequisites
 
-To use ESLint, you must have [Node.js](https://nodejs.org/) (`^20.19.0`, `^22.13.0`, or `>=24`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+To use ESLint, you must have [Node.js](https://nodejs.org/) (`^20.19.0`, `^22.13.0`, or `>=24`) installed and built with SSL and ICU support. (If you are using an official Node.js distribution, both SSL and ICU are always built in.)
 
 If you use ESLint's TypeScript type definitions, TypeScript 5.3 or later is required.
 
@@ -104,7 +104,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 The ESLint team provides ongoing support for the current version and six months of limited support for the previous version. Limited support includes critical bug fixes, security issues, and compatibility issues only.
 
-ESLint offers commercial support for both current and previous versions through our partners, [Tidelift][tidelift] and [HeroDevs][herodevs].
+ESLint offers commercial support for previous versions through our partner, [HeroDevs][herodevs].
 
 See [Version Support](https://eslint.org/version-support) for more details.
 
@@ -188,7 +188,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
     - Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
     - Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
 - Minor release (might break your lint build)
-    - A bug fix in a rule that results in ESLint reporting more linting errors.
+    - A bug fix that results in ESLint reporting more linting errors (e.g., fixing false negatives in a core rule, or linting additional files that were previously incorrectly skipped).
     - A new rule is created.
     - A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
     - A new addition to an existing rule to support a newly-added language feature (within the last 12 months) that will result in ESLint reporting more linting errors by default.
@@ -217,6 +217,8 @@ Since ESLint is a CommonJS package, there are restrictions on which ESM-only pac
 Packages that are controlled by the ESLint team and have no external dependencies can be safely loaded synchronously using [`require(esm)`](https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require) and therefore used in any contexts.
 
 For external packages, we don't use `require(esm)` because a package could add a top-level `await` and thus break ESLint. We can use an external ESM-only package only in case it is needed only in asynchronous code, in which case it can be loaded using dynamic `import()`.
+
+These policies don't apply to packages intended for our own usage only, such as `eslint-config-eslint`.
 
 ## License
 
@@ -297,11 +299,6 @@ The people who review and fix bugs and help triage issues.
 fnx
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/JoshuaKGoldberg">
-<img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
-Josh Goldberg ✨
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/SwetaTanwar">
 <img src="https://github.com/SwetaTanwar.png?s=75" width="75" height="75" alt="Sweta Tanwar's Avatar"><br />
 Sweta Tanwar
@@ -313,13 +310,13 @@ Tanuj Kanti
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/lumirlumir">
-<img src="https://github.com/lumirlumir.png?s=75" width="75" height="75" alt="루밀LuMir's Avatar"><br />
-루밀LuMir
+<img src="https://github.com/lumirlumir.png?s=75" width="75" height="75" alt="lumir's Avatar"><br />
+lumir
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Pixel998">
-<img src="https://github.com/Pixel998.png?s=75" width="75" height="75" alt="Pixel998's Avatar"><br />
-Pixel998
+<img src="https://github.com/Pixel998.png?s=75" width="75" height="75" alt="Pixel's Avatar"><br />
+Pixel
 </a>
 </td></tr></tbody></table>
 
@@ -354,16 +351,14 @@ Percy Ma
 The following companies, organizations, and individuals support ESLint's ongoing maintenance and development. [Become a Sponsor](https://eslint.org/donate)
 to get your logo on our READMEs and [website](https://eslint.org/sponsors).
 
-<h3>Platinum Sponsors</h3>
-<p><a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="128"></a></p><h3>Gold Sponsors</h3>
-<p><a href="https://qlty.sh/"><img src="https://images.opencollective.com/qltysh/33d157d/logo.png" alt="Qlty Software" height="96"></a></p><h3>Silver Sponsors</h3>
+<h3>Gold Sponsors</h3>
+<p><a href="#"><img src="https://images.opencollective.com/vite-ecosystem-fund/logo.png" alt="Vite Ecosystem Fund" height="96"></a> <a href="https://qlty.sh/"><img src="https://images.opencollective.com/qltysh/33d157d/logo.png" alt="Qlty Software" height="96"></a> <a href="https://shopify.engineering/"><img src="https://avatars.githubusercontent.com/u/8085" alt="Shopify" height="96"></a> <a href="https://www.coderabbit.ai/?utm_source=cr_org&utm_medium=github"><img src="https://avatars.githubusercontent.com/u/132028505" alt="CodeRabbit" height="96"></a> <a href="https://automattic.com"><img src="https://avatars.githubusercontent.com/u/887802" alt="Automattic" height="96"></a></p><h3>Silver Sponsors</h3>
 <p><a href="https://vite.dev/"><img src="https://images.opencollective.com/vite/d472863/logo.png" alt="Vite" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/2d6c3b6/logo.png" alt="Liftoff" height="64"></a> <a href="https://stackblitz.com"><img src="https://avatars.githubusercontent.com/u/28635252" alt="StackBlitz" height="64"></a></p><h3>Bronze Sponsors</h3>
-<p><a href="https://syntax.fm"><img src="https://github.com/syntaxfm.png" alt="Syntax" height="32"></a> <a href="https://cybozu.co.jp/"><img src="https://images.opencollective.com/cybozu/933e46d/logo.png" alt="Cybozu" height="32"></a> <a href="https://opensource.sap.com"><img src="https://avatars.githubusercontent.com/u/2531208" alt="SAP" height="32"></a> <a href="https://www.crawljobs.com/"><img src="https://images.opencollective.com/crawljobs-poland/fa43a17/logo.png" alt="CrawlJobs" height="32"></a> <a href="https://depot.dev"><img src="https://images.opencollective.com/depot/39125a1/logo.png" alt="Depot" height="32"></a> <a href="https://www.n-ix.com/"><img src="https://images.opencollective.com/n-ix-ltd/575a7a5/logo.png" alt="N-iX Ltd" height="32"></a> <a href="https://icons8.com/"><img src="https://images.opencollective.com/icons8/7fa1641/logo.png" alt="Icons8" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.gitbook.com"><img src="https://avatars.githubusercontent.com/u/7111340" alt="GitBook" height="32"></a> <a href="https://herocoders.com"><img src="https://avatars.githubusercontent.com/u/37549774" alt="HeroCoders" height="32"></a> <a href="https://www.lambdatest.com"><img src="https://avatars.githubusercontent.com/u/171592363" alt="TestMu AI Open Source Office (Formerly LambdaTest)" height="32"></a></p>
+<p><a href="https://cybozu.co.jp/"><img src="https://images.opencollective.com/cybozu/933e46d/logo.png" alt="Cybozu" height="32"></a> <a href="https://opensource.sap.com"><img src="https://avatars.githubusercontent.com/u/2531208" alt="SAP" height="32"></a> <a href="https://discord.com"><img src="https://images.opencollective.com/discordapp/f9645d9/logo.png" alt="Discord" height="32"></a> <a href="https://www.gitbook.com"><img src="https://avatars.githubusercontent.com/u/7111340" alt="GitBook" height="32"></a> <a href="https://citadel-ai.com"><img src="https://avatars.githubusercontent.com/u/75781367" alt="Citadel AI" height="32"></a> <a href="https://www.testmuai.com"><img src="https://avatars.githubusercontent.com/u/171592363" alt="TestMu AI Open Source Office (Formerly LambdaTest)" height="32"></a></p>
 <h3>Technology Sponsors</h3>
 Technology sponsors allow us to use their products and services for free as part of a contribution to the open source ecosystem and our work.
 <p><a href="https://netlify.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/netlify-icon.svg" alt="Netlify" height="32"></a> <a href="https://algolia.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/algolia-icon.svg" alt="Algolia" height="32"></a> <a href="https://1password.com"><img src="https://raw.githubusercontent.com/eslint/eslint.org/main/src/assets/images/techsponsors/1password-icon.svg" alt="1Password" height="32"></a></p>
 
 <!--sponsorsend-->
 
-[tidelift]: https://tidelift.com/funding/github/npm/eslint
 [herodevs]: https://www.herodevs.com/support/eslint-nes?utm_source=ESLintWebsite&utm_medium=ESLintWebsite&utm_campaign=ESLintNES&utm_id=ESLintNES

@@ -42,7 +42,6 @@ The source file for a rule exports an object with the following properties. Both
 `meta`: (`object`) Contains metadata for the rule:
 
 - `type`: (`string`) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
-
     - `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     - `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     - `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
@@ -50,8 +49,8 @@ The source file for a rule exports an object with the following properties. Both
     The type of rule can be used with the CLI option [`--fix-type`](../use/command-line-interface#--fix-type) to specify the type of fixes to apply.
 
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
-
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `dialects`: (`string[]`) The dialects of the languages that the rule is intended to lint. For example, `["JavaScript", "TypeScript"]`.
     - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
@@ -68,6 +67,43 @@ The source file for a rule exports an object with the following properties. Both
 - `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
+
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"pluginName/languageName"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+    - `"*"` — the rule works with any language.
+    - `"pluginName/*"` — the rule works with any language provided by the given plugin.
+
+    If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
+
+    ```js
+    // Rule only runs when the active language is the built-in JavaScript language
+    meta: {
+        languages: ["js/js"],
+    }
+
+    // Rule runs with any language from the "markdown" plugin
+    meta: {
+        languages: ["markdown/*"],
+    }
+
+    // Rule runs with any language
+    meta: {
+        languages: ["*"],
+    }
+    ```
+
+    Language identifiers are matched in the following order:
+    1. **Wildcard `"*"`** — matches any language.
+    2. **Direct string match** — the entry exactly equals the active language string (e.g., `"test/lang"`).
+    3. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
+    4. **Namespace match** — a plugin registered under a different name may be matched when its `meta.namespace` equals the plugin part of the entry.
+
+    ```js
+    // Rule runs with a specific language from a plugin whose meta.namespace is "markdown"
+    // (e.g., the plugin is registered as "md" but declares meta.namespace = "markdown")
+    meta: {
+        languages: ["markdown/gfm"],
+    }
+    ```
 
 - `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
@@ -112,7 +148,7 @@ module.exports = {
 ```
 
 ::: tip
-You can view the complete AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view the complete AST for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 ## The Context Object
@@ -137,12 +173,12 @@ The `context` object has the following properties:
 
 - `id`: (`string`) The rule ID.
 - `filename`: (`string`) The filename associated with the source.
-- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `—stdin-filename` or `<text>` if not specified.
+- `physicalFilename`: (`string`) When linting a file, it provides the full path of the file on disk without any code block information. When linting text, it provides the value passed to `--stdin-filename` or `<text>` if not specified.
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 - `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configure-shared-settings) from the configuration.
-- `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
+- `languageOptions`: (`object`) [more details for each property](../use/configure/language-options)
     - `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     - `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
     - `parser`: (`object`): The parser used to parse the current file.
@@ -323,7 +359,6 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
-
     - For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
         ```js
@@ -517,6 +552,12 @@ When using options, make sure that your rule has some logical defaults in case t
 
 Rules with options must specify a [schema](#options-schemas).
 
+#### Avoid Non-Serializable Options
+
+Rule options and [shared settings](../use/configure/configuration-files#configure-shared-settings) should only contain values that can be serialized to JSON, such as strings, numbers, booleans, `null`, arrays, and plain objects. Avoid designing rules that expect non-serializable values such as regular expressions, functions, or class instances in `context.options` or `context.settings`.
+
+Some ESLint features don't work well with non-serializable values. For example, when [caching](../use/command-line-interface#caching) is enabled, ESLint may not detect changes when updated values produce the same serialized configuration, so it may keep reporting outdated results. If your rule needs a regular expression, accept the pattern as a string option instead and create the `RegExp` object inside the rule.
+
 ### Accessing the Source Code
 
 The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.sourceCode` property:
@@ -533,7 +574,7 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
-- `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
+- `getText(node, beforeCount, afterCount)`: Returns the source code for the given node, token, or comment, and optionally, a specified number of characters before and after its range. If `node` is omitted or `undefined`, the entire source text is returned (see the [dedicated section](#accessing-the-source-text)).
 - `getAllComments()`: Returns an array of all comments in the source (see the [dedicated section](#accessing-comments)).
 - `getCommentsBefore(nodeOrToken)`: Returns an array of comment tokens that occur directly before the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
@@ -612,6 +653,12 @@ var source = sourceCode.getText();
 // get source for just this AST node
 var nodeSource = sourceCode.getText(node);
 
+// get source for just this token
+var tokenSource = sourceCode.getText(token);
+
+// get source for just this comment
+var commentSource = sourceCode.getText(comment);
+
 // get source for AST node plus previous two characters
 var nodeSourceWithPrev = sourceCode.getText(node, 2);
 
@@ -661,7 +708,7 @@ There are two formats for a rule's `schema`:
 - A full JSON Schema object that will validate the `context.options` array
     - The schema should assume an array of options to validate even if your rule only accepts one option.
     - The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.
-    - The supported version of JSON Schemas is [Draft-04](http://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
+    - The supported version of JSON Schemas is [Draft-04](https://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
         - At present, it is explicitly planned to not update schema support beyond this level due to ecosystem compatibility concerns. See [this comment](https://github.com/eslint/eslint/issues/13888#issuecomment-872591875) for further context.
 
 For example, the `yoda` rule accepts a primary mode argument of `"always"` or `"never"`, as well as an extra options object with an optional property `exceptRange`:
@@ -831,9 +878,7 @@ export default {
 	create(context) {
 		const [{ alias }] = context.options;
 
-		return {
-			/* ... */
-		};
+		return {/* ... */};
 	},
 };
 ```
@@ -861,7 +906,7 @@ ESLint may disable Ajv's `useDefaults` in a future major version.
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
 
 ::: tip
-You can view scope information for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view scope information for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 #### Scope types
@@ -952,13 +997,39 @@ While you can give a custom rule any name you'd like, the core rules have naming
 
 ## Runtime Rules
 
-The thing that makes ESLint different from other linters is the ability to define custom rules at runtime. This is perfect for rules that are specific to your project or company and wouldn't make sense for ESLint to ship with or be included in a plugin. Just write your rules and include them at runtime.
+You can include custom rules directly in your configuration file. This is perfect for rules that are specific to your project or company and that wouldn't make sense to ship with ESLint or to publish as a plugin.
 
-Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
+These rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
-1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
-2. Create a [configuration file](../use/configure/) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `"warn"` or `"error"` in the configuration file.
-3. Run the [command line interface](../use/command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+1. Import your rule into your [configuration file](../use/configure/configuration-files#configuration-file).
+2. Define a [virtual plugin](../use/configure/plugins#configure-a-virtual-plugin) under the `plugins` key and add your rule to its `rules` object.
+3. Specify the severity for your rule under the `rules` key, using the plugin namespace as a prefix for the rule ID (for example, `local/my-rule`). Your rule will not run unless its severity is `"warn"` or `"error"`.
+
+For example, if your rule is in `rules/my-rule.js`, your configuration file would look like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import myRule from "./rules/my-rule.js";
+
+export default defineConfig([
+	{
+		// define the plugin
+		plugins: {
+			local: {
+				rules: {
+					"my-rule": myRule,
+				},
+			},
+		},
+
+		// configure the rule
+		rules: {
+			"local/my-rule": "error",
+		},
+	},
+]);
+```
 
 ## Profile Rule Performance
 

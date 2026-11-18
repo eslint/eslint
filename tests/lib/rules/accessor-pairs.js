@@ -332,6 +332,64 @@ ruleTester.run("accessor-pairs", rule, {
 			code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});",
 			languageOptions: { ecmaVersion: 6 },
 		},
+		"Object.defineProperty(obj, 'foo', { 'get': function() {}, set: function(value) {} });",
+		"Object.defineProperty(obj, 'foo', { get: function() {}, 'set': function(value) {} });",
+		"Object.defineProperty(obj, 'foo', { 'get': function() {}, 'set': function(value) {} });",
+		{
+			code: "Reflect.defineProperty(obj, 'foo', { ['get']: function() {}, set: function(value) {} });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.defineProperties(obj, { foo: { get: function() {}, [`set`]: function(value) {} } });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.create(null, { foo: { ['get']() {}, 'set'(value) {} } });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+
+		// wrong argument index (not in the property descriptor position)
+		"Object.defineProperty({ set: function(value) {} }, 'foo', { value: 1 });",
+		{
+			code: "Reflect.defineProperty({ get() {} }, 'foo', { value: 1 });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.defineProperties({ foo: { get() {} } }, { bar: { value: 1 } });",
+			options: [{ getWithoutSet: true }],
+		},
+		"Object.create({ foo: { set(value) {} } }, { bar: { value: 1 } });",
+
+		// global object is shadowed
+		{
+			code: "let Object; Object.defineProperty(foo, 'bar', { get() {} })",
+			options: [{ getWithoutSet: true }],
+		},
+		{
+			code: "function f() { Reflect.defineProperty(foo, 'bar', { set(value) {} }); var Reflect;}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		"function f(Object) { Object.defineProperties(foo, { bar: { set(value) {} } }) }",
+		{
+			code: "if (x) { const Object = getObject(); Object.create(foo, { bar: { get() {} } }) }",
+			options: [{ getWithoutSet: true }],
+		},
+
+		// global object doesn't exist
+		{
+			code: "Reflect.defineProperty(foo, 'bar', { get() {} })",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { globals: { Reflect: "off" } },
+		},
+		"/* globals Object:off */ Object.defineProperty(foo, 'bar', { set(value) {} })",
+		{
+			code: "Object.defineProperties(foo, { bar: { set(value) {} } })",
+			languageOptions: { globals: { Object: "off" } },
+		},
 
 		//------------------------------------------------------------------------------
 		// Classes
@@ -1784,6 +1842,60 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { 'set': function(value) {} });",
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Reflect.defineProperty(obj, 'foo', { ['set']: function(value) {} });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperties(obj, { foo: { [`set`]: function(value) {} } });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.create(null, { foo: { 'set'(value) {} } });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingGetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { 'get': function() {} });",
+			options: [{ getWithoutSet: true }],
+			errors: [
+				{
+					messageId: "missingSetterInPropertyDescriptor",
+				},
+			],
+		},
+		{
+			code: "Object.defineProperty(obj, 'foo', { ['get']: function() {} });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "missingSetterInPropertyDescriptor",
 				},
 			],
 		},

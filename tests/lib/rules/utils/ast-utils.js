@@ -85,6 +85,10 @@ describe("ast-utils", () => {
 		it("should contain es2021 globals", () => {
 			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { WeakRef: false });
 		});
+
+		it("should contain es2026 globals", () => {
+			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Temporal: false });
+		});
 	});
 
 	describe("isTokenOnSameLine", () => {
@@ -197,6 +201,60 @@ describe("ast-utils", () => {
 						.expression,
 				),
 			);
+		});
+	});
+
+	describe("isES5Constructor", () => {
+		it("should recognize a name starting with an uppercase ASCII letter", () => {
+			const node = espree.parse("function Foo() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should recognize a name starting with an uppercase Greek letter", () => {
+			const node = espree.parse("function Φ() {}", ESPREE_CONFIG).body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should recognize a name starting with an uppercase astral letter", () => {
+			const node = espree.parse("function 𐐀() {}", ESPREE_CONFIG).body[0];
+
+			assert.isTrue(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase ASCII letter", () => {
+			const node = espree.parse("function foo() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should only check the first letter", () => {
+			const node = espree.parse("function fooBar() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase Greek letter", () => {
+			const node = espree.parse("function φ() {}", ESPREE_CONFIG).body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a lowercase astral letter", () => {
+			const node = espree.parse("function 𐐨() {}", ESPREE_CONFIG).body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
+		});
+
+		it("should reject a name starting with a letter without case", () => {
+			const node = espree.parse("function 안녕() {}", ESPREE_CONFIG)
+				.body[0];
+
+			assert.isFalse(astUtils.isES5Constructor(node));
 		});
 	});
 
@@ -1250,6 +1308,99 @@ describe("ast-utils", () => {
 						rules: { "test/checker": "error" },
 					},
 					"test.js",
+				);
+			});
+		});
+
+		it('should return the location of the `=>` token for "type F = (a, b) => void".', () => {
+			const expectedLoc = {
+				start: { line: 1, column: 16 },
+				end: { line: 1, column: 18 },
+			};
+
+			linter.verify(
+				"type F = (a, b) => void",
+				{
+					files: ["**/*.ts"],
+					languageOptions: {
+						parser: require("@typescript-eslint/parser"),
+					},
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: mustCall(() => ({
+										TSFunctionType: mustCall(node => {
+											assert.deepStrictEqual(
+												astUtils.getFunctionHeadLoc(
+													node,
+													linter.getSourceCode(),
+												),
+												expectedLoc,
+											);
+										}),
+									})),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				},
+				"test.ts",
+			);
+		});
+
+		const expectedTypeScriptResults = {
+			"function foo<T extends () => void>() {}": [0, 34],
+			"(function <T extends () => void>() {})": [1, 32],
+			"class A { foo<T extends () => void>() {} }": [10, 35],
+			"class A { foo = <T extends () => void>(a, b) => {}; }": [10, 38],
+			"declare function foo<T extends () => void>(): void;": [0, 42],
+		};
+
+		Object.keys(expectedTypeScriptResults).forEach(key => {
+			const expectedLoc = {
+				start: {
+					line: 1,
+					column: expectedTypeScriptResults[key][0],
+				},
+				end: {
+					line: 1,
+					column: expectedTypeScriptResults[key][1],
+				},
+			};
+
+			it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
+				linter.verify(
+					key,
+					{
+						files: ["**/*.ts"],
+						languageOptions: {
+							parser: require("@typescript-eslint/parser"),
+						},
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: mustCall(() => ({
+											":function, TSDeclareFunction":
+												mustCall(node => {
+													assert.deepStrictEqual(
+														astUtils.getFunctionHeadLoc(
+															node,
+															linter.getSourceCode(),
+														),
+														expectedLoc,
+													);
+												}),
+										})),
+									},
+								},
+							},
+						},
+						rules: { "test/checker": "error" },
+					},
+					"test.ts",
 				);
 			});
 		});
@@ -2571,6 +2722,129 @@ describe("ast-utils", () => {
 					rules: { "test/checker": "error" },
 				});
 			});
+		});
+	});
+
+	describe("isPropertyDescriptor", () => {
+		/**
+		 * Asserts that `isPropertyDescriptor` reports whether each `ObjectExpression`
+		 * node in the given code is used as a property descriptor.
+		 * @param {string} code the code to check.
+		 * @param {boolean[]} expected the expected result for each `ObjectExpression` node, in traversal order.
+		 * @param {Object} [languageOptions] the language options to use.
+		 * @returns {void}
+		 */
+		function assertResult(code, expected, languageOptions = {}) {
+			const results = [];
+			linter.verify(code, {
+				languageOptions,
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create: mustCall(context => ({
+									ObjectExpression: mustCall(node => {
+										results.push(
+											astUtils.isPropertyDescriptor(
+												node,
+												context.sourceCode,
+											),
+										);
+									}),
+								})),
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
+			});
+
+			assert.deepStrictEqual(results, expected);
+		}
+
+		it("should return true for a descriptor of Object.defineProperty", () => {
+			assertResult("Object.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return true for the third argument of Reflect.defineProperty", () => {
+			assertResult("Reflect.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return true for descriptors nested in Object.defineProperties", () => {
+			assertResult(
+				"Object.defineProperties(foo, { bar: { value: 1 } })",
+				[false, true],
+			);
+		});
+
+		it("should return true for descriptors nested in Object.create", () => {
+			assertResult("Object.create(proto, { bar: { value: 1 } })", [
+				false,
+				true,
+			]);
+		});
+
+		it("should return true for a call with optional chaining", () => {
+			assertResult("Object?.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return false for a standalone object literal", () => {
+			assertResult("const d = { value: 1 };", [false]);
+		});
+
+		it("should return false for a descriptor-like object at another position", () => {
+			assertResult(
+				"Object.defineProperty({ value: 1 }, 'bar', { value: 1 })",
+				[false, true],
+			);
+		});
+
+		it("should return false when the descriptor map is not the second argument", () => {
+			assertResult("Object.create({ bar: { value: 1 } }, foo)", [
+				false,
+				false,
+			]);
+		});
+
+		it("should return false when the object is not the global `Object`", () => {
+			assertResult("object.defineProperty(foo, 'bar', { value: 1 })", [
+				false,
+			]);
+		});
+
+		it("should return false for Reflect.defineProperties", () => {
+			assertResult(
+				"Reflect.defineProperties(foo, { bar: { value: 1 } })",
+				[false, false],
+			);
+		});
+
+		it("should return false when `Object` is shadowed", () => {
+			assertResult(
+				"let Object; Object.defineProperty(foo, 'bar', { value: 1 })",
+				[false],
+			);
+		});
+
+		it("should return false when the global `Object` is disabled", () => {
+			assertResult(
+				"Object.defineProperty(foo, 'bar', { value: 1 })",
+				[false],
+				{ globals: { Object: "off" } },
+			);
+		});
+
+		it("should return false for a computed key in the second argument of Object.defineProperties", () => {
+			assertResult(
+				"Object.defineProperties(foo, { [{ value: 1 }]: 1 })",
+				[false, false],
+			);
 		});
 	});
 });

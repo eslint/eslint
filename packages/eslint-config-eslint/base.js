@@ -3,8 +3,8 @@
 const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
-const unicorn = require("eslint-plugin-unicorn");
-const regexp = require("eslint-plugin-regexp");
+const unicorn = require("eslint-plugin-unicorn").default;
+const regexp = require("eslint-plugin-regexp").default;
 
 // extends eslint recommended config
 /**
@@ -301,7 +301,7 @@ const eslintCommentsConfigs = [
 /**
  * @type {import("eslint").Linter.Config[]}
  */
-const regexpConfigs = [regexp.configs["flat/recommended"]];
+const regexpConfigs = [regexp.configs.recommended];
 
 /**
  * @type {import("eslint").Linter.Config[]}
