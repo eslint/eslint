@@ -111,7 +111,7 @@ Project Leads are community members who have their primary focus on a set (one o
 Project Leads may perform all of the duties associated with their Commiter/Reviewer status, and also:
 
 - May accept non-breaking feature requests and bug reports in their repository set.
-- May merge external pull requests for accepted issues upon reviewing and approving the changes in their repository set
+- May merge external pull requests for accepted issues upon reviewing and approving the changes in their repository set.
 - May merge their own pull requests once they have collected the feedback they deem necessary in their repository set. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
 - May publish minor and patch releases in their repository set.
 - May invoice for the hours they spend working on ESLint at a rate equal to the their Committer/Reviewer status.
