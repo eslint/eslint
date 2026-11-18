@@ -173,6 +173,56 @@ describe("SuppressionsService", () => {
 				},
 			);
 		});
+
+		it("should read the suppressions file once for concurrent and subsequent calls", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const mockData = { "file.js": { "rule-id": { count: 1 } } };
+			const readStub = sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(mockData));
+
+			const [first, second] = await Promise.all([
+				suppressionsService.load(),
+				suppressionsService.load(),
+			]);
+			const third = await suppressionsService.load();
+
+			assert.ok(
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
+			);
+			assert.deepStrictEqual(first, mockData);
+			assert.strictEqual(second, first);
+			assert.strictEqual(third, first);
+		});
+
+		it("should read the suppressions file again after a failed load", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const mockData = { "file.js": { "rule-id": { count: 1 } } };
+			const readStub = sinon.stub(fs.promises, "readFile");
+
+			readStub.onFirstCall().resolves("invalid json");
+			readStub.onSecondCall().resolves(JSON.stringify(mockData));
+
+			await assert.rejects(() => suppressionsService.load(), {
+				message:
+					"Failed to parse suppressions file at /project/eslint-suppressions.json",
+			});
+
+			const result = await suppressionsService.load();
+
+			assert.deepStrictEqual(result, mockData);
+			assert.ok(
+				readStub.calledTwice,
+				"Expected the suppressions file to be read again",
+			);
+		});
 	});
 
 	describe("save()", () => {
@@ -522,6 +572,49 @@ describe("SuppressionsService", () => {
 				"Expected suppress() to leave stale suppression intact; use prune() to remove it",
 			);
 		});
+
+		it("should update the loaded suppressions instead of reading the suppressions file again", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const readStub = sinon.stub(fs.promises, "readFile").resolves(
+				JSON.stringify({
+					[relPath]: { "no-console": { count: 3 } },
+				}),
+			);
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-unused-vars", "error")],
+				}),
+			];
+
+			await suppressionsService.load();
+			await suppressionsService.suppress(results, void 0);
+
+			const suppressions = await suppressionsService.load();
+
+			assert.ok(
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
+			);
+			assert.ok(writeStub.calledOnce, "Expected save to be called");
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(written, {
+				[relPath]: {
+					"no-console": { count: 3 },
+					"no-unused-vars": { count: 1 },
+				},
+			});
+			assert.deepStrictEqual(suppressions, written);
+		});
 	});
 
 	describe("prune()", () => {
@@ -786,6 +879,53 @@ describe("SuppressionsService", () => {
 				"Expected the suppression for the active rule to be retained",
 			);
 		});
+
+		it("should prune the loaded suppressions instead of reading the suppressions file again", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const readStub = sinon.stub(fs.promises, "readFile").resolves(
+				JSON.stringify({
+					[relPath]: {
+						"no-console": { count: 1 },
+						"no-unused-vars": { count: 5 },
+					},
+				}),
+			);
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			sinon.stub(fs, "existsSync").returns(true);
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-unused-vars"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			await suppressionsService.load();
+			await suppressionsService.prune(results);
+
+			const suppressions = await suppressionsService.load();
+
+			assert.ok(
+				readStub.calledOnce,
+				"Expected the suppressions file to be read once",
+			);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(written, {
+				[relPath]: { "no-unused-vars": { count: 2 } },
+			});
+			assert.deepStrictEqual(suppressions, written);
+		});
 	});
 
 	describe("applySuppressions()", () => {
@@ -1035,6 +1175,66 @@ describe("SuppressionsService", () => {
 				0,
 				"Expected original suppressedMessages to remain unmodified",
 			);
+		});
+	});
+
+	describe("getRelativeFilePath()", () => {
+		it("should return the path relative to the given directory in POSIX format", () => {
+			const cwd = path.resolve("/project");
+
+			assert.strictEqual(
+				SuppressionsService.getRelativeFilePath(
+					path.join(cwd, "src", "app.js"),
+					cwd,
+				),
+				"src/app.js",
+			);
+		});
+	});
+
+	describe("getSuppressedRuleIds()", () => {
+		const cwd = path.resolve("/project");
+		const suppressions = {
+			"app.js": {
+				"no-console": { count: 2 },
+				"no-unused-vars": { count: 1 },
+			},
+			"src/lib.js": {
+				"no-undef": { count: 0 },
+			},
+		};
+
+		it("should return the IDs of the rules that are suppressed for the file", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "app.js"),
+				cwd,
+			);
+
+			assert.deepStrictEqual([...ruleIds].sort(), [
+				"no-console",
+				"no-unused-vars",
+			]);
+		});
+
+		it("should return an empty set for a file without suppressions", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "other.js"),
+				cwd,
+			);
+
+			assert.strictEqual(ruleIds.size, 0);
+		});
+
+		it("should match nested files by their POSIX relative path regardless of the suppression count", () => {
+			const ruleIds = SuppressionsService.getSuppressedRuleIds(
+				suppressions,
+				path.join(cwd, "src", "lib.js"),
+				cwd,
+			);
+
+			assert.deepStrictEqual([...ruleIds], ["no-undef"]);
 		});
 	});
 });
