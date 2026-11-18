@@ -3658,4 +3658,26 @@ ruleTesterTypeScript.run("accessor-pairs", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option not object (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "first option not object (string)",
+			options: ["always"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "object with additional properties",
+			options: [{ getWithoutSet: true, unknownProp: true }],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "property wrong type (string instead of boolean)",
+			options: [{ getWithoutSet: "true" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

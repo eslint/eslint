@@ -2120,4 +2120,11 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 			errors: [{ messageId: "unexpectedThis" }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
