@@ -440,6 +440,26 @@ describe("runInMergeScope", () => {
 		assert.notStrictEqual(result.languageOptions.globals, globals);
 	});
 
+	it("keeps symbol keys of the first rules object if the second one is a merge result", () => {
+		const { merge } = flatConfigSchema.rules;
+		const key = Symbol.for("foo");
+		const result = runInMergeScope(() =>
+			merge({ [key]: "error" }, merge(void 0, { foo: "warn" })),
+		);
+
+		assert.strictEqual(result[key], "error");
+	});
+
+	it("keeps symbol keys of the first languageOptions object if the second one is a merge result", () => {
+		const { merge } = flatConfigSchema.languageOptions;
+		const key = Symbol.for("foo");
+		const result = runInMergeScope(() =>
+			merge({ [key]: 1 }, merge(void 0, { sourceType: "module" })),
+		);
+
+		assert.strictEqual(result[key], 1);
+	});
+
 	it("normalizes merge results again after the merge scope ends", () => {
 		const { merge } = flatConfigSchema.rules;
 		const rules = runInMergeScope(() =>
