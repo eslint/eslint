@@ -3007,6 +3007,91 @@ describe("FlatConfigArray", () => {
 					},
 				));
 
+			it("should not modify rule configs when merging", () => {
+				const ruleConfig = ["error", "double", { avoidEscape: true }];
+				const configs = new FlatConfigArray([
+					{ rules: { semi: "error" } },
+					{ rules: { quotes: ruleConfig } },
+				]);
+
+				configs.normalizeSync();
+
+				const config = configs.getConfig("foo.js");
+
+				assert.deepStrictEqual(ruleConfig, [
+					"error",
+					"double",
+					{ avoidEscape: true },
+				]);
+				assert.notStrictEqual(config.rules.quotes[2], ruleConfig[2]);
+			});
+
+			it("should validate rules reused from a previously calculated config", () => {
+				const previousConfigs = new FlatConfigArray([
+					{ rules: { semi: "error" } },
+				]);
+
+				previousConfigs.normalizeSync();
+
+				const { rules } = previousConfigs.getConfig("foo.js");
+
+				rules.semi = true;
+
+				const configs = new FlatConfigArray([
+					{ rules },
+					{ rules: { quotes: "error" } },
+				]);
+
+				configs.normalizeSync();
+
+				assert.throws(() => {
+					configs.getConfig("foo.js");
+				}, 'Key "rules": Key "semi": Expected severity of "off", 0, "warn", 1, "error", or 2.');
+			});
+
+			// https://github.com/eslint/eslint/issues/21538
+			it("should clone each rule config only once when merging many configs", () => {
+				const ruleCount = 10;
+				const rules = {};
+
+				for (let index = 0; index < ruleCount; index++) {
+					rules[`rule${index}`] = {
+						meta: { schema: false },
+						create() {
+							return {};
+						},
+					};
+				}
+
+				const configs = new FlatConfigArray([
+					{ plugins: { foo: { rules } } },
+					...Object.keys(rules).map(ruleName => ({
+						rules: {
+							[`foo/${ruleName}`]: ["error", { bar: true }],
+						},
+					})),
+				]);
+
+				configs.normalizeSync();
+
+				const structuredCloneSpy = sinon.spy(
+					globalThis,
+					"structuredClone",
+				);
+
+				try {
+					configs.getConfig("foo.js");
+				} finally {
+					structuredCloneSpy.restore();
+				}
+
+				assert.strictEqual(
+					structuredCloneSpy.callCount,
+					ruleCount,
+					"Expected `structuredClone()` to be called once per rule config",
+				);
+			});
+
 			it("should error show expected properties", () => {
 				assertInvalidConfig(
 					[
@@ -3181,60 +3266,6 @@ describe("FlatConfigArray", () => {
 			assert.throws(() => {
 				configs.getConfig("foo.js");
 			}, /Key "rules": Key "camelcase":/u);
-		});
-	});
-
-	describe("merge scope", () => {
-		it("does not trust results from an earlier getConfig() call", () => {
-			const first = new FlatConfigArray([{ rules: { semi: "error" } }]);
-
-			first.normalizeSync();
-			const escaped = first.getConfig("foo.js");
-
-			escaped.rules.semi = "warn";
-
-			const second = new FlatConfigArray([
-				{ rules: escaped.rules },
-				{ rules: { quotes: "error" } },
-			]);
-
-			second.normalizeSync();
-			const config = second.getConfig("foo.js");
-
-			assert.deepStrictEqual(config.rules.semi, [1]);
-			assert.notStrictEqual(config.rules, escaped.rules);
-		});
-
-		it("clones rule options a linear number of times", () => {
-			const count = 50;
-			const rules = {};
-
-			for (let index = 0; index < count; index++) {
-				rules[`rule-${index}`] = {
-					meta: { schema: false },
-					create() {},
-				};
-			}
-
-			const configs = new FlatConfigArray([
-				{ plugins: { test: { rules } } },
-				...Object.keys(rules).map((ruleId, index) => ({
-					rules: { [`test/${ruleId}`]: ["error", { index }] },
-				})),
-			]);
-			configs.normalizeSync();
-			const clone = sinon.spy(globalThis, "structuredClone");
-
-			try {
-				assert.strictEqual(
-					Object.keys(configs.getConfig("foo.js").rules).length,
-					count,
-				);
-			} finally {
-				clone.restore();
-			}
-
-			assert.isAtMost(clone.callCount, count * 2);
 		});
 	});
 });
