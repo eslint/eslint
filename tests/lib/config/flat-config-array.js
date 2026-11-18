@@ -11,6 +11,7 @@
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
+const sinon = require("sinon");
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 const jslang = require("../../../lib/languages/js");
@@ -3180,6 +3181,60 @@ describe("FlatConfigArray", () => {
 			assert.throws(() => {
 				configs.getConfig("foo.js");
 			}, /Key "rules": Key "camelcase":/u);
+		});
+	});
+
+	describe("merge scope", () => {
+		it("does not trust results from an earlier getConfig() call", () => {
+			const first = new FlatConfigArray([{ rules: { semi: "error" } }]);
+
+			first.normalizeSync();
+			const escaped = first.getConfig("foo.js");
+
+			escaped.rules.semi = "warn";
+
+			const second = new FlatConfigArray([
+				{ rules: escaped.rules },
+				{ rules: { quotes: "error" } },
+			]);
+
+			second.normalizeSync();
+			const config = second.getConfig("foo.js");
+
+			assert.deepStrictEqual(config.rules.semi, [1]);
+			assert.notStrictEqual(config.rules, escaped.rules);
+		});
+
+		it("clones rule options a linear number of times", () => {
+			const count = 50;
+			const rules = {};
+
+			for (let index = 0; index < count; index++) {
+				rules[`rule-${index}`] = {
+					meta: { schema: false },
+					create() {},
+				};
+			}
+
+			const configs = new FlatConfigArray([
+				{ plugins: { test: { rules } } },
+				...Object.keys(rules).map((ruleId, index) => ({
+					rules: { [`test/${ruleId}`]: ["error", { index }] },
+				})),
+			]);
+			configs.normalizeSync();
+			const clone = sinon.spy(globalThis, "structuredClone");
+
+			try {
+				assert.strictEqual(
+					Object.keys(configs.getConfig("foo.js").rules).length,
+					count,
+				);
+			} finally {
+				clone.restore();
+			}
+
+			assert.isAtMost(clone.callCount, count * 2);
 		});
 	});
 });
