@@ -930,6 +930,36 @@ describe("Config", () => {
 			}, /Unexpected property "invalid"/u);
 		});
 
+		it("should format circular rule options when rule options don't match schema", () => {
+			const circularOption = { invalid: true };
+			circularOption.self = circularOption;
+
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test-rule": ["error", circularOption],
+				});
+			}, /Value \{"invalid":true,"self":"\[Circular\]"\} should NOT have additional properties\.\n\t\tUnexpected property "invalid"\. Expected properties: "valid"\./u);
+
+			const circularArray = [];
+			circularArray.push(circularArray);
+
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test-rule": ["error", circularArray],
+				});
+			}, /Value \["\[Circular\]"\] should be object\./u);
+		});
+
+		it("should preserve shared non-circular references when rule options don't match schema", () => {
+			const shared = { nested: true };
+
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test-rule": ["error", { first: shared, second: shared }],
+				});
+			}, /Value \{"first":\{"nested":true\},"second":\{"nested":true\}\} should NOT have additional properties\./u);
+		});
+
 		it("should throw when rule schema is invalid", () => {
 			assert.throws(() => {
 				config.validateRulesConfig({

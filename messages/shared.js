@@ -5,6 +5,8 @@
 
 "use strict";
 
+const { stringifyValue } = require("../lib/shared/serialization");
+
 /**
  * Converts a value to a string that may be printed in errors.
  * @param {any} value The invalid value.
@@ -13,7 +15,7 @@
  */
 function stringifyValueForError(value, indentation) {
 	return value
-		? JSON.stringify(value, null, 4).replace(
+		? stringifyValue(value, 4).replace(
 				/\n/gu,
 				`\n${" ".repeat(indentation)}`,
 			)

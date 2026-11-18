@@ -3061,6 +3061,25 @@ describe("FlatConfigArray", () => {
 					'Unexpected property "enforceRenamedProperties". Expected properties: "enforceForRenamedProperties"',
 				);
 			});
+
+			it("should format circular rule options without throwing a serialization error", () => {
+				const circularOptions = { obj: true };
+				circularOptions.self = circularOptions;
+
+				assertInvalidConfig(
+					[
+						{
+							rules: {
+								"prefer-destructuring": [
+									"error",
+									circularOptions,
+								],
+							},
+						},
+					],
+					'Value {"obj":true,"self":"[Circular]"} should NOT have additional properties.',
+				);
+			});
 		});
 
 		describe("Invalid Keys", () => {
