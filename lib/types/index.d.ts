@@ -28,6 +28,7 @@
 import * as ESTree from "estree";
 import type {
 	DeprecatedInfo,
+	Language,
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
@@ -35,6 +36,7 @@ import type {
 	TextSourceCode,
 	TraversalStep,
 	RulesConfig,
+	SettingsConfig,
 	GlobalAccess,
 	GlobalsConfig,
 	LinterOptionsConfig,
@@ -1187,7 +1189,9 @@ export class ESLint {
 
 	hasFlag(flag: string): boolean;
 
-	calculateConfigForFile(filePath: string): Promise<any>;
+	calculateConfigForFile(
+		filePath: string,
+	): Promise<ESLint.CalculatedConfig | undefined>;
 
 	findConfigFile(filePath?: string): Promise<string | undefined>;
 
@@ -1307,6 +1311,30 @@ export namespace ESLint {
 
 		/** Array of feature flags to enable. */
 		flags?: string[] | undefined;
+	}
+
+	/** The type of an object resolved by {@link ESLint.calculateConfigForFile}. */
+	interface CalculatedConfig {
+		/** The language object used to lint the file. */
+		language: Language;
+
+		/** The language options, merged with the language's default options and normalized by the language. */
+		languageOptions: GenericLanguageOptions;
+
+		/** The options related to the linting process. */
+		linterOptions: Linter.LinterOptions;
+
+		/** The processor object used to preprocess and postprocess the file. */
+		processor?: Linter.Processor | undefined;
+
+		/** The plugins available to the file. */
+		plugins: Record<string, Plugin>;
+
+		/** The rule configurations, each normalized to an array of the numeric severity followed by any rule options, merged with the rule's default options. */
+		rules?: Record<string, [Linter.Severity, ...unknown[]]> | undefined;
+
+		/** The shared settings available to all rules. */
+		settings?: SettingsConfig | undefined;
 	}
 
 	/** A linting result. */
