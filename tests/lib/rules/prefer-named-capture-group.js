@@ -883,5 +883,82 @@ ruleTester.run("prefer-named-capture-group", rule, {
 				},
 			],
 		},
+		{
+			code: "new RegExp((0, /(^a)/))",
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(^a)" },
+					line: 1,
+					column: 16,
+					suggestions: [
+						{
+							messageId: "addGroupName",
+							output: "new RegExp((0, /(?<temp1>^a)/))",
+						},
+						{
+							messageId: "addNonCapture",
+							output: "new RegExp((0, /(?:^a)/))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new RegExp(/(^a)/ as RegExp)",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(^a)" },
+					line: 1,
+					column: 12,
+					suggestions: [
+						{
+							messageId: "addGroupName",
+							output: "new RegExp(/(?<temp1>^a)/ as RegExp)",
+						},
+						{
+							messageId: "addNonCapture",
+							output: "new RegExp(/(?:^a)/ as RegExp)",
+						},
+					],
+				},
+			],
+		},
+
+		// without `u`/`v` flags and named groups, `\k` is an identity escape that a named group would break
+		{
+			code: String.raw`/(a)\k/`,
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					suggestions: [
+						{
+							messageId: "addNonCapture",
+							output: String.raw`/(?:a)\k/`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: String.raw`/(a)\k<a>/`,
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					suggestions: [
+						{
+							messageId: "addNonCapture",
+							output: String.raw`/(?:a)\k<a>/`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
