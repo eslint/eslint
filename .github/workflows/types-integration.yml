@@ -282,11 +282,12 @@ jobs:
               working-directory: shell
               run: |
                   npm install
+                  npm run build
                   npm install ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: shell
-              run: npm run build # TODO: Add `test:types` script to `@eslint/shell` package
+              run: npm run test:types
 
     are-the-types-wrong:
         name: Are the types wrong?
