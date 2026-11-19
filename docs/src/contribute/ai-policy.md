@@ -36,4 +36,4 @@ We appreciate your cooperation in following these guidelines as we explore the b
 
 ## Compensation
 
-ESLint does not provide compensation, either to team members or through the contributor pool, for contributions created primarily by AI. This is because we want to encourage human creativity and effort in our project, and we believe that AI should be used as a tool to assist rather than replace human contributions.
+ESLint does not provide compensation for contributions created primarily by AI. This is because we want to encourage human creativity and effort in our project, and we believe that AI should be used as a tool to assist rather than replace human contributions.

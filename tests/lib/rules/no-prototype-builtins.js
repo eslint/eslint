@@ -55,6 +55,11 @@ ruleTester.run("no-prototype-builtins", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 		},
 
+		{
+			code: "class A extends B { m() { return Object.prototype.hasOwnProperty.call(this, 'bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
 		// out of scope for this rule
 		"foo['hasOwn' + 'Property']('bar')",
 		{
@@ -374,6 +379,97 @@ ruleTester.run("no-prototype-builtins", rule, {
 					messageId: "prototypeBuildIn",
 					data: { prop: "hasOwnProperty" },
 					suggestions: [],
+				},
+			],
+		},
+
+		// No suggestion when the object is `super`, because `super` can't be passed to `.call()`
+		{
+			code: "class A extends B { m() { return super.hasOwnProperty('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "hasOwnProperty" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "class A extends B { m() { return super.isPrototypeOf('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "isPrototypeOf" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "class A extends B { m() { return super.propertyIsEnumerable('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "propertyIsEnumerable" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "class A extends B { m() { return super['hasOwnProperty']('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "hasOwnProperty" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "const o = { m() { return super.hasOwnProperty('bar'); } };",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "hasOwnProperty" },
+					suggestions: [],
+				},
+			],
+		},
+
+		// Other objects inside methods still get the suggestion
+		{
+			code: "class A extends B { m() { return this.hasOwnProperty('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "hasOwnProperty" },
+					suggestions: [
+						{
+							messageId: "callObjectPrototype",
+							output: "class A extends B { m() { return Object.prototype.hasOwnProperty.call(this, 'bar'); } }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "class A extends B { m() { return super.foo.hasOwnProperty('bar'); } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "prototypeBuildIn",
+					data: { prop: "hasOwnProperty" },
+					suggestions: [
+						{
+							messageId: "callObjectPrototype",
+							output: "class A extends B { m() { return Object.prototype.hasOwnProperty.call(super.foo, 'bar'); } }",
+						},
+					],
 				},
 			],
 		},

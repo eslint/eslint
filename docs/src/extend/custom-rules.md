@@ -552,6 +552,12 @@ When using options, make sure that your rule has some logical defaults in case t
 
 Rules with options must specify a [schema](#options-schemas).
 
+#### Avoid Non-Serializable Options
+
+Rule options and [shared settings](../use/configure/configuration-files#configure-shared-settings) should only contain values that can be serialized to JSON, such as strings, numbers, booleans, `null`, arrays, and plain objects. Avoid designing rules that expect non-serializable values such as regular expressions, functions, or class instances in `context.options` or `context.settings`.
+
+Some ESLint features don't work well with non-serializable values. For example, when [caching](../use/command-line-interface#caching) is enabled, ESLint may not detect changes when updated values produce the same serialized configuration, so it may keep reporting outdated results. If your rule needs a regular expression, accept the pattern as a string option instead and create the `RegExp` object inside the rule.
+
 ### Accessing the Source Code
 
 The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `context.sourceCode` property:

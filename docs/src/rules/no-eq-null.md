@@ -50,9 +50,22 @@ if (foo === null) {
 while (qux !== null) {
   baz();
 }
+
+if (foo === null || foo === undefined) {
+  bar();
+}
+
+while (qux !== null && qux !== undefined) {
+  baz();
+}
 ```
 
 :::
+
+This rule offers two suggestions for each reported comparison:
+
+* Replace `==` or `!=` with `===` or `!==` to compare with `null` only. This changes the result when the other operand is `undefined`.
+* Replace the operator and add a comparison with `undefined`, as in `foo === null || foo === undefined`, to keep comparing with both `null` and `undefined`. This suggestion is only offered when the other operand can be safely repeated, such as `foo` or `foo.bar`.
 
 ## Options
 
