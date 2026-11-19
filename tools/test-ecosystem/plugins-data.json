@@ -32,7 +32,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "a823063cfdca3f15e46fd1d1de300cc7995db92b",
+    "commit": "bbd3fbd3baca11ba9d1261c99596aa7612d3a780",
     "repository": "https://github.com/eslint/shell"
   },
   "@eslint-community/eslint-plugin-eslint-comments": {
