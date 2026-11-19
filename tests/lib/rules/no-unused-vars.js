@@ -5088,5 +5088,230 @@ try {
 				]),
 			],
 		},
+
+		// Trailing comma in single function parameter suggestions
+		{
+			code: "function f(a = 1,) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				assignedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ a },) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ a: { b }, },) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("b", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "b" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ ...a },) {} f();",
+			languageOptions: { ecmaVersion: 2018 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f([a],) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f([[a]],) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f([...a],) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f() {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "const f = (a = 1,) => {}; f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				assignedError("a", [
+					{
+						output: "const f = () => {}; f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "const f = (\n    {\n        a,\n    },\n) => {}; f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "const f = (\n    \n) => {}; f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "const f = ([a,],) => {}; f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "const f = () => {}; f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "const o = { m({ a },) {} }; o.m();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "const o = { m() {} }; o.m();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "class C { m([a],) {} } new C();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "class C { m() {} } new C();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f(/* before */ { a }, /* after */) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f(/* before */  /* after */) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+
+		// Trailing comma in single named import with default import suggestions
+		{
+			code: "import foo, { a, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { a as b, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("b", [
+					{
+						output: "import foo from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "b" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { 'a-b' as b, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("b", [
+					{
+						output: "import foo from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "b" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, {\n    a,\n} from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
 	],
 });
