@@ -435,6 +435,16 @@ ruleTester.run("no-shadow", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "const x = new Promise(x => x);",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const x = foo(new Promise(x => x));",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
 			code: "var y = bar || (y => y)();",
 			options: [{ ignoreOnInitialization: true }],
 			languageOptions: { ecmaVersion: 6 },
@@ -465,6 +475,70 @@ ruleTester.run("no-shadow", rule, {
 		},
 	],
 	invalid: [
+		{
+			code: `
+				const x = new Promise(null, x => x);
+			`,
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "x",
+						shadowedLine: 2,
+						shadowedColumn: 11,
+					},
+					line: 2,
+					column: 33,
+				},
+			],
+		},
+		{
+			code: `
+				const Promise = class {};
+				const x = new Promise(x => x);
+			`,
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "x",
+						shadowedLine: 3,
+						shadowedColumn: 11,
+					},
+					line: 3,
+					column: 27,
+				},
+			],
+		},
+		{
+			code: `
+				class Deferred {
+					constructor(callback) {
+						this.callback = callback;
+					}
+				}
+
+				const x = new Deferred(x => x);
+			`,
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "x",
+						shadowedLine: 8,
+						shadowedColumn: 11,
+					},
+					line: 8,
+					column: 28,
+				},
+			],
+		},
 		{
 			code: "function a(x) { var b = function c() { var x = 'foo'; }; }",
 			errors: [
