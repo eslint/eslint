@@ -11,6 +11,7 @@
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const assert = require("chai").assert;
+const sinon = require("sinon");
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 const jslang = require("../../../lib/languages/js");
@@ -3005,6 +3006,91 @@ describe("FlatConfigArray", () => {
 						},
 					},
 				));
+
+			it("should not modify rule configs when merging", () => {
+				const ruleConfig = ["error", "double", { avoidEscape: true }];
+				const configs = new FlatConfigArray([
+					{ rules: { semi: "error" } },
+					{ rules: { quotes: ruleConfig } },
+				]);
+
+				configs.normalizeSync();
+
+				const config = configs.getConfig("foo.js");
+
+				assert.deepStrictEqual(ruleConfig, [
+					"error",
+					"double",
+					{ avoidEscape: true },
+				]);
+				assert.notStrictEqual(config.rules.quotes[2], ruleConfig[2]);
+			});
+
+			it("should validate rules reused from a previously calculated config", () => {
+				const previousConfigs = new FlatConfigArray([
+					{ rules: { semi: "error" } },
+				]);
+
+				previousConfigs.normalizeSync();
+
+				const { rules } = previousConfigs.getConfig("foo.js");
+
+				rules.semi = true;
+
+				const configs = new FlatConfigArray([
+					{ rules },
+					{ rules: { quotes: "error" } },
+				]);
+
+				configs.normalizeSync();
+
+				assert.throws(() => {
+					configs.getConfig("foo.js");
+				}, 'Key "rules": Key "semi": Expected severity of "off", 0, "warn", 1, "error", or 2.');
+			});
+
+			// https://github.com/eslint/eslint/issues/21538
+			it("should clone each rule config only once when merging many configs", () => {
+				const ruleCount = 10;
+				const rules = {};
+
+				for (let index = 0; index < ruleCount; index++) {
+					rules[`rule${index}`] = {
+						meta: { schema: false },
+						create() {
+							return {};
+						},
+					};
+				}
+
+				const configs = new FlatConfigArray([
+					{ plugins: { foo: { rules } } },
+					...Object.keys(rules).map(ruleName => ({
+						rules: {
+							[`foo/${ruleName}`]: ["error", { bar: true }],
+						},
+					})),
+				]);
+
+				configs.normalizeSync();
+
+				const structuredCloneSpy = sinon.spy(
+					globalThis,
+					"structuredClone",
+				);
+
+				try {
+					configs.getConfig("foo.js");
+				} finally {
+					structuredCloneSpy.restore();
+				}
+
+				assert.strictEqual(
+					structuredCloneSpy.callCount,
+					ruleCount,
+					"Expected `structuredClone()` to be called once per rule config",
+				);
+			});
 
 			it("should error show expected properties", () => {
 				assertInvalidConfig(

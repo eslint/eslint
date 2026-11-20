@@ -5,8 +5,12 @@
 
 "use strict";
 
-const { flatConfigSchema } = require("../../../lib/config/flat-config-schema");
+const {
+	flatConfigSchema,
+	runInMergeScope,
+} = require("../../../lib/config/flat-config-schema");
 const { assert } = require("chai");
+const { ObjectSchema } = require("@eslint/config-array");
 const {
 	Legacy: { ConfigArray },
 } = require("@eslint/eslintrc");
@@ -30,6 +34,17 @@ function confirmLegacyMergeResult(first, second, expectedResult) {
 	const actualResult = config.settings;
 
 	assert.deepStrictEqual(actualResult, expectedResult);
+}
+
+const schema = new ObjectSchema(flatConfigSchema);
+
+/**
+ * Merges config objects one at a time, as `ConfigArray#getConfig()` does.
+ * @param {Object[]} configs The config objects to merge.
+ * @returns {Object} The merged config object.
+ */
+function mergeConfigs(configs) {
+	return configs.reduce((result, config) => schema.merge(result, config), {});
 }
 
 describe("merge", () => {
@@ -341,5 +356,145 @@ describe("merge", () => {
 		};
 
 		assert.deepStrictEqual(result, expected);
+	});
+});
+
+describe("runInMergeScope", () => {
+	it("merges rules the same as without a merge scope", () => {
+		const configs = [
+			{ rules: { foo: ["error", { bar: 1 }], baz: "warn" } },
+			{ rules: { foo: "warn", baz: ["error", "always"] } },
+			{ rules: { foo: [1], qux: "error" } },
+			{ rules: { [Symbol.for("foo")]: "error" } },
+			{ rules: { ["__proto__"]: "error", baz: 0 } },
+		];
+
+		assert.deepStrictEqual(
+			runInMergeScope(() => mergeConfigs(configs)),
+			mergeConfigs(configs),
+		);
+	});
+
+	it("merges languageOptions the same as without a merge scope", () => {
+		const parser = { parse() {} };
+		const stubParser = { parseForESLint() {} };
+		const configs = [
+			{
+				languageOptions: {
+					globals: { foo: "readonly" },
+					parserOptions: { ecmaFeatures: { jsx: true } },
+					sourceType: "module",
+					parser,
+					foo: { bar() {}, baz: 1 },
+				},
+			},
+			{
+				languageOptions: {
+					globals: { bar: "off" },
+					parserOptions: { ecmaFeatures: { globalReturn: true } },
+					parser: stubParser,
+					qux: [1, 2],
+				},
+			},
+			{
+				languageOptions: {
+					sourceType: void 0,
+					toString: void 0,
+					qux: [3],
+					parserOptions: null,
+					foo: { baz: 2 },
+				},
+			},
+			{ languageOptions: { [Symbol.for("foo")]: 1 } },
+			{
+				languageOptions: {
+					parserOptions: { foo: true },
+					ecmaVersion: 2020,
+				},
+			},
+		];
+		const result = runInMergeScope(() => mergeConfigs(configs));
+
+		assert.deepStrictEqual(result, mergeConfigs(configs));
+		assert.strictEqual(result.languageOptions.parser, stubParser);
+	});
+
+	it("does not reuse rule options or nested languageOptions objects from the merged configs", () => {
+		const ruleOptions = { bar: true };
+		const globals = { foo: "readonly" };
+		const configs = [
+			{ rules: { foo: "error" }, languageOptions: { ecmaVersion: 2020 } },
+			{
+				rules: { bar: ["warn", ruleOptions] },
+				languageOptions: { globals },
+			},
+			{
+				rules: { baz: "error" },
+				languageOptions: { sourceType: "module" },
+			},
+		];
+		const result = runInMergeScope(() => mergeConfigs(configs));
+
+		assert.notStrictEqual(result.rules.bar, configs[1].rules.bar);
+		assert.notStrictEqual(result.rules.bar[1], ruleOptions);
+		assert.notStrictEqual(result.languageOptions.globals, globals);
+	});
+
+	it("keeps symbol keys of the first rules object if the second one is a merge result", () => {
+		const { merge } = flatConfigSchema.rules;
+		const key = Symbol.for("foo");
+		const result = runInMergeScope(() =>
+			merge({ [key]: "error" }, merge(void 0, { foo: "warn" })),
+		);
+
+		assert.strictEqual(result[key], "error");
+	});
+
+	it("keeps symbol keys of the first languageOptions object if the second one is a merge result", () => {
+		const { merge } = flatConfigSchema.languageOptions;
+		const key = Symbol.for("foo");
+		const result = runInMergeScope(() =>
+			merge({ [key]: 1 }, merge(void 0, { sourceType: "module" })),
+		);
+
+		assert.strictEqual(result[key], 1);
+	});
+
+	it("normalizes merge results again after the merge scope ends", () => {
+		const { merge } = flatConfigSchema.rules;
+		const rules = runInMergeScope(() =>
+			merge({ foo: ["error", { bar: 1 }] }, { baz: "warn" }),
+		);
+
+		rules.foo = "warn";
+
+		assert.deepStrictEqual(merge(rules, { qux: 1 }), {
+			foo: [1],
+			baz: [1],
+			qux: [1],
+		});
+	});
+
+	it("does not merge the properties of a replaced parser", () => {
+		const parser = {
+			parse() {},
+			meta: {
+				get name() {
+					return assert.fail(
+						"Expected the replaced parser not to be merged",
+					);
+				},
+			},
+		};
+		const stubParser = { parse() {}, meta: { name: "stub" } };
+		const result = runInMergeScope(() =>
+			mergeConfigs([
+				{ languageOptions: { ecmaVersion: 2020 } },
+				{ languageOptions: { parser } },
+				{ languageOptions: { parser: stubParser } },
+			]),
+		);
+
+		assert.strictEqual(result.languageOptions.parser, stubParser);
 	});
 });
