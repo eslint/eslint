@@ -46,7 +46,7 @@ In other cases a suggestion is offered which can change runtime behavior if the 
 
 ### always
 
-The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` [see below]).
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` \[see below\]).
 
 Examples of **incorrect** code for the `"always"` option:
 

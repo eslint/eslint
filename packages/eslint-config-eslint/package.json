@@ -23,6 +23,10 @@
     "./formatting": {
       "types": "./types/formatting.d.ts",
       "default": "./formatting.js"
+    },
+    "./markdown": {
+      "types": "./types/markdown.d.ts",
+      "default": "./markdown.js"
     }
   },
   "typesVersions": {
@@ -35,12 +39,15 @@
       ],
       "formatting": [
         "./types/formatting.d.ts"
+      ],
+      "markdown": [
+        "./types/markdown.d.ts"
       ]
     }
   },
   "scripts": {
     "lint:types": "attw --pack",
-    "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
+    "test": "node ./index.js && node ./cjs.js && node ./formatting.js && node ./markdown.js",
     "test:types": "tsc -p tests/types/tsconfig.json",
     "prepublish": "npm test"
   },
@@ -51,6 +58,7 @@
     "cjs.js",
     "formatting.js",
     "index.js",
+    "markdown.js",
     "nodejs.js",
     "types"
   ],
@@ -64,6 +72,8 @@
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.7.1",
     "@eslint/js": "^10.0.1",
+    "@eslint/markdown": "^8.0.3",
+    "eslint-markdown": "^0.21.0",
     "eslint-plugin-jsdoc": "^62.7.0",
     "eslint-plugin-n": "^17.11.1",
     "eslint-plugin-regexp": "^3.1.0",

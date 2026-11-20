@@ -12,8 +12,7 @@ This rule disallows mixed spaces and tabs for indentation.
 
 Examples of **incorrect** code for this rule:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: incorrect
 
 ```js
@@ -30,12 +29,11 @@ function main() {
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 Examples of **correct** code for this rule:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: correct
 
 ```js
@@ -47,7 +45,7 @@ function add(x, y) {
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 ## Options
 
@@ -59,8 +57,7 @@ This rule has a string option.
 
 Examples of **correct** code for this rule with the `"smart-tabs"` option:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: correct
 
 ```js
@@ -73,4 +70,4 @@ function main() {
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->

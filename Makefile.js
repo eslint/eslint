@@ -553,9 +553,7 @@ target.lint = function ([fix = false] = []) {
 	}
 
 	echo("Validating Markdown Files");
-	lastReturn = exec(
-		`${getBinFile("markdownlint-cli2")} ${fix ? "--fix" : ""} "docs/src/**/*.md"`,
-	);
+	lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} "docs/src/**/*.md"`);
 	if (lastReturn.code !== 0) {
 		errors++;
 	}
@@ -569,7 +567,7 @@ target.lintDocsJS = function ([fix = false] = []) {
 	let errors = 0;
 
 	echo("Validating JavaScript files in the docs directory");
-	const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
+	const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} "docs/**/*.js"`);
 
 	if (lastReturn.code !== 0) {
 		errors++;
