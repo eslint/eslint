@@ -6,7 +6,10 @@
 "use strict";
 
 const assert = require("chai").assert;
-const { isSerializable } = require("../../../lib/shared/serialization");
+const {
+	isSerializable,
+	stringifyValue,
+} = require("../../../lib/shared/serialization");
 
 describe("serialization", () => {
 	describe("isSerializable", () => {
@@ -131,6 +134,77 @@ describe("serialization", () => {
 			it("array with object with nested array with object with function", () => {
 				assert.isFalse(isSerializable([{ a: { b: [{ c() {} }] } }]));
 			});
+		});
+	});
+
+	describe("stringifyValue", () => {
+		it("primitives, null, and undefined", () => {
+			assert.strictEqual(stringifyValue("abc"), '"abc"');
+			assert.strictEqual(stringifyValue(123), "123");
+			assert.strictEqual(stringifyValue(true), "true");
+			assert.strictEqual(stringifyValue(null), "null");
+			assert.strictEqual(stringifyValue(void 0), void 0);
+		});
+
+		it("plain objects and arrays", () => {
+			assert.strictEqual(
+				stringifyValue({ a: 1, b: [true, "x"] }),
+				'{"a":1,"b":[true,"x"]}',
+			);
+			assert.strictEqual(stringifyValue({ a: 1 }, 4), '{\n    "a": 1\n}');
+		});
+
+		it("circular object and array references", () => {
+			const obj1 = { a: 1 };
+			obj1.self = obj1;
+			assert.strictEqual(
+				stringifyValue(obj1),
+				'{"a":1,"self":"[Circular]"}',
+			);
+			assert.strictEqual(
+				stringifyValue(obj1, 4),
+				'{\n    "a": 1,\n    "self": "[Circular]"\n}',
+			);
+
+			const obj2 = {};
+			obj2.a = { circular: obj2 };
+			assert.strictEqual(
+				stringifyValue(obj2),
+				'{"a":{"circular":"[Circular]"}}',
+			);
+
+			const arr = [1];
+			arr.push(arr);
+			assert.strictEqual(stringifyValue(arr), '[1,"[Circular]"]');
+
+			const nullProto = Object.create(null);
+			nullProto.name = "plugin";
+			nullProto.self = nullProto;
+			assert.strictEqual(
+				stringifyValue(nullProto),
+				'{"name":"plugin","self":"[Circular]"}',
+			);
+		});
+
+		it("shared non-circular references", () => {
+			const shared = { foo: { bar: "baz" } };
+			const value = {
+				a: shared,
+				b: shared,
+				arr: [shared, shared],
+			};
+
+			assert.strictEqual(stringifyValue(value), JSON.stringify(value));
+		});
+
+		it("shared circular object across sibling properties", () => {
+			const circular = { a: 1 };
+			circular.self = circular;
+
+			assert.strictEqual(
+				stringifyValue({ first: circular, second: circular }),
+				'{"first":{"a":1,"self":"[Circular]"},"second":{"a":1,"self":"[Circular]"}}',
+			);
 		});
 	});
 });
