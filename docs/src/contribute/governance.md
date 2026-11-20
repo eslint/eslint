@@ -114,7 +114,7 @@ Project Leads may perform all of the duties associated with their Committer/Revi
 - May merge external pull requests for accepted issues upon reviewing and approving the changes in their repository set.
 - May merge their own pull requests once they have collected the feedback they deem necessary in their repository set. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
 - May publish minor and patch releases in their repository set.
-- May invoice for the hours they spend working on ESLint at a rate equal to the their Committer/Reviewer status.
+- May invoice for the hours they spend working on ESLint at a rate equal to their Committer/Reviewer status.
 
 To become a Project Lead:
 
