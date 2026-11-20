@@ -1007,6 +1007,66 @@ describe("CodePathAnalyzer", () => {
 
 			assert(count === 2);
 		});
+
+		describe("should be fired with the `ContinueStatement` node for `continue` statements that go through `finally` blocks", () => {
+			for (const [code, expected] of [
+				[
+					"while (a) { try { continue; } finally { foo(); } }",
+					["ContinueStatement"],
+				],
+				[
+					"for (;;) { try { continue; } finally { foo(); } }",
+					["ContinueStatement"],
+				],
+				[
+					"for (const x of y) { try { continue; } finally { foo(); } }",
+					["BlockStatement", "ContinueStatement"],
+				],
+				[
+					"for (let i = 0; i < n; i++) { try { continue; } finally { foo(); } }",
+					["BlockStatement", "ContinueStatement"],
+				],
+				[
+					"while (a) { try { foo(); } catch (e) { continue; } finally { bar(); } }",
+					["ContinueStatement", "WhileStatement"],
+				],
+				[
+					"outer: while (a) { while (b) { try { continue outer; } finally { foo(); } } }",
+					["ContinueStatement", "WhileStatement"],
+				],
+				[
+					"while (a) { try { try { continue; } finally { foo(); } } finally { bar(); } }",
+					["ContinueStatement"],
+				],
+			]) {
+				it(code, () => {
+					const actual = [];
+
+					linter.verify(code, {
+						plugins: {
+							"test-plugin": {
+								rules: {
+									"test-rule": {
+										create: () => ({
+											onCodePathSegmentLoop(
+												fromSegment,
+												toSegment,
+												node,
+											) {
+												actual.push(node.type);
+											},
+										}),
+									},
+								},
+							},
+						},
+						rules: { "test-plugin/test-rule": 2 },
+					});
+
+					assert.deepStrictEqual(actual, expected);
+				});
+			}
+		});
 	});
 
 	describe("completed code paths are correct", () => {
