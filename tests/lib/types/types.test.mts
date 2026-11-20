@@ -49,8 +49,11 @@ import { Linter as ESLinter } from "eslint/universal";
 import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
 import type {
 	Comment,
+	Node,
 	PrivateIdentifier,
+	Program,
 	PropertyDefinition,
+	SourceLocation,
 	StaticBlock,
 	WhileStatement,
 } from "estree";
@@ -183,9 +186,9 @@ loc.column; // $ExpectType number
 sourceCode.getIndexFromLoc({ line: 0, column: 0 });
 
 sourceCode.getTokenByRangeStart(0); // $ExpectType Token | null
-sourceCode.getTokenByRangeStart(0, { includeComments: true }); // $ExpectType Comment | Token | null
+sourceCode.getTokenByRangeStart(0, { includeComments: true }); // $ExpectType ESTreeComment | Token | null
 sourceCode.getTokenByRangeStart(0, { includeComments: false }); // $ExpectType Token | null
-sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $ExpectType Comment | Token | null
+sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $ExpectType ESTreeComment | Token | null
 
 sourceCode.getFirstToken(AST); // $ExpectType Token | null
 sourceCode.getFirstToken(AST, 0);
@@ -204,7 +207,7 @@ sourceCode.getFirstToken(AST, {
 	skip: 0,
 	filter: t => t.type === "Identifier",
 });
-sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment | Token | null
+sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType ESTreeComment | Token | null
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
@@ -368,7 +371,7 @@ sourceCode.getFirstTokenBetween(AST, AST, {
 	filter: (t): t is AST.Token & { type: "Identifier" } =>
 		t.type === "Identifier",
 });
-sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $ExpectType Comment | Token | null
+sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $ExpectType ESTreeComment | Token | null
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
@@ -394,7 +397,7 @@ sourceCode.getFirstTokensBetween(AST, AST, {
 	count: 0,
 	filter: t => t.type === "Identifier",
 });
-sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
+sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $ExpectType (ESTreeComment | Token)[]
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
@@ -457,7 +460,7 @@ sourceCode.getTokens(AST, {
 	filter: (t): t is AST.Token & { type: "Identifier" } =>
 		t.type === "Identifier",
 });
-sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
+sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (ESTreeComment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
 	includeComments: true,
@@ -481,7 +484,17 @@ sourceCode.markVariableAsUsed("foo", AST);
 
 sourceCode.getDeclaredVariables(AST); // $ExpectType Variable[]
 
-sourceCode.getAncestors(AST); // $ExpectType Node[]
+sourceCode.getAncestors(AST); // $ExpectType ESTreeNode[]
+
+const estreeAncestors: Node[] = sourceCode.getAncestors(AST);
+sourceCode.getScope(estreeAncestors[0]);
+const estreeComments: Comment[] = sourceCode.getAllComments();
+sourceCode.getCommentsBefore(estreeAncestors[0]).push(estreeComments[0]);
+const estreeLocation: SourceLocation = sourceCode.getLoc(estreeAncestors[0]);
+sourceCode.getIndexFromLoc(estreeLocation.start);
+const estreeProgram: Program = AST;
+estreeProgram.body.push(...AST.body);
+AST.body.push(...estreeProgram.body);
 
 // #endregion
 
@@ -536,35 +549,35 @@ reference.isWriteOnly();
 reference.isReadWrite();
 
 let catchDef!: Extract<Scope.DefinitionType, { type: "CatchClause" }>;
-catchDef.node; // $ExpectType CatchClause
+catchDef.node; // $ExpectType ESTreeCatchClause
 catchDef.parent; // $ExpectType null
 
 let classNameDef!: Extract<Scope.DefinitionType, { type: "ClassName" }>;
-classNameDef.node; // $ExpectType ClassDeclaration | ClassExpression
+classNameDef.node; // $ExpectType ESTreeClassDeclaration | ESTreeClassExpression
 classNameDef.parent; // $ExpectType null
 
 let functionNameDef!: Extract<Scope.DefinitionType, { type: "FunctionName" }>;
-functionNameDef.node; // $ExpectType FunctionDeclaration | FunctionExpression
+functionNameDef.node; // $ExpectType ESTreeFunctionDeclaration | ESTreeFunctionExpression
 functionNameDef.parent; // $ExpectType null
 
 let implicitGlobalVarDef!: Extract<
 	Scope.DefinitionType,
 	{ type: "ImplicitGlobalVariable" }
 >;
-implicitGlobalVarDef.node; // $ExpectType AssignmentExpression | ForInStatement | ForOfStatement
+implicitGlobalVarDef.node; // $ExpectType ESTreeAssignmentExpression | ESTreeForInStatement | ESTreeForOfStatement
 implicitGlobalVarDef.parent; // $ExpectType null
 
 let importBindingDef!: Extract<Scope.DefinitionType, { type: "ImportBinding" }>;
-importBindingDef.node; // $ExpectType ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
-importBindingDef.parent; // $ExpectType ImportDeclaration
+importBindingDef.node; // $ExpectType ESTreeImportSpecifier | ESTreeImportDefaultSpecifier | ESTreeImportNamespaceSpecifier
+importBindingDef.parent; // $ExpectType ESTreeImportDeclaration
 
 let parameterDef!: Extract<Scope.DefinitionType, { type: "Parameter" }>;
-parameterDef.node; // $ExpectType FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
+parameterDef.node; // $ExpectType ESTreeFunctionDeclaration | ESTreeFunctionExpression | ESTreeArrowFunctionExpression
 parameterDef.parent; // $ExpectType null
 
 let variableDef!: Extract<Scope.DefinitionType, { type: "Variable" }>;
-variableDef.node; // $ExpectType VariableDeclarator
-variableDef.parent; // $ExpectType VariableDeclaration
+variableDef.node; // $ExpectType ESTreeVariableDeclarator
+variableDef.parent; // $ExpectType ESTreeVariableDeclaration
 
 // #endregion
 
