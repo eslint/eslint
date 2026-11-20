@@ -108,7 +108,7 @@ A Committer is invited to become a Reviewer by existing Reviewers and TSC member
 
 Project Leads are community members who have their primary focus on a set (one or more) of ESLint project repositories.
 
-Project Leads may perform all of the duties associated with their Commiter/Reviewer status, and also:
+Project Leads may perform all of the duties associated with their Committer/Reviewer status, and also:
 
 - May accept non-breaking feature requests and bug reports in their repository set.
 - May merge external pull requests for accepted issues upon reviewing and approving the changes in their repository set.
