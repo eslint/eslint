@@ -35,6 +35,17 @@ ruleTester.run("prefer-object-spread", rule, {
 		"Object.assign({}, ...objects)",
 		"foo({ foo: 'bar' })",
 		`
+            var doSomething;
+
+            if (foo) {
+                doSomething = Object.assign;
+            } else {
+                doSomething = somethingElse;
+            }
+
+            var bar = doSomething({}, a, b);
+        `,
+		`
         const Object = {};
         Object.assign({}, foo);
         `,
