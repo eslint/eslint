@@ -2515,6 +2515,118 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 
 		const X = 23;
 		`,
+		`
+		class UserService implements IUserService {}
+
+		interface IUserService {}
+		`,
+		`
+		const UserService = class implements IUserService {};
+
+		interface IUserService {}
+		`,
+		`
+		class UserService implements Ns.IUserService {}
+
+		namespace Ns {
+			export interface IUserService {}
+		}
+		`,
+		`
+		class UserService implements Ns.Sub.IUserService {}
+
+		namespace Ns {
+			export namespace Sub {
+				export interface IUserService {}
+			}
+		}
+		`,
+		`
+		interface AdminUser extends BaseUser {}
+
+		interface BaseUser {}
+		`,
+		`
+		interface AdminUser extends Ns.BaseUser {}
+
+		namespace Ns {
+			export interface BaseUser {}
+		}
+		`,
+		`
+		interface AdminUser extends Ns.Sub.BaseUser {}
+
+		namespace Ns {
+			export namespace Sub {
+				export interface BaseUser {}
+			}
+		}
+		`,
+		`
+		let status: Status.Active;
+
+		enum Status {
+			Active,
+			Inactive,
+		}
+		`,
+		`
+		let req: Express.Request;
+
+		namespace Express {
+			export const version = 1;
+			export interface Request {}
+		}
+		`,
+		`
+		let nested: A.B.C;
+
+		namespace A {
+			export namespace B {
+				export type C = string;
+			}
+		}
+		`,
+		`
+		namespace Foo {
+			export type Bar = number;
+		}
+
+		class Foo {
+			x!: Foo.Bar;
+		}
+		`,
+		{
+			code: `
+		namespace Foo {
+			export type Bar = number;
+		}
+
+		class Foo {
+			x!: Foo.Bar;
+		}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+		namespace Foo {
+			export interface Bar {}
+		}
+
+		class Foo implements Foo.Bar {}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+		class C {
+			static x = 1;
+			y!: typeof C.x;
+		}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+		},
 	],
 	invalid: [
 		{
@@ -3434,6 +3546,117 @@ type StringOrNumber = string | number;
 			errors: [
 				{
 					data: { name: "C" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	class UserService implements IUserService {}
+
+	interface IUserService {}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "IUserService" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	class UserService implements Ns.IUserService {}
+
+	namespace Ns {
+		export interface IUserService {}
+	}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Ns" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	interface AdminUser extends BaseUser {}
+
+	interface BaseUser {}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "BaseUser" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	interface AdminUser extends Ns.BaseUser {}
+
+	namespace Ns {
+		export interface BaseUser {}
+	}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Ns" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	let status: Status.Active;
+
+	enum Status {
+		Active,
+		Inactive,
+	}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Status" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	let req: Express.Request;
+
+	namespace Express {
+		export const version = 1;
+		export interface Request {}
+	}
+			`,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Express" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	const value = obj[key];
+	const key = "a";
+	const obj: Record<string, number> = {};
+			`,
+			errors: [
+				{
+					data: { name: "obj" },
+					messageId: "usedBeforeDefined",
+				},
+				{
+					data: { name: "key" },
 					messageId: "usedBeforeDefined",
 				},
 			],
