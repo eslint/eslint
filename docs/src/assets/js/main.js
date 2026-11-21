@@ -179,9 +179,56 @@
 
 			select.addEventListener("change", function () {
 				var selected = this.options[this.selectedIndex];
-				url = selected.getAttribute("data-url");
+				var newBasePath = (
+					selected.getAttribute("data-url") || ""
+				).trim();
 
-				window.location.href = url;
+				if (!newBasePath) {
+					return;
+				}
+
+				// External absolute URLs (e.g. "Previous Versions" link)
+				if (/^https?:\/\//i.test(newBasePath)) {
+					var absoluteHref = getSafeHref(newBasePath);
+
+					if (absoluteHref) {
+						window.location.href = absoluteHref;
+					}
+					return;
+				}
+
+				var match = window.location.pathname.match(
+					/^\/docs\/[^/]+\/(?<rest>.*)/,
+				);
+				var relativeHref = getSafeHref(
+					newBasePath,
+					window.location.origin,
+				);
+
+				if (!relativeHref) {
+					return;
+				}
+
+				var targetUrl = new URL(relativeHref);
+				var rest = match && match.groups.rest ? match.groups.rest : "";
+				var pageIsMissing =
+					rest &&
+					typeof docsPageExists === "function" &&
+					docsPageExists(newBasePath, rest) === false;
+
+				if (!pageIsMissing && rest) {
+					targetUrl.pathname =
+						targetUrl.pathname.replace(/\/?$/, "/") + rest;
+				}
+
+				if (!pageIsMissing) {
+					targetUrl.search = window.location.search;
+					targetUrl.hash = window.location.hash;
+				}
+
+				if (targetUrl.origin === window.location.origin) {
+					window.location.href = targetUrl.href;
+				}
 			});
 		});
 	}

@@ -81,6 +81,91 @@ function clearNoResults() {
 }
 
 /**
+ * Returns the base path of the currently selected docs version
+ * from the version switcher (e.g. "/docs/v8.x/", "/docs/latest/").
+ * @returns {string|null} The version base path, or null if unavailable.
+ */
+function getCurrentVersionPath() {
+	const versionSelect =
+		document.querySelector("#version-select") ||
+		document.querySelector("#nav-version-select");
+
+	if (versionSelect) {
+		const selected = versionSelect.options[versionSelect.selectedIndex];
+
+		if (selected) {
+			const dataUrl = selected.getAttribute("data-url");
+
+			if (dataUrl && !dataUrl.startsWith("http")) {
+				return dataUrl;
+			}
+		}
+	}
+	return null;
+}
+
+/**
+ * Returns the path of `url` that follows `versionPath`.
+ * @param {string} url Absolute or relative URL.
+ * @param {string} versionPath Version base path such as `/docs/v8.x/`.
+ * @returns {string|null} The remainder, or `null` when the version path is absent.
+ */
+function routeAfterVersionPath(url, versionPath) {
+	const hashless = url.split("#")[0].split("?")[0];
+	const index = hashless.indexOf(versionPath);
+
+	if (index === -1) {
+		return null;
+	}
+
+	return hashless.slice(index + versionPath.length);
+}
+
+/**
+ * Builds the selected version's docs root from a result URL.
+ * @param {string} url Absolute or relative result URL.
+ * @param {string} versionPath Version base path such as `/docs/v8.x/`.
+ * @returns {string} Absolute docs root for that version.
+ */
+function versionRootUrl(url, versionPath) {
+	const base = window.getSafeHref(url, window.location.href);
+
+	if (!base) {
+		return versionPath;
+	}
+
+	return window.getSafeHref(versionPath, new URL(base).origin) || versionPath;
+}
+
+/**
+ * Rewrites an Algolia search result URL to point to the currently
+ * selected docs version instead of the indexed version (typically "latest").
+ * Missing pages link to that version's docs root, without the old query or hash.
+ * @param {string} url The original result URL from Algolia.
+ * @returns {string} The adjusted URL for the current version.
+ */
+function adjustSearchResultUrl(url) {
+	const currentVersionPath = getCurrentVersionPath();
+
+	if (!currentVersionPath) {
+		return url;
+	}
+
+	const adjusted = url.replace(/\/docs\/[^/]+\//, currentVersionPath);
+	const route = routeAfterVersionPath(adjusted, currentVersionPath);
+
+	if (
+		route &&
+		typeof window.docsPageExists === "function" &&
+		window.docsPageExists(currentVersionPath, route) === false
+	) {
+		return versionRootUrl(adjusted, currentVersionPath);
+	}
+
+	return adjusted;
+}
+
+/**
  * Displays the given search results in the page.
  * @param {Array<object>} results The search results to display.
  * @returns {void}
@@ -104,8 +189,15 @@ function displaySearchResults(results) {
 					Number(k.substring(3)),
 				),
 			);
+			const href = (
+				window.getSafeHref(
+					adjustSearchResultUrl(result.url),
+					window.location.href,
+				) || "#"
+			).replace(/&/gu, "&amp;");
+
 			listItem.innerHTML = `
-                <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
+                <h2 class="search-results__item__title"><a href="${href}">${result.hierarchy.lvl0}</a></h2>
                 <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
 			list.append(listItem);
