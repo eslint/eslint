@@ -40,7 +40,18 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 			code: "var foo = new Symbol('foo');",
 			errors: [
 				{
-					message: "`Symbol` cannot be called as a constructor.",
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 21,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "var foo = Symbol('foo');",
+						},
+					],
 				},
 			],
 		},
@@ -48,7 +59,202 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 			code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
 			errors: [
 				{
-					message: "`Symbol` cannot be called as a constructor.",
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 63,
+					endLine: 1,
+					endColumn: 69,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "function bar() { return function Symbol() {}; } var baz = Symbol('baz');",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const foo = new Symbol();",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 23,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "const foo = Symbol();",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const foo = new Symbol;",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 23,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "const foo = Symbol();",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "function foo() { return new\n    Symbol('foo'); }",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 2,
+					column: 5,
+					endLine: 2,
+					endColumn: 11,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "function foo() { return Symbol('foo'); }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const foo = new /* comment */ Symbol('foo');",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 37,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "const foo = /* comment */ Symbol('foo');",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "function foo() { return new // comment\n    Symbol('foo'); }",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 2,
+					column: 5,
+					endLine: 2,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "const foo = new (Symbol)('foo');",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 24,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "const foo = (Symbol)('foo');",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const foo = new (Symbol);",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 24,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "const foo = (Symbol)();",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo()\nnew (Symbol)('bar');",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 2,
+					column: 6,
+					endLine: 2,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "foo()\n;(Symbol)('bar');",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo();\nnew (Symbol)('bar');",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 2,
+					column: 6,
+					endLine: 2,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "foo();\n(Symbol)('bar');",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo()\nnew Symbol('bar');",
+			errors: [
+				{
+					messageId: "noNewNonconstructor",
+					data: { name: "Symbol" },
+					line: 2,
+					column: 5,
+					endLine: 2,
+					endColumn: 11,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "foo()\nSymbol('bar');",
+						},
+					],
 				},
 			],
 		},
@@ -58,7 +264,18 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 			code: "var foo = new BigInt(9007199254740991);",
 			errors: [
 				{
-					message: "`BigInt` cannot be called as a constructor.",
+					messageId: "noNewNonconstructor",
+					data: { name: "BigInt" },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 21,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "var foo = BigInt(9007199254740991);",
+						},
+					],
 				},
 			],
 		},
@@ -66,7 +283,18 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 			code: "function bar() { return function BigInt() {}; } var baz = new BigInt(9007199254740991);",
 			errors: [
 				{
-					message: "`BigInt` cannot be called as a constructor.",
+					messageId: "noNewNonconstructor",
+					data: { name: "BigInt" },
+					line: 1,
+					column: 63,
+					endLine: 1,
+					endColumn: 69,
+					suggestions: [
+						{
+							messageId: "removeNew",
+							output: "function bar() { return function BigInt() {}; } var baz = BigInt(9007199254740991);",
+						},
+					],
 				},
 			],
 		},
