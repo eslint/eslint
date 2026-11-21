@@ -330,6 +330,16 @@ ruleTester.run("no-shadow", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "const x = new Promise(x => x)",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const x = new Promise(function(resolve) { const x = 1; resolve(x); })",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
 			code: "const a = [].find(function(a) { return a; })",
 			options: [{ ignoreOnInitialization: true }],
 			languageOptions: { ecmaVersion: 6 },
@@ -1338,6 +1348,23 @@ ruleTester.run("no-shadow", rule, {
 						shadowedLine: 2,
 						shadowedColumn: 5,
 					},
+				},
+			],
+		},
+		{
+			code: "const x = new Foo(x => x)",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "x",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 19,
 				},
 			],
 		},
