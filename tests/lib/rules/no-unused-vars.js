@@ -5259,6 +5259,124 @@ try {
 				]),
 			],
 		},
+		{
+			code: "function f(a /* keep this */, ) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( /* keep this */ ) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f(a = 1 /* keep this */, ) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				assignedError("a", [
+					{
+						output: "function f( /* keep this */ ) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ a } /* keep this */, ) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( /* keep this */ ) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f([a] /* keep this */, ) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( /* keep this */ ) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ a } // keep this\n, ) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( // keep this\n ) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f(/* before */ { a } /* middle */, /* after */) {} f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f(/* before */  /* middle */ /* after */) {} f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "const f = (a /* keep this */, ) => {}; f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "const f = ( /* keep this */ ) => {}; f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f(a /* keep this */, b) { b(); } f();",
+			options: [{ args: "all" }],
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( /* keep this */ b) { b(); } f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "function f({ a } /* keep this */, b) { b(); } f();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				definedError("a", [
+					{
+						output: "function f( /* keep this */ b) { b(); } f();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
 
 		// Trailing comma in single named import with default import suggestions
 		{
@@ -5307,6 +5425,97 @@ try {
 				definedError("a", [
 					{
 						output: "import foo from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { a /* keep this */, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* keep this */ from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { a, /* keep this */ } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* keep this */  from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { /* keep this */ a, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* keep this */  from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, /* keep this */ { a, } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* keep this */  from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { a /* keep this */ } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* keep this */  from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, {\n    a, // keep this\n} from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo // keep this\n from 'module'; foo();",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
+			code: "import foo, { /* c1 */ a /* c2 */, /* c3 */ } from 'module'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				definedError("a", [
+					{
+						output: "import foo /* c1 */  /* c2 */ /* c3 */  from 'module'; foo();",
 						messageId: "removeVar",
 						data: { varName: "a" },
 					},
