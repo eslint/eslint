@@ -2727,3 +2727,168 @@ ruleTester.run("one-var", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("one-var", rule, {
+	valid: [
+		{
+			code: "declare const a: number;\nconst b = 1;",
+			options: ["consecutive"],
+		},
+		{
+			code: "declare const a: number;\nconst b = 1;",
+			options: ["always"],
+		},
+		{
+			code: "let a = 1; declare let b: number;",
+			options: ["always"],
+		},
+		{
+			code: "declare let a: number; let b: number;",
+			options: ["always"],
+		},
+		{
+			code: "export declare const a: number;\nexport const b = 1;",
+			options: ["always"],
+		},
+		{
+			code: "namespace N { declare const a: number; const b = 1; }",
+			options: ["always"],
+		},
+		{
+			code: "declare var a: number;\nvar b = 1;",
+			options: [{ var: "always", let: "always", const: "always" }],
+		},
+		{
+			code: "declare const a = 1;\nconst b = 2;",
+			options: [{ initialized: "always", uninitialized: "never" }],
+		},
+		{
+			code: "declare let a: number;\nlet b: string;",
+			options: [{ initialized: "never", uninitialized: "always" }],
+		},
+		{
+			code: "declare const a: number;\nconst b = 1;",
+			options: [{ separateRequires: true, const: "always" }],
+		},
+	],
+	invalid: [
+		{
+			code: "declare let a: number; declare let b: string;",
+			output: "declare let a: number,   b: string;",
+			options: ["always"],
+			errors: [{ messageId: "combine", data: { type: "let" } }],
+		},
+		{
+			code: "declare const a: number;\ndeclare const b: string;",
+			output: "declare const a: number,\n  b: string;",
+			options: ["consecutive"],
+			errors: [{ messageId: "combine", data: { type: "const" } }],
+		},
+		{
+			code: "declare var a: number;\ndeclare var b: string;",
+			output: "declare var a: number,\n  b: string;",
+			options: [{ var: "always" }],
+			errors: [{ messageId: "combine", data: { type: "var" } }],
+		},
+		{
+			code: "declare let a: number;\ndeclare let b: string;",
+			output: "declare let a: number,\n  b: string;",
+			options: [{ uninitialized: "consecutive" }],
+			errors: [
+				{
+					messageId: "combineUninitialized",
+					data: { type: "let" },
+				},
+			],
+		},
+		{
+			code: "declare const a = 1;\ndeclare const b = 2;",
+			output: "declare const a = 1,\n  b = 2;",
+			options: [{ initialized: "always" }],
+			errors: [
+				{
+					messageId: "combineInitialized",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "declare let a: number; /* c */ declare /* d */ let b: string;",
+			output: "declare let a: number, /* c */  /* d */  b: string;",
+			options: ["always"],
+			errors: [{ messageId: "combine", data: { type: "let" } }],
+		},
+		{
+			code: "namespace N { declare let a: number; declare let b: string; }",
+			output: "namespace N { declare let a: number,   b: string; }",
+			options: ["always"],
+			errors: [{ messageId: "combine", data: { type: "let" } }],
+		},
+		{
+			code: 'declare const a: number;\ndeclare const b: string;\nconst c = require("c");',
+			output: 'declare const a: number,\n  b: string;\nconst c = require("c");',
+			options: [{ separateRequires: true, const: "always" }],
+			errors: [{ messageId: "combine", data: { type: "const" } }],
+		},
+		{
+			code: "declare const a: number;\ndeclare const b: string;",
+			output: "declare const a: number,\n  b: string;",
+			options: ["always"],
+			errors: [{ messageId: "combine", data: { type: "const" } }],
+		},
+		{
+			code: "declare const a: number;\nconst b = 1;\ndeclare const c: string;",
+			output: null,
+			options: ["always"],
+			errors: [
+				{ messageId: "combine", data: { type: "const" }, line: 3 },
+			],
+		},
+		{
+			code: "declare let a: number, b: string;",
+			output: "declare let a: number; declare let b: string;",
+			options: ["never"],
+			errors: [{ messageId: "split", data: { type: "let" } }],
+		},
+		{
+			code: "export declare let a: number, b: string;",
+			output: "export declare let a: number; export declare let b: string;",
+			options: ["never"],
+			errors: [{ messageId: "split", data: { type: "let" } }],
+		},
+		{
+			code: "declare const a: number,\n  b: string;",
+			output: "declare const a: number;\n  declare const b: string;",
+			options: [{ uninitialized: "never" }],
+			errors: [
+				{
+					messageId: "splitUninitialized",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "declare const a = 1, /* c */ b = 2;",
+			output: "declare const a = 1; /* c */ declare const b = 2;",
+			options: [{ initialized: "never" }],
+			errors: [
+				{
+					messageId: "splitInitialized",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "declare var a: number,b: string;",
+			output: "declare var a: number; declare var b: string;",
+			options: [{ var: "never" }],
+			errors: [{ messageId: "split", data: { type: "var" } }],
+		},
+	],
+});
