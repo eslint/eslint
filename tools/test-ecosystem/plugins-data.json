@@ -26,6 +26,15 @@
     "commit": "5d0785357b9c33f50535d62cc799914d0ea0ceba",
     "repository": "https://github.com/eslint/markdown"
   },
+  "@eslint/shell": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "bbd3fbd3baca11ba9d1261c99596aa7612d3a780",
+    "repository": "https://github.com/eslint/shell"
+  },
   "@eslint-community/eslint-plugin-eslint-comments": {
     "commands": {
       "install": ["npm", "install"],
