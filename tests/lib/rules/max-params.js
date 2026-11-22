@@ -556,4 +556,16 @@ ruleTesterTypeScript.run("max-params", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for countThis option",
+			options: [{ max: 2, countThis: "invalid" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

@@ -2141,6 +2141,74 @@ RuleTester.setDefaultConfig(null);
 RuleTester.getDefaultConfig() satisfies Linter.Config;
 RuleTester.resetDefaultConfig();
 
+ruleTester.run("fatal-test", rule, {
+	valid: [],
+	invalid: [],
+	fatal: [
+		{
+			options: ["disallowed"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			code: "foo",
+			options: ["throw"],
+			error: { message: "Intentional throw for testing" },
+		},
+		{
+			error: { message: /should be/ },
+			filename: "test.js",
+			only: true,
+			before() {},
+			after() {},
+		},
+		{
+			error: {
+				message: "Intentional throw for testing",
+				name: "CustomRuleError",
+			},
+		},
+		// @ts-expect-error // `error` is required
+		{ code: "foo" },
+		// @ts-expect-error // `error` must specify `message` or `name`
+		{ error: {} },
+		// @ts-expect-error // `error.message` must be a string or RegExp
+		{ error: { message: 42 } },
+		// @ts-expect-error // `error.name` must be a string
+		{ error: { name: null } },
+		{
+			// @ts-expect-error // `options` must be an array
+			options: { allowFoo: true },
+			error: { name: "SchemaValidationError" },
+		},
+	],
+});
+
+ruleTester.run("only-fatal-test", rule, {
+	valid: [RuleTester.only("foo"), RuleTester.only({ code: "foo" })],
+	invalid: [RuleTester.only({ code: "bar", errors: ["baz"] })],
+	fatal: [
+		RuleTester.only({
+			error: { name: "SchemaValidationError" },
+		}),
+		RuleTester.only({
+			code: "foo",
+			error: { message: "Intentional throw for testing" },
+		}),
+	],
+});
+
+function acceptOnlyUnion(
+	item:
+		| string
+		| RuleTester.ValidTestCase
+		| RuleTester.InvalidTestCase
+		| RuleTester.FatalTestCase,
+) {
+	RuleTester.only(item);
+}
+
+acceptOnlyUnion("foo");
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
