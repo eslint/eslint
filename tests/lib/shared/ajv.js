@@ -309,8 +309,18 @@ describe("ajv", () => {
 	});
 
 	describe("leniency", () => {
-		it("ignores unknown formats", () => {
-			assert.isTrue(isValid({ type: "string", format: "custom" }, "a"));
+		it("validates built-in formats", () => {
+			const schema = { type: "string", format: "email" };
+
+			assert.isTrue(isValid(schema, "a@example.com"));
+			assert.isFalse(isValid(schema, "not an email"));
+		});
+
+		it("rejects unknown formats", () => {
+			assert.throws(
+				() => isValid({ type: "string", format: "custom" }, "a"),
+				/unknown format "custom"/u,
+			);
 		});
 
 		it("ignores unknown keywords with `strictSchema: false`", () => {

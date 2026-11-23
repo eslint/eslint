@@ -143,6 +143,7 @@
     "@humanwhocodes/retry": "^0.4.2",
     "@types/estree": "^1.0.6",
     "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1",
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
