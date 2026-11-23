@@ -2727,3 +2727,65 @@ ruleTester.run("one-var", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+		sourceType: "module",
+	},
+});
+
+ruleTesterTypeScript.run("one-var", rule, {
+	valid: [
+		{
+			code: "declare const a: string; const b = 'value';",
+			options: ["consecutive"],
+		},
+	],
+	invalid: [
+		{
+			code: "declare const a: string; declare const b: string;",
+			output: "declare const a: string,   b: string;",
+			options: ["always"],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "declare const a: string, b: string;",
+			output: "declare const a: string; declare const b: string;",
+			options: ["never"],
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "export declare const a: string, b: string;",
+			output: "export declare const a: string; export declare const b: string;",
+			options: ["never"],
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "const" },
+				},
+			],
+		},
+		{
+			code: "declare const a: string; const b = 'value';",
+			output: null,
+			options: ["always"],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+				},
+			],
+		},
+	],
+});
