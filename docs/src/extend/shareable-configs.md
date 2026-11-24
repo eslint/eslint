@@ -37,7 +37,7 @@ export default [
 		},
 
 		rules: {
-			semi: [2, "always"],
+			eqeqeq: [2, "always"],
 		},
 	},
 ];
@@ -118,7 +118,7 @@ As an example, you can create a file called `my-special-config.js` in the root o
 // my-special-config.js
 export default {
 	rules: {
-		quotes: [2, "double"],
+		eqeqeq: [2, "smart"],
 	},
 };
 ```

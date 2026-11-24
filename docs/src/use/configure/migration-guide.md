@@ -231,7 +231,7 @@ For example, this eslintrc file applies to all files in the directory where it i
 module.exports = {
 	// ...other config
 	rules: {
-		semi: ["warn", "always"],
+		eqeqeq: ["warn", "always"],
 	},
 };
 ```
@@ -247,7 +247,7 @@ module.exports = {
 		{
 			files: ["src/**/*"],
 			rules: {
-				semi: ["warn", "always"],
+				eqeqeq: ["warn", "always"],
 			},
 		},
 		{
@@ -273,7 +273,7 @@ export default defineConfig([
 	// Override the recommended config
 	{
 		rules: {
-			indent: ["error", 2],
+			"max-lines": ["error", 3],
 			"no-unused-vars": "warn",
 		},
 		// ...other configuration
@@ -295,7 +295,7 @@ export default defineConfig([
 	{
 		files: ["src/**/*", "test/**/*"],
 		rules: {
-			semi: ["warn", "always"],
+			eqeqeq: ["warn", "always"],
 		},
 	},
 	{
@@ -449,7 +449,7 @@ module.exports = {
 	// ...other config
 	extends: "eslint:recommended",
 	rules: {
-		semi: ["warn", "always"],
+		eqeqeq: ["warn", "always"],
 	},
 	// ...other config
 };
@@ -468,7 +468,7 @@ module.exports = {
 		"eslint-config-my-config",
 	],
 	rules: {
-		semi: ["warn", "always"],
+		eqeqeq: ["warn", "always"],
 	},
 	// ...other config
 };
@@ -490,7 +490,7 @@ export default defineConfig([
 	myConfig,
 	{
 		rules: {
-			semi: ["warn", "always"],
+			eqeqeq: ["warn", "always"],
 		},
 		// ...other config
 	},

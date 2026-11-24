@@ -28,9 +28,9 @@ Examples of each formatter were created from linting `fullOfProblems.js` using t
 ```js
 function addOne(i) {
     if (i != NaN) {
-        return i ++
+        return i ++;
     } else {
-      return
+      return;
     }
 };
 ```
@@ -50,10 +50,10 @@ export default defineConfig([
 		extends: ["js/recommended"],
 		rules: {
 			"consistent-return": 2,
-			"indent"           : [1, 4],
+			"eqeqeq"           : [1, "always"],
+            "max-lines"        : [1, 3],
 			"no-else-return"   : 1,
-			"semi"             : [1, "always"],
-			"space-unary-ops"  : 2
+			"no-plusplus"      : 2,
 		}
 	}
 ]);
@@ -87,7 +87,7 @@ Example output (formatted for easier reading):
 {
     "results": [
         {
-            "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
+            "filePath": "C:\\Users\\Hp\\Desktop\\eslint\\fullOfProblems.js",
             "messages": [
                 {
                     "ruleId": "no-unused-vars",
@@ -107,7 +107,7 @@ Example output (formatted for easier reading):
                             "fix": {
                                 "range": [
                                     0,
-                                    94
+                                    96
                                 ],
                                 "text": ""
                             },
@@ -150,21 +150,41 @@ Example output (formatted for easier reading):
                     ]
                 },
                 {
-                    "ruleId": "space-unary-ops",
+                    "ruleId": "eqeqeq",
+                    "severity": 1,
+                    "message": "Expected '!==' and instead saw '!='.",
+                    "line": 2,
+                    "column": 11,
+                    "messageId": "unexpected",
+                    "endLine": 2,
+                    "endColumn": 13,
+                    "suggestions": [
+                        {
+                            "messageId": "replaceOperator",
+                            "data": {
+                                "expectedOperator": "!==",
+                                "actualOperator": "!="
+                            },
+                            "fix": {
+                                "range": [
+                                    31,
+                                    33
+                                ],
+                                "text": "!=="
+                            },
+                            "desc": "Use '!==' instead of '!='."
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "no-plusplus",
                     "severity": 2,
-                    "message": "Unexpected space before unary operator '++'.",
+                    "message": "Unary operator '++' used.",
                     "line": 3,
                     "column": 16,
-                    "messageId": "unexpectedBefore",
+                    "messageId": "unexpectedUnaryOp",
                     "endLine": 3,
-                    "endColumn": 20,
-                    "fix": {
-                        "range": [
-                            57,
-                            58
-                        ],
-                        "text": ""
-                    }
+                    "endColumn": 20
                 },
                 {
                     "ruleId": "no-useless-assignment",
@@ -177,21 +197,14 @@ Example output (formatted for easier reading):
                     "endColumn": 17
                 },
                 {
-                    "ruleId": "semi",
+                    "ruleId": "max-lines",
                     "severity": 1,
-                    "message": "Missing semicolon.",
-                    "line": 3,
-                    "column": 20,
-                    "messageId": "missingSemi",
-                    "endLine": 4,
-                    "endColumn": 1,
-                    "fix": {
-                        "range": [
-                            60,
-                            60
-                        ],
-                        "text": ";"
-                    }
+                    "message": "File has too many lines (7). Maximum allowed is 3.",
+                    "line": 4,
+                    "column": 1,
+                    "messageId": "exceed",
+                    "endLine": 7,
+                    "endColumn": 3
                 },
                 {
                     "ruleId": "no-else-return",
@@ -205,26 +218,9 @@ Example output (formatted for easier reading):
                     "fix": {
                         "range": [
                             0,
-                            94
+                            96
                         ],
-                        "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } \n      return\n    \n}"
-                    }
-                },
-                {
-                    "ruleId": "indent",
-                    "severity": 1,
-                    "message": "Expected indentation of 8 spaces but found 6.",
-                    "line": 5,
-                    "column": 1,
-                    "messageId": "wrongIndentation",
-                    "endLine": 5,
-                    "endColumn": 7,
-                    "fix": {
-                        "range": [
-                            74,
-                            80
-                        ],
-                        "text": "        "
+                        "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++;\n    } \n      return;\n    \n}"
                     }
                 },
                 {
@@ -235,117 +231,21 @@ Example output (formatted for easier reading):
                     "column": 7,
                     "messageId": "missingReturnValue",
                     "endLine": 5,
-                    "endColumn": 13
-                },
-                {
-                    "ruleId": "semi",
-                    "severity": 1,
-                    "message": "Missing semicolon.",
-                    "line": 5,
-                    "column": 13,
-                    "messageId": "missingSemi",
-                    "endLine": 6,
-                    "endColumn": 1,
-                    "fix": {
-                        "range": [
-                            86,
-                            86
-                        ],
-                        "text": ";"
-                    }
+                    "endColumn": 14
                 }
             ],
             "suppressedMessages": [],
             "errorCount": 5,
             "fatalErrorCount": 0,
-            "warningCount": 4,
-            "fixableErrorCount": 1,
-            "fixableWarningCount": 4,
-            "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};",
-            "usedDeprecatedRules": [
-                {
-                    "ruleId": "indent",
-                    "replacedBy": [
-                        "@stylistic/indent"
-                    ],
-                    "info": {
-                        "message": "Formatting rules are being moved out of ESLint core.",
-                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                        "deprecatedSince": "8.53.0",
-                        "availableUntil": "11.0.0",
-                        "replacedBy": [
-                            {
-                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                                "url": "https://eslint.style/guide/migration",
-                                "plugin": {
-                                    "name": "@stylistic/eslint-plugin",
-                                    "url": "https://eslint.style"
-                                },
-                                "rule": {
-                                    "name": "indent",
-                                    "url": "https://eslint.style/rules/indent"
-                                }
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ruleId": "semi",
-                    "replacedBy": [
-                        "@stylistic/semi"
-                    ],
-                    "info": {
-                        "message": "Formatting rules are being moved out of ESLint core.",
-                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                        "deprecatedSince": "8.53.0",
-                        "availableUntil": "11.0.0",
-                        "replacedBy": [
-                            {
-                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                                "url": "https://eslint.style/guide/migration",
-                                "plugin": {
-                                    "name": "@stylistic/eslint-plugin",
-                                    "url": "https://eslint.style"
-                                },
-                                "rule": {
-                                    "name": "semi",
-                                    "url": "https://eslint.style/rules/semi"
-                                }
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ruleId": "space-unary-ops",
-                    "replacedBy": [
-                        "@stylistic/space-unary-ops"
-                    ],
-                    "info": {
-                        "message": "Formatting rules are being moved out of ESLint core.",
-                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                        "deprecatedSince": "8.53.0",
-                        "availableUntil": "11.0.0",
-                        "replacedBy": [
-                            {
-                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                                "url": "https://eslint.style/guide/migration",
-                                "plugin": {
-                                    "name": "@stylistic/eslint-plugin",
-                                    "url": "https://eslint.style"
-                                },
-                                "rule": {
-                                    "name": "space-unary-ops",
-                                    "url": "https://eslint.style/rules/space-unary-ops"
-                                }
-                            }
-                        ]
-                    }
-                }
-            ]
+            "warningCount": 3,
+            "fixableErrorCount": 0,
+            "fixableWarningCount": 1,
+            "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++;\n    } else {\n      return;\n    }\n};",
+            "usedDeprecatedRules": []
         }
     ],
     "metadata": {
-        "cwd": "/var/lib/jenkins/workspace/eslint Release/eslint",
+        "cwd": "C:\\Users\\Hp\\Desktop\\eslint",
         "rulesMeta": {
             "no-unused-vars": {
                 "type": "problem",
@@ -471,63 +371,89 @@ Example output (formatted for easier reading):
                     "replaceWithFindIndex": "Replace with Array.prototype.{{ methodName }}."
                 }
             },
-            "space-unary-ops": {
-                "deprecated": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
+            "eqeqeq": {
+                "type": "suggestion",
+                "hasSuggestions": true,
+                "docs": {
+                    "description": "Require the use of `===` and `!==`",
+                    "recommended": false,
+                    "url": "https://eslint.org/docs/latest/rules/eqeqeq"
+                },
+                "schema": {
+                    "anyOf": [
                         {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "space-unary-ops",
-                                "url": "https://eslint.style/rules/space-unary-ops"
-                            }
+                            "type": "array",
+                            "items": [
+                                {
+                                    "enum": [
+                                        "always"
+                                    ]
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "null": {
+                                            "enum": [
+                                                "always",
+                                                "never",
+                                                "ignore"
+                                            ]
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            ],
+                            "additionalItems": false
+                        },
+                        {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "enum": [
+                                        "smart",
+                                        "allow-null"
+                                    ]
+                                }
+                            ],
+                            "additionalItems": false
                         }
                     ]
                 },
-                "type": "layout",
+                "defaultOptions": [
+                    "always"
+                ],
+                "fixable": "code",
+                "messages": {
+                    "unexpected": "Expected '{{expectedOperator}}' and instead saw '{{actualOperator}}'.",
+                    "replaceOperator": "Use '{{expectedOperator}}' instead of '{{actualOperator}}'."
+                }
+            },
+            "no-plusplus": {
+                "type": "suggestion",
+                "defaultOptions": [
+                    {
+                        "allowForLoopAfterthoughts": false
+                    }
+                ],
                 "docs": {
-                    "description": "Enforce consistent spacing before or after unary operators",
+                    "description": "Disallow the unary operators `++` and `--`",
                     "recommended": false,
-                    "url": "https://eslint.org/docs/latest/rules/space-unary-ops"
+                    "frozen": true,
+                    "url": "https://eslint.org/docs/latest/rules/no-plusplus"
                 },
-                "fixable": "whitespace",
                 "schema": [
                     {
                         "type": "object",
                         "properties": {
-                            "words": {
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "nonwords": {
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "overrides": {
-                                "type": "object",
-                                "additionalProperties": {
-                                    "type": "boolean"
-                                }
+                            "allowForLoopAfterthoughts": {
+                                "type": "boolean"
                             }
                         },
                         "additionalProperties": false
                     }
                 ],
                 "messages": {
-                    "unexpectedBefore": "Unexpected space before unary operator '{{operator}}'.",
-                    "unexpectedAfter": "Unexpected space after unary operator '{{operator}}'.",
-                    "unexpectedAfterWord": "Unexpected space after unary word operator '{{word}}'.",
-                    "wordOperator": "Unary word operator '{{word}}' must be followed by whitespace.",
-                    "operator": "Unary operator '{{operator}}' must be followed by whitespace.",
-                    "beforeUnaryExpressions": "Space is required before unary expressions '{{token}}'."
+                    "unexpectedUnaryOp": "Unary operator '{{operator}}' used."
                 }
             },
             "no-useless-assignment": {
@@ -542,90 +468,44 @@ Example output (formatted for easier reading):
                     "unnecessaryAssignment": "The value assigned to '{{name}}' is not used in subsequent statements."
                 }
             },
-            "semi": {
-                "deprecated": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "semi",
-                                "url": "https://eslint.style/rules/semi"
-                            }
-                        }
-                    ]
-                },
-                "type": "layout",
+            "max-lines": {
+                "type": "suggestion",
                 "docs": {
-                    "description": "Require or disallow semicolons instead of ASI",
+                    "description": "Enforce a maximum number of lines per file",
                     "recommended": false,
-                    "url": "https://eslint.org/docs/latest/rules/semi"
+                    "url": "https://eslint.org/docs/latest/rules/max-lines"
                 },
-                "fixable": "code",
-                "schema": {
-                    "anyOf": [
-                        {
-                            "type": "array",
-                            "items": [
-                                {
-                                    "enum": [
-                                        "never"
-                                    ]
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "beforeStatementContinuationChars": {
-                                            "enum": [
-                                                "always",
-                                                "any",
-                                                "never"
-                                            ]
-                                        }
+                "schema": [
+                    {
+                        "oneOf": [
+                            {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "max": {
+                                        "type": "integer",
+                                        "minimum": 0
                                     },
-                                    "additionalProperties": false
-                                }
-                            ],
-                            "minItems": 0,
-                            "maxItems": 2
-                        },
-                        {
-                            "type": "array",
-                            "items": [
-                                {
-                                    "enum": [
-                                        "always"
-                                    ]
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "omitLastInOneLineBlock": {
-                                            "type": "boolean"
-                                        },
-                                        "omitLastInOneLineClassBody": {
-                                            "type": "boolean"
-                                        }
+                                    "skipComments": {
+                                        "type": "boolean"
                                     },
-                                    "additionalProperties": false
-                                }
-                            ],
-                            "minItems": 0,
-                            "maxItems": 2
-                        }
-                    ]
-                },
+                                    "skipBlankLines": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                ],
+                "defaultOptions": [
+                    300
+                ],
                 "messages": {
-                    "missingSemi": "Missing semicolon.",
-                    "extraSemi": "Extra semicolon."
+                    "exceed": "File has too many lines ({{actual}}). Maximum allowed is {{max}}."
                 }
             },
             "no-else-return": {
@@ -655,297 +535,6 @@ Example output (formatted for easier reading):
                 "fixable": "code",
                 "messages": {
                     "unexpected": "Unnecessary 'else' after 'return'."
-                }
-            },
-            "indent": {
-                "deprecated": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "indent",
-                                "url": "https://eslint.style/rules/indent"
-                            }
-                        }
-                    ]
-                },
-                "type": "layout",
-                "docs": {
-                    "description": "Enforce consistent indentation",
-                    "recommended": false,
-                    "url": "https://eslint.org/docs/latest/rules/indent"
-                },
-                "fixable": "whitespace",
-                "schema": [
-                    {
-                        "oneOf": [
-                            {
-                                "enum": [
-                                    "tab"
-                                ]
-                            },
-                            {
-                                "type": "integer",
-                                "minimum": 0
-                            }
-                        ]
-                    },
-                    {
-                        "type": "object",
-                        "properties": {
-                            "SwitchCase": {
-                                "type": "integer",
-                                "minimum": 0,
-                                "default": 0
-                            },
-                            "VariableDeclarator": {
-                                "oneOf": [
-                                    {
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "minimum": 0
-                                            },
-                                            {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "object",
-                                        "properties": {
-                                            "var": {
-                                                "oneOf": [
-                                                    {
-                                                        "type": "integer",
-                                                        "minimum": 0
-                                                    },
-                                                    {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            "let": {
-                                                "oneOf": [
-                                                    {
-                                                        "type": "integer",
-                                                        "minimum": 0
-                                                    },
-                                                    {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            "const": {
-                                                "oneOf": [
-                                                    {
-                                                        "type": "integer",
-                                                        "minimum": 0
-                                                    },
-                                                    {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "additionalProperties": false
-                                    }
-                                ]
-                            },
-                            "outerIIFEBody": {
-                                "oneOf": [
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    },
-                                    {
-                                        "enum": [
-                                            "off"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "MemberExpression": {
-                                "oneOf": [
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    },
-                                    {
-                                        "enum": [
-                                            "off"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "FunctionDeclaration": {
-                                "type": "object",
-                                "properties": {
-                                    "parameters": {
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "minimum": 0
-                                            },
-                                            {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    "body": {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    }
-                                },
-                                "additionalProperties": false
-                            },
-                            "FunctionExpression": {
-                                "type": "object",
-                                "properties": {
-                                    "parameters": {
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "minimum": 0
-                                            },
-                                            {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    "body": {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    }
-                                },
-                                "additionalProperties": false
-                            },
-                            "StaticBlock": {
-                                "type": "object",
-                                "properties": {
-                                    "body": {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    }
-                                },
-                                "additionalProperties": false
-                            },
-                            "CallExpression": {
-                                "type": "object",
-                                "properties": {
-                                    "arguments": {
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "minimum": 0
-                                            },
-                                            {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                },
-                                "additionalProperties": false
-                            },
-                            "ArrayExpression": {
-                                "oneOf": [
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    },
-                                    {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "ObjectExpression": {
-                                "oneOf": [
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    },
-                                    {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "ImportDeclaration": {
-                                "oneOf": [
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0
-                                    },
-                                    {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
-                                    }
-                                ]
-                            },
-                            "flatTernaryExpressions": {
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "offsetTernaryExpressions": {
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "ignoredNodes": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string",
-                                    "not": {
-                                        "pattern": ":exit$"
-                                    }
-                                }
-                            },
-                            "ignoreComments": {
-                                "type": "boolean",
-                                "default": false
-                            }
-                        },
-                        "additionalProperties": false
-                    }
-                ],
-                "messages": {
-                    "wrongIndentation": "Expected indentation of {{expected}} but found {{actual}}."
                 }
             },
             "consistent-return": {
@@ -993,7 +582,7 @@ Example output (formatted for easier reading):
 ```json
 [
     {
-        "filePath": "/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js",
+        "filePath": "C:\\Users\\Hp\\Desktop\\eslint\\fullOfProblems.js",
         "messages": [
             {
                 "ruleId": "no-unused-vars",
@@ -1013,7 +602,7 @@ Example output (formatted for easier reading):
                         "fix": {
                             "range": [
                                 0,
-                                94
+                                96
                             ],
                             "text": ""
                         },
@@ -1056,21 +645,41 @@ Example output (formatted for easier reading):
                 ]
             },
             {
-                "ruleId": "space-unary-ops",
+                "ruleId": "eqeqeq",
+                "severity": 1,
+                "message": "Expected '!==' and instead saw '!='.",
+                "line": 2,
+                "column": 11,
+                "messageId": "unexpected",
+                "endLine": 2,
+                "endColumn": 13,
+                "suggestions": [
+                    {
+                        "messageId": "replaceOperator",
+                        "data": {
+                            "expectedOperator": "!==",
+                            "actualOperator": "!="
+                        },
+                        "fix": {
+                            "range": [
+                                31,
+                                33
+                            ],
+                            "text": "!=="
+                        },
+                        "desc": "Use '!==' instead of '!='."
+                    }
+                ]
+            },
+            {
+                "ruleId": "no-plusplus",
                 "severity": 2,
-                "message": "Unexpected space before unary operator '++'.",
+                "message": "Unary operator '++' used.",
                 "line": 3,
                 "column": 16,
-                "messageId": "unexpectedBefore",
+                "messageId": "unexpectedUnaryOp",
                 "endLine": 3,
-                "endColumn": 20,
-                "fix": {
-                    "range": [
-                        57,
-                        58
-                    ],
-                    "text": ""
-                }
+                "endColumn": 20
             },
             {
                 "ruleId": "no-useless-assignment",
@@ -1083,21 +692,14 @@ Example output (formatted for easier reading):
                 "endColumn": 17
             },
             {
-                "ruleId": "semi",
+                "ruleId": "max-lines",
                 "severity": 1,
-                "message": "Missing semicolon.",
-                "line": 3,
-                "column": 20,
-                "messageId": "missingSemi",
-                "endLine": 4,
-                "endColumn": 1,
-                "fix": {
-                    "range": [
-                        60,
-                        60
-                    ],
-                    "text": ";"
-                }
+                "message": "File has too many lines (7). Maximum allowed is 3.",
+                "line": 4,
+                "column": 1,
+                "messageId": "exceed",
+                "endLine": 7,
+                "endColumn": 3
             },
             {
                 "ruleId": "no-else-return",
@@ -1111,26 +713,9 @@ Example output (formatted for easier reading):
                 "fix": {
                     "range": [
                         0,
-                        94
+                        96
                     ],
-                    "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } \n      return\n    \n}"
-                }
-            },
-            {
-                "ruleId": "indent",
-                "severity": 1,
-                "message": "Expected indentation of 8 spaces but found 6.",
-                "line": 5,
-                "column": 1,
-                "messageId": "wrongIndentation",
-                "endLine": 5,
-                "endColumn": 7,
-                "fix": {
-                    "range": [
-                        74,
-                        80
-                    ],
-                    "text": "        "
+                    "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++;\n    } \n      return;\n    \n}"
                 }
             },
             {
@@ -1141,113 +726,17 @@ Example output (formatted for easier reading):
                 "column": 7,
                 "messageId": "missingReturnValue",
                 "endLine": 5,
-                "endColumn": 13
-            },
-            {
-                "ruleId": "semi",
-                "severity": 1,
-                "message": "Missing semicolon.",
-                "line": 5,
-                "column": 13,
-                "messageId": "missingSemi",
-                "endLine": 6,
-                "endColumn": 1,
-                "fix": {
-                    "range": [
-                        86,
-                        86
-                    ],
-                    "text": ";"
-                }
+                "endColumn": 14
             }
         ],
         "suppressedMessages": [],
         "errorCount": 5,
         "fatalErrorCount": 0,
-        "warningCount": 4,
-        "fixableErrorCount": 1,
-        "fixableWarningCount": 4,
-        "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};",
-        "usedDeprecatedRules": [
-            {
-                "ruleId": "indent",
-                "replacedBy": [
-                    "@stylistic/indent"
-                ],
-                "info": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "indent",
-                                "url": "https://eslint.style/rules/indent"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "ruleId": "semi",
-                "replacedBy": [
-                    "@stylistic/semi"
-                ],
-                "info": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "semi",
-                                "url": "https://eslint.style/rules/semi"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "ruleId": "space-unary-ops",
-                "replacedBy": [
-                    "@stylistic/space-unary-ops"
-                ],
-                "info": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "11.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "space-unary-ops",
-                                "url": "https://eslint.style/rules/space-unary-ops"
-                            }
-                        }
-                    ]
-                }
-            }
-        ]
+        "warningCount": 3,
+        "fixableErrorCount": 0,
+        "fixableWarningCount": 1,
+        "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++;\n    } else {\n      return;\n    }\n};",
+        "usedDeprecatedRules": []
     }
 ]
 ```
@@ -1260,18 +749,17 @@ Example output:
 
 ```text
 
-/var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
+C:\Users\Hp\Desktop\eslint\fullOfProblems.js
   1:10  error    'addOne' is defined but never used                              no-unused-vars
   2:9   error    Use the isNaN function to compare with NaN                      use-isnan
-  3:16  error    Unexpected space before unary operator '++'                     space-unary-ops
+  2:11  warning  Expected '!==' and instead saw '!='                             eqeqeq
+  3:16  error    Unary operator '++' used                                        no-plusplus
   3:16  error    The value assigned to 'i' is not used in subsequent statements  no-useless-assignment
-  3:20  warning  Missing semicolon                                               semi
+  4:1   warning  File has too many lines (7). Maximum allowed is 3               max-lines
   4:12  warning  Unnecessary 'else' after 'return'                               no-else-return
-  5:1   warning  Expected indentation of 8 spaces but found 6                    indent
   5:7   error    Function 'addOne' expected a return value                       consistent-return
-  5:13  warning  Missing semicolon                                               semi
 
-✖ 9 problems (5 errors, 4 warnings)
-  1 error and 4 warnings potentially fixable with the `--fix` option.
+✖ 8 problems (5 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
 
 ```

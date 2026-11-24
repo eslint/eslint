@@ -42,9 +42,9 @@ const TEMPLATE_FILENAME = path.resolve(
 const exampleCode = [
 	"function addOne(i) {",
 	"    if (i != NaN) {",
-	"        return i ++",
+	"        return i ++;",
 	"    } else {",
-	"      return",
+	"      return;",
 	"    }",
 	"};",
 ].join("\n");
@@ -54,10 +54,10 @@ const exampleConfig = defineConfig([
 	{
 		rules: {
 			"consistent-return": 2,
-			indent: [1, 4],
+			eqeqeq: [1, "always"],
+			"max-lines": [1, 3],
 			"no-else-return": 1,
-			semi: [1, "always"],
-			"space-unary-ops": 2,
+			"no-plusplus": 2,
 		},
 	},
 ]);

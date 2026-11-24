@@ -59,9 +59,9 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 				column: 1,
 			},
 			{
-				ruleId: "no-process-exit",
+				ruleId: "debugger",
 				severity: 2,
-				message: "Don't use process.exit(); throw an error instead.",
+				message: "Unexpected 'debugger' statement",
 				line: 3,
 				column: 1,
 			},
@@ -70,7 +70,7 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 		warningCount: 0,
 		fixableErrorCount: 0,
 		fixableWarningCount: 0,
-		source: "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n",
+		source: "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\ndebugger;\n",
 	},
 	{
 		filePath: "/path/to/Gruntfile.js",
@@ -94,7 +94,7 @@ The formatter function receives a `context` object as its second argument. The o
     - `foundWarnings`: the number of lint warnings
 - `rulesMeta`: The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
 
-For example, here's what the object would look like if the rule `no-extra-semi` had been run:
+For example, here's what the object would look like if the rule `no-var` had been run:
 
 ```js
 {
@@ -104,17 +104,17 @@ For example, here's what the object would look like if the rule `no-extra-semi` 
         foundWarnings: 6
     },
     rulesMeta: {
-        "no-extra-semi": {
+        "no-var": {
             type: "suggestion",
             docs: {
-                description: "disallow unnecessary semicolons",
-                recommended: true,
-                url: "https://eslint.org/docs/rules/no-extra-semi"
+                description: "Require `let` or `const` instead of `var`",
+                recommended: false,
+                url: "https://eslint.org/docs/latest/rules/no-var"
             },
+			schema: [],
             fixable: "code",
-            schema: [],
             messages: {
-                unexpected: "Unnecessary semicolon."
+                unexpected: "Unexpected var, use let or const instead."
             }
         }
     },
@@ -201,10 +201,10 @@ FORMATTER_SKIP_WARNINGS=true eslint -f ./my-awesome-formatter.js src/
 The output would be:
 
 ```bash
-error space-infix-ops
+error eqeqeq
   src/configs/bundler.js:6:8
 
-error semi
+error no-unused-vars
   src/configs/bundler.js:6:10
 ```
 
@@ -361,9 +361,9 @@ eslint -f ./my-awesome-formatter.js src/
 The output is:
 
 ```bash
-error space-infix-ops (https://eslint.org/docs/rules/space-infix-ops)
+error use-isnan (https://eslint.org/docs/rules/use-isnan)
   src/configs/bundler.js:6:8
-error semi (https://eslint.org/docs/rules/semi)
+error eqeqeq (https://eslint.org/docs/rules/eqeqeq)
   src/configs/bundler.js:6:10
 warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:5:6

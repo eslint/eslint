@@ -683,7 +683,7 @@ const messages = linter.verify(
 	"var foo;",
 	{
 		rules: {
-			semi: 2,
+			"no-var": 2,
 		},
 	},
 	{ filename: "foo.js" },
@@ -701,7 +701,7 @@ const messages = linter.verify(
 	code,
 	{
 		rules: {
-			semi: 2,
+			"no-var": 2,
 		},
 	},
 	{ filename: "foo.js" },
@@ -714,14 +714,17 @@ The `verify()` method returns an array of objects containing information about t
 [
 	{
 		fatal: false,
-		ruleId: "semi",
+		ruleId: "no-var",
 		severity: 2,
 		line: 1,
-		column: 23,
-		message: "Expected a semicolon.",
+		column: 1,
+		endLine: 1,
+		endColumn: 9,
+		message: "Unexpected var, use let or const instead.",
+		messageId: 'unexpectedVar'
 		fix: {
-			range: [1, 15],
-			text: ";",
+			range: [0, 3],
+			text: "let",
 		},
 	},
 ];
@@ -748,10 +751,10 @@ const Linter = require("eslint").Linter;
 const linter = new Linter();
 
 const messages = linter.verify(
-	"var foo = bar; // eslint-disable-line -- Need to suppress",
+	"var foo = bar; var baz; // eslint-disable-line -- Need to suppress",
 	{
 		rules: {
-			semi: ["error", "never"],
+			"one-var": ["error", "never"],
 		},
 	},
 	{ filename: "foo.js" },
@@ -771,7 +774,7 @@ const messages = linter.verify(
 	"var foo = bar;",
 	{
 		rules: {
-			semi: 2,
+			"no-var": 2,
 		},
 	},
 	{ filename: "foo.js" },
@@ -792,9 +795,9 @@ This method is similar to verify except that it also runs autofixing logic, simi
 const Linter = require("eslint").Linter;
 const linter = new Linter();
 
-const messages = linter.verifyAndFix("var foo", {
+const messages = linter.verifyAndFix("var foo;", {
 	rules: {
-		semi: 2,
+		"no-var": 2,
 	},
 });
 ```
@@ -804,7 +807,7 @@ Output object from this method:
 ```js
 {
     fixed: true,
-    output: "var foo;",
+    output: "let foo;",
     messages: []
 }
 ```

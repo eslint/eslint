@@ -44,10 +44,10 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
 Let's consider the following example:
 
 ```js [file-to-fix.js]
-/*eslint no-regex-spaces: "error", wrap-regex: "error"*/
+/*eslint no-regex-spaces: "error", no-div-regex: "error"*/
 
 function a() {
-	return / foo/.test("bar");
+	return /= foo/.test("bar");
 }
 ```
 
@@ -72,7 +72,7 @@ This yields the following `stats` entry as part of the formatted lint results ob
 					"no-regex-spaces": {
 						"total": 0.160792
 					},
-					"wrap-regex": {
+					"no-div-regex": {
 						"total": 0.422626
 					}
 				},
@@ -89,7 +89,7 @@ This yields the following `stats` entry as part of the formatted lint results ob
 					"no-regex-spaces": {
 						"total": 0.043084
 					},
-					"wrap-regex": {
+					"no-div-regex": {
 						"total": 0.007959
 					}
 				},
@@ -111,7 +111,7 @@ $ TIMING=all npx eslint file-to-fix.js --fix --stats -f json
 ...
 Rule            | Time (ms) | Relative
 :---------------|----------:|--------:
-wrap-regex      |     0.431 |    67.9%
+no-div-regex      |     0.431 |    67.9%
 no-regex-spaces |     0.204 |    32.1%
 ```
 
