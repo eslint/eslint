@@ -290,22 +290,24 @@ alert("foo");
 To disable multiple rules on a specific line:
 
 ```js
-alert("foo"); // eslint-disable-line no-alert, no-unused-vars, eqeqeq
+const foo = alert("bar" == "baz"); // eslint-disable-line no-alert, no-unused-vars, eqeqeq
 
 // eslint-disable-next-line no-alert, no-unused-vars, eqeqeq
-alert("foo");
+const foo = alert("bar" == "baz");
 
-alert("foo"); /* eslint-disable-line no-alert, no-unused-vars, eqeqeq */
+const foo = alert(
+	"bar" == "baz",
+); /* eslint-disable-line no-alert, no-unused-vars, eqeqeq */
 
 /* eslint-disable-next-line no-alert, no-unused-vars, eqeqeq */
-alert("foo");
+const foo = alert("bar" == "baz");
 
 /* eslint-disable-next-line
   no-alert,
   no-unused-vars,
   eqeqeq
 */
-alert("foo");
+const foo = alert("bar" == "baz");
 ```
 
 All of the above methods also work for plugin rules. For example, to disable `eslint-plugin-example`'s `rule-name` rule, combine the plugin's name (`example`) and the rule's name (`rule-name`) into `example/rule-name`:

@@ -59,7 +59,7 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 				column: 1,
 			},
 			{
-				ruleId: "debugger",
+				ruleId: "no-debugger",
 				severity: 2,
 				message: "Unexpected 'debugger' statement",
 				line: 3,
@@ -114,7 +114,7 @@ For example, here's what the object would look like if the rule `no-var` had bee
 			schema: [],
             fixable: "code",
             messages: {
-                unexpected: "Unexpected var, use let or const instead."
+                unexpectedVar: "Unexpected var, use let or const instead."
             }
         }
     },
@@ -201,7 +201,7 @@ FORMATTER_SKIP_WARNINGS=true eslint -f ./my-awesome-formatter.js src/
 The output would be:
 
 ```bash
-error eqeqeq
+error use-isnan
   src/configs/bundler.js:6:8
 
 error no-unused-vars

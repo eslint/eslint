@@ -721,7 +721,7 @@ The `verify()` method returns an array of objects containing information about t
 		endLine: 1,
 		endColumn: 9,
 		message: "Unexpected var, use let or const instead.",
-		messageId: 'unexpectedVar'
+		messageId: "unexpectedVar",
 		fix: {
 			range: [0, 3],
 			text: "let",
@@ -751,7 +751,7 @@ const Linter = require("eslint").Linter;
 const linter = new Linter();
 
 const messages = linter.verify(
-	"var foo = bar; var baz; // eslint-disable-line -- Need to suppress",
+	"var foo = bar, baz; // eslint-disable-line -- Need to suppress",
 	{
 		rules: {
 			"one-var": ["error", "never"],
