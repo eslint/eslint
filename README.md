@@ -330,11 +330,6 @@ Team members who focus specifically on eslint.org
 Amaresh  S M
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/harish-sethuraman">
-<img src="https://github.com/harish-sethuraman.png?s=75" width="75" height="75" alt="Harish's Avatar"><br />
-Harish
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/kecrily">
 <img src="https://github.com/kecrily.png?s=75" width="75" height="75" alt="Percy Ma's Avatar"><br />
 Percy Ma
