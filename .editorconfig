@@ -11,6 +11,9 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
+[*.{yml,yaml}]
+indent_style = space
+
 [docs/rules/linebreak-style.md]
 end_of_line = disabled
 
