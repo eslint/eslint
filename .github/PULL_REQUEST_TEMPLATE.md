@@ -52,5 +52,3 @@ Check all that apply.
 #### What changes did you make? (Give an overview)
 
 #### Is there anything you'd like reviewers to focus on?
-
-<!-- markdownlint-disable-file MD004 -->
