@@ -15,6 +15,7 @@ const coreRules = require("./lib/rules");
 const eslintPluginESLint = require("eslint-plugin-eslint-plugin").default;
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+const eslintConfigESLintMarkdown = require("eslint-config-eslint/markdown");
 const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
 const expectType = require("eslint-plugin-expect-type");
@@ -91,7 +92,7 @@ module.exports = defineConfig([
 	globalIgnores(
 		[
 			"docs/!(src|tools)/",
-			"docs/src/!(_data)",
+			"docs/src/{*.js,!(_data)/**/*.js}",
 			"lib/types/**/*.ts",
 			"templates/**",
 			"tests/bench/**",
@@ -257,6 +258,16 @@ module.exports = defineConfig([
 		plugins: { json },
 		language: "json/json5",
 		extends: ["json/recommended"],
+	},
+
+	// Markdown files
+	{
+		name: "eslint/markdown",
+		files: ["docs/src/**/*.md"],
+		extends: [eslintConfigESLintMarkdown],
+		linterOptions: {
+			reportUnusedDisableDirectives: "off", // TODO: remove
+		},
 	},
 
 	// Restrict relative path imports

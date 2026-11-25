@@ -533,27 +533,21 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 
 target.lint = function ([fix = false] = []) {
-	let errors = 0,
-		lastReturn;
+	let errors = 0;
 
 	/*
 	 * In order to successfully lint JavaScript files in the `docs` directory, dependencies declared in `docs/package.json`
 	 * would have to be installed in `docs/node_modules`. In particular, eslint-plugin-n rules examine `docs/node_modules`
 	 * when analyzing `require()` calls from CJS modules in the `docs` directory. Working on the main `eslint` package does not require
 	 * installing dependencies declared in `docs/package.json`, so most contributors will not have `docs/node_modules` locally.
-	 * Therefore, we add `--ignore-pattern "docs/**"` to exclude linting the `docs` directory from this command.
+	 * Therefore, this command excludes JavaScript files in the `docs` directory.
 	 * There is a separate command `target.lintDocsJS` for linting JavaScript files in the `docs` directory.
 	 */
-	echo("Validating JavaScript files");
-	lastReturn = exec(
-		`${ESLINT}${fix ? "--fix" : ""} --ignore-pattern "docs/**"`,
+	echo("Validating JavaScript, JSON, Markdown, and YAML files");
+	const lastReturn = exec(
+		`${ESLINT}${fix ? "--fix" : ""} --ignore-pattern "docs/**/*.js"`,
 	);
-	if (lastReturn.code !== 0) {
-		errors++;
-	}
 
-	echo("Validating Markdown Files");
-	lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} "docs/src/**/*.md"`);
 	if (lastReturn.code !== 0) {
 		errors++;
 	}

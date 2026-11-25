@@ -15,6 +15,6 @@ module.exports = {
 		frontmatter: "yaml",
 	},
 	rules: {
-		// TODO
+		"markdown/heading-increment": "error", // MD001: heading-increment
 	},
 };
