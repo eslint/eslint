@@ -19,5 +19,10 @@ module.exports = {
 		"md/consistent-heading-style": "error", // MD003: heading-style
 		"md/consistent-unordered-list-style": "error", // MD004: ul-style
 		"markdown/no-reversed-media-syntax": "error", // MD011: no-reversed-links
+		"md/no-shell-dollar": "error", // MD014: commands-show-output
+		"markdown/no-missing-atx-heading-space": [
+			"error",
+			{ checkClosedHeadings: true },
+		], // MD018: no-missing-space-atx, MD020: no-missing-space-closed-atx
 	},
 };
