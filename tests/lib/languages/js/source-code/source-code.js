@@ -4836,6 +4836,241 @@ describe("SourceCode", () => {
 		});
 	});
 
+	describe("isEndReachable(node)", () => {
+		const PARSER_OPTIONS = { ...DEFAULT_CONFIG, ecmaVersion: "latest" };
+
+		/**
+		 * Parses and traverses the given code.
+		 * @param {string} code The code to parse.
+		 * @returns {{ast: ASTNode, sourceCode: SourceCode}} The AST and SourceCode.
+		 */
+		function parseAndTraverse(code) {
+			const ast = espree.parse(code, PARSER_OPTIONS);
+			const sourceCode = new SourceCode(code, ast);
+
+			sourceCode.traverse();
+
+			return { ast, sourceCode };
+		}
+
+		it("should throw an error when argument is missing", () => {
+			assert.throws(() => {
+				linter.verify("foo", {
+					plugins: {
+						test: {
+							rules: {
+								"is-end-reachable": {
+									create: context => ({
+										Program() {
+											context.sourceCode.isEndReachable();
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/is-end-reachable": 2 },
+				});
+			}, /Missing required argument: node/u);
+		});
+
+		it("should return true for the end of a Program that can complete", () => {
+			const { ast, sourceCode } = parseAndTraverse("foo();");
+
+			assert.isTrue(sourceCode.isEndReachable(ast));
+		});
+
+		it("should return false for the end of a Program that always throws", () => {
+			const { ast, sourceCode } = parseAndTraverse("foo(); throw x;");
+
+			assert.isFalse(sourceCode.isEndReachable(ast));
+		});
+
+		it("should return true for the end of a function without a return", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"function f() { a(); }",
+			);
+
+			assert.isTrue(sourceCode.isEndReachable(ast.body[0]));
+		});
+
+		it("should return true for the end of a function that returns on only some paths", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"function f() { if (a) { return 1; } }",
+			);
+
+			assert.isTrue(sourceCode.isEndReachable(ast.body[0]));
+		});
+
+		it("should return false for the end of a function that returns or throws on every path", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"function f() { if (a) { return 1; } else { throw x; } }",
+			);
+
+			assert.isFalse(sourceCode.isEndReachable(ast.body[0]));
+		});
+
+		it("should evaluate a function's end in its own code path", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"function f() { return; const g = () => { a(); }; }",
+			);
+			const arrow = ast.body[0].body.body[1].declarations[0].init;
+
+			assert.isFalse(sourceCode.isEndReachable(ast.body[0]));
+			assert.isTrue(sourceCode.isEndReachable(arrow));
+		});
+
+		it("should report whether each switch case can fall through", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"switch (x) { case 1: a(); case 2: b(); break; case 3: throw y; default: c(); }",
+			);
+			const cases = ast.body[0].cases;
+
+			assert.isTrue(sourceCode.isEndReachable(cases[0]));
+			assert.isFalse(sourceCode.isEndReachable(cases[1]));
+			assert.isFalse(sourceCode.isEndReachable(cases[2]));
+			assert.isTrue(sourceCode.isEndReachable(cases[3]));
+		});
+
+		it("should return false for the end of return, throw, break, and continue statements", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				[
+					"function f() { return; }",
+					"function g() { throw x; }",
+					"while (a) { break; }",
+					"while (b) { continue; }",
+				].join("\n"),
+			);
+			const jumps = [
+				ast.body[0].body.body[0],
+				ast.body[1].body.body[0],
+				ast.body[2].body.body[0],
+				ast.body[3].body.body[0],
+			];
+
+			for (const node of jumps) {
+				assert.isTrue(
+					sourceCode.isReachable(node),
+					`Expected ${node.type} to be reachable`,
+				);
+				assert.isFalse(
+					sourceCode.isEndReachable(node),
+					`Expected the end of ${node.type} to be unreachable`,
+				);
+			}
+		});
+
+		it("should return false for the end of a block that ends with a jump", () => {
+			const { ast, sourceCode } = parseAndTraverse(
+				"function f() { if (a) { b(); return; } c(); }",
+			);
+			const ifStatement = ast.body[0].body.body[0];
+
+			assert.isFalse(sourceCode.isEndReachable(ifStatement.consequent));
+			assert.isTrue(sourceCode.isEndReachable(ifStatement));
+		});
+
+		it("should return true for every node when the AST is not ESTree", () => {
+			const ast = {
+				type: "Root",
+				comments: [],
+				tokens: [],
+				loc: {},
+				range: [],
+			};
+			const sourceCode = new SourceCode("foo;", ast);
+
+			sourceCode.traverse();
+
+			assert.isTrue(sourceCode.isEndReachable(ast));
+		});
+
+		/*
+		 * At the exit of `return`, `throw`, `break`, and `continue`, the
+		 * current segments haven't moved to the unreachable segment yet,
+		 * so those are checked separately above.
+		 */
+		it("should match the reachability of the current code path segments when exiting each node other than jump statements", () => {
+			const code = [
+				"function a() { return; foo(); }",
+				"function b() { try { throw x; } catch (e) { y(); } finally { z(); } w(); }",
+				"function c() { switch (x) { case 1: return; case 2: q(); break; case 3: r(); default: s(); } }",
+				"function d() { for (;;) { if (x) break; } t(); }",
+				"function e() { while (true) { u(); } }",
+				"function f() { do { continue; } while (x); v(); }",
+				"function g() { label: { break label; } n(); }",
+				"function h() { if (x) { return 1; } else { throw y; } }",
+				"class C extends D { x = (() => { return; o(); })(); static { throw 1; } }",
+				"x?.y(z); a ?? b; c ||= d;",
+			].join("\n");
+			let checkedCount = 0;
+
+			const messages = linter.verify(code, {
+				languageOptions: {
+					ecmaVersion: "latest",
+					sourceType: "script",
+				},
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const { sourceCode } = context;
+									const stack = [];
+									let segments = null;
+
+									return {
+										onCodePathStart() {
+											stack.push(segments);
+											segments = new Set();
+										},
+										onCodePathEnd() {
+											segments = stack.pop();
+										},
+										onCodePathSegmentStart(segment) {
+											segments.add(segment);
+										},
+										onCodePathSegmentEnd(segment) {
+											segments.delete(segment);
+										},
+										onUnreachableCodePathSegmentStart(
+											segment,
+										) {
+											segments.add(segment);
+										},
+										onUnreachableCodePathSegmentEnd(
+											segment,
+										) {
+											segments.delete(segment);
+										},
+										":not(ReturnStatement, ThrowStatement, BreakStatement, ContinueStatement):exit"(
+											node,
+										) {
+											const expected = [...segments].some(
+												segment => segment.reachable,
+											);
+
+											checkedCount++;
+											assert.strictEqual(
+												sourceCode.isEndReachable(node),
+												expected,
+												`Mismatch for ${node.type} '${sourceCode.getText(node)}'`,
+											);
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": 2 },
+			});
+
+			assert.deepStrictEqual(messages, []);
+			assert.isAbove(checkedCount, 0);
+		});
+	});
+
 	describe("traverse()", () => {
 		it("should return an array of steps", () => {
 			const code = "var foo = 1;";

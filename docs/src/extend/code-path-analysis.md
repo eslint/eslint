@@ -395,6 +395,8 @@ ExpressionStatement(node) {
 }
 ```
 
+Similarly, use [`sourceCode.isEndReachable(node)`](custom-rules#accessing-the-source-code) to check whether execution can continue past the end of a node, such as whether a function can finish without a `return` or a `switch` case can fall through.
+
 :::
 
 ```js

@@ -350,6 +350,8 @@ export class SourceCode implements TextSourceCode<{
 
 	isReachable(node: ESTree.Node): boolean;
 
+	isEndReachable(node: ESTree.Node): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;

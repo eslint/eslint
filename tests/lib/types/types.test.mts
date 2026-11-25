@@ -481,6 +481,8 @@ sourceCode.markVariableAsUsed("foo", AST);
 
 sourceCode.isReachable(AST); // $ExpectType boolean
 
+sourceCode.isEndReachable(AST); // $ExpectType boolean
+
 sourceCode.getDeclaredVariables(AST); // $ExpectType Variable[]
 
 sourceCode.getAncestors(AST); // $ExpectType Node[]
