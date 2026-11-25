@@ -16,5 +16,6 @@ module.exports = {
 	},
 	rules: {
 		"markdown/heading-increment": "error", // MD001: heading-increment
+		"markdown/no-reversed-media-syntax": "error", // MD011: no-reversed-links
 	},
 };
