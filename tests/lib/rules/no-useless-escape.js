@@ -290,6 +290,14 @@ ruleTester.run("no-useless-escape", rule, {
 			options: [{ allowRegexCharacters: ["#", ";"] }],
 		},
 		{
+			code: String.raw`/\𐐨/`,
+			options: [{ allowRegexCharacters: ["𐐨"] }],
+		},
+		{
+			code: String.raw`/[\𐐨]/`,
+			options: [{ allowRegexCharacters: ["𐐨"] }],
+		},
+		{
 			code: String.raw`var foo = /[ab\-]/`,
 			options: [{ allowRegexCharacters: ["-"] }],
 		},
@@ -543,6 +551,50 @@ ruleTester.run("no-useless-escape", rule, {
 						{
 							messageId: "escapeBackslash",
 							output: "var foo = /\\\\;/;",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: String.raw`/\𐐨/`,
+			errors: [
+				{
+					message: "Unnecessary escape character: \\𐐨.",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 3,
+					suggestions: [
+						{
+							messageId: "removeEscape",
+							output: "/𐐨/",
+						},
+						{
+							messageId: "escapeBackslash",
+							output: String.raw`/\\𐐨/`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: String.raw`/[\𐐨]/`,
+			errors: [
+				{
+					message: "Unnecessary escape character: \\𐐨.",
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 4,
+					suggestions: [
+						{
+							messageId: "removeEscape",
+							output: "/[𐐨]/",
+						},
+						{
+							messageId: "escapeBackslash",
+							output: String.raw`/[\\𐐨]/`,
 						},
 					],
 				},
