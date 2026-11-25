@@ -102,7 +102,7 @@
       "prettier --write"
     ],
     "docs/src/**/*.md": [
-      "markdownlint-cli2 --fix",
+      "eslint --fix",
       "prettier --write"
     ],
     "!({{*.,**/*.}{js,json,jsonc,json5,yml,yaml},docs/src/**/*.md})": "prettier --write --ignore-unknown",
@@ -198,7 +198,6 @@
     "lint-staged": "^11.0.0",
     "markdown-it": "^14.2.0",
     "markdown-it-container": "^4.0.0",
-    "markdownlint-cli2": "^0.22.0",
     "marked": "^4.0.8",
     "metascraper": "^5.25.7",
     "metascraper-description": "^5.25.7",

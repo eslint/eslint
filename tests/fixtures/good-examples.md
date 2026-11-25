@@ -26,7 +26,7 @@ const foo = <bar></bar>;
 :::
 
 A test with multiple spaces after 'correct':
-<!-- markdownlint-disable-next-line no-trailing-spaces -->
+<!-- eslint-disable-next-line no-trailing-spaces -->
 :::correct  
 
 ```js

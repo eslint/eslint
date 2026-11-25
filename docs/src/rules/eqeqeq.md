@@ -48,7 +48,7 @@ When `==` or `!=` is used to compare with `null`, a second suggestion is offered
 
 ### always
 
-The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` [see below]).
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` \[see below\]).
 
 Examples of **incorrect** code for the `"always"` option:
 

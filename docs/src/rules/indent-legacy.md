@@ -136,8 +136,7 @@ function foo(d) {
 
 Examples of **correct** code for this rule with the `"tab"` option:
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable MD010 -->
+<!-- eslint-disable md/no-tab -->
 ::: correct
 
 ```js
@@ -152,7 +151,7 @@ if (a) {
 ```
 
 :::
-<!-- markdownlint-restore -->
+<!-- eslint-enable md/no-tab -->
 
 ### SwitchCase
 
