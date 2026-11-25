@@ -111,7 +111,7 @@ $ TIMING=all npx eslint file-to-fix.js --fix --stats -f json
 ...
 Rule            | Time (ms) | Relative
 :---------------|----------:|--------:
-no-div-regex      |     0.431 |    67.9%
+no-div-regex    |     0.431 |    67.9%
 no-regex-spaces |     0.204 |    32.1%
 ```
 

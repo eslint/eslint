@@ -61,7 +61,7 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 			{
 				ruleId: "no-debugger",
 				severity: 2,
-				message: "Unexpected 'debugger' statement",
+				message: "Unexpected 'debugger' statement.",
 				line: 3,
 				column: 1,
 			},
@@ -204,7 +204,7 @@ The output would be:
 error use-isnan
   src/configs/bundler.js:6:8
 
-error no-unused-vars
+error eqeqeq
   src/configs/bundler.js:6:10
 ```
 

@@ -118,15 +118,15 @@
         <div id="overview" class="bg-2">
             <h1>ESLint Report</h1>
             <div>
-                <span>8 problems (5 errors, 3 warnings)</span> - Generated on Tue Nov 24 2026 15:06:44 GMT+0530 (India Standard Time)
+                <span>9 problems (5 errors, 4 warnings)</span> - Generated on Fri Nov 13 2026 21:28:21 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <table>
             <tbody>
                 <tr class="bg-2" data-group="f-0">
     <th colspan="4">
-        [+] C:\Users\Hp\Desktop\eslint\fullOfProblems.js
-        <span>8 problems (5 errors, 3 warnings)</span>
+        [+] /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
+        <span>9 problems (5 errors, 4 warnings)</span>
     </th>
 </tr>
 <tr style="display: none;" class="f-0">
@@ -148,20 +148,11 @@
 </tr>
 
 <tr style="display: none;" class="f-0">
-    <td>2:11</td>
-    <td class="clr-1">Warning</td>
-    <td>Expected &#39;!==&#39; and instead saw &#39;!=&#39;.</td>
-    <td>
-        <a href="https://eslint.org/docs/latest/rules/eqeqeq" target="_blank" rel="noopener noreferrer">eqeqeq</a>
-    </td>
-</tr>
-
-<tr style="display: none;" class="f-0">
     <td>3:16</td>
     <td class="clr-2">Error</td>
-    <td>Unary operator &#39;++&#39; used.</td>
+    <td>Unexpected space before unary operator &#39;++&#39;.</td>
     <td>
-        <a href="https://eslint.org/docs/latest/rules/no-plusplus" target="_blank" rel="noopener noreferrer">no-plusplus</a>
+        <a href="https://eslint.org/docs/latest/rules/space-unary-ops" target="_blank" rel="noopener noreferrer">space-unary-ops</a>
     </td>
 </tr>
 
@@ -175,11 +166,11 @@
 </tr>
 
 <tr style="display: none;" class="f-0">
-    <td>4:1</td>
+    <td>3:20</td>
     <td class="clr-1">Warning</td>
-    <td>File has too many lines (7). Maximum allowed is 3.</td>
+    <td>Missing semicolon.</td>
     <td>
-        <a href="https://eslint.org/docs/latest/rules/max-lines" target="_blank" rel="noopener noreferrer">max-lines</a>
+        <a href="https://eslint.org/docs/latest/rules/semi" target="_blank" rel="noopener noreferrer">semi</a>
     </td>
 </tr>
 
@@ -193,11 +184,29 @@
 </tr>
 
 <tr style="display: none;" class="f-0">
+    <td>5:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Expected indentation of 8 spaces but found 6.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/indent" target="_blank" rel="noopener noreferrer">indent</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-0">
     <td>5:7</td>
     <td class="clr-2">Error</td>
     <td>Function &#39;addOne&#39; expected a return value.</td>
     <td>
         <a href="https://eslint.org/docs/latest/rules/consistent-return" target="_blank" rel="noopener noreferrer">consistent-return</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-0">
+    <td>5:13</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing semicolon.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/semi" target="_blank" rel="noopener noreferrer">semi</a>
     </td>
 </tr>
 
