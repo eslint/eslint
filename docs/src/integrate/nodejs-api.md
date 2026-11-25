@@ -760,7 +760,7 @@ The information available for each linting message is:
 - `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 - `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](../extend/custom-rules#providing-suggestions)).
 
-You can get the suppressed messages from the previous run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessage()` will return an empty list.
+You can get the suppressed messages from the previous run by `getSuppressedMessages()` method. If there is not a previous run, `getSuppressedMessages()` will return an empty list.
 
 ```js
 const Linter = require("eslint").Linter;
