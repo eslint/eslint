@@ -4556,6 +4556,286 @@ describe("SourceCode", () => {
 		});
 	});
 
+	describe("isReachable(node)", () => {
+		const PARSER_OPTIONS = { ...DEFAULT_CONFIG, ecmaVersion: "latest" };
+
+		/**
+		 * Runs the given code through the linter and returns the source text
+		 * of every statement mapped to whether `isReachable()` considers
+		 * it reachable.
+		 * @param {string} code The code to lint.
+		 * @returns {Map<string, boolean>} Statement text mapped to reachability.
+		 */
+		function getStatementReachability(code) {
+			const result = new Map();
+
+			const messages = linter.verify(code, {
+				languageOptions: {
+					ecmaVersion: "latest",
+					sourceType: "script",
+				},
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const { sourceCode } = context;
+
+									return {
+										":statement"(node) {
+											result.set(
+												sourceCode.getText(node),
+												sourceCode.isReachable(node),
+											);
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": 2 },
+			});
+
+			assert.deepStrictEqual(messages, []);
+
+			return result;
+		}
+
+		it("should throw an error when argument is missing", () => {
+			assert.throws(() => {
+				linter.verify("foo", {
+					plugins: {
+						test: {
+							rules: {
+								"is-reachable": {
+									create: context => ({
+										Program() {
+											context.sourceCode.isReachable();
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/is-reachable": 2 },
+				});
+			}, /Missing required argument: node/u);
+		});
+
+		it("should return true for the Program node", () => {
+			const code = "foo();";
+			const ast = espree.parse(code, PARSER_OPTIONS);
+			const sourceCode = new SourceCode(code, ast);
+
+			sourceCode.traverse();
+
+			assert.isTrue(sourceCode.isReachable(ast));
+		});
+
+		it("should return false for statements after a top-level throw", () => {
+			const code = "throw a; b();";
+			const ast = espree.parse(code, PARSER_OPTIONS);
+			const sourceCode = new SourceCode(code, ast);
+			const [first, second] = ast.body;
+
+			sourceCode.traverse();
+
+			assert.isTrue(sourceCode.isReachable(first));
+			assert.isFalse(sourceCode.isReachable(second));
+		});
+
+		it("should return false for nodes inside an unreachable statement", () => {
+			const code = "function f() { return; foo(bar); }";
+			const ast = espree.parse(code, PARSER_OPTIONS);
+			const sourceCode = new SourceCode(code, ast);
+
+			sourceCode.traverse();
+
+			const expressionStatement = ast.body[0].body.body[1];
+			const callExpression = expressionStatement.expression;
+
+			assert.isFalse(sourceCode.isReachable(expressionStatement));
+			assert.isFalse(sourceCode.isReachable(callExpression));
+			assert.isFalse(sourceCode.isReachable(callExpression.callee));
+			assert.isFalse(sourceCode.isReachable(callExpression.arguments[0]));
+		});
+
+		it("should return true for every node when the AST is not ESTree", () => {
+			const ast = {
+				type: "Root",
+				comments: [],
+				tokens: [],
+				loc: {},
+				range: [],
+			};
+			const sourceCode = new SourceCode("foo;", ast);
+
+			sourceCode.traverse();
+
+			assert.isTrue(sourceCode.isReachable(ast));
+		});
+
+		it("should return true for nodes in reachable code", () => {
+			const result = getStatementReachability(
+				"a(); if (b) { c(); } else { d(); } e();",
+			);
+
+			for (const [text, reachable] of result) {
+				assert.isTrue(reachable, `Expected '${text}' to be reachable`);
+			}
+		});
+
+		it("should return false for statements after return, throw, break, and continue", () => {
+			const result = getStatementReachability(
+				[
+					"function f() { return; afterReturn(); }",
+					"function g() { throw x; afterThrow(); }",
+					"while (a) { break; afterBreak(); }",
+					"while (b) { continue; afterContinue(); }",
+				].join("\n"),
+			);
+
+			assert.isTrue(result.get("return;"));
+			assert.isFalse(result.get("afterReturn();"));
+			assert.isTrue(result.get("throw x;"));
+			assert.isFalse(result.get("afterThrow();"));
+			assert.isTrue(result.get("break;"));
+			assert.isFalse(result.get("afterBreak();"));
+			assert.isTrue(result.get("continue;"));
+			assert.isFalse(result.get("afterContinue();"));
+		});
+
+		it("should return false for statements after an infinite loop without break", () => {
+			const result = getStatementReachability(
+				"while (true) { a(); } b();",
+			);
+
+			assert.isTrue(result.get("a();"));
+			assert.isFalse(result.get("b();"));
+		});
+
+		it("should return true after an if statement where only one branch returns", () => {
+			const result = getStatementReachability(
+				"function f() { if (a) { return; } b(); }",
+			);
+
+			assert.isTrue(result.get("b();"));
+		});
+
+		it("should return false after an if statement where both branches return", () => {
+			const result = getStatementReachability(
+				"function f() { if (a) { return; } else { throw x; } b(); }",
+			);
+
+			assert.isFalse(result.get("b();"));
+		});
+
+		it("should evaluate function bodies in their own code path", () => {
+			const result = getStatementReachability(
+				"function f() { return; function g() { inner(); } after(); }",
+			);
+
+			assert.isTrue(result.get("function g() { inner(); }"));
+			assert.isTrue(result.get("inner();"));
+			assert.isFalse(result.get("after();"));
+		});
+
+		it("should return to the outer code path's reachability after a function ends", () => {
+			const code =
+				"function f() { return; var x = function() { a(); }; }";
+			const ast = espree.parse(code, PARSER_OPTIONS);
+			const sourceCode = new SourceCode(code, ast);
+
+			sourceCode.traverse();
+
+			const declaration = ast.body[0].body.body[1];
+			const functionExpression = declaration.declarations[0].init;
+
+			assert.isFalse(sourceCode.isReachable(declaration));
+			assert.isTrue(sourceCode.isReachable(functionExpression));
+			assert.isTrue(
+				sourceCode.isReachable(functionExpression.body.body[0]),
+			);
+		});
+
+		it("should match the reachability of the current code path segments", () => {
+			const code = [
+				"function a() { return; foo(); }",
+				"function b() { try { throw x; } catch (e) { y(); } finally { z(); } w(); }",
+				"function c() { switch (x) { case 1: return; case 2: q(); break; default: r(); } s(); }",
+				"function d() { for (;;) { if (x) break; } t(); }",
+				"function e() { do { continue; u(); } while (x); v(); }",
+				"function f() { label: { break label; m(); } n(); }",
+				"class C extends D { x = (() => { return; o(); })(); static { throw 1; p(); } }",
+				"x?.y(z); a ?? b; c ||= d;",
+			].join("\n");
+			let checkedCount = 0;
+
+			const messages = linter.verify(code, {
+				languageOptions: {
+					ecmaVersion: "latest",
+					sourceType: "script",
+				},
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const { sourceCode } = context;
+									const stack = [];
+									let segments = null;
+
+									return {
+										onCodePathStart() {
+											stack.push(segments);
+											segments = new Set();
+										},
+										onCodePathEnd() {
+											segments = stack.pop();
+										},
+										onCodePathSegmentStart(segment) {
+											segments.add(segment);
+										},
+										onCodePathSegmentEnd(segment) {
+											segments.delete(segment);
+										},
+										onUnreachableCodePathSegmentStart(
+											segment,
+										) {
+											segments.add(segment);
+										},
+										onUnreachableCodePathSegmentEnd(
+											segment,
+										) {
+											segments.delete(segment);
+										},
+										"*"(node) {
+											const expected = [...segments].some(
+												segment => segment.reachable,
+											);
+
+											checkedCount++;
+											assert.strictEqual(
+												sourceCode.isReachable(node),
+												expected,
+												`Mismatch for ${node.type} '${sourceCode.getText(node)}'`,
+											);
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": 2 },
+			});
+
+			assert.deepStrictEqual(messages, []);
+			assert.isAbove(checkedCount, 0);
+		});
+	});
+
 	describe("traverse()", () => {
 		it("should return an array of steps", () => {
 			const code = "var foo = 1;";

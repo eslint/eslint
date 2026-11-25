@@ -348,6 +348,8 @@ export class SourceCode implements TextSourceCode<{
 
 	isGlobalReference(node: ESTree.Identifier): boolean;
 
+	isReachable(node: ESTree.Node): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;
