@@ -137,5 +137,3 @@ To enable flags in the VS Code ESLint Extension for a lint task, specify the `es
 	"eslint.lintTask.options": "--flag flag_one --flag flag_two ."
 }
 ```
-
-{# <!-- markdownlint-disable-file MD046 --> #}
