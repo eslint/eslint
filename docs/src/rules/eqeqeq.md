@@ -42,6 +42,8 @@ The `--fix` option on the command line automatically fixes some problems reporte
 
 In other cases a suggestion is offered which can change runtime behavior if the operands have different types.
 
+When `==` or `!=` is used to compare with `null`, a second suggestion is offered that also adds a comparison with `undefined`, as in `foo === null || foo === undefined`, to keep comparing with both `null` and `undefined`. This suggestion is only offered when the other operand can be safely repeated, such as `foo` or `foo.bar`.
+
 ## Options
 
 ### always

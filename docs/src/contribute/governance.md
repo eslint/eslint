@@ -104,6 +104,27 @@ To become a Reviewer:
 
 A Committer is invited to become a Reviewer by existing Reviewers and TSC members. A nomination will result in discussion and then a decision by the TSC.
 
+### Project Leads
+
+Project Leads are community members who have their primary focus on a set (one or more) of ESLint project repositories.
+
+Project Leads may perform all of the duties associated with their Committer/Reviewer status, and also:
+
+- May accept non-breaking feature requests and bug reports in their repository set.
+- May merge external pull requests for accepted issues upon reviewing and approving the changes in their repository set.
+- May merge their own pull requests once they have collected the feedback they deem necessary in their repository set. (No pull request should be merged without at least one Committer/Reviewer/TSC member comment stating they've looked at the code.)
+- May publish minor and patch releases in their repository set.
+- May invoice for the hours they spend working on ESLint at a rate equal to their Committer/Reviewer status.
+
+To become a Project Lead:
+
+- Be a Committer or Reviewer.
+- Make meaningful contributions to the repository, whether through triaging issues and pull requests or submitting pull requests directly.
+
+Repositories may have more than one Project Lead.
+
+A Committer or Reviewer is invited to become a Project Lead by TSC members. A nomination will result in a discussion and then a decision by the TSC.
+
 ### Technical Steering Committee (TSC)
 
 The ESLint project is jointly governed by a Technical Steering Committee (TSC) which is responsible for high-level guidance of the project.

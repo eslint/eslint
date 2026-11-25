@@ -26,6 +26,7 @@ jobs:
                     - "@eslint/css"
                     - "@eslint/json"
                     - "@eslint/markdown"
+                    - "@eslint/shell"
                     - "@eslint-community/eslint-plugin-eslint-comments"
                     - "@typescript-eslint/typescript-eslint"
                     - "eslint-plugin-unicorn"

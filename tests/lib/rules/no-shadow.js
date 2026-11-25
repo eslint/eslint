@@ -2253,6 +2253,107 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 		},
 		{
 			code: `
+  import { type Foo, bar } from './foo';
+  function doThing(bar: Foo) {}
+		`,
+			errors: [
+				{
+					data: {
+						name: "bar",
+						shadowedColumn: 22,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+  import bar, { type Foo } from './foo';
+  function doThing(bar: Foo) {}
+		`,
+			errors: [
+				{
+					data: {
+						name: "bar",
+						shadowedColumn: 10,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+  import { type Foo, bar } from './foo';
+  function doThing() {
+	type Foo = string;
+  }
+		`,
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+  import type Foo = require('./mod');
+  function bar(Foo: number) {}
+		`,
+			options: [{ ignoreTypeValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 15,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+  import Foo = require('./mod');
+  function bar(Foo: number) {}
+		`,
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 10,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+  import type Foo = require('./mod');
+  function bar() {
+	type Foo = string;
+  }
+		`,
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 15,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo {}
   
   declare module 'bar' {
@@ -3147,6 +3248,30 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 		`,
 			options: [{ ignoreTypeValueShadow: true }],
 		},
+		`
+  import { type Foo, bar } from './foo';
+  function doThing(Foo: number) {
+	type bar = Foo;
+  }
+		`,
+		`
+  import bar, { type Foo } from './foo';
+  function doThing(Foo: number) {
+	type bar = Foo;
+  }
+		`,
+		`
+  import type Foo = require('./mod');
+  function bar(Foo: number) {
+	return Foo;
+  }
+		`,
+		`
+  import Foo = require('./mod');
+  function bar() {
+	type Foo = number;
+  }
+		`,
 		{
 			code: "const a = [].find(a => a);",
 			options: [{ ignoreOnInitialization: true }],

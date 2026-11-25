@@ -322,6 +322,20 @@ Flat config requires "plugins" to be an object, like this:
 				"https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config",
 			);
 		});
+
+		it("should return a message with circular objects in the array", () => {
+			const plugin = { meta: { name: "foo" } };
+			plugin.self = plugin;
+
+			const message = getMessage("eslintrc-plugins", {
+				plugins: [plugin],
+			});
+
+			assert.include(
+				message,
+				`"plugins": [{"meta":{"name":"foo"},"self":"[Circular]"}]`,
+			);
+		});
 	});
 
 	describe("extend-config-missing (@eslint/eslintrc)", () => {
@@ -418,6 +432,34 @@ Flat config requires "plugins" to be an object, like this:
 				"https://eslint.org/docs/latest/use/configure/rules#use-configuration-files",
 			);
 		});
+
+		it("should return a message when value has circular references", () => {
+			const ruleId = "no-undef";
+			const value = { some: "option" };
+			value.self = value;
+
+			const message = getMessage("invalid-rule-options", {
+				ruleId,
+				value,
+			});
+
+			assert.include(
+				message,
+				`You passed '{
+        "some": "option",
+        "self": "[Circular]"
+    }', which doesn't contain a valid severity.`,
+			);
+			assert.include(
+				message,
+				`perhaps you meant:
+
+    "${ruleId}": ["error", {
+            "some": "option",
+            "self": "[Circular]"
+        }]`,
+			);
+		});
 	});
 
 	describe("invalid-rule-severity", () => {
@@ -437,6 +479,25 @@ Flat config requires "plugins" to be an object, like this:
 			assert.include(
 				message,
 				"https://eslint.org/docs/latest/use/configure/rules#use-configuration-files",
+			);
+		});
+
+		it("should return a message when value has circular references", () => {
+			const ruleId = "no-undef";
+			const value = { some: "option" };
+			value.self = value;
+
+			const message = getMessage("invalid-rule-severity", {
+				ruleId,
+				value,
+			});
+
+			assert.include(
+				message,
+				`You passed '{
+        "some": "option",
+        "self": "[Circular]"
+    }'.`,
 			);
 		});
 	});

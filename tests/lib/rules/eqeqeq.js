@@ -269,6 +269,11 @@ ruleTester.run("eqeqeq", rule, {
 							data: wantedEqEqEq,
 							output: "a === null",
 						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "a === null || a === undefined",
+						},
 					],
 				},
 			],
@@ -290,6 +295,11 @@ ruleTester.run("eqeqeq", rule, {
 							data: wantedEqEqEq,
 							output: "a === null",
 						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "a === null || a === undefined",
+						},
 					],
 				},
 			],
@@ -309,6 +319,752 @@ ruleTester.run("eqeqeq", rule, {
 							messageId: "replaceOperator",
 							data: wantedNotEqEq,
 							output: "null !== a",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "null !== a && undefined !== a",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "if (x == null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "if (x === null) { }",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "if (x === null || x === undefined) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "if (x != null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "if (x !== null) { }",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "if (x !== null && x !== undefined) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "do {} while (null == x)",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 21,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "do {} while (null === x)",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "do {} while (null === x || undefined === x)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.bar.baz == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 15,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo.bar.baz === null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "foo.bar.baz === null || foo.bar.baz === undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo[0] != null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 10,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "foo[0] !== null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "foo[0] !== null && foo[0] !== undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo[bar] == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo[bar] === null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "foo[bar] === null || foo[bar] === undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo?.bar[baz] == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo?.bar[baz] === null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "foo?.bar[baz] === null || foo?.bar[baz] === undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "class C { #foo; bar() { return this.#foo == null; } }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 42,
+					endLine: 1,
+					endColumn: 44,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "class C { #foo; bar() { return this.#foo === null; } }",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "class C { #foo; bar() { return this.#foo === null || this.#foo === undefined; } }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "class A extends B { foo() { return super.foo == null; } }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 48,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "class A extends B { foo() { return super.foo === null; } }",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "class A extends B { foo() { return super.foo === null || super.foo === undefined; } }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "import.meta.foo != null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 19,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "import.meta.foo !== null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "import.meta.foo !== null && import.meta.foo !== undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(foo) == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(foo) === null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "(foo) === null || foo === undefined",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo() == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo() === null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo().bar == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 13,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo().bar === null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo[bar()] != null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "foo[bar()] !== null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo?.bar() == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo?.bar() === null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "function foo(undefined) { return bar == null; }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 38,
+					endLine: 1,
+					endColumn: 40,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "function foo(undefined) { return bar === null; }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const undefined = 0; if (foo != null) { }",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 32,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "const undefined = 0; if (foo !== null) { }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null",
+			languageOptions: { globals: { undefined: "off" } },
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x === null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "function foo(undefined) {} bar == null;",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 32,
+					endLine: 1,
+					endColumn: 34,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "function foo(undefined) {} bar === null;",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "function foo(undefined) {} bar === null || bar === undefined;",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null && y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x === null && y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "(x === null || x === undefined) && y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "y && x == null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 10,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "y && x === null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "y && (x === null || x === undefined)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null || y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x === null || y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "x === null || x === undefined || y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x != null && y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "x !== null && y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "x !== null && x !== undefined && y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x != null || y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "x !== null || y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "(x !== null && x !== undefined) || y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null ?? y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x === null ?? y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "(x === null || x === undefined) ?? y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "y & x != null",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "y & x !== null",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "!==" },
+							output: "y & (x !== null && x !== undefined)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(x == null) && y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 6,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(x === null) && y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "(x === null || x === undefined) && y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x == null ? y : z",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x === null ? y : z",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "x === null || x === undefined ? y : z",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x /* a */ == /* b */ null && y",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 13,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "x /* a */ === /* b */ null && y",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "(x /* a */ === /* b */ null || x === undefined) && y",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo()\nx == null && y()",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 2,
+					column: 3,
+					endLine: 2,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo()\nx === null && y()",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "foo()\n;(x === null || x === undefined) && y()",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo();\nx == null && y()",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					line: 2,
+					column: 3,
+					endLine: 2,
+					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "foo();\nx === null && y()",
+						},
+						{
+							messageId: "addUndefinedComparison",
+							data: { expectedOperator: "===" },
+							output: "foo();\n(x === null || x === undefined) && y()",
 						},
 					],
 				},
@@ -582,6 +1338,27 @@ ruleTester.run("eqeqeq", rule, {
 							messageId: "replaceOperator",
 							data: wantedNotEq,
 							output: "true != null",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "a === null",
+			options: ["always", { null: "never" }],
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 6,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEq,
+							output: "a == null",
 						},
 					],
 				},

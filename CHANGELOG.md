@@ -1,3 +1,32 @@
+v10.15.0 - November 13, 2026
+
+* [`23ac66c`](https://github.com/eslint/eslint/commit/23ac66c0d929c2c8af82f1ceb5f20f5a1752bf03) fix: update dependency @eslint/config-array to ^0.23.6 (#21550) (renovate[bot])
+* [`ec52157`](https://github.com/eslint/eslint/commit/ec52157ec22ab9a4d3ccf446b58274b04923242f) feat: check __proto__ and assignment targets in `func-names` (#21521) (Lê Văn Xuân Hoàn)
+* [`df71e34`](https://github.com/eslint/eslint/commit/df71e34a8bfa084feb5c6423fbdd5ad807ea13b3) fix: skip `no-prototype-builtins` suggestion when object is `super` (#21535) (KooYS)
+* [`899065e`](https://github.com/eslint/eslint/commit/899065e556c90ef72d96b2228182d93aa5e9570d) fix: preserve inline `type` modifier in `no-useless-rename` autofix (#21527) (sethamus)
+* [`16eb1d9`](https://github.com/eslint/eslint/commit/16eb1d9eff0352fc682f021fc9c9530ecb98c658) docs: remove Contributor Pool reference (#21539) (Nicholas C. Zakas)
+* [`34a8b1b`](https://github.com/eslint/eslint/commit/34a8b1b978f0e06d595822173a3c782c5ac661ba) feat: recognize string and computed keys in `accessor-pairs` descriptors (#21519) (Lê Văn Xuân Hoàn)
+* [`480afad`](https://github.com/eslint/eslint/commit/480afad6e7efd034b687f69a07786f1e67c51816) chore: update github/codeql-action action to v4.39.3 (#21533) (renovate[bot])
+* [`e368730`](https://github.com/eslint/eslint/commit/e36873082f0b565a68d3f8aa48a91a9aae34c2ac) docs: discourage non-serializable values in rule options (#21487) (Vitalii Maslianok)
+* [`663c825`](https://github.com/eslint/eslint/commit/663c825cef67f21739a1986ea526976ae14bfaf6) feat: handle TS type assertions in `no-invalid-this` (#21464) (Valentin)
+* [`4941015`](https://github.com/eslint/eslint/commit/4941015b27f984599df30fbffde0559348cc0482) feat: check individual specifier importKind in `no-shadow` (#21518) (Lê Văn Xuân Hoàn)
+* [`af4c3a9`](https://github.com/eslint/eslint/commit/af4c3a9cc7c770419532b191ac465d4a1566eb0c) fix: preserve TypeScript type parameters in `prefer-arrow-callback` (#21507) (Lê Văn Xuân Hoàn)
+* [`0146008`](https://github.com/eslint/eslint/commit/0146008d6e99aa31dc62153c200e714f5afdcd0e) docs: revamp code path analysis docs (#21423) (xbinaryx)
+* [`fc3a99b`](https://github.com/eslint/eslint/commit/fc3a99b198171db5454347bac502540a9ffb4128) chore: update ecosystem plugins (#21511) (ESLint Bot)
+* [`b11bcb3`](https://github.com/eslint/eslint/commit/b11bcb3675871ebffbac2088f85650718f4cf481) fix: preserve necessary parens in `no-unneeded-ternary` autofix (#21495) (Lê Văn Xuân Hoàn)
+* [`8fe3ab9`](https://github.com/eslint/eslint/commit/8fe3ab9d9fb37595c6780839b1f3d02f30309b02) chore: replace `got` with Node.js native `fetch` (#21505) (lumir)
+* [`7c7292e`](https://github.com/eslint/eslint/commit/7c7292ef4433c3291a5f2defefe3e1cfa32cc063) fix: require `minimatch@11.0.1` or higher to avoid CVE-2026-118764 (#21492) (nikolawork)
+* [`bdd4b1d`](https://github.com/eslint/eslint/commit/bdd4b1da21dca81d50933edef0a015216059d877) ci: bump pnpm/action-setup from 6.1.0 to 6.1.1 (#21499) (dependabot[bot])
+* [`36db635`](https://github.com/eslint/eslint/commit/36db63560d8d4243ba3dde654ceb12d8ae6359b5) ci: bump github/codeql-action from 4.39.1 to 4.39.2 (#21500) (dependabot[bot])
+* [`19211b3`](https://github.com/eslint/eslint/commit/19211b32713d2b0d0fdb0b8c894d4e776597bf51) chore: replace `fs-teardown` with Node.js native APIs (#21488) (lumir)
+* [`bbede5e`](https://github.com/eslint/eslint/commit/bbede5e5f2af8699098040548871bf135d50370e) chore: enforce `require-meta-docs-recommended` (#21496) (lumir)
+* [`17f17cd`](https://github.com/eslint/eslint/commit/17f17cd7a248c532cfce61b7f915760608ca7121) feat: update error location to head for `default-case` (#21469) (Tanuj Kanti)
+* [`aeb2267`](https://github.com/eslint/eslint/commit/aeb2267895923d02fa439e9ee8bc3c7fb61d939e) docs: revise AI acknowledgment options in templates (#21489) (lumir)
+* [`e47a477`](https://github.com/eslint/eslint/commit/e47a47725b75f7aa08121b01ae4adf8e05324b6d) docs: Update README (GitHub Actions Bot)
+* [`896b8ad`](https://github.com/eslint/eslint/commit/896b8ad4f260d060a1df1e6297f4d23b2999bb6f) chore: update ecosystem plugins (#21478) (ESLint Bot)
+* [`11c66ba`](https://github.com/eslint/eslint/commit/11c66ba08381cb7cff7679d662c9f6654b6fe712) docs: fix typo in custom rules documentation (#21472) (Pixel)
+* [`35801a2`](https://github.com/eslint/eslint/commit/35801a2be2632d50d681c42f82b1091f7462746e) ci: re-enable `eslint-plugin-unicorn` ecosystem test (#21470) (Francesco Trotta)
+
 v10.14.0 - October 30, 2026
 
 * [`0e2ab70`](https://github.com/eslint/eslint/commit/0e2ab702714a66829fe2798c77190b48a3a88645) ci: disable `eslint-plugin-unicorn` ecosystem test (#21462) (Francesco Trotta)
