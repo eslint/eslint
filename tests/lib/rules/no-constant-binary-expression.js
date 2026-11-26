@@ -3442,3 +3442,547 @@ ruleTester.run("no-constant-binary-expression", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-constant-binary-expression", rule, {
+	valid: [
+		"(x as true) && foo",
+		"(x as false) || foo",
+		"(x as null) ?? foo",
+		"(x as []) == null",
+		"(x as {}) === null",
+		"(<[]>x) === (<[]>y)",
+		"(x satisfies boolean) && foo",
+		"x! && foo",
+		"x! ?? foo",
+		"x! === y!",
+		"(x as []) == (y as [])",
+		"(x as unknown as true) && foo",
+		"(Boolean(x) as boolean) === true",
+		"(new Foo() as any) == true",
+		"(new Foo() as any) === x",
+		"((x as any) && true) ?? bar",
+		"function foo(undefined: any) { (undefined as any) ?? bar; }",
+		"function foo(undefined: any) { (undefined as any) == true; }",
+		"function foo(undefined: any) { (undefined as any) === true; }",
+		"[(x as any)] == true",
+		"[...(arr as any)] == true",
+		{
+			code: "(foo as any) < (5 as number)",
+			options: [{ checkRelationalComparisons: true }],
+		},
+		{
+			code: "-(x as number) < 5",
+			options: [{ checkRelationalComparisons: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "([] as any) == null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "==" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "({} as any) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "(<any>[]) == null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "==" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "({} satisfies object) == null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "==" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "([]!) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "(<any>{}) === undefined",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 9,
+				},
+			],
+		},
+		{
+			code: "(null as any) == ([] as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "==" },
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "([] as any) == (null as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "==" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "(undefined as any) === ({} as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 34,
+				},
+			],
+		},
+		{
+			code: "(void 0 as any) === ({} as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "(true as any) == ([] as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "==" },
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "(true as any) === ({} as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "!(foo as any) == null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "==" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: "!(true as any) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "(Boolean as any)(x) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "(Boolean as any)(1 as any) === true",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 32,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "true === (Boolean as any)(1 as any)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
+		},
+		{
+			code: "(Number as any)(x) === true",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+		{
+			code: "([] as any) === ([] as any)",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "x === ([] as any)",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "([] as any) == ([] as any)",
+			errors: [
+				{
+					messageId: "bothAlwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "((() => {})<string>) === x",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "((() => {})<string>) == ((() => {})<number>)",
+			errors: [
+				{
+					messageId: "bothAlwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "new (Object as any)() === x",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "(x ? ({} as any) : ([] as any)) === y",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "(a, ([] as any)) === x",
+			errors: [
+				{
+					messageId: "alwaysNew",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: "(true as boolean) && foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "&&" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "(false satisfies boolean) || foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "||" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 25,
+				},
+			],
+		},
+		{
+			code: "(<boolean>true) && foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "&&" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "(true!) && foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "&&" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 7,
+				},
+			],
+		},
+		{
+			code: "(x || (true as boolean)) && foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "&&" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "(Boolean as any)(true as any) && foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "truthiness", operator: "&&" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
+		},
+		{
+			code: "([] as any) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "(([] as unknown) as any) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "(String as any)(x) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+		{
+			code: "(x = ([] as any)) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "(5 as number) < (10 as number)",
+			options: [{ checkRelationalComparisons: true }],
+			errors: [
+				{
+					messageId: "constantRelationalComparison",
+					data: { operator: "<" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "-(5 as number) < (10 satisfies number)",
+			options: [{ checkRelationalComparisons: true }],
+			errors: [
+				{
+					messageId: "constantRelationalComparison",
+					data: { operator: "<" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
+		},
+		{
+			code: "(<number>10) >= 5!",
+			options: [{ checkRelationalComparisons: true }],
+			errors: [
+				{
+					messageId: "constantRelationalComparison",
+					data: { operator: ">=" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+	],
+});

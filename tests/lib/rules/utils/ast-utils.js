@@ -2847,4 +2847,80 @@ describe("ast-utils", () => {
 			);
 		});
 	});
+
+	describe("skipTSAssertions", () => {
+		/**
+		 * Asserts the result of `astUtils.skipTSAssertions` for the expression of an `ExpressionStatement`.
+		 * @param {string} code Source code containing a single expression statement.
+		 * @param {string} expectedType Expected `type` of the unwrapped node.
+		 * @returns {void}
+		 */
+		function assertUnwrappedType(code, expectedType) {
+			let resultNode;
+
+			linter.verify(
+				code,
+				{
+					files: ["**/*.ts"],
+					languageOptions: {
+						parser: require("@typescript-eslint/parser"),
+					},
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: mustCall(() => ({
+										ExpressionStatement: mustCall(node => {
+											resultNode =
+												astUtils.skipTSAssertions(
+													node.expression,
+												);
+										}),
+									})),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				},
+				"test.ts",
+			);
+
+			assert.strictEqual(resultNode.type, expectedType);
+		}
+
+		it("should unwrap TSAsExpression", () => {
+			assertUnwrappedType("([] as any);", "ArrayExpression");
+		});
+
+		it("should unwrap TSSatisfiesExpression", () => {
+			assertUnwrappedType("({} satisfies object);", "ObjectExpression");
+		});
+
+		it("should unwrap TSTypeAssertion", () => {
+			assertUnwrappedType("(<any>true);", "Literal");
+		});
+
+		it("should unwrap TSNonNullExpression", () => {
+			assertUnwrappedType("(foo!);", "Identifier");
+		});
+
+		it("should unwrap TSInstantiationExpression", () => {
+			assertUnwrappedType(
+				"((() => {})<string>);",
+				"ArrowFunctionExpression",
+			);
+		});
+
+		it("should unwrap nested TypeScript assertions", () => {
+			assertUnwrappedType(
+				"((<any>([] satisfies unknown[]))! as unknown);",
+				"ArrayExpression",
+			);
+		});
+
+		it("should return the node as-is when not wrapped", () => {
+			assertUnwrappedType("[];", "ArrayExpression");
+		});
+	});
 });
