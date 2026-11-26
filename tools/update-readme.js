@@ -24,7 +24,7 @@ const ejs = require("ejs");
 const SPONSORS_URL =
 	"https://raw.githubusercontent.com/eslint/eslint.org/main/includes/sponsors.md";
 const TEAM_URL =
-	"https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/team.json";
+	"https://raw.githubusercontent.com/eslint/eslint.org/main/src/data/team.json";
 const README_FILE_PATH = "./README.md";
 
 const readme = fs.readFileSync(README_FILE_PATH, "utf8");
