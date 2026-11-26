@@ -723,8 +723,8 @@ The `verify()` method returns an array of objects containing information about t
 		message: "Unexpected var, use let or const instead.",
 		messageId: "unexpectedVar",
 		fix: {
-			range: [0, 3],
-			text: "let",
+			range: [0, 8],
+			text: "let foo;",
 		},
 	},
 ];
