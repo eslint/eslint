@@ -17,6 +17,7 @@ const fs = require("node:fs"),
 	{ Linter } = require("../../../../../lib/linter"),
 	SourceCode = require("../../../../../lib/languages/js/source-code/source-code"),
 	astUtils = require("../../../../../lib/shared/ast-utils"),
+	{ TraversalSteps } = require("../../../../../lib/shared/traversal-steps"),
 	globals = require("../../../../../conf/globals");
 
 //------------------------------------------------------------------------------
@@ -3962,6 +3963,249 @@ describe("SourceCode", () => {
 		});
 	});
 
+	describe("finalize() with deferred config globals", () => {
+		const USED_GLOBALS = Symbol.for("eslint.usedGlobalVariables");
+		const es2015Names = Object.keys(globals.es2015);
+
+		/**
+		 * Creates a finalized `SourceCode` that uses the ES2015 globals.
+		 * @param {string} code The source text.
+		 * @param {Function} [prepare] Called with the scope manager before finalizing.
+		 * @returns {Scope} The global scope.
+		 */
+		function getFinalizedGlobalScope(code, prepare) {
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			if (prepare) {
+				prepare(scopeManager);
+			}
+
+			sourceCode.applyLanguageOptions({ ecmaVersion: 2015 });
+			sourceCode.finalize();
+
+			return scopeManager.scopes[0];
+		}
+
+		/**
+		 * Gets the names of the variables that exist in a map without creating any.
+		 * @param {Map<string, Variable>} set The map of variables of the global scope.
+		 * @returns {string[]} The names of the existing variables.
+		 */
+		function getExistingNames(set) {
+			return [...Map.prototype.keys.call(set)];
+		}
+
+		it("should create only the variables that the file references or declares", () => {
+			const globalScope = getFinalizedGlobalScope(
+				"var foo = Array; var Map;",
+			);
+
+			assert.sameMembers(getExistingNames(globalScope.set), [
+				"foo",
+				"Map",
+				"Array",
+			]);
+			assert.sameMembers(
+				globalScope[USED_GLOBALS].map(variable => variable.name),
+				["foo", "Map", "Array"],
+			);
+		});
+
+		it("should resolve references to the variables that the file uses", () => {
+			const globalScope = getFinalizedGlobalScope("Set = Array");
+
+			assert.sameDeepMembers(
+				globalScope[USED_GLOBALS].map(variable => [
+					variable.name,
+					variable.references.length,
+					variable.writeable,
+				]),
+				[
+					["Array", 1, false],
+					["Set", 1, false],
+				],
+			);
+			assert.strictEqual(globalScope.through.length, 0);
+		});
+
+		it("should create a single variable when it is looked up by name", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+			assert.isTrue(globalScope.set.has("Promise"));
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+
+			const variable = globalScope.set.get("Promise");
+
+			assert.strictEqual(variable.name, "Promise");
+			assert.strictEqual(
+				variable.eslintImplicitGlobalSetting,
+				"readonly",
+			);
+			assert.strictEqual(variable.eslintExplicitGlobal, false);
+			assert.strictEqual(variable.eslintExplicitGlobalComments, void 0);
+			assert.strictEqual(variable.writeable, false);
+			assert.strictEqual(globalScope.set.get("Promise"), variable);
+			assert.deepStrictEqual(getExistingNames(globalScope.set), [
+				"Promise",
+			]);
+		});
+
+		it("should not report or create variables for unknown names", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.isFalse(globalScope.set.has("foo"));
+			assert.strictEqual(globalScope.set.get("foo"), void 0);
+			assert.deepStrictEqual(getExistingNames(globalScope.set), []);
+		});
+
+		it("should create all variables in configuration order when `variables` is read", () => {
+			const globalScope = getFinalizedGlobalScope(
+				"var foo = WeakMap; Promise; Array;",
+			);
+
+			// Create one variable out of order first.
+			globalScope.set.get("Symbol");
+
+			const expectedNames = ["foo", ...es2015Names];
+
+			assert.deepStrictEqual(
+				globalScope.variables.map(variable => variable.name),
+				expectedNames,
+			);
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				expectedNames,
+			);
+			assert.strictEqual(
+				globalScope.variables,
+				globalScope[USED_GLOBALS],
+			);
+
+			for (const variable of globalScope.variables) {
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+			}
+
+			// Reading it again doesn't change anything.
+			assert.strictEqual(
+				globalScope.variables.length,
+				expectedNames.length,
+			);
+		});
+
+		[
+			["size", set => set.size],
+			["keys()", set => [...set.keys()].length],
+			["values()", set => [...set.values()].length],
+			["entries()", set => [...set.entries()].length],
+			["[Symbol.iterator]()", set => [...set].length],
+			[
+				"forEach()",
+				set => {
+					let count = 0;
+
+					set.forEach(function () {
+						assert.strictEqual(this, set);
+						count++;
+					}, set);
+
+					return count;
+				},
+			],
+		].forEach(([name, getCount]) => {
+			it(`should create all variables when set.${name} is used`, () => {
+				const globalScope = getFinalizedGlobalScope("foo");
+
+				assert.strictEqual(
+					getCount(globalScope.set),
+					es2015Names.length,
+				);
+				assert.deepStrictEqual(
+					getExistingNames(globalScope.set),
+					es2015Names,
+				);
+			});
+		});
+
+		it("should create all variables before `set.delete()` removes one", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			assert.isTrue(globalScope.set.delete("Promise"));
+			assert.isFalse(globalScope.set.has("Promise"));
+			assert.strictEqual(globalScope.set.get("Promise"), void 0);
+			assert.strictEqual(globalScope.set.size, es2015Names.length - 1);
+		});
+
+		it("should not create variables again after `set.clear()`", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+
+			globalScope.set.clear();
+
+			assert.strictEqual(globalScope.set.size, 0);
+			assert.isFalse(globalScope.set.has("Promise"));
+			assert.strictEqual(
+				globalScope.variables.length,
+				es2015Names.length,
+			);
+		});
+
+		it("should allow `variables` to be replaced", () => {
+			const globalScope = getFinalizedGlobalScope("foo");
+			const replacement = [];
+
+			globalScope.variables = replacement;
+
+			assert.strictEqual(globalScope.variables, replacement);
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				es2015Names,
+			);
+		});
+
+		it("should not defer anything when the file uses every configured global", () => {
+			const globalScope = getFinalizedGlobalScope(es2015Names.join(";"));
+
+			assert.isFalse(Object.hasOwn(globalScope, USED_GLOBALS));
+			assert.deepStrictEqual(
+				Object.getOwnPropertyDescriptor(
+					globalScope,
+					"variables",
+				).value.map(variable => variable.name),
+				es2015Names,
+			);
+		});
+
+		it("should create all variables up front when the global scope has an unexpected shape", () => {
+			const globalScope = getFinalizedGlobalScope("foo", scopeManager => {
+				Object.defineProperty(scopeManager.scopes[0], "variables", {
+					configurable: false,
+				});
+			});
+
+			assert.isFalse(Object.hasOwn(globalScope, USED_GLOBALS));
+			assert.deepStrictEqual(
+				getExistingNames(globalScope.set),
+				es2015Names,
+			);
+			assert.deepStrictEqual(
+				globalScope.variables.map(variable => variable.name),
+				es2015Names,
+			);
+		});
+	});
+
 	describe("isGlobalReference(node)", () => {
 		it("should throw an error when argument is missing", () => {
 			assert.throws(() => {
@@ -4640,21 +4884,40 @@ describe("SourceCode", () => {
 	});
 
 	describe("traverse()", () => {
-		it("should return an array of steps", () => {
+		it("should return a list of steps", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
 			const steps = sourceCode.traverse();
 
-			assert.isArray(steps);
+			assert.instanceOf(steps, TraversalSteps);
 			assert.strictEqual(steps.length, 14);
+			assert.isArray([...steps]);
+			assert.strictEqual([...steps].length, 14);
+		});
+
+		it("should yield the same steps each time the list is iterated", () => {
+			const code = "function foo() { if (a) { return b; } }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+			const first = [...steps];
+			const second = [...steps];
+
+			assert.strictEqual(first.length, second.length);
+			first.forEach((step, i) => {
+				assert.strictEqual(step.kind, second[i].kind);
+				assert.strictEqual(step.target, second[i].target);
+				assert.strictEqual(step.phase, second[i].phase);
+				assert.deepStrictEqual(step.args, second[i].args);
+			});
 		});
 
 		it("should return steps with VisitNodeStep for each node", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			// Filter for VisitNodeStep instances
 			const visitSteps = steps.filter(step => step.kind === 1);
@@ -4677,7 +4940,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
@@ -4708,7 +4971,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = visitSteps.map(step => ({
@@ -4780,7 +5043,7 @@ describe("SourceCode", () => {
 			const code = "if (true) { var x = 1; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			// Look for CallMethodStep (kind === 2) which are emitted by CodePathAnalyzer
 			const callSteps = steps.filter(step => step.kind === 2);
@@ -4802,7 +5065,7 @@ describe("SourceCode", () => {
 			const code = "42;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			assert.strictEqual(steps.length, 10);
 
@@ -4823,7 +5086,7 @@ describe("SourceCode", () => {
 			const code = "function foo(a, b) { return a + b; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
@@ -4846,7 +5109,7 @@ describe("SourceCode", () => {
 			const code = "const {x, y} = obj; const [a, b] = arr;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
@@ -4869,7 +5132,7 @@ describe("SourceCode", () => {
 			const code = "var x = y + z;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
@@ -4903,7 +5166,7 @@ describe("SourceCode", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			const steps = [...sourceCode.traverse()];
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 

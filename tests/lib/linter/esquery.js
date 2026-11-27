@@ -273,7 +273,13 @@ describe("esquery", () => {
 			[ast, []],
 			[functionNode, [ast]],
 			[paramNode, [functionNode, ast]],
+			[functionNode.params[1], [functionNode, ast]],
 			[bodyNode, [functionNode, ast]],
+			[bodyNode.body[0], [bodyNode, functionNode, ast]],
+			[
+				bodyNode.body[0].argument,
+				[bodyNode.body[0], bodyNode, functionNode, ast],
+			],
 		];
 
 		const fastMatchedSelectors = [
@@ -295,6 +301,41 @@ describe("esquery", () => {
 			"FunctionDeclaration > !.params",
 			"!FunctionDeclaration > .params",
 			"FunctionDeclaration > !*.params",
+
+			// other shapes
+			"FunctionDeclaration",
+			"FunctionDeclaration .params",
+			"FunctionDeclaration > Identifier",
+			"FunctionDeclaration > .body.body",
+			"FunctionDeclaration > [name] .params",
+			"* > .params",
+			"FunctionDeclaration > *.params[name]",
+			"Program Identifier",
+			"Program > FunctionDeclaration > Identifier[name='a']",
+			"Identifier[name!='a']",
+			"Identifier[name=/^a$/]",
+			"Identifier[name!=/^a$/]",
+			"[name]",
+			"[id.name='f']",
+			"[params.length>=2]",
+			"[params.length<2]",
+			"[params.length<=2]",
+			"[params.length>1]",
+			"[generator=false]",
+			"[generator=type(boolean)]",
+			"[generator!=type(boolean)]",
+			":not(Identifier)",
+			":matches(Identifier, BlockStatement)",
+			"Identifier:not([name='a'])",
+			":function",
+			":function > Identifier",
+			":statement",
+			"FunctionDeclaration:has(ReturnStatement)",
+			"Identifier ~ BlockStatement",
+			"Identifier + BlockStatement",
+			"Identifier:nth-child(1)",
+			"Identifier:nth-last-child(1)",
+			"FunctionDeclaration > :nth-child(2)",
 		];
 
 		fastMatchedSelectors.forEach(source => {
@@ -305,25 +346,11 @@ describe("esquery", () => {
 
 				targets.forEach(([node, ancestry]) => {
 					assert.strictEqual(
-						selector.fastMatch(node, ancestry),
+						selector.fastMatch(node, [...ancestry].reverse()),
 						esquery.matches(node, selector.root, ancestry),
 						`Mismatch for ${node.type}`,
 					);
 				});
-			});
-		});
-
-		[
-			"FunctionDeclaration", // not a child selector
-			"FunctionDeclaration .params", // descendant, not child
-			"FunctionDeclaration > Identifier", // not a field
-			"FunctionDeclaration > .body.body", // dotted field name
-			"FunctionDeclaration > [name] .params", // not a plain field
-			"* > .params", // parent isn't an identifier
-			"FunctionDeclaration > *.params[name]", // more than a wildcard and a field
-		].forEach(source => {
-			it(`should not create a fast matcher for "${source}"`, () => {
-				assert.isNull(parse(source).fastMatch);
 			});
 		});
 	});

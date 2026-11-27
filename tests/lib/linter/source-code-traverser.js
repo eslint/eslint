@@ -16,6 +16,7 @@ const assert = require("node:assert"),
 	{
 		SourceCodeTraverser,
 	} = require("../../../lib/linter/source-code-traverser"),
+	{ TraversalSteps } = require("../../../lib/shared/traversal-steps"),
 	jslang = require("../../../lib/languages/js");
 
 //------------------------------------------------------------------------------
@@ -904,6 +905,128 @@ describe("SourceCodeTraverser", () => {
 				[":first-child", ast.body[0].implements[0]], // entering first ClassImplements
 			],
 		);
+	});
+
+	describe("traversing a compact list of steps", () => {
+		let visitor, traverser, fooNode, barNode, callArgs, steps;
+
+		beforeEach(() => {
+			visitor = Object.assign(new SourceCodeVisitor(), {
+				callSync: sinon.spy(),
+			});
+
+			["Foo", "Bar", "Foo > Bar", "Bar:exit", "Foo:exit"].forEach(
+				selector => visitor.add(selector, () => {}),
+			);
+			traverser = new SourceCodeTraverser(MOCK_LANGUAGE);
+
+			barNode = { type: "Bar", value: 2 };
+			fooNode = { type: "Foo", value: 1, child: barNode };
+			callArgs = [{ id: "s1" }, fooNode];
+
+			steps = new TraversalSteps();
+			steps.addCall("onCodePathStart", callArgs);
+			steps.addVisit(fooNode, 1);
+			steps.addVisit(barNode, 1);
+			steps.addCall("onNoArguments", []);
+			steps.addVisit(barNode, 2);
+			steps.addVisit(fooNode, 2);
+		});
+
+		/**
+		 * Asserts that the visitor was called for every step in order.
+		 * @returns {void}
+		 */
+		function assertCalls() {
+			assert.deepStrictEqual(
+				visitor.callSync.args.map(args => args[0]),
+				[
+					"onCodePathStart",
+					"Foo",
+					"Bar",
+					"Foo > Bar",
+					"onNoArguments",
+					"Bar:exit",
+					"Foo:exit",
+				],
+			);
+			assert.deepStrictEqual(visitor.callSync.args[0], [
+				"onCodePathStart",
+				...callArgs,
+			]);
+			assert.deepStrictEqual(visitor.callSync.args[1], ["Foo", fooNode]);
+			assert.deepStrictEqual(visitor.callSync.args[2], ["Bar", barNode]);
+			assert.deepStrictEqual(visitor.callSync.args[3], [
+				"Foo > Bar",
+				barNode,
+			]);
+			assert.deepStrictEqual(visitor.callSync.args[4], ["onNoArguments"]);
+			assert.deepStrictEqual(visitor.callSync.args[5], [
+				"Bar:exit",
+				barNode,
+			]);
+			assert.deepStrictEqual(visitor.callSync.args[6], [
+				"Foo:exit",
+				fooNode,
+			]);
+		}
+
+		it("should apply the steps returned by sourceCode.traverse()", () => {
+			const sourceCode = {
+				ast: fooNode,
+				visitorKeys: vk.KEYS,
+				traverse: () => steps,
+			};
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assertCalls();
+		});
+
+		it("should apply the steps passed in options", () => {
+			const sourceCode = {
+				ast: fooNode,
+				visitorKeys: vk.KEYS,
+				traverse() {
+					throw new Error("traverse() should not be called");
+				},
+			};
+
+			traverser.traverseSync(sourceCode, visitor, { steps });
+
+			assertCalls();
+		});
+
+		it("should produce the same calls as iterating the steps", () => {
+			const sourceCode = {
+				ast: fooNode,
+				visitorKeys: vk.KEYS,
+				traverse: () => [...steps],
+			};
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assertCalls();
+		});
+
+		it("should add the current node to an error thrown by a listener", () => {
+			const error = new Error("boom");
+			const sourceCode = {
+				ast: fooNode,
+				visitorKeys: vk.KEYS,
+				traverse: () => steps,
+			};
+
+			visitor = new SourceCodeVisitor();
+			visitor.add("Bar", () => {
+				throw error;
+			});
+
+			assert.throws(
+				() => traverser.traverseSync(sourceCode, visitor),
+				thrown => thrown === error && thrown.currentNode === barNode,
+			);
+		});
 	});
 
 	describe("parsing an invalid selector", () => {
