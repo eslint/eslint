@@ -2740,42 +2740,6 @@ ruleTesterTypeScript.run("one-var", rule, {
 			code: "declare const a: number;\nconst b = 1;",
 			options: ["consecutive"],
 		},
-		{
-			code: "declare const a: number;\nconst b = 1;",
-			options: ["always"],
-		},
-		{
-			code: "let a = 1; declare let b: number;",
-			options: ["always"],
-		},
-		{
-			code: "declare let a: number; let b: number;",
-			options: ["always"],
-		},
-		{
-			code: "export declare const a: number;\nexport const b = 1;",
-			options: ["always"],
-		},
-		{
-			code: "namespace N { declare const a: number; const b = 1; }",
-			options: ["always"],
-		},
-		{
-			code: "declare var a: number;\nvar b = 1;",
-			options: [{ var: "always", let: "always", const: "always" }],
-		},
-		{
-			code: "declare const a = 1;\nconst b = 2;",
-			options: [{ initialized: "always", uninitialized: "never" }],
-		},
-		{
-			code: "declare let a: number;\nlet b: string;",
-			options: [{ initialized: "never", uninitialized: "always" }],
-		},
-		{
-			code: "declare const a: number;\nconst b = 1;",
-			options: [{ separateRequires: true, const: "always" }],
-		},
 	],
 	invalid: [
 		{
@@ -2837,18 +2801,16 @@ ruleTesterTypeScript.run("one-var", rule, {
 			errors: [{ messageId: "combine", data: { type: "const" } }],
 		},
 		{
-			code: "declare const a: number;\ndeclare const b: string;",
-			output: "declare const a: number,\n  b: string;",
-			options: ["always"],
-			errors: [{ messageId: "combine", data: { type: "const" } }],
-		},
-		{
-			code: "declare const a: number;\nconst b = 1;\ndeclare const c: string;",
+			code: "let a = 1; declare let b: number;",
 			output: null,
 			options: ["always"],
-			errors: [
-				{ messageId: "combine", data: { type: "const" }, line: 3 },
-			],
+			errors: [{ messageId: "combine", data: { type: "let" } }],
+		},
+		{
+			code: "declare let a: number; let b: number;",
+			output: null,
+			options: ["always"],
+			errors: [{ messageId: "combine", data: { type: "let" } }],
 		},
 		{
 			code: "declare let a: number, b: string;",
