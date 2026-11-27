@@ -326,13 +326,13 @@ To ignore rules in configuration files and only run rules specified in the comma
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'"],
+    args: ["--rule", "\'strict: [error, global]\'"],
     comment: "Apply single rule"
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'guard-for-in: error\'", "--rule", "\'brace-style: [error, 1tbs]\'"],
+    args: ["--rule", "\'guard-for-in: error\'", "--rule", "\'eqeqeq: [error, smart]\'"],
     comment: "Apply multiple rules"
 }) }}
 
@@ -344,7 +344,7 @@ To ignore rules in configuration files and only run rules specified in the comma
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'", "--no-config-lookup"],
+    args: ["--rule", "\'strict: [error, global]\'", "--no-config-lookup"],
     comment: "Only apply rule from the command line"
 }) }}
 
@@ -791,7 +791,7 @@ Suppresses violations for specific rules, so that they are not being reported in
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["\"src/**/*.js\"", "--suppress-rule", "no-console", "--suppress-rule", "indent"]
+    args: ["\"src/**/*.js\"", "--suppress-rule", "no-console", "--suppress-rule", "no-alert"]
 }) }}
 
 #### `--suppressions-location`

@@ -18,11 +18,11 @@ For full reference information on writing rules, refer to [Custom Rules](../exte
 
 ## File Structure
 
-Each core rule in ESLint has three files named with its identifier (for example, `no-extra-semi`).
+Each core rule in ESLint has three files named with its identifier (for example, `no-alert`).
 
-- in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`).
-- in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`).
-- in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`).
+- in the `lib/rules` directory: a source file (for example, `no-alert.js`).
+- in the `tests/lib/rules` directory: a test file (for example, `no-alert.js`).
+- in the `docs/src/rules` directory: a Markdown documentation file (for example, `no-alert.md`).
 
 **Important:** If you submit a core rule to the ESLint repository, you **must** follow the conventions explained below.
 
@@ -30,7 +30,7 @@ Here is the basic format of the source file for a rule:
 
 ```js
 /**
- * @fileoverview Rule to disallow unnecessary semicolons
+ * @fileoverview Rule to flag use of alert, confirm, prompt
  * @author Nicholas C. Zakas
  */
 
@@ -46,11 +46,10 @@ module.exports = {
 		type: "suggestion",
 
 		docs: {
-			description: "disallow unnecessary semicolons",
-			recommended: true,
-			url: "https://eslint.org/docs/rules/no-extra-semi",
+			description: "Disallow the use of `alert`, `confirm`, and `prompt`",
+			recommended: false,
+			url: "https://eslint.org/docs/latest/rules/no-alert",
 		},
-		fixable: "code",
 		schema: [], // no options
 	},
 	create: function (context) {
