@@ -263,7 +263,7 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-obj-calls",
@@ -849,7 +849,7 @@
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-eval",

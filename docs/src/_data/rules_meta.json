@@ -2048,7 +2048,8 @@
             "description": "Disallow `null` comparisons without type-checking operators",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-eq-null"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-eval": {
         "type": "suggestion",
@@ -2720,7 +2721,8 @@
             "description": "Disallow `new` operators with global non-constructor functions",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-new-object": {
         "type": "suggestion",
