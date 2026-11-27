@@ -27,7 +27,7 @@ describe("LintResultCache", () => {
 		"../../fixtures/lint-result-cache",
 	);
 	const cacheFileLocation = path.join(fixturePath, ".eslintcache");
-	const fileEntryCacheStubs = {};
+	const fileEntryCacheStub = sinon.stub();
 
 	let LintResultCache,
 		hashStub,
@@ -64,11 +64,11 @@ describe("LintResultCache", () => {
 			])
 		)[0];
 
-		// Set up LintResultCache with fake fileEntryCache module
+		// Set up LintResultCache with fake file entry cache module
 		LintResultCache = proxyquire(
 			"../../../lib/cli-engine/lint-result-cache.js",
 			{
-				"file-entry-cache": fileEntryCacheStubs,
+				"./file-entry-cache": { FileEntryCache: fileEntryCacheStub },
 				"./hash": hashStub,
 			},
 		);
@@ -127,13 +127,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStub.returns({
 				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			fileEntryCacheStub.reset();
 		});
 
 		beforeEach(() => {
@@ -455,13 +455,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStub.returns({
 				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			fileEntryCacheStub.reset();
 		});
 
 		beforeEach(() => {
@@ -580,13 +580,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			reconcileStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStub.returns({
 				reconcile: reconcileStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			fileEntryCacheStub.reset();
 		});
 
 		beforeEach(() => {
