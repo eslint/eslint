@@ -1949,4 +1949,194 @@ describe("TokenStore", () => {
 			check(store.getCommentsInside(TOKENS[2]), []);
 		});
 	});
+
+	describe("when the source text is large relative to the number of tokens and comments", () => {
+		/*
+		 * The same code as `SOURCE_CODE`, with enough whitespace before `call`
+		 * that locations are stored sparsely.
+		 */
+		const sparseCode = SOURCE_CODE.replace(
+			"\n    ",
+			`\n${" ".repeat(5000)}`,
+		);
+		const sparseAst = espree.parse(sparseCode, DEFAULT_CONFIG);
+		const sparseStore = new TokenStore(
+			sparseAst.tokens,
+			sparseAst.comments,
+		);
+		const sparseDeclaration = sparseAst.body[0];
+		const sparseDeclarator = sparseDeclaration.declarations[0];
+		const sparseBinary = sparseDeclarator.init;
+		const sparseCall = sparseAst.body[1].expression;
+		const nodePairs = [
+			[Program, sparseAst],
+			[VariableDeclaration, sparseDeclaration],
+			[VariableDeclarator, sparseDeclarator],
+			[BinaryExpression, sparseBinary],
+			[BinaryExpression.left, sparseBinary.left],
+			[BinaryExpression.right, sparseBinary.right],
+			[CallExpression, sparseCall],
+			[CallExpression.callee, sparseCall.callee],
+			...TOKENS.map((token, i) => [token, sparseAst.tokens[i]]),
+			...COMMENTS.map((comment, i) => [comment, sparseAst.comments[i]]),
+		];
+
+		/**
+		 * Gets the values of the given tokens.
+		 * @param {Token|Token[]|null} result A token, a list of tokens, or `null`.
+		 * @returns {string|string[]|null} The value of each token.
+		 */
+		function values(result) {
+			if (Array.isArray(result)) {
+				return result.map(token => token.value);
+			}
+			return result && result.value;
+		}
+
+		it("should use the same code as the other tests apart from whitespace", () => {
+			assert.strictEqual(sparseAst.tokens.length, TOKENS.length);
+			assert.strictEqual(sparseAst.comments.length, COMMENTS.length);
+			assert.isAbove(
+				sparseCode.length,
+				(TOKENS.length + COMMENTS.length) * 32,
+			);
+		});
+
+		for (const method of [
+			"getTokens",
+			"getFirstToken",
+			"getFirstTokens",
+			"getLastToken",
+			"getLastTokens",
+			"getTokenBefore",
+			"getTokensBefore",
+			"getTokenAfter",
+			"getTokensAfter",
+			"getCommentsBefore",
+			"getCommentsAfter",
+		]) {
+			it(`should return the same tokens from ${method}() as with less whitespace`, () => {
+				for (const [node, sparseNode] of nodePairs) {
+					assert.deepStrictEqual(
+						values(sparseStore[method](sparseNode)),
+						values(store[method](node)),
+					);
+					assert.deepStrictEqual(
+						values(
+							sparseStore[method](sparseNode, {
+								includeComments: true,
+							}),
+						),
+						values(store[method](node, { includeComments: true })),
+					);
+				}
+			});
+		}
+
+		for (const method of [
+			"getTokensBetween",
+			"getFirstTokenBetween",
+			"getFirstTokensBetween",
+			"getLastTokenBetween",
+			"getLastTokensBetween",
+		]) {
+			it(`should return the same tokens from ${method}() as with less whitespace`, () => {
+				for (const [left, sparseLeft] of nodePairs) {
+					for (const [right, sparseRight] of nodePairs) {
+						if (left.range[1] > right.range[0]) {
+							continue;
+						}
+
+						assert.deepStrictEqual(
+							values(
+								sparseStore[method](sparseLeft, sparseRight, {
+									includeComments: true,
+								}),
+							),
+							values(
+								store[method](left, right, {
+									includeComments: true,
+								}),
+							),
+						);
+					}
+				}
+			});
+		}
+
+		it("should return the same comments from getCommentsInside() as with less whitespace", () => {
+			for (const [node, sparseNode] of nodePairs) {
+				assert.deepStrictEqual(
+					values(sparseStore.getCommentsInside(sparseNode)),
+					values(store.getCommentsInside(node)),
+				);
+			}
+		});
+
+		it("should return a token by its start location", () => {
+			const token = sparseAst.tokens.find(
+				({ value }) => value === "call",
+			);
+
+			assert.strictEqual(
+				sparseStore.getTokenByRangeStart(token.range[0]),
+				token,
+			);
+			assert.isNull(sparseStore.getTokenByRangeStart(token.range[0] - 1));
+			assert.isNull(sparseStore.getTokenByRangeStart(token.range[0] + 1));
+			assert.isNull(sparseStore.getTokenByRangeStart(sparseCode.length));
+		});
+
+		it("should return a comment by its start location when includeComments is true", () => {
+			const comment = sparseAst.comments.at(-1);
+
+			assert.strictEqual(
+				sparseStore.getTokenByRangeStart(comment.range[0], {
+					includeComments: true,
+				}),
+				comment,
+			);
+			assert.isNull(sparseStore.getTokenByRangeStart(comment.range[0]));
+		});
+
+		it("should retrieve tokens and comments when a long comment precedes a single token", () => {
+			const code = `/*${"x".repeat(5000)}*/a`;
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const tokenStore = new TokenStore(ast.tokens, ast.comments);
+			const [token] = ast.tokens;
+			const [comment] = ast.comments;
+
+			check(tokenStore.getTokens(ast), ["a"]);
+			assert.strictEqual(tokenStore.getFirstToken(ast), token);
+			assert.strictEqual(tokenStore.getLastToken(ast), token);
+			assert.isNull(tokenStore.getTokenBefore(token));
+			assert.strictEqual(
+				tokenStore.getTokenBefore(token, { includeComments: true }),
+				comment,
+			);
+			assert.strictEqual(
+				tokenStore.getTokenAfter(comment, { includeComments: true }),
+				token,
+			);
+			assert.deepStrictEqual(tokenStore.getCommentsBefore(token), [
+				comment,
+			]);
+			assert.deepStrictEqual(tokenStore.getCommentsInside(ast), [
+				comment,
+			]);
+		});
+
+		it("should retrieve tokens when a long string is the only token besides punctuation", () => {
+			const code = `("${"x".repeat(5000)}");`;
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const tokenStore = new TokenStore(ast.tokens, ast.comments);
+			const literal = ast.body[0].expression;
+
+			check(tokenStore.getTokens(ast), ["(", literal.raw, ")", ";"]);
+			check(tokenStore.getTokens(literal), [literal.raw]);
+			assert.strictEqual(tokenStore.getTokenBefore(literal).value, "(");
+			assert.strictEqual(tokenStore.getTokenAfter(literal).value, ")");
+			assert.strictEqual(tokenStore.getLastToken(ast).value, ";");
+		});
+	});
 });
