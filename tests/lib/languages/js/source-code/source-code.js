@@ -33,6 +33,7 @@ const DEFAULT_CONFIG = {
 const linter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
 	TEST_CODE = "var answer = 6 * 7;",
+	COMMENT_TEST_CODE = `${TEST_CODE} // comment`,
 	SHEBANG_TEST_CODE = `#!/usr/bin/env node\n${TEST_CODE}`;
 const filename = "foo.js";
 
@@ -1966,6 +1967,88 @@ describe("SourceCode", () => {
 			const namesList = [["a"]];
 
 			verify(code, "ImportNamespaceSpecifier", namesList);
+		});
+	});
+
+	describe("getLoc()", () => {
+		let ast, sourceCode;
+
+		beforeEach(() => {
+			ast = espree.parse(COMMENT_TEST_CODE, DEFAULT_CONFIG);
+			sourceCode = new SourceCode(COMMENT_TEST_CODE, ast);
+		});
+
+		it("should retrieve the location for the root node", () => {
+			const loc = sourceCode.getLoc(ast);
+
+			assert.deepStrictEqual(loc, ast.loc);
+		});
+
+		it("should retrieve the location for a token", () => {
+			const token = ast.tokens[0];
+			const loc = sourceCode.getLoc(token);
+
+			assert.deepStrictEqual(loc, token.loc);
+		});
+
+		it("should retrieve the location for a comment", () => {
+			const comment = ast.comments[0];
+			const loc = sourceCode.getLoc(comment);
+
+			assert.deepStrictEqual(loc, comment.loc);
+		});
+
+		it("should return undefined for a position-style node", () => {
+			const node = {
+				position: {
+					start: { line: 1, column: 5, offset: 4 },
+					end: { line: 1, column: 11, offset: 10 },
+				},
+			};
+			const loc = sourceCode.getLoc(node);
+
+			assert.isUndefined(loc);
+		});
+	});
+
+	describe("getRange()", () => {
+		let ast, sourceCode;
+
+		beforeEach(() => {
+			ast = espree.parse(COMMENT_TEST_CODE, DEFAULT_CONFIG);
+			sourceCode = new SourceCode(COMMENT_TEST_CODE, ast);
+		});
+
+		it("should retrieve the range for the root node", () => {
+			const range = sourceCode.getRange(ast);
+
+			assert.deepStrictEqual(range, ast.range);
+		});
+
+		it("should retrieve the range for a token", () => {
+			const token = ast.tokens[0];
+			const range = sourceCode.getRange(token);
+
+			assert.deepStrictEqual(range, token.range);
+		});
+
+		it("should retrieve the range for a comment", () => {
+			const comment = ast.comments[0];
+			const range = sourceCode.getRange(comment);
+
+			assert.deepStrictEqual(range, comment.range);
+		});
+
+		it("should return undefined for a position-style node", () => {
+			const node = {
+				position: {
+					start: { line: 1, column: 5, offset: 4 },
+					end: { line: 1, column: 11, offset: 10 },
+				},
+			};
+			const range = sourceCode.getRange(node);
+
+			assert.isUndefined(range);
 		});
 	});
 

@@ -166,6 +166,14 @@ sourceCode.getText(COMMENT);
 sourceCode.getText(AST, 0);
 sourceCode.getText(AST, 0, 0);
 
+sourceCode.getLoc(AST);
+sourceCode.getLoc(TOKEN);
+sourceCode.getLoc(COMMENT);
+
+sourceCode.getRange(AST);
+sourceCode.getRange(TOKEN);
+sourceCode.getRange(COMMENT);
+
 // @ts-expect-error SourceCode does not have a `getParent` method
 findParent(AST, sourceCode.getParent);
 
