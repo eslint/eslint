@@ -384,6 +384,21 @@ Tracking the current segment position is helpful for analyzing the code path tha
 
 To find an unreachable node, track the current segment position and then use a node visitor to check if any of the segments are reachable. For example, the following looks for any `ExpressionStatement` that is unreachable.
 
+::: tip
+If you only need to know whether a node is reachable, use [`sourceCode.isReachable(node)`](custom-rules#accessing-the-source-code) instead of tracking segments yourself:
+
+```js
+ExpressionStatement(node) {
+	if (!context.sourceCode.isReachable(node)) {
+		context.report({ message: "Unreachable!", node });
+	}
+}
+```
+
+Similarly, use [`sourceCode.isEndReachable(node)`](custom-rules#accessing-the-source-code) to check whether execution can continue past the end of a node, such as whether a function can finish without a `return` or a `switch` case can fall through.
+
+:::
+
 ```js
 function areAnySegmentsReachable(segments) {
 	for (const segment of segments) {

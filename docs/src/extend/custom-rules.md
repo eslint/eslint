@@ -581,6 +581,8 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 - `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node (see the [dedicated section](#accessing-comments)).
 - `isSpaceBetween(nodeOrToken, nodeOrToken)`: Returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
 - `isGlobalReference(node)`: Returns true if the identifier references a global variable configured via `languageOptions.globals`, `/* global */` comments, or `ecmaVersion`, and not declared by a local binding.
+- `isReachable(node)`: Returns true if the given node is reachable according to [code path analysis](code-path-analysis). A node is unreachable if every code path segment it is in is unreachable, such as code after a `return` or `throw` statement. Nodes that start their own code path (functions, class static blocks, and class field initializers) are always reachable.
+- `isEndReachable(node)`: Returns true if execution can continue past the end of the given node according to [code path analysis](code-path-analysis). For example, the end of a function is reachable if the function can finish without a `return` or `throw` statement, and the end of a `SwitchCase` is reachable if it can fall through to the next case. The end of a `return`, `throw`, `break`, or `continue` statement is never reachable.
 - `getFirstToken(node, skipOptions)`: Returns the first token representing the given node.
 - `getFirstTokens(node, countOptions)`: Returns the first `count` tokens representing the given node.
 - `getLastToken(node, skipOptions)`: Returns the last token representing the given node.
