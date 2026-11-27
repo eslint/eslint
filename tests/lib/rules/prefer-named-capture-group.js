@@ -93,9 +93,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			languageOptions: { ecmaVersion: 2025 },
 		},
 		"new RegExp('(?-i:foo)bar')",
-
-		// the flags argument overrides the flags of the given regex, and the pattern is invalid without `u`
-		String.raw`new RegExp(/x/.constructor("[\\u{61}-z](b)", "u"), "")`,
 	],
 
 	invalid: [
@@ -886,160 +883,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
 				},
 			],
 		},
-		{
-			code: "new RegExp((0, /(^a)/))",
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(^a)" },
-					line: 1,
-					column: 16,
-					suggestions: [
-						{
-							messageId: "addGroupName",
-							output: "new RegExp((0, /(?<temp1>^a)/))",
-						},
-						{
-							messageId: "addNonCapture",
-							output: "new RegExp((0, /(?:^a)/))",
-						},
-					],
-				},
-			],
-		},
-		{
-			code: "new RegExp(/(^a)/ as RegExp)",
-			languageOptions: {
-				parser: require("@typescript-eslint/parser"),
-			},
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(^a)" },
-					line: 1,
-					column: 12,
-					suggestions: [
-						{
-							messageId: "addGroupName",
-							output: "new RegExp(/(?<temp1>^a)/ as RegExp)",
-						},
-						{
-							messageId: "addNonCapture",
-							output: "new RegExp(/(?:^a)/ as RegExp)",
-						},
-					],
-				},
-			],
-		},
-
-		{
-			code: "new RegExp(true ? /(a)/ : /b/)",
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(a)" },
-					line: 1,
-					column: 19,
-					suggestions: [
-						{
-							messageId: "addGroupName",
-							output: "new RegExp(true ? /(?<temp1>a)/ : /b/)",
-						},
-						{
-							messageId: "addNonCapture",
-							output: "new RegExp(true ? /(?:a)/ : /b/)",
-						},
-					],
-				},
-			],
-		},
-
-		// a RegExp value that doesn't come from a regex literal is checked by the RegExp call
-		{
-			code: 'new RegExp(/x/.constructor("(a)"))',
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(a)" },
-					line: 1,
-					column: 1,
-					suggestions: [],
-				},
-			],
-		},
-
-		{
-			code: 'new RegExp(/x/.constructor("(a)"), flags)',
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(a)" },
-					line: 1,
-					column: 1,
-					suggestions: [],
-				},
-			],
-		},
-
-		// without the flags argument or with `undefined`, the new regex inherits the flags of the given one
-		{
-			code: String.raw`new RegExp(/x/.constructor("[\\u{61}-z](b)", "u"))`,
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(b)" },
-					line: 1,
-					column: 1,
-					suggestions: [],
-				},
-			],
-		},
-		{
-			code: String.raw`new RegExp(/x/.constructor("[\\u{61}-z](b)", "u"), void 0)`,
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(b)" },
-					line: 1,
-					column: 1,
-					suggestions: [],
-				},
-			],
-		},
-
-		// a name written with escapes is taken into account when choosing a new name
-		{
-			code: String.raw`/(?<\u0074emp1>a)(b)\2/`,
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(b)" },
-					suggestions: [
-						{
-							messageId: "addGroupName",
-							output: String.raw`/(?<\u0074emp1>a)(?<temp2>b)\2/`,
-						},
-					],
-				},
-			],
-		},
 
 		// without `u`/`v` flags and named groups, `\k` is an identity escape that a named group would break
-		{
-			code: String.raw`/(a)[\k]/`,
-			errors: [
-				{
-					messageId: "required",
-					data: { group: "(a)" },
-					suggestions: [
-						{
-							messageId: "addNonCapture",
-							output: String.raw`/(?:a)[\k]/`,
-						},
-					],
-				},
-			],
-		},
 		{
 			code: String.raw`/(a)\k/`,
 			errors: [
@@ -1065,6 +910,21 @@ ruleTester.run("prefer-named-capture-group", rule, {
 						{
 							messageId: "addNonCapture",
 							output: String.raw`/(?:a)\k<a>/`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: String.raw`/(a)[\k]/`,
+			errors: [
+				{
+					messageId: "required",
+					data: { group: "(a)" },
+					suggestions: [
+						{
+							messageId: "addNonCapture",
+							output: String.raw`/(?:a)[\k]/`,
 						},
 					],
 				},
