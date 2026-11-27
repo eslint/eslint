@@ -1,3 +1,31 @@
+v10.16.0 - November 27, 2026
+
+* [`0b43c2d`](https://github.com/eslint/eslint/commit/0b43c2dcf9081cd43c3924255c5b461c34dfc5c7) fix: update dependency @eslint/config-array to ^0.23.7 (#21598) (renovate[bot])
+* [`42c9929`](https://github.com/eslint/eslint/commit/42c99292ce3dc1e94c60a2eaa237fe1029351bc3) chore: update github/codeql-action action to v4.39.4 (#21597) (renovate[bot])
+* [`079529c`](https://github.com/eslint/eslint/commit/079529c39f82b920ba0c39d875ffb067d573fc0e) test: cover `SourceCode#getLoc()` and `getRange()` (#21595) (electrohyun)
+* [`1429546`](https://github.com/eslint/eslint/commit/1429546afcaae2321cc47df90ba7024958c2d46b) docs: fix typo in Node.js API documentation (#21594) (Pixel)
+* [`f692882`](https://github.com/eslint/eslint/commit/f6928820463d65d48ee09ada432e367f2acd700b) fix: handle trailing commas in no-unused-vars suggestions (#21570) (Lê Văn Xuân Hoàn)
+* [`622db83`](https://github.com/eslint/eslint/commit/622db83a9f9405141a42b7e4e734648cf6e62ec1) fix: add `ESLint.CalculatedConfig` type for `calculateConfigForFile()` (#21483) (Pixel)
+* [`65e8b2f`](https://github.com/eslint/eslint/commit/65e8b2fbb0bbf0d46c699d4c427aafda3de2ee0a) chore: remove obsolete markdownlint directives (#21588) (lumir)
+* [`9292b2f`](https://github.com/eslint/eslint/commit/9292b2f2fc42fb3955b4b56a9850837b7241bff6) chore: use spaces for YAML indentation in .editorconfig (#21591) (electrohyun)
+* [`0d401e5`](https://github.com/eslint/eslint/commit/0d401e51592f321cbab315a1ed1e9cfeddf17a1f) fix: handle heritage and qualified types in `no-use-before-define` (#21536) (Lê Văn Xuân Hoàn)
+* [`7fff57a`](https://github.com/eslint/eslint/commit/7fff57a48b472ca12981997cd57bbb381feb970c) feat: add suggestions to `no-new-native-nonconstructor` (#21576) (Pixel)
+* [`14e3533`](https://github.com/eslint/eslint/commit/14e35339d568f8ec86ca10f726fc1d8c1b9e5658) feat: suggest comparing with both `null` and `undefined` in `eqeqeq` (#21577) (Pixel)
+* [`85d4d49`](https://github.com/eslint/eslint/commit/85d4d49dad059435f4d497cfbf2360897902e67a) docs: Update README (GitHub Actions Bot)
+* [`5716b3f`](https://github.com/eslint/eslint/commit/5716b3fdc07a60f83b4812c4faa745dd05948367) chore: update ecosystem plugins (#21579) (ESLint Bot)
+* [`b377b08`](https://github.com/eslint/eslint/commit/b377b08f95646ac450551a5b73486ab95b9b09cf) fix: handle circular references when formatting config errors (#21569) (Lê Văn Xuân Hoàn)
+* [`6942d2f`](https://github.com/eslint/eslint/commit/6942d2f326ec0271bf42ebf2d728e5a203b79397) docs: Add Project Leads description (#21559) (Nicholas C. Zakas)
+* [`1501e8a`](https://github.com/eslint/eslint/commit/1501e8aca6aa36c913677ad2aec7bbc942da541c) ci: add `@eslint/shell` in ecosystem tests and types integration (#21516) (lumir)
+* [`e0148e3`](https://github.com/eslint/eslint/commit/e0148e30da6662318c5643f2230830af8407b2aa) chore: update dependency prettier to v3.10.1 (#21571) (renovate[bot])
+* [`0e2a431`](https://github.com/eslint/eslint/commit/0e2a43144ede45e690732110462ee196b25c46e6) feat: handle `TSImportEqualsDeclaration` type imports in `no-shadow` (#21564) (Lê Văn Xuân Hoàn)
+* [`4820790`](https://github.com/eslint/eslint/commit/48207902fccd37450823b8fd07736d84449ec8e7) fix: handle TS assertions on callees in `no-invalid-this` (#21540) (Nitin Kumar)
+* [`2102699`](https://github.com/eslint/eslint/commit/21026992e3520869b31ca4500905665942bb2cf0) chore: update dependency prettier to v3.10.0 (#21567) (renovate[bot])
+* [`494f4e8`](https://github.com/eslint/eslint/commit/494f4e8f4b5f3579db2d4c01a3e61607888d7084) chore: update ecosystem plugins (#21566) (ESLint Bot)
+* [`4c76138`](https://github.com/eslint/eslint/commit/4c76138b507998dff639db8b4db65eac31296c0c) docs: Update README (GitHub Actions Bot)
+* [`a6b2c6d`](https://github.com/eslint/eslint/commit/a6b2c6d5c16fe30075f40838e0ef0f9cb34d9f38) feat: add suggestions to `no-eq-null` (#21512) (Pixel)
+* [`9fe69d8`](https://github.com/eslint/eslint/commit/9fe69d886fbecd2dc41d2a77f5553154660cb231) fix: skip type parameters in `getOpeningParenOfParams` (#21531) (Lê Văn Xuân Hoàn)
+* [`97efadd`](https://github.com/eslint/eslint/commit/97efadd5eff8e3eb673f8746f7bb3ba2f3941251) ci: bump peter-evans/create-pull-request from 8.1.1 to 8.1.3 (#21551) (dependabot[bot])
+
 v10.15.0 - November 13, 2026
 
 * [`23ac66c`](https://github.com/eslint/eslint/commit/23ac66c0d929c2c8af82f1ceb5f20f5a1752bf03) fix: update dependency @eslint/config-array to ^0.23.6 (#21550) (renovate[bot])
