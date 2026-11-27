@@ -25,6 +25,8 @@ function foo() {
 
 This rule enforces a maximum number of statements allowed in function blocks.
 
+Empty statements (`;`) and block statements (`{}`) themselves do not count as statements, but the statements inside a block do.
+
 ## Options
 
 This rule has a number or object option:
@@ -154,6 +156,30 @@ function foo() {
             }
         }
     };
+}
+```
+
+:::
+
+The body of an `if`, `else`, loop, or `with` statement written without braces counts as a statement, and so does each statement in a `switch` case.
+
+Examples of **incorrect** code for this rule with the `{ "max": 1 }` option:
+
+::: incorrect
+
+```js
+/*eslint max-statements: ["error", 1]*/
+
+function foo() {
+    if (a) b();
+}
+
+function bar(x) {
+    switch (x) {
+        case 1:
+            a();
+            break;
+    }
 }
 ```
 
