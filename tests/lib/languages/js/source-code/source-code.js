@@ -1997,6 +1997,18 @@ describe("SourceCode", () => {
 
 			assert.deepStrictEqual(loc, comment.loc);
 		});
+
+		it("should return undefined for a position-style node", () => {
+			const node = {
+				position: {
+					start: { line: 1, column: 5, offset: 4 },
+					end: { line: 1, column: 11, offset: 10 },
+				},
+			};
+			const loc = sourceCode.getLoc(node);
+
+			assert.isUndefined(loc);
+		});
 	});
 
 	describe("getRange()", () => {
@@ -2025,6 +2037,18 @@ describe("SourceCode", () => {
 			const range = sourceCode.getRange(comment);
 
 			assert.deepStrictEqual(range, comment.range);
+		});
+
+		it("should return undefined for a position-style node", () => {
+			const node = {
+				position: {
+					start: { line: 1, column: 5, offset: 4 },
+					end: { line: 1, column: 11, offset: 10 },
+				},
+			};
+			const range = sourceCode.getRange(node);
+
+			assert.isUndefined(range);
 		});
 	});
 
