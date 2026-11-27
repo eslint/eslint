@@ -4427,6 +4427,20 @@ try {
 			],
 		},
 		{
+			// no token before the parameter
+			code: "a => {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				definedError("a", [
+					{
+						output: "() => {}",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+		{
 			code: 'foo("x", a => {})',
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
