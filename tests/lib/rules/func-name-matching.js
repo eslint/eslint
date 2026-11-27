@@ -583,6 +583,17 @@ ruleTester.run("func-name-matching", rule, {
 				sourceType: "script",
 			},
 		},
+		{
+			code: "obj['𐐨'] = function foo() {};", // not a valid identifier in es5
+			languageOptions: {
+				ecmaVersion: 5,
+				sourceType: "script",
+			},
+		},
+		"obj.𐐨 = function 𐐨() {};",
+		"obj['𐐨'] = function 𐐨() {};",
+		"𐐨 = function 𐐨() {};",
+		{ code: "obj.𐐨 = function 𐐩() {};", options: ["never"] },
 	],
 	invalid: [
 		{
@@ -1263,6 +1274,43 @@ ruleTester.run("func-name-matching", rule, {
 				{
 					messageId: "matchProperty",
 					data: { funcName: "foo", name: "\u1885" },
+				},
+			],
+		},
+		{
+			code: "obj.𐐨 = function 𐐩() {};",
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "𐐩", name: "𐐨" },
+				},
+			],
+		},
+		{
+			code: "obj['𐐨'] = function 𐐩() {};",
+			errors: [
+				{
+					messageId: "matchProperty",
+					data: { funcName: "𐐩", name: "𐐨" },
+				},
+			],
+		},
+		{
+			code: "𐐨 = function 𐐩() {};",
+			errors: [
+				{
+					messageId: "matchVariable",
+					data: { funcName: "𐐩", name: "𐐨" },
+				},
+			],
+		},
+		{
+			code: "obj.𐐨 = function 𐐨() {};",
+			options: ["never"],
+			errors: [
+				{
+					messageId: "notMatchProperty",
+					data: { funcName: "𐐨", name: "𐐨" },
 				},
 			],
 		},
