@@ -233,6 +233,177 @@ ruleTester.run("require-atomic-updates", rule, {
             `,
 			options: [{ allowProperties: true }],
 		},
+
+		`
+            let foo = 0;
+            async function f(stream) {
+                const start = foo;
+                for (const chunk of stream) {
+                    processChunk(chunk);
+                }
+                foo = start + 1;
+            }
+        `,
+		`
+            let foo = 0;
+            async function f(stream) {
+                const start = foo;
+                for await (const chunk of stream) {
+                    processChunk(chunk);
+                }
+                foo = foo + 1;
+            }
+        `,
+		`
+            let foo = 0;
+            async function f(stream) {
+                for await (const chunk of stream) {
+                    foo = foo + chunk;
+                }
+            }
+        `,
+		`
+            async function f(stream) {
+                let local = 0;
+                const start = local;
+                for await (const chunk of stream) {
+                    processChunk(chunk);
+                }
+                local = start + 1;
+            }
+        `,
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        using lock = acquireLock();
+                        next = foo + 1;
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        await using outer = acquireAsyncLock();
+                        {
+                            next = foo + 1;
+                        }
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    {
+                        await using lock = acquireAsyncLock();
+                        doWork();
+                    }
+                    foo = foo + 1;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(cond) {
+                    let next = 0;
+                    switch (cond) {
+                        case 1: {
+                            await using lock = acquireAsyncLock();
+                            break;
+                        }
+                        case 2: {
+                            next = foo + 1;
+                            break;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+                async function f(foo, stream) {
+                    const start = foo.bar;
+                    for await (const chunk of stream) {
+                        processChunk(chunk);
+                    }
+                    foo.bar = start + 1;
+                }
+            `,
+			options: [{ allowProperties: true }],
+		},
+		{
+			code: `
+                async function f(foo) {
+                    let next;
+                    {
+                        await using lock = acquireAsyncLock();
+                        next = foo.bar + 1;
+                    }
+                    foo.bar = next;
+                }
+            `,
+			options: [{ allowProperties: true }],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		`
+            let foo = 0;
+            async function f(items) {
+                let next = 0;
+                for (const item of items) {
+                    if (item > 0) {
+                        next = foo + item;
+                        continue;
+                    }
+                }
+                foo = next;
+            }
+        `,
+		{
+			code: `
+                let foo = 0;
+                async function f(items) {
+                    outer: for (const item of items) {
+                        if (item > 0) {
+                            await using lock = acquireAsyncLock();
+                            const next = foo + item;
+                            foo = next;
+                            continue outer;
+                        }
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
 	],
 
 	invalid: [
@@ -466,6 +637,328 @@ ruleTester.run("require-atomic-updates", rule, {
                 }
             `,
 			options: [{ allowProperties: true }],
+			errors: [VARIABLE_ERROR],
+		},
+
+		{
+			code: `
+                let foo = 0;
+                async function f(stream) {
+                    const start = foo;
+                    for await (const chunk of stream) {
+                        processChunk(chunk);
+                    }
+                    foo = start + 1;
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(stream) {
+                    const start = foo;
+                    for await (const chunk of stream) {
+                        foo = start + 1;
+                    }
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let start = 0;
+                    for await (const chunk of getStream(foo)) {
+                        foo = start + 1;
+                    }
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(stream) {
+                    let next = 0;
+                    for await (const chunk of stream) {
+                        next = foo + chunk;
+                    }
+                    foo = next;
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(outerItems, stream) {
+                    let next = 0;
+                    outer: for (const item of outerItems) {
+                        for await (const chunk of stream) {
+                            next = foo + chunk;
+                            break outer;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                async function f(foo, stream) {
+                    const start = foo.bar;
+                    for await (const chunk of stream) {
+                        processChunk(chunk);
+                    }
+                    foo.bar = start + 1;
+                }
+            `,
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        await using outer = acquireAsyncLock();
+                        {
+                            await using inner = acquireAsyncLock();
+                            next = foo + 1;
+                        }
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next;
+                    {
+                        await using outer = acquireAsyncLock();
+                        {
+                            next = foo + 1;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(cond) {
+                    let next = 0;
+                    switch (cond) {
+                        case 1: {
+                            await using lock = acquireAsyncLock();
+                            next = foo + 1;
+                            break;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    const start = foo;
+                    for (await using lock = acquireAsyncLock(); cond(); ) {
+                        doWork();
+                    }
+                    foo = start + 1;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next = 0;
+                    for (await using lock = acquireAsyncLock(); cond(); ) {
+                        next = foo + 1;
+                        if (stop) {
+                            break;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(locks) {
+                    let next = 0;
+                    for (await using lock of locks) {
+                        next = foo + 1;
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next = 0;
+                    try {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                        return next;
+                    } finally {
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next = 0;
+                    try {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                        return () => {};
+                    } finally {
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next = 0;
+                    try {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                        throw new Error("fail");
+                    } catch {
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    let next = 0;
+                    try {
+                        await using lock = acquireAsyncLock();
+                        next = foo + 1;
+                        throw () => {};
+                    } catch {
+                        foo = next;
+                    }
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f() {
+                    const start = foo;
+                    for await (const chunk of async () => {}) {
+                        foo = start + 1;
+                    }
+                }
+            `,
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                async function f(foo) {
+                    let next;
+                    {
+                        await using lock = acquireAsyncLock();
+                        next = foo.bar + 1;
+                    }
+                    foo.bar = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(items) {
+                    let next = 0;
+                    for (const item of items) {
+                        if (item > 0) {
+                            await using lock = acquireAsyncLock();
+                            next = foo + item;
+                            continue;
+                        }
+                    }
+                    foo = next;
+                }
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
+                let foo = 0;
+                async function f(items, stream) {
+                    let next = 0;
+                    outer: for (const item of items) {
+                        for await (const chunk of stream) {
+                            if (chunk > 0) {
+                                next = foo + chunk;
+                                continue outer;
+                            }
+                        }
+                    }
+                    foo = next;
+                }
+            `,
 			errors: [VARIABLE_ERROR],
 		},
 	],
