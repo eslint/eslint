@@ -68,6 +68,16 @@ eslint --pass-on-unpruned-suppressions
 
 For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 
+## Suppressions and Autofix
+
+When a rule is suppressed for a file, ESLint does not apply fixes for that rule in that file when running with [`--fix`](./command-line-interface#--fix) or [`--fix-dry-run`](./command-line-interface#--fix-dry-run). This prevents `--fix` from making large, unrelated changes to code whose violations have been deliberately deferred. Fixes for other rules in the same file, and fixes for the same rule in files where it is not suppressed, are still applied.
+
+A rule is considered suppressed for a file if the suppressions file contains an entry for that file and rule, regardless of the number of violations recorded in that entry. For example, if a file currently has more violations of a suppressed rule than the recorded count, all of these violations are reported, but none of them are fixed.
+
+To autofix a rule in a file where it is suppressed, remove the entry for that file and rule from the suppressions file, and then run ESLint with `--fix`.
+
+When `--fix` is combined with `--suppress-all` or `--suppress-rule`, the fixes to apply are determined by the suppressions file as it exists at the start of the run. Suppressions added during the run don't affect which fixes are applied.
+
 ## Usage with the Node.js API
 
 Suppressions can also be applied when using ESLint programmatically through the [Node.js API](../integrate/nodejs-api). To enable suppressions, set the `applySuppressions` option to `true` in the `ESLint` constructor:
@@ -88,5 +98,7 @@ const eslint = new ESLint({
 ```
 
 When using `lintText()`, you must provide the `filePath` option for suppressions to take effect, since suppressions are matched by file path.
+
+When the `fix` option is enabled together with `applySuppressions`, fixes are not applied for rules that are suppressed for the file being linted, as described in [Suppressions and Autofix](#suppressions-and-autofix).
 
 **Note:** The Node.js API only supports applying existing suppressions. Creating new suppressions (`--suppress-all`, `--suppress-rule`) and pruning unused suppressions (`--prune-suppressions`) are only available through the CLI.
