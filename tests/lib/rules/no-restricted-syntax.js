@@ -403,5 +403,28 @@ ruleTester.run("no-restricted-syntax", rule, {
 				},
 			],
 		},
+		{
+			code: "if (condition) { doSomething(); }",
+			options: [
+				{
+					selector: "ifstatement",
+					message: "Do not use if statements.",
+				},
+				{
+					selector: "ifstatement > .test",
+					message: "Matched ifstatement > .test.",
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: { message: "Do not use if statements." },
+				},
+				{
+					messageId: "restrictedSyntax",
+					data: { message: "Matched ifstatement > .test." },
+				},
+			],
+		},
 	],
 });
