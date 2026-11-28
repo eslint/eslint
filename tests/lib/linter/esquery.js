@@ -274,11 +274,7 @@ describe("esquery", () => {
 				parse("IfStatement:matches(ifstatement)").nodeTypes,
 				["ifstatement"],
 			);
-			assert.includeMembers(parse(":FUNCTION").nodeTypes, [
-				"functiondeclaration",
-				"functionexpression",
-				"arrowfunctionexpression",
-			]);
+			assert.isNull(parse(":FUNCTION").nodeTypes);
 		});
 	});
 
