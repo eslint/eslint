@@ -456,6 +456,10 @@ export default defineConfig([
 
 Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the `tests` directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
 
+::: important
+It's recommended to always place your custom configuration objects last in the configuration array. This ensures that your custom configuration objects take effect as expected, without being overridden by conflicting rules in other configuration objects.
+:::
+
 ### Configure Linter Options
 
 Options specific to the linting process can be configured using the `linterOptions` object. These effect how linting proceeds and does not affect how the source code of the file is interpreted.
