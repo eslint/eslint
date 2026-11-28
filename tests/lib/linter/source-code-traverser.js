@@ -906,6 +906,53 @@ describe("SourceCodeTraverser", () => {
 		);
 	});
 
+	describe("case-insensitive AST node type selectors", () => {
+		it("should match node types case-insensitively on enter, exit, compound, and class selectors", () => {
+			const ast = espree.parse("if (condition) { function f() {} }", {
+				ecmaVersion: 2022,
+			});
+			const matched = [];
+			const visitor = new SourceCodeVisitor();
+
+			for (const selector of [
+				"ifstatement",
+				"IFSTATEMENT:exit",
+				"IfStatement:matches(ifstatement)",
+				":FUNCTION",
+			]) {
+				visitor.add(selector, node => {
+					matched.push([selector, node.type]);
+				});
+			}
+
+			const traverser = new SourceCodeTraverser(jslang);
+			const sourceCode = createMockSourceCode(ast);
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assert.deepStrictEqual(matched, [
+				["ifstatement", "IfStatement"],
+				["IfStatement:matches(ifstatement)", "IfStatement"],
+				[":FUNCTION", "FunctionDeclaration"],
+				["IFSTATEMENT:exit", "IfStatement"],
+			]);
+		});
+
+		it("should ignore nodes without a string type", () => {
+			const matched = [];
+			const visitor = new SourceCodeVisitor();
+
+			visitor.add("foo", node => matched.push(node));
+
+			const traverser = new SourceCodeTraverser(MOCK_LANGUAGE);
+			const sourceCode = createMockSourceCode({ type: null });
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assert.deepStrictEqual(matched, []);
+		});
+	});
+
 	describe("parsing an invalid selector", () => {
 		it("throws a useful error", () => {
 			const visitor = new SourceCodeVisitor();

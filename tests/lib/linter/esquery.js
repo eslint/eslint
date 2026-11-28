@@ -145,7 +145,7 @@ describe("esquery", () => {
 			assert.instanceOf(result, ESQueryParsedSelector);
 			assert.strictEqual(result.source, "Identifier");
 			assert.strictEqual(result.isExit, false);
-			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
+			assert.deepStrictEqual(result.nodeTypes, ["identifier"]);
 			assert.strictEqual(result.attributeCount, 0);
 			assert.strictEqual(result.identifierCount, 1);
 		});
@@ -164,7 +164,7 @@ describe("esquery", () => {
 			const result = parse("Identifier:exit");
 
 			assert.strictEqual(result.isExit, true);
-			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
+			assert.deepStrictEqual(result.nodeTypes, ["identifier"]);
 			assert.strictEqual(result.attributeCount, 0);
 			assert.strictEqual(result.identifierCount, 1);
 		});
@@ -195,7 +195,7 @@ describe("esquery", () => {
 
 		it("should handle compound selectors", () => {
 			const result = parse("FunctionDeclaration[id.name='foo']");
-			assert.deepStrictEqual(result.nodeTypes, ["FunctionDeclaration"]);
+			assert.deepStrictEqual(result.nodeTypes, ["functiondeclaration"]);
 			assert.strictEqual(result.attributeCount, 1);
 			assert.strictEqual(result.identifierCount, 1);
 		});
@@ -203,9 +203,9 @@ describe("esquery", () => {
 		it("should handle class selectors for functions", () => {
 			const result = parse(":function");
 			assert.includeMembers(result.nodeTypes, [
-				"FunctionDeclaration",
-				"FunctionExpression",
-				"ArrowFunctionExpression",
+				"functiondeclaration",
+				"functionexpression",
+				"arrowfunctionexpression",
 			]);
 			assert.strictEqual(result.attributeCount, 0);
 			assert.strictEqual(result.identifierCount, 0);
@@ -243,7 +243,7 @@ describe("esquery", () => {
 			);
 
 			assert.strictEqual(result.isExit, false);
-			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
+			assert.deepStrictEqual(result.nodeTypes, ["identifier"]);
 			assert.strictEqual(result.attributeCount, 3);
 			assert.strictEqual(result.identifierCount, 3);
 		});
@@ -254,9 +254,27 @@ describe("esquery", () => {
 			);
 
 			assert.strictEqual(result.isExit, false);
-			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
+			assert.deepStrictEqual(result.nodeTypes, ["identifier"]);
 			assert.strictEqual(result.attributeCount, 3);
 			assert.strictEqual(result.identifierCount, 3);
+		});
+
+		it("should lowercase nodeTypes for case-insensitive matching", () => {
+			assert.deepStrictEqual(parse("ifstatement").nodeTypes, [
+				"ifstatement",
+			]);
+			assert.deepStrictEqual(parse("IFSTATEMENT").nodeTypes, [
+				"ifstatement",
+			]);
+			assert.deepStrictEqual(
+				parse(":matches(IfStatement, ifstatement)").nodeTypes,
+				["ifstatement"],
+			);
+			assert.deepStrictEqual(
+				parse("IfStatement:matches(ifstatement)").nodeTypes,
+				["ifstatement"],
+			);
+			assert.isNull(parse(":FUNCTION").nodeTypes);
 		});
 	});
 
