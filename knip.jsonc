@@ -36,6 +36,10 @@
     "docs": {
       "entry": ["src/assets/scss/{styles,print}.scss"],
       "ignore": ["src/assets/js/search.js", "_examples/**"],
+      "ignoreBinaries": [
+        // Rust binary used by `lint:links`; installed outside npm
+        "lychee",
+      ],
     },
     "packages/eslint-config-eslint": {
       "entry": ["tests/types/**/*.mts"],

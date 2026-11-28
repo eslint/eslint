@@ -38,6 +38,13 @@ jobs:
               working-directory: docs
               run: npm run build
 
+            # Reads `docs/lychee.toml`, the same config `npm run lint:links` uses
+            # locally. Version is pinned so config keys and the pretty-URL
+            # resolution behaviour stay reproducible.
             - name: Validate internal links
-              working-directory: docs
-              run: npm run lint:links
+              uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+              with:
+                  workingDirectory: docs
+                  args: _site
+                  lycheeVersion: v0.24.2
+                  fail: true
